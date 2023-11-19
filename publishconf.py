@@ -11,6 +11,7 @@ from pelicanconf import *
 SITEURL = "https://ashwch.com"
 RELATIVE_URLS = False
 
+SHOW_FEED = True
 FEED_ALL_ATOM = "feeds/all.atom.xml"
 CATEGORY_FEED_ATOM = "feeds/{slug}.atom.xml"
 
