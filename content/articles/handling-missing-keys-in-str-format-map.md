@@ -5,7 +5,7 @@ Category: Programming
 Tags: python, programming
 Slug: handling-missing-keys-in-str-format-map
 Authors: Ashwini Chaudhary
-Summary: SHandling missing keys in `str.format_map` properly
+Summary: Handling missing keys in `str.format_map` properly
 
 
 `str.format_map` was introduced in Python 3.2, it allows users to a pass a dictionary instead of individual keyword arguments. This can be very useful in case some of the format arguments are missing from the dictionary, take this example from docs:
