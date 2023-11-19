@@ -39,3 +39,8 @@ PATH = 'content'
 # Conf related to https://github.com/pelican-plugins/read-more
 SUMMARY_MAX_LENGTH = 127
 READ_MORE_LINK = '<span></span>'
+
+
+# Footer info
+LICENSE_URL = "https://github.com/ashwch/ashwch.github.io/blob/master/LICENSE"
+LICENSE = "MIT"
