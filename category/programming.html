@@ -6,7 +6,7 @@
         <meta name="author" content="Ashwini Chaudhary(Monty)">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
-        <title>Ashwini's blog - Authors | Ashwini's blog</title>
+        <title>Ashwini's blog - Programming category | Ashwini's blog</title>
 
 	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 	<link rel="icon" href="/favicon.ico" type="image/x-icon">
@@ -403,10 +403,61 @@ article .meta a.comments_btn:hover {
         </header>
 
         <div id="wrap">
-    <h2>Authors on Ashwini's blog</h2>
-    <ul>
-        <li><a href="/author/ashwini-chaudhary.html">Ashwini Chaudhary</a> (1)</li>
-    </ul>
+<div class="container index">
+
+  <article>
+    <header>
+      <h2><a href="/handling-missing-keys-in-str-format-map.html">Handling missing keys in str.format_map properly</a></h2>
+      <time datetime="" title="2010-12-03T00:00:00-05:00" pubdate>Fri 03 December 2010</time>
+    </header>
+
+    <div class="article_content">
+      <p><code>str.format_map</code> was introduced in Python 3.2, it allows users to a pass a dictionary instead of individual keyword arguments. This can be very useful in case some of the format arguments are missing from the dictionary, take this example from docs:</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Default</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__missing__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">key</span>
+
+<span class="nb">print</span> <span class="p">(</span><span class="s1">'</span><span class="si">{name}</span><span class="s1"> was born in </span><span class="si">{country}</span><span class="s1">'</span><span class="o">.</span><span class="n">format_map</span><span class="p">(</span><span class="n">Default</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'Guido'</span><span class="p">)))</span> 
+<span class="c1"># Guido was born in country</span>
+</code></pre></div>
+
+<p>But this fails:</p>
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="nb">print</span> <span class="p">(</span><span class="s1">'</span><span class="si">{name}</span><span class="s1"> was born in </span><span class="si">{country.state}</span><span class="s1">'</span><span class="o">.</span><span class="n">format_map</span><span class="p">(</span><span class="n">Default</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'Guido'</span><span class="p">)))</span>
+<span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+  <span class="n">File</span> <span class="s2">"&lt;ipython-input-324-1012aa68ba8d&gt;"</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s1">'</span><span class="si">{name}</span><span class="s1"> was born in </span><span class="si">{country.state}</span><span class="s1">'</span><span class="o">.</span><span class="n">format_map</span><span class="p">(</span><span class="n">Default</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'Guido'</span><span class="p">)))</span>
+<span class="ne">AttributeError</span><span class="p">:</span> <span class="s1">'str'</span> <span class="nb">object</span> <span class="n">has</span> <span class="n">no</span> <span class="n">attribute</span> <span class="s1">'state'</span>
+</code></pre></div>
+
+<p>That is obvious because we are returning a string from <code>__missing__</code> and that string doesn't have any &#8230;<a class="read-more" href="/handling-missing-keys-in-str-format-map.html"><span></span></a></p>
+    </div>
+
+    <div class="meta">
+      <div>
+        <a href="/handling-missing-keys-in-str-format-map.html" class="read_more">Read more &#8594;</a>
+      </div>
+
+      <div>
+            <a href="/tag/python.html" class="tag">python</a>
+            <a href="/tag/programming.html" class="tag">programming</a>
+      </div>
+
+    </div>
+
+  </article>
+  <div class="separator"></div>
+
+  <nav class="pagination row">
+    <div class="col-xs-6 left">
+    </div>
+    <div class="col-xs-6 right">
+    </div>
+  </nav>
+
+  </div>
+
+</div>
+
         </div>
 <!--
     <footer>
