@@ -18,12 +18,12 @@ GITHUB_URL = "http://github.com/ashwch/"
 
 DISPLAY_PAGES_ON_MENU = True
 
-# Social widget
-SOCIAL = (
-    ("Stack Overflow", "https://stackoverflow.com/users/846892/ashwini-chaudhary"),
-    ("Unsplash", "https://unsplash.com/@suicide_chewbacca"),
-    ("twitter", "https://twitter.com/suicide_chewie"),
-)
+
+TWITTER_USERNAME = 'suicide_chewie'
+GITHUB_USERNAME = 'ashwch'
+STACKOVERFLOW_ADDRESS = 'https://stackoverflow.com/users/846892/ashwini-chaudhary'
+AUTHOR_WEBSITE = 'http://ashwch.com'
+AUTHOR_BLOG = 'http://ashwch.github.io'
 
 DEFAULT_PAGINATION = 5
 ABOUT_PAGE = '/pages/about.html'
