@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="author" content="Ashwini Chaudhary(Monty)">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+        <title>Become a pdb power-user | Ashwini's blog</title>
+
+	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+	<link rel="icon" href="/favicon.ico" type="image/x-icon">
+        <link rel="alternate" type="application/atom+xml" title="Ashwini's blog blog atom feed" href="/feeds/all.atom.xml" />
+        <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700' rel='stylesheet' type='text/css'>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="/theme/css/icons.css"/>
+        <style>.highlight .hll { background-color: #ffffcc }
+.highlight .c { color: #60a0b0; font-style: italic } /* Comment */
+.highlight .err { border: 1px solid #FF0000 } /* Error */
+.highlight .k { color: #007020; font-weight: bold } /* Keyword */
+.highlight .o { color: #666666 } /* Operator */
+.highlight .cm { color: #60a0b0; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #007020 } /* Comment.Preproc */
+.highlight .c1 { color: #60a0b0; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #60a0b0; background-color: #fff0f0 } /* Comment.Special */
+.highlight .gd { color: #A00000 } /* Generic.Deleted */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #FF0000 } /* Generic.Error */
+.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #00A000 } /* Generic.Inserted */
+.highlight .go { color: #808080 } /* Generic.Output */
+.highlight .gp { color: #c65d09; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight .gt { color: #0040D0 } /* Generic.Traceback */
+.highlight .kc { color: #007020; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #007020; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #007020; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #007020 } /* Keyword.Pseudo */
+.highlight .kr { color: #007020; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #902000 } /* Keyword.Type */
+.highlight .m { color: #40a070 } /* Literal.Number */
+.highlight .s { color: #4070a0 } /* Literal.String */
+.highlight .na { color: #4070a0 } /* Name.Attribute */
+.highlight .nb { color: #007020 } /* Name.Builtin */
+.highlight .nc { color: #0e84b5; font-weight: bold } /* Name.Class */
+.highlight .no { color: #60add5 } /* Name.Constant */
+.highlight .nd { color: #555555; font-weight: bold } /* Name.Decorator */
+.highlight .ni { color: #d55537; font-weight: bold } /* Name.Entity */
+.highlight .ne { color: #007020 } /* Name.Exception */
+.highlight .nf { color: #06287e } /* Name.Function */
+.highlight .nl { color: #002070; font-weight: bold } /* Name.Label */
+.highlight .nn { color: #0e84b5; font-weight: bold } /* Name.Namespace */
+.highlight .nt { color: #062873; font-weight: bold } /* Name.Tag */
+.highlight .nv { color: #bb60d5 } /* Name.Variable */
+.highlight .ow { color: #007020; font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mf { color: #40a070 } /* Literal.Number.Float */
+.highlight .mh { color: #40a070 } /* Literal.Number.Hex */
+.highlight .mi { color: #40a070 } /* Literal.Number.Integer */
+.highlight .mo { color: #40a070 } /* Literal.Number.Oct */
+.highlight .sb { color: #4070a0 } /* Literal.String.Backtick */
+.highlight .sc { color: #4070a0 } /* Literal.String.Char */
+.highlight .sd { color: #4070a0; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #4070a0 } /* Literal.String.Double */
+.highlight .se { color: #4070a0; font-weight: bold } /* Literal.String.Escape */
+.highlight .sh { color: #4070a0 } /* Literal.String.Heredoc */
+.highlight .si { color: #70a0d0; font-style: italic } /* Literal.String.Interpol */
+.highlight .sx { color: #c65d09 } /* Literal.String.Other */
+.highlight .sr { color: #235388 } /* Literal.String.Regex */
+.highlight .s1 { color: #4070a0 } /* Literal.String.Single */
+.highlight .ss { color: #517918 } /* Literal.String.Symbol */
+.highlight .bp { color: #007020 } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #bb60d5 } /* Name.Variable.Class */
+.highlight .vg { color: #bb60d5 } /* Name.Variable.Global */
+.highlight .vi { color: #bb60d5 } /* Name.Variable.Instance */
+.highlight .il { color: #40a070 } /* Literal.Number.Integer.Long */</style>
+        <style>body {
+  margin: 0;
+  padding: 0;
+  font: 15px 'Source Sans Pro', sans-serif;
+  line-height: 1.6em;
+  color: #222;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+a {
+  color: #007EE5;
+  text-decoration: none;
+}
+a:hover {
+  color: #007EE5;
+  text-decoration: none;
+}
+header.main-header {
+  background: none repeat scroll 0% 0% #205F29;
+  margin-bottom: 0px;
+}
+header.main-header a {
+  color: #fff;
+}
+header.main-header .container {
+  max-width: 1000px;
+}
+header.main-header .container nav a:hover {
+  background-color: #5C881C;
+}
+article {
+  margin: 0;
+}
+article header.about {
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+}
+article header {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+}
+article header h1 {
+  margin-bottom: 2px;
+  font-weight: 700;
+  color: #000;
+}
+article header time {
+  color: #9E9E9E;
+  font-size: 0.85em;
+  float: right;
+}
+article header time.left {
+  color: #9E9E9E;
+  font-size: 0.85em;
+  float: left;
+}
+article div.social-links ul {
+  padding: 0px;
+}
+article div.social-links li {
+  display: inline;
+  font-size: 20px;
+}
+article div.social-links li a {
+  color: #000;
+  padding: 10px;
+}
+article div.social-links li a:hover {
+  color: #666;
+  text-decoration: none;
+}
+article p {
+  font-size: 16px;
+  margin-bottom: 20px;
+  line-height: 1.6em;
+}
+article p.note {
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  padding: 0.533em 0.733em;
+}
+article p.update {
+  background-color: #FEEFB3;
+  border: 1px solid #e6e68a;
+  padding: 0.533em 0.733em;
+}
+article p.alert {
+  background-color: #ffe2e2;
+  border: 1px solid #ffb2b2;
+  padding: 0.533em 0.733em;
+}
+article ul,
+article ol {
+  margin-top: 0px;
+  margin-bottom: 25px;
+}
+article li {
+  font-size: 16px;
+  line-height: 1.6em;
+}
+article a:hover {
+  text-decoration: underline;
+}
+article blockquote {
+  border-left: 2px solid #c7c7cc;
+  color: #666;
+  margin: 30px 0;
+  padding: 0 0 0 25px;
+}
+article img {
+  max-width: 100%;
+}
+article code {
+  color: #333;
+  background-color: #EEE;
+  border-radius: 0;
+  font-size: 13px;
+}
+article .meta {
+  font-size: 11px;
+}
+article .meta a:hover {
+  text-decoration: none;
+}
+article .meta div {
+  margin-bottom: 20px;
+  display: block;
+}
+article .meta a.tag {
+  margin: 0 10px 10px 0;
+  padding: 1px 12px;
+  display: inline-block;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.05);
+}
+article .meta a.tag:hover {
+  background: rgba(0, 0, 0, 0.15);
+}
+article .meta a.read_more,
+article .meta a.comments_btn {
+  font-size: 14px;
+  font-weight: 800;
+  padding: 10px 20px;
+  color: #205F29;
+  background: #FFF;
+  border: 1px solid #205F29;
+}
+article .meta a.read_more:hover,
+article .meta a.comments_btn:hover {
+  color: #FFF;
+  background: #5C881C;
+}
+.index {
+  max-width: 700px;
+}
+.index article header h2 {
+  font-size: 36px;
+  margin-bottom: 2px;
+  font-weight: 700;
+}
+.index article header h2 a {
+  color: #000;
+}
+.index article header h2 a:hover {
+  color: #007EE5;
+  text-decoration: none;
+}
+.index .separator {
+  padding: 40px 0 0 0;
+  margin: 0 0 40px 0;
+  height: 10px;
+  border-bottom: solid 1px #CCC;
+}
+.index .pagination {
+  display: block;
+  margin-bottom: 100px;
+}
+.index .pagination .left {
+  text-align: right;
+}
+.index .pagination .right {
+  text-align: left;
+}
+.index .pagination a {
+  display: inline-block;
+  border: 2px solid #5C881C;
+  margin: 0 5px;
+  padding: 8px 20px;
+  font-weight: bold;
+  color: #5C881C;
+}
+.index .pagination a:hover {
+  color: #FFF;
+  background: #5C881C;
+}
+.post {
+  max-width: 700px;
+}
+.post h2:before {
+  content: "# ";
+  font-weight: bold;
+  color: #DDD;
+}
+.post h3:before {
+  content: "## ";
+  font-weight: bold;
+  color: #DDD;
+}
+.post h4:before {
+  content: "### ";
+  font-weight: bold;
+  color: #DDD;
+}
+.post article .meta {
+  margin: 50px 0 100px;
+}
+.list {
+  max-width: 700px;
+}
+.list ul.double-list {
+  margin: 0 auto 60px;
+  padding: 0;
+  list-style-type: none;
+}
+.list ul.double-list li {
+  padding: 5px 0;
+}
+.list ul.double-list li h2 {
+  font-size: 1em;
+  display: inline;
+  font-weight: normal;
+}
+.list ul.double-list li span {
+  font-family: sans-serif;
+  text-transform: uppercase;
+  text-align: right;
+  float: right;
+  padding-top: 3px;
+  font-size: 12px;
+  color: #999;
+}
+.full-width-content {
+  padding-top: 10px;
+  padding-left: 0px;
+  padding-right: 0px;
+  margin-left: -20px;
+  margin-right: -20px;
+}
+.col-xs-1,
+.col-sm-1,
+.col-md-1,
+.col-lg-1,
+.col-xs-2,
+.col-sm-2,
+.col-md-2,
+.col-lg-2,
+.col-xs-3,
+.col-sm-3,
+.col-md-3,
+.col-lg-3,
+.col-xs-4,
+.col-sm-4,
+.col-md-4,
+.col-lg-4,
+.col-xs-5,
+.col-sm-5,
+.col-md-5,
+.col-lg-5,
+.col-xs-6,
+.col-sm-6,
+.col-md-6,
+.col-lg-6,
+.col-xs-7,
+.col-sm-7,
+.col-md-7,
+.col-lg-7,
+.col-xs-8,
+.col-sm-8,
+.col-md-8,
+.col-lg-8,
+.col-xs-9,
+.col-sm-9,
+.col-md-9,
+.col-lg-9,
+.col-xs-10,
+.col-sm-10,
+.col-md-10,
+.col-lg-10,
+.col-xs-11,
+.col-sm-11,
+.col-md-11,
+.col-lg-11,
+.col-xs-12,
+.col-sm-12,
+.col-md-12,
+.col-lg-12 {
+  padding-right: 0px;
+  padding-left: 0px;
+}</style>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+    </head>
+
+    <body>
+        <header class="navbar navbar-inverse bs-docs-nav">
+            <div class="container-fluid">
+                <div class="navbar-header">
+		  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#theNavbar">
+		    <span class="icon-bar"></span>
+		    <span class="icon-bar"></span>
+		    <span class="icon-bar"></span> 
+		  </button>
+                  <a class="navbar-brand" href="/" title="Home" class="title">Ashwini's blog</a>
+                </div>
+                <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation" id="theNavbar">
+		    <ul class="nav navbar-nav navbar-right">
+                            <li><a href="/pages/about.html" title="About">About</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+
+        <div id="wrap">
+<div class="container post">
+    <article>
+        <header>
+            <h1>Become a pdb power-user</h1>
+            <time datetime="article.date.isoformat()" pubdate>Tue 08 November 2016</time>
+        </header>
+
+        <div class="article_content">
+            <p>This is an explanatory article related to my talk at <a href="https://www.pypals.org/mupy">MUPy</a>  -- <a href="http://slides.com/ashwch/pdb-mupy#/"> Become a pdb power-user</a>.</p>
+<p>This article was originally published on <a href="https://medium.com/instamojo-matters/become-a-pdb-power-user-e3fc4e2774b2">Medium</a></p>
+<h2>What's pdb?</h2>
+<p><code>pdb</code> is a module from Python's standard library that allows us to do things like:</p>
+<ul>
+<li>Stepping through source code</li>
+<li>Setting conditional breakpoints</li>
+<li>Inspecting stack trace</li>
+<li>Viewing source code</li>
+<li>Running Python code in a context</li>
+<li>Post-mortem debugging</li>
+</ul>
+<h2>Why pdb?</h2>
+<p>It is not necessary to use <code>pdb</code> all the time, sometimes we can get away with simple <code>print</code> statements or logging.</p>
+<p>But these other approaches are most of the time not good enough and don't give us enough control while debugging. Plus after debugging we also have to take care of removing the `print`` statements that we had added to our program just for debugging purpose, this isn't true for logging though as we can filter out logs easily. But at the end both of these approaches clutter our code and don't give us enough debugging power either.</p>
+<h2>How to start pdb?</h2>
+<p>There are multiple ways to start pdb depending on your use case.</p>
+<h3>1. Starting program under debugger control</h3>
+<p>We can start a script itself under debugger's control by executing the script using <code>-m pdb</code> argument. Let's run script.py:</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>pdb<span class="w"> </span>script.py
+<span class="w"> </span>&gt;<span class="w"> </span>/pdb-mupy/script.py<span class="o">(</span><span class="m">1</span><span class="o">)</span>&lt;module&gt;<span class="o">()</span>
+<span class="w"> </span>-&gt;<span class="w"> </span><span class="s2">&quot;&quot;&quot;I am the first script in this demo&quot;&quot;&quot;</span>
+<span class="w"> </span><span class="o">(</span>Pdb<span class="o">)</span>
+</code></pre></div>
+
+<p>In this mode Python will stop the program on first line and you are going to be inside debugger(<code>(Pdb)</code> is pdb's prompt). At this point you can either set breakpoints or continue executing your program.</p>
+<p>Another special thing about it is that after the program completion if no exception occurred then your program will restart in same mode otherwise it will start in post-mortem mode. After post-mortem mode you can restart the program again.</p>
+<h3>2. Running code under debugger control</h3>
+<p>Instead of running the whole code under debugger control we can run particular code under using <code>pdb.run</code>, <code>pdb.runeval</code> and <code>pdb.runcall</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">pdb</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">script</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">pdb</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;script.divide(10, 5)&#39;</span><span class="p">)</span>
+<span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span><span class="p">()</span><span class="o">-&gt;</span><span class="kc">None</span>
+<span class="p">(</span><span class="n">Pdb</span><span class="p">)</span> <span class="n">s</span>   <span class="c1"># we can run any pdb command here</span>
+<span class="o">--</span><span class="n">Call</span><span class="o">--</span>
+<span class="o">&gt;</span> <span class="o">/</span><span class="n">pdb</span><span class="o">-</span><span class="n">mupy</span><span class="o">/</span><span class="n">script</span><span class="o">.</span><span class="n">py</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span><span class="n">divide</span><span class="p">()</span>
+<span class="o">-&gt;</span> <span class="k">def</span> <span class="nf">divide</span><span class="p">(</span><span class="n">numerator</span><span class="p">,</span> <span class="n">denominator</span><span class="p">):</span>
+<span class="p">(</span><span class="n">Pdb</span><span class="p">)</span> <span class="n">n</span>
+<span class="o">&gt;</span> <span class="o">/</span><span class="n">pdb</span><span class="o">-</span><span class="n">mupy</span><span class="o">/</span><span class="n">script</span><span class="o">.</span><span class="n">py</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span><span class="n">divide</span><span class="p">()</span>
+<span class="o">-&gt;</span> <span class="k">return</span> <span class="n">numerator</span> <span class="o">/</span> <span class="n">denominator</span>
+<span class="p">(</span><span class="n">Pdb</span><span class="p">)</span> <span class="n">p</span> <span class="n">numerator</span><span class="p">,</span> <span class="n">denominator</span>
+<span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="p">(</span><span class="n">Pdb</span><span class="p">)</span> <span class="n">c</span>
+<span class="o">&gt;&gt;&gt;</span>
+</code></pre></div>
+
+<p>Here <code>&lt;string&gt;(1)&lt;module&gt;()</code> means that we are at the start of string passed to <code>run()</code> and no code has executed yet. In the above example we stepped into the divide function using <code>s</code>(don't worry about <code>s</code>, <code>n</code>, <code>c</code> etc, we will be covering them in detail).</p>
+<p><code>runeval()</code> does the same thing as <code>run()</code> except that it also returns the value of executed code.</p>
+<p><code>runcall()</code> allows us to pass a Python callable itself instead of a string.</p>
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">pdb</span><span class="o">.</span><span class="n">runcall</span><span class="p">(</span><span class="n">script</span><span class="o">.</span><span class="n">divide</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="o">&gt;</span> <span class="o">/</span><span class="n">pdb</span><span class="o">-</span><span class="n">mupy</span><span class="o">/</span><span class="n">script</span><span class="o">.</span><span class="n">py</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span><span class="n">divide</span><span class="p">()</span>
+<span class="o">-&gt;</span> <span class="k">return</span> <span class="n">numerator</span> <span class="o">/</span> <span class="n">denominator</span>
+<span class="p">(</span><span class="n">Pdb</span><span class="p">)</span>
+</code></pre></div>
+
+<h3>3. Set a hardcoded breakpoint</h3>
+<p>This is the most common way to debug programs, it basically involves adding the line pdb.set_trace() in the source code wherever we want our program to stop.</p>
+<h3>4. Post-mortem debugging</h3>
+<p>Post-mortem debugging allows us to debug a dead program using its <code>traceback</code> object. In post-mortem debugging we can inspect the state of the program at the time it died. But apart from inspecting the state we can't do much here(like stepping through the code) because like the name suggests we are performing post-mortem of a dead program.</p>
+<p>By default the <code>-m pdb</code> we had discussed earlier puts us in post-mortem mode if an exception occurs. Other ways are using: <code>pdb.pm()</code> and <code>pdm.post_mortem()</code>.</p>
+<p><code>pdb.pm()</code> will take us to the post-mortem mode for the exception found in <code>sys.last_traceback</code>.</p>
+<p>On the other hand <code>pdb.post_mortem()</code> excepts an optional <code>traceback</code> object otherwise will try to handle the exception currently being handled.</p>
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">pdb</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">script</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">script</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+  <span class="n">File</span> <span class="s2">&quot;&lt;ipython-input-8-fe270324adad&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+    <span class="n">script</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+  <span class="n">File</span> <span class="s2">&quot;script.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">7</span><span class="p">,</span> <span class="ow">in</span> <span class="n">divide</span>
+    <span class="k">return</span> <span class="n">numerator</span> <span class="o">/</span> <span class="n">denominator</span>
+<span class="ne">ZeroDivisionError</span><span class="p">:</span> <span class="n">integer</span> <span class="n">division</span> <span class="ow">or</span> <span class="n">modulo</span> <span class="n">by</span> <span class="n">zero</span>
+</code></pre></div>
+
+<p>Now to inspect the state at the time this above exception occurred using <code>pdb.pm()</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">pdb</span><span class="o">.</span><span class="n">pm</span><span class="p">()</span>
+<span class="o">&gt;</span> <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">ashwini</span><span class="o">/</span><span class="n">work</span><span class="o">/</span><span class="n">instamojo</span><span class="o">/</span><span class="n">pdb</span><span class="o">-</span><span class="n">mupy</span><span class="o">/</span><span class="n">script</span><span class="o">.</span><span class="n">py</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span><span class="n">divide</span><span class="p">()</span>
+<span class="o">-&gt;</span> <span class="k">return</span> <span class="n">numerator</span> <span class="o">/</span> <span class="n">denominator</span>
+<span class="p">(</span><span class="n">Pdb</span><span class="p">)</span> <span class="n">args</span>  <span class="c1"># Arguments passed to the function at that time</span>
+<span class="n">numerator</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">denominator</span> <span class="o">=</span> <span class="mi">0</span>
+</code></pre></div>
+
+<p>We could have done something similar using <code>pdb.post_mortem()</code> with the <code>traceback</code> object:</p>
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">sys</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">pdb</span><span class="o">.</span><span class="n">post_mortem</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">last_traceback</span><span class="p">)</span>
+<span class="o">&gt;</span> <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">ashwini</span><span class="o">/</span><span class="n">work</span><span class="o">/</span><span class="n">instamojo</span><span class="o">/</span><span class="n">pdb</span><span class="o">-</span><span class="n">mupy</span><span class="o">/</span><span class="n">script</span><span class="o">.</span><span class="n">py</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span><span class="n">divide</span><span class="p">()</span>
+<span class="o">-&gt;</span> <span class="k">return</span> <span class="n">numerator</span> <span class="o">/</span> <span class="n">denominator</span>
+<span class="p">(</span><span class="n">Pdb</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Similarly we can handle the current exception being handled using <code>pdb.post_mortem()</code> without any argument:</p>
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="k">try</span><span class="p">:</span>
+<span class="o">...</span>     <span class="n">script</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="o">...</span> <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+<span class="o">...</span>     <span class="n">pdb</span><span class="o">.</span><span class="n">post_mortem</span><span class="p">()</span>
+<span class="o">...</span>
+<span class="o">&gt;</span> <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">ashwini</span><span class="o">/</span><span class="n">work</span><span class="o">/</span><span class="n">instamojo</span><span class="o">/</span><span class="n">pdb</span><span class="o">-</span><span class="n">mupy</span><span class="o">/</span><span class="n">script</span><span class="o">.</span><span class="n">py</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span><span class="n">divide</span><span class="p">()</span>
+<span class="o">-&gt;</span> <span class="k">return</span> <span class="n">numerator</span> <span class="o">/</span> <span class="n">denominator</span>
+<span class="p">(</span><span class="n">Pdb</span><span class="p">)</span>
+</code></pre></div>
+
+<h2>Basic pdb commands</h2>
+<p><code>(Pdb)</code> prompt we have seen so far is pdb's own shell and it has its own set of commands that makes debugging even easier. In this section we will go through some of the basic commands.</p>
+<p>Before starting with the commands it is important to understand the notation we use for commands, for example a command like <code>c</code>(<code>ont</code>(<code>inue</code>)) means we can either use <code>c</code>, <code>cont</code> or <code>continue</code> for this command. The square brackets(<code>[]</code>) followed by a command are its optional arguments, without square brackets it is a compulsory argument.</p>
+<ul>
+<li>
+<p><code>h(elp) [command]</code></p>
+</li>
+<li>
+<p><code>help</code> or simply <code>h</code> provides help related to a <code>pdb</code> command. Without arguments it lists all of the pdb commands available.</p>
+</li>
+<li>
+<p>(Pdb) help</p>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="gh">Documented commands (type help &lt;topic&gt;):</span>
+<span class="gh">========================================</span>
+EOF    c          d        h         list      q        rv       undisplay
+a      cl         debug    help      ll        quit     s        unt
+alias  clear      disable  ignore    longlist  r        source   until
+args   commands   display  interact  n         restart  step     up
+b      condition  down     j         next      return   tbreak   w
+break  cont       enable   jump      p         retval   u        whatis
+bt     continue   exit     l         pp        run      unalias  where
+</code></pre></div>
+
+<p>Get help related to args command:
+- <code>(Pdb) help args</code></p>
+<div class="highlight"><pre><span></span><code>(Pdb) help args
+a(rgs)
+        Print the argument list of the current function.
+</code></pre></div>
+
+<p>This command can save your time related to visiting Python documentation in case you forgot about a command.</p>
+<p>Note: <code>!</code> command is the only exception here as help only works with valid Python identifiers. Alternative is to use <code>help exec</code>.</p>
+<ul>
+<li><code>p</code> or <code>pp</code></li>
+</ul>
+<p>To print variable inside debugger we can use <code>p</code> for normal printing and pp for pretty-printing. We can use simple Python print as well but it is not a pdb command.</p>
+<ul>
+<li><code>a(rgs)</code></li>
+</ul>
+<p><code>args</code> prints the arguments with their values of the current function.</p>
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">pdb</span><span class="o">.</span><span class="n">runcall</span><span class="p">(</span><span class="n">script</span><span class="o">.</span><span class="n">divide</span><span class="p">,</span> <span class="mi">10</span> <span class="p">,</span> <span class="mi">15</span><span class="p">)</span>
+<span class="o">&gt;</span> <span class="o">/</span><span class="n">pdb</span><span class="o">-</span><span class="n">mupy</span><span class="o">/</span><span class="n">script</span><span class="o">.</span><span class="n">py</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span><span class="n">divide</span><span class="p">()</span>
+<span class="o">-&gt;</span> <span class="k">return</span> <span class="n">numerator</span> <span class="o">/</span> <span class="n">denominator</span>
+<span class="p">(</span><span class="n">Pdb</span><span class="p">)</span> <span class="n">args</span>
+<span class="n">numerator</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">denominator</span> <span class="o">=</span> <span class="mi">15</span>
+<span class="n">q</span><span class="p">(</span><span class="n">uit</span><span class="p">)</span>
+</code></pre></div>
+
+<p>To exit the debugger we can use <code>q</code> or <code>quit</code>.</p>
+<ul>
+<li><code>! statement</code></li>
+</ul>
+<p>To run Python code in debugger we can use <code>!</code> followed by the code we want to run. Without <code>!</code> the code can fail if it collides with any <code>pdb</code> command, hence it is recommended to always use <code>!</code> to run Python code.</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>pdb<span class="w"> </span>script.py
+&gt;<span class="w"> </span>/pdb-mupy/script.py<span class="o">(</span><span class="m">1</span><span class="o">)</span>&lt;module&gt;<span class="o">()</span>
+-&gt;<span class="w"> </span><span class="s2">&quot;&quot;&quot;I am the first script in this demo&quot;&quot;&quot;</span>
+<span class="o">(</span>Pdb<span class="o">)</span><span class="w"> </span>!c<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="w">  </span><span class="c1"># Define a variable named c</span>
+<span class="o">(</span>Pdb<span class="o">)</span><span class="w"> </span>p<span class="w"> </span>c
+<span class="m">2</span>
+</code></pre></div>
+
+<p>Without <code>!</code> it fails because pdb thinks we are trying to run pdb's <code>c</code> command.</p>
+<div class="highlight"><pre><span></span><code><span class="p">(</span><span class="n">Pdb</span><span class="p">)</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="mi">2</span>
+<span class="n">The</span> <span class="n">program</span> <span class="n">finished</span> <span class="ow">and</span> <span class="n">will</span> <span class="n">be</span> <span class="n">restarted</span><span class="p">:</span>
+<span class="o">&gt;</span> <span class="o">/</span><span class="n">pdb</span><span class="o">-</span><span class="n">mupy</span><span class="o">/</span><span class="n">script</span><span class="o">.</span><span class="n">py</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span><span class="p">()</span>
+<span class="o">-&gt;</span> <span class="s2">&quot;&quot;&quot;I am the first script in this demo&quot;&quot;&quot;</span>
+<span class="p">(</span><span class="n">Pdb</span><span class="p">)</span>
+</code></pre></div>
+
+<ul>
+<li><code>run [args ...]</code></li>
+</ul>
+<p><code>run</code> allows us to restart a program. This is helpful if we want to restart the programs with different argument without exiting the debugger.</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>pdb<span class="w"> </span>script.py<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="m">5</span>
+&gt;<span class="w"> </span>/pdb-mupy/script.py<span class="o">(</span><span class="m">1</span><span class="o">)</span>&lt;module&gt;<span class="o">()</span>
+-&gt;<span class="w"> </span><span class="s2">&quot;&quot;&quot;I am the first script in this demo&quot;&quot;&quot;</span>
+<span class="o">(</span>Pdb<span class="o">)</span><span class="w"> </span>!import<span class="w"> </span>sys
+<span class="o">(</span>Pdb<span class="o">)</span><span class="w"> </span>p<span class="w"> </span>sys.argv
+<span class="o">[</span><span class="s1">&#39;script.py&#39;</span>,<span class="w"> </span><span class="s1">&#39;10&#39;</span>,<span class="w"> </span><span class="s1">&#39;5&#39;</span><span class="o">]</span>
+Let<span class="s1">&#39;s restart this program with different arguments:</span>
+<span class="s1">(Pdb) run 30 40</span>
+<span class="s1">Restarting script.py with arguments:</span>
+<span class="s1">    30 40</span>
+<span class="s1">&gt; /pdb-mupy/script.py(1)&lt;module&gt;()</span>
+<span class="s1">-&gt; &quot;&quot;&quot;I am the first script in this demo&quot;&quot;&quot;</span>
+<span class="s1">(Pdb) !import sys</span>
+<span class="s1">(Pdb) p sys.argv</span>
+<span class="s1">[&#39;</span>script.py<span class="s1">&#39;, &#39;</span><span class="m">30</span><span class="s1">&#39;, &#39;</span><span class="m">40</span><span class="err">&#39;</span><span class="o">]</span>
+</code></pre></div>
+
+<ul>
+<li><code>l(ist) [first[, last]]</code></li>
+</ul>
+<p><code>l</code> or <code>list</code> command can be used to list the source code.</p>
+<p>Without any argument it lists the <em>11</em> lines around the current line. With one argument 11 lines around the specified line number. With two argument it lists the lines in that range, if second argument is less that first then it is taken as count.</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>pdb<span class="w"> </span>script.py
+&gt;<span class="w"> </span>/pdb-mupy/script.py<span class="o">(</span><span class="m">1</span><span class="o">)</span>&lt;module&gt;<span class="o">()</span>
+-&gt;<span class="w"> </span><span class="s2">&quot;&quot;&quot;I am the first script in this demo&quot;&quot;&quot;</span>
+List<span class="w"> </span><span class="m">11</span><span class="w"> </span>lines<span class="w"> </span>around<span class="w"> </span>the<span class="w"> </span>current<span class="w"> </span>line:
+<span class="o">(</span>Pdb<span class="o">)</span><span class="w"> </span>list
+<span class="w">  </span><span class="m">1</span><span class="w">  </span>-&gt;<span class="w"> </span><span class="s2">&quot;&quot;&quot;I am the first script in this demo&quot;&quot;&quot;</span>
+<span class="w">  </span><span class="m">2</span>
+<span class="w">  </span><span class="m">3</span><span class="w">     </span>import<span class="w"> </span>sys
+<span class="w">  </span><span class="m">4</span>
+<span class="w">  </span><span class="m">5</span>
+<span class="w">  </span><span class="m">6</span><span class="w">     </span>def<span class="w"> </span>divide<span class="o">(</span>numerator,<span class="w"> </span>denominator<span class="o">)</span>:
+<span class="w">  </span><span class="m">7</span><span class="w">         </span><span class="k">return</span><span class="w"> </span>numerator<span class="w"> </span>/<span class="w"> </span>denominator
+<span class="w">  </span><span class="m">8</span>
+<span class="w">  </span><span class="m">9</span>
+<span class="w"> </span><span class="m">10</span><span class="w">     </span><span class="k">if</span><span class="w"> </span><span class="nv">__name__</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;__main__&#39;</span>:
+<span class="w"> </span><span class="m">11</span><span class="w">         </span><span class="nv">numerator</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>int<span class="o">(</span>sys.argv<span class="o">[</span><span class="m">1</span><span class="o">])</span>
+List<span class="w"> </span>lines<span class="w"> </span><span class="m">5</span><span class="w"> </span>to<span class="w"> </span><span class="m">8</span>:
+<span class="o">(</span>Pdb<span class="o">)</span><span class="w"> </span>list<span class="w"> </span><span class="m">5</span>,<span class="w"> </span><span class="m">8</span>
+<span class="w">  </span><span class="m">5</span>
+<span class="w">  </span><span class="m">6</span><span class="w">     </span>def<span class="w"> </span>divide<span class="o">(</span>numerator,<span class="w"> </span>denominator<span class="o">)</span>:
+<span class="w">  </span><span class="m">7</span><span class="w">         </span><span class="k">return</span><span class="w"> </span>numerator<span class="w"> </span>/<span class="w"> </span>denominator
+<span class="w">  </span><span class="m">8</span>
+</code></pre></div>
+
+<ul>
+<li><code>alias [name [command]]</code> or <code>unalias</code></li>
+</ul>
+<p><code>alias</code> command can be used to set aliases for commands in debugger, similarly <code>unalias</code> can be used to unset an already existing alias.</p>
+<p>Let's say we want to create an alias that returns a list of squares.</p>
+<div class="highlight"><pre><span></span><code><span class="p">(</span><span class="n">Pdb</span><span class="p">)</span> <span class="n">alias</span> <span class="n">squares</span> <span class="p">[</span><span class="n">i</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="o">%</span><span class="mi">1</span><span class="p">)]</span>
+<span class="p">(</span><span class="n">Pdb</span><span class="p">)</span> <span class="n">squares</span> <span class="mi">5</span>
+<span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">16</span><span class="p">]</span>
+</code></pre></div>
+
+<p>Here <code>%1</code> is the argument that our alias expects(5 in the above example), if it expects more then we can use <code>%2</code>, <code>%3</code> etc</p>
+<p>We can also create aliases using existing aliases:</p>
+<div class="highlight"><pre><span></span><code><span class="p">(</span><span class="n">Pdb</span><span class="p">)</span> <span class="n">alias</span> <span class="n">squares_7</span> <span class="n">squares</span> <span class="mi">7</span>
+</code></pre></div>
+
+<p>Now <code>squares_7</code> is equivalent to running <code>squares 7</code></p>
+<div class="highlight"><pre><span></span><code><span class="p">(</span><span class="n">Pdb</span><span class="p">)</span> <span class="n">squares_7</span>
+<span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">36</span><span class="p">]</span>
+</code></pre></div>
+
+<p>To remove an alias use <code>unalias</code> command followed by the command name.</p>
+<h3>Stepping through code</h3>
+<p>One of the strongest feature of pdb is that we can move through our code in various ways: 
+- Line by line 
+- Jumping inside a function 
+- Skip a loop 
+- Skip function</p>
+<p>In this section we will learn about the commands that allow us to step through the code. The code that we will be use in this section is <a href="https://github.com/ashwch/pdb-mupy/blob/master/next_and_step_until.py."><code>next_and_step_until.py</code></a>. These are the commands that you will be using the most, hence it is important to have a clear understanding here.</p>
+<ul>
+<li><code>n(ext)</code></li>
+</ul>
+<p><code>n</code> or simply <code>next</code> command runs the code on current line at full-speed and takes us to the next line in the current function.</p>
+<ul>
+<li><code>s(tep)</code></li>
+</ul>
+<p><code>s</code> or <code>step</code> is similar to next but they vary when a callable(function etc) is involved. If a callable is there then it will step us inside that callable instead of taking us to next line in the current function. If no callable is involved then it is same as next.</p>
+<ul>
+<li><code>unt(il)</code></li>
+</ul>
+<p><code>until</code> command tells the debugger to continue executing until we have reached a line number greater than the current line number. This command is helpful in exiting a loop.</p>
+<ul>
+<li><code>r(eturn)</code></li>
+</ul>
+<p><code>r</code> or <code>return</code> takes us to the end of the current function. At global level it takes us to the last line in the module. This command is helpful you want to step through the whole function body at once.</p>
+<ul>
+<li><code>c(ont(inue))</code></li>
+</ul>
+<p><code>c</code> or <code>cont</code> or <code>continue</code> command lets us run the whole code at full-speed when we are done with our debugging. If there's another breakpoint in your program then it will stop at that next breakpoint.</p>
+<p>Let's debug through our script <a href="https://github.com/ashwch/pdb-mupy/blob/master/next_and_step_until.py"><code>next_and_step_until.py</code></a> while making use of the above commands. We have set a breakpoint on line #19 in that script and debugger will stop on next valid line: #21.</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>python<span class="w"> </span>next_and_step_until.py
+&gt;<span class="w"> </span>/Users/ashwini/work/instamojo/pdb-mupy/next_and_step_until.py<span class="o">(</span><span class="m">21</span><span class="o">)</span>&lt;module&gt;<span class="o">()</span>
+-&gt;<span class="w"> </span>knights<span class="o">()</span><span class="w">  </span><span class="c1"># Just want to run this function and move on to next line? Use n(ext).</span>
+<span class="o">(</span>Pdb<span class="o">)</span>
+</code></pre></div>
+
+<p>Now to run the <code>knights()</code> function at full-speed use <code>n(ext)</code>. As you can see it printed the statements we have inside the <code>knights()</code> function and stopped on the next line in the current function.</p>
+<div class="highlight"><pre><span></span><code><span class="p">(</span><span class="n">Pdb</span><span class="p">)</span> <span class="n">n</span>
+<span class="n">We</span> <span class="n">are</span> <span class="n">the</span> <span class="n">Knights</span> <span class="n">who</span> <span class="n">say</span> <span class="n">ni</span><span class="err">!</span>
+<span class="n">Get</span> <span class="n">us</span> <span class="n">a</span> <span class="n">shrubbery</span><span class="o">.</span>
+<span class="o">&gt;</span> <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">ashwini</span><span class="o">/</span><span class="n">work</span><span class="o">/</span><span class="n">instamojo</span><span class="o">/</span><span class="n">pdb</span><span class="o">-</span><span class="n">mupy</span><span class="o">/</span><span class="n">next_and_step_until</span><span class="o">.</span><span class="n">py</span><span class="p">(</span><span class="mi">22</span><span class="p">)</span><span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span><span class="p">()</span>
+<span class="o">-&gt;</span> <span class="n">credits</span><span class="p">()</span>  <span class="c1"># Want to step inside this function? Use s(tep).</span>
+<span class="p">(</span><span class="n">Pdb</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Now let's say we want to debug something inside <code>credits()</code> call, for that we can use <code>s(tep)</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="p">(</span><span class="n">Pdb</span><span class="p">)</span> <span class="n">s</span>
+<span class="o">--</span><span class="n">Call</span><span class="o">--</span>
+<span class="o">&gt;</span> <span class="o">/</span><span class="n">pdb</span><span class="o">-</span><span class="n">mupy</span><span class="o">/</span><span class="n">next_and_step_until</span><span class="o">.</span><span class="n">py</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span><span class="n">credits</span><span class="p">()</span>
+<span class="o">-&gt;</span> <span class="k">def</span> <span class="nf">credits</span><span class="p">():</span>
+<span class="p">(</span><span class="n">Pdb</span><span class="p">)</span> <span class="n">n</span>
+<span class="o">&gt;</span> <span class="o">/</span><span class="n">pdb</span><span class="o">-</span><span class="n">mupy</span><span class="o">/</span><span class="n">next_and_step_until</span><span class="o">.</span><span class="n">py</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span><span class="n">credits</span><span class="p">()</span>
+<span class="o">-&gt;</span> <span class="nb">print</span> <span class="s2">&quot;A Møøse once bit my sister... No realli!&quot;</span>
+<span class="p">(</span><span class="n">Pdb</span><span class="p">)</span> <span class="n">n</span>
+<span class="n">A</span> <span class="n">Møøse</span> <span class="n">once</span> <span class="n">bit</span> <span class="n">my</span> <span class="n">sister</span><span class="o">...</span> <span class="n">No</span> <span class="n">realli</span><span class="err">!</span>
+<span class="o">&gt;</span> <span class="o">/</span><span class="n">pdb</span><span class="o">-</span><span class="n">mupy</span><span class="o">/</span><span class="n">next_and_step_until</span><span class="o">.</span><span class="n">py</span><span class="p">(</span><span class="mi">13</span><span class="p">)</span><span class="n">credits</span><span class="p">()</span>
+<span class="o">-&gt;</span> <span class="nb">print</span> <span class="s2">&quot;We apologise for the fault in the print statements.&quot;</span>
+<span class="p">(</span><span class="n">Pdb</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Now that we are done with this function we can use <code>r(eturn)</code> to go to its end and then use <code>n</code> to exit:</p>
+<div class="highlight"><pre><span></span><code><span class="p">(</span><span class="n">Pdb</span><span class="p">)</span> <span class="n">r</span>
+<span class="n">We</span> <span class="n">apologise</span> <span class="k">for</span> <span class="n">the</span> <span class="n">fault</span> <span class="ow">in</span> <span class="n">the</span> <span class="nb">print</span> <span class="n">statements</span><span class="o">.</span>
+<span class="n">Those</span> <span class="n">responsible</span> <span class="n">have</span> <span class="n">been</span> <span class="n">sacked</span><span class="o">.</span>
+<span class="o">--</span><span class="n">Return</span><span class="o">--</span>
+<span class="o">&gt;</span> <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">ashwini</span><span class="o">/</span><span class="n">work</span><span class="o">/</span><span class="n">instamojo</span><span class="o">/</span><span class="n">pdb</span><span class="o">-</span><span class="n">mupy</span><span class="o">/</span><span class="n">next_and_step_until</span><span class="o">.</span><span class="n">py</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span><span class="n">credits</span><span class="p">()</span><span class="o">-&gt;</span><span class="s1">&#39;M</span><span class="se">\xc3\xb8</span><span class="s1">\xc...pretti nasti.&#39;</span>
+<span class="o">-&gt;</span> <span class="k">return</span> <span class="s2">&quot;Møøse bites Kan be pretti nasti.&quot;</span>
+<span class="p">(</span><span class="n">Pdb</span><span class="p">)</span> <span class="n">n</span>
+<span class="o">&gt;</span> <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">ashwini</span><span class="o">/</span><span class="n">work</span><span class="o">/</span><span class="n">instamojo</span><span class="o">/</span><span class="n">pdb</span><span class="o">-</span><span class="n">mupy</span><span class="o">/</span><span class="n">next_and_step_until</span><span class="o">.</span><span class="n">py</span><span class="p">(</span><span class="mi">24</span><span class="p">)</span><span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span><span class="p">()</span>
+<span class="o">-&gt;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">):</span>
+</code></pre></div>
+
+<p>Now we are in a loop and both <code>n(ext)</code> and <code>s(tep)</code> can't be used to complete it in a single step. To skip the loop we can go its last line and use <code>unt(il)</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="o">-&gt;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">):</span>
+<span class="p">(</span><span class="n">Pdb</span><span class="p">)</span> <span class="n">n</span>
+<span class="o">&gt;</span> <span class="o">/</span><span class="n">pdb</span><span class="o">-</span><span class="n">mupy</span><span class="o">/</span><span class="n">next_and_step_until</span><span class="o">.</span><span class="n">py</span><span class="p">(</span><span class="mi">26</span><span class="p">)</span><span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span><span class="p">()</span>
+<span class="o">-&gt;</span> <span class="nb">print</span> <span class="s2">&quot;Shrubbery #</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="p">(</span><span class="n">Pdb</span><span class="p">)</span> <span class="n">until</span>
+<span class="n">Shrubbery</span> <span class="c1">#1</span>
+<span class="n">Shrubbery</span> <span class="c1">#2</span>
+<span class="n">Shrubbery</span> <span class="c1">#3</span>
+<span class="n">Shrubbery</span> <span class="c1">#4</span>
+<span class="o">&gt;</span> <span class="o">/</span><span class="n">pdb</span><span class="o">-</span><span class="n">mupy</span><span class="o">/</span><span class="n">next_and_step_until</span><span class="o">.</span><span class="n">py</span><span class="p">(</span><span class="mi">28</span><span class="p">)</span><span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span><span class="p">()</span>
+<span class="o">-&gt;</span> <span class="nb">print</span> <span class="s2">&quot;We have found the Holy Grail.&quot;</span>
+<span class="p">(</span><span class="n">Pdb</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Now we can continue executing the program using <code>c(ont(inue))</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="p">(</span><span class="n">Pdb</span><span class="p">)</span> <span class="n">cont</span>
+<span class="n">We</span> <span class="n">have</span> <span class="n">found</span> <span class="n">the</span> <span class="n">Holy</span> <span class="n">Grail</span><span class="o">.</span>
+</code></pre></div>
+
+<h3>Jumping between stacks</h3>
+<p>So far we have only seen how to move forward in code by moving line by line and jumping inside a function call. But <code>pdb</code> also provides us functionality to jump up and down in the current stack.</p>
+<p>Best way to demonstrate this is to use a recursive function as an example, its code can be found at <a href="https://github.com/ashwch/pdb-mupy/blob/master/recursive.py"><code>recursive.py</code></a>.</p>
+<p>The three commands we will be going through in this section are <code>u(p)</code>, <code>d(own)</code> and <code>w(here)</code>.</p>
+<ul>
+<li><code>w(here)</code></li>
+</ul>
+<p><code>w</code> or <code>where</code> prints the whole trace till the most recent frame and current frame is represented using an arrow.</p>
+<p>Let's run our program and when it stops at the breakpoint we will use <code>w(here)</code> to view the whole stack trace</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>python<span class="w"> </span>recursive.py
+&gt;<span class="w"> </span>/pdb-mupy/recursive.py<span class="o">(</span><span class="m">10</span><span class="o">)</span>func<span class="o">()</span>
+-&gt;<span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="m">0</span>
+<span class="o">(</span>Pdb<span class="o">)</span><span class="w"> </span>where
+<span class="w">  </span>/pdb-mupy/recursive.py<span class="o">(</span><span class="m">14</span><span class="o">)</span>&lt;module&gt;<span class="o">()</span>
+-&gt;<span class="w"> </span>print<span class="w"> </span><span class="o">(</span>func<span class="o">(</span><span class="m">4</span><span class="o">))</span>
+<span class="w">  </span>/pdb-mupy/recursive.py<span class="o">(</span><span class="m">7</span><span class="o">)</span>func<span class="o">()</span>
+-&gt;<span class="w"> </span><span class="k">return</span><span class="w"> </span>func<span class="o">(</span>n<span class="w"> </span>-<span class="w"> </span><span class="m">1</span><span class="o">)</span>
+<span class="w">  </span>/pdb-mupy/recursive.py<span class="o">(</span><span class="m">7</span><span class="o">)</span>func<span class="o">()</span>
+-&gt;<span class="w"> </span><span class="k">return</span><span class="w"> </span>func<span class="o">(</span>n<span class="w"> </span>-<span class="w"> </span><span class="m">1</span><span class="o">)</span>
+<span class="w">  </span>/pdb-mupy/recursive.py<span class="o">(</span><span class="m">7</span><span class="o">)</span>func<span class="o">()</span>
+-&gt;<span class="w"> </span><span class="k">return</span><span class="w"> </span>func<span class="o">(</span>n<span class="w"> </span>-<span class="w"> </span><span class="m">1</span><span class="o">)</span>
+<span class="w">  </span>/pdb-mupy/recursive.py<span class="o">(</span><span class="m">7</span><span class="o">)</span>func<span class="o">()</span>
+-&gt;<span class="w"> </span><span class="k">return</span><span class="w"> </span>func<span class="o">(</span>n<span class="w"> </span>-<span class="w"> </span><span class="m">1</span><span class="o">)</span>
+&gt;<span class="w"> </span>/pdb-mupy/recursive.py<span class="o">(</span><span class="m">10</span><span class="o">)</span>func<span class="o">()</span><span class="w">  </span><span class="c1"># Current frame</span>
+-&gt;<span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="m">0</span>
+<span class="o">(</span>Pdb<span class="o">)</span>
+</code></pre></div>
+
+<p>Here <code>&gt;</code> represents the current frame.</p>
+<p>Now we can go up and down in the stack using <code>u(p)</code> and <code>d(own)</code>. Let's move up twice and then check the argument value using <code>a(rgs)</code>. The breakpoint was set at <code>n = 0</code>, now when we moved up twice we have <code>n = 2</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="p">(</span><span class="n">Pdb</span><span class="p">)</span> <span class="n">u</span>
+<span class="o">&gt;</span> <span class="o">/</span><span class="n">pdb</span><span class="o">-</span><span class="n">mupy</span><span class="o">/</span><span class="n">recursive</span><span class="o">.</span><span class="n">py</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span><span class="n">func</span><span class="p">()</span>
+<span class="o">-&gt;</span> <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+<span class="p">(</span><span class="n">Pdb</span><span class="p">)</span> <span class="n">u</span>
+<span class="o">&gt;</span> <span class="o">/</span><span class="n">pdb</span><span class="o">-</span><span class="n">mupy</span><span class="o">/</span><span class="n">recursive</span><span class="o">.</span><span class="n">py</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span><span class="n">func</span><span class="p">()</span>
+<span class="o">-&gt;</span> <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+<span class="p">(</span><span class="n">Pdb</span><span class="p">)</span> <span class="n">args</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="p">(</span><span class="n">Pdb</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Similarly we can go back down using <code>d(own)</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="p">(</span><span class="n">Pdb</span><span class="p">)</span> <span class="n">d</span>
+<span class="o">&gt;</span> <span class="o">/</span><span class="n">pdb</span><span class="o">-</span><span class="n">mupy</span><span class="o">/</span><span class="n">recursive</span><span class="o">.</span><span class="n">py</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span><span class="n">func</span><span class="p">()</span>
+<span class="o">-&gt;</span> <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+<span class="p">(</span><span class="n">Pdb</span><span class="p">)</span> <span class="n">args</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">1</span>
+</code></pre></div>
+
+<p><code>u(p)</code> is also useful when you stepped(<code>s(tep)</code>)inside a function accidentally and want to go back.</p>
+<h3>Breakpoints</h3>
+<p>So far we have only seen how to set a break-point by updating the code and adding <code>pdb.set_trace()</code> wherever we want to stop our program. But, <code>pdb</code> also provides us a way to set dynamic conditional breakpoints without updating the source code. In this section we will be using code from <a href="https://github.com/ashwch/pdb-mupy/blob/master/breakpoints.py"><code>breakpoints.py</code></a> file.</p>
+<ul>
+<li><code>b(reak) [[filename:]lineno | function[, condition]]</code>:</li>
+</ul>
+<p>We can set a breakpoint in the current file by specifying the line number or function name in the current file. Or we can also set breakpoint in some other file(this file should be present in module search path) by specifying the file name followed by a line number.
+Each number is assigned a number and this number can be used later with other commands to access the breakpoint.</p>
+<p><code>condition</code> is a Python statement that should be True to stop at the breakpoint. This condition is executed in the scope at which we have set the breakpoint.</p>
+<p>Few examples of setting breakpoints.</p>
+<ul>
+<li><code>break 13</code> # Set breakpoint on line number 13</li>
+<li><code>break divide</code> # Set breakpoint on <code>divide</code> function</li>
+<li><code>break divide, denominator == 0</code> # Set breakpoint in divide function only if <code>denominator</code> is 0</li>
+</ul>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>pdb<span class="w"> </span>breakpoints.py<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="m">0</span>
+&gt;<span class="w"> </span>/pdb-mupy/breakpoints.py<span class="o">(</span><span class="m">2</span><span class="o">)</span>&lt;module&gt;<span class="o">()</span>
+-&gt;<span class="w"> </span>import<span class="w"> </span>sys
+<span class="o">(</span>Pdb<span class="o">)</span><span class="w"> </span><span class="k">break</span><span class="w"> </span>divide,<span class="w"> </span><span class="nv">denominator</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">0</span>
+Breakpoint<span class="w"> </span><span class="m">1</span><span class="w"> </span>at<span class="w"> </span>/pdb-mupy/breakpoints.py:5
+</code></pre></div>
+
+<p>Get list of breakpoints using <code>b(break)</code>. Here <code>Num = 1</code> is the number assigned to the breakpoint. <code>Disp == keep</code> means it is a permanent breakpoint and <code>End = yes</code> means this breakpoint is right now enabled.</p>
+<div class="highlight"><pre><span></span><code><span class="p">(</span><span class="n">Pdb</span><span class="p">)</span> <span class="k">break</span>
+    <span class="n">Num</span> <span class="n">Type</span>         <span class="n">Disp</span> <span class="n">Enb</span>   <span class="n">Where</span>
+    <span class="mi">1</span>   <span class="nb">breakpoint</span>   <span class="n">keep</span> <span class="n">yes</span>   <span class="n">at</span> <span class="o">/</span><span class="n">pdb</span><span class="o">-</span><span class="n">mupy</span><span class="o">/</span><span class="n">breakpoints</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">5</span>
+        <span class="n">stop</span> <span class="n">only</span> <span class="k">if</span> <span class="n">denominator</span> <span class="o">==</span> <span class="mi">0</span>
+    <span class="p">(</span><span class="n">Pdb</span><span class="p">)</span> <span class="n">c</span>
+</code></pre></div>
+
+<p>As denominator is program our program stopped under debugger control:</p>
+<div class="highlight"><pre><span></span><code><span class="o">&gt;</span> <span class="o">/</span><span class="n">pdb</span><span class="o">-</span><span class="n">mupy</span><span class="o">/</span><span class="n">breakpoints</span><span class="o">.</span><span class="n">py</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span><span class="n">divide</span><span class="p">()</span>
+    <span class="o">-&gt;</span> <span class="nb">print</span> <span class="s2">&quot;Calculating </span><span class="si">{}</span><span class="s2">/</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">numerator</span><span class="p">,</span> <span class="n">denominator</span><span class="p">)</span>
+    <span class="p">(</span><span class="n">Pdb</span><span class="p">)</span> <span class="n">args</span>
+    <span class="n">numerator</span> <span class="o">=</span> <span class="mf">10.0</span>
+    <span class="n">denominator</span> <span class="o">=</span> <span class="mf">0.0</span>
+</code></pre></div>
+
+<p>Let's restart the program using different arguments:</p>
+<div class="highlight"><pre><span></span><code><span class="p">(</span><span class="n">Pdb</span><span class="p">)</span> <span class="n">run</span> <span class="mi">10</span> <span class="mi">5</span>
+<span class="n">Restarting</span> <span class="n">breakpoints</span><span class="o">.</span><span class="n">py</span> <span class="k">with</span> <span class="n">arguments</span><span class="p">:</span>
+    <span class="mi">10</span> <span class="mi">5</span>
+<span class="o">&gt;</span> <span class="o">/</span><span class="n">pdb</span><span class="o">-</span><span class="n">mupy</span><span class="o">/</span><span class="n">breakpoints</span><span class="o">.</span><span class="n">py</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span><span class="p">()</span>
+<span class="o">-&gt;</span> <span class="kn">import</span> <span class="nn">sys</span>
+<span class="p">(</span><span class="n">Pdb</span><span class="p">)</span> <span class="n">c</span>
+<span class="n">Calculating</span> <span class="mf">10.0</span><span class="o">/</span><span class="mf">5.0</span>
+<span class="mf">2.0</span>
+<span class="n">The</span> <span class="n">program</span> <span class="n">finished</span> <span class="ow">and</span> <span class="n">will</span> <span class="n">be</span> <span class="n">restarted</span>
+<span class="o">&gt;</span> <span class="o">/</span><span class="n">pdb</span><span class="o">-</span><span class="n">mupy</span><span class="o">/</span><span class="n">breakpoints</span><span class="o">.</span><span class="n">py</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span><span class="p">()</span>
+<span class="o">-&gt;</span> <span class="kn">import</span> <span class="nn">sys</span>
+</code></pre></div>
+
+<p>As the denominator wasn't zero this time the program didn't stop at the breakpoint.</p>
+<div class="highlight"><pre><span></span><code><span class="p">(</span><span class="n">Pdb</span><span class="p">)</span> <span class="k">break</span>
+<span class="n">Num</span> <span class="n">Type</span>         <span class="n">Disp</span> <span class="n">Enb</span>   <span class="n">Where</span>
+<span class="mi">1</span>   <span class="nb">breakpoint</span>   <span class="n">keep</span> <span class="n">yes</span>   <span class="n">at</span> <span class="o">/</span><span class="n">pdb</span><span class="o">-</span><span class="n">mupy</span><span class="o">/</span><span class="n">breakpoints</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">5</span>
+    <span class="n">stop</span> <span class="n">only</span> <span class="k">if</span> <span class="n">denominator</span> <span class="o">==</span> <span class="mi">0</span>
+    <span class="nb">breakpoint</span> <span class="n">already</span> <span class="n">hit</span> <span class="mi">2</span> <span class="n">times</span>
+</code></pre></div>
+
+<p><strong>Note</strong>: Breakpoints persist even after the auto restart or forced restart(using <code>run</code>) in <code>-m pdb</code> mode.</p>
+<ul>
+<li><code>tbreak [[filename:]lineno | function[, condition]]</code>:</li>
+</ul>
+<p><code>tbreak</code> allows us to set a temporary breakpoint. This breakpoint goes away as soon as it is hit once. Can be pretty useful if you want to set a breakpoint only once, say inside a loop or for the first time a function is invoked.</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>pdb<span class="w"> </span>breakpoints.py<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="m">5</span>
+&gt;<span class="w"> </span>/pdb-mupy/breakpoints.py<span class="o">(</span><span class="m">2</span><span class="o">)</span>&lt;module&gt;<span class="o">()</span>
+-&gt;<span class="w"> </span>import<span class="w"> </span>sys
+<span class="o">(</span>Pdb<span class="o">)</span><span class="w"> </span>tbreak<span class="w"> </span>divide,<span class="w"> </span><span class="nv">denominator</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">0</span>
+Breakpoint<span class="w"> </span><span class="m">1</span><span class="w"> </span>at/pdb-mupy/breakpoints.py:5
+<span class="o">(</span>Pdb<span class="o">)</span><span class="w"> </span><span class="k">break</span>
+Num<span class="w"> </span>Type<span class="w">         </span>Disp<span class="w"> </span>Enb<span class="w">   </span>Where
+<span class="m">1</span><span class="w">   </span>breakpoint<span class="w">   </span>del<span class="w">  </span>yes<span class="w">   </span>at<span class="w"> </span>/pdb-mupy/breakpoints.py:5
+<span class="w">    </span>stop<span class="w"> </span>only<span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nv">denominator</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">0</span>
+</code></pre></div>
+
+<p>Notice the value of <code>Disp</code> this time. It is <code>del</code> instead of <code>keep</code>, means it is a temporary breakpoint.</p>
+<div class="highlight"><pre><span></span><code><span class="p">(</span><span class="n">Pdb</span><span class="p">)</span> <span class="n">c</span>
+<span class="n">Calculating</span> <span class="mf">10.0</span><span class="o">/</span><span class="mf">5.0</span>
+<span class="mf">2.0</span>
+<span class="n">The</span> <span class="n">program</span> <span class="n">finished</span> <span class="ow">and</span> <span class="n">will</span> <span class="n">be</span> <span class="n">restarted</span>
+<span class="o">&gt;</span> <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">ashwini</span><span class="o">/</span><span class="n">work</span><span class="o">/</span><span class="n">instamojo</span><span class="o">/</span><span class="n">pdb</span><span class="o">-</span><span class="n">mupy</span><span class="o">/</span><span class="n">breakpoints</span><span class="o">.</span><span class="n">py</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span><span class="p">()</span>
+<span class="o">-&gt;</span> <span class="kn">import</span> <span class="nn">sys</span>
+</code></pre></div>
+
+<p>Programs simply restarted because the breakpoint condition wasn't true, now let's make it true by restarting it with different arguments.</p>
+<div class="highlight"><pre><span></span><code><span class="p">(</span><span class="n">Pdb</span><span class="p">)</span> <span class="n">run</span> <span class="mi">10</span> <span class="mi">0</span>
+<span class="n">Restarting</span> <span class="n">breakpoints</span><span class="o">.</span><span class="n">py</span> <span class="k">with</span> <span class="n">arguments</span><span class="p">:</span>
+    <span class="mi">10</span> <span class="mi">0</span>
+<span class="o">&gt;</span> <span class="o">/</span><span class="n">pdb</span><span class="o">-</span><span class="n">mupy</span><span class="o">/</span><span class="n">breakpoints</span><span class="o">.</span><span class="n">py</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span><span class="p">()</span>
+<span class="o">-&gt;</span> <span class="kn">import</span> <span class="nn">sys</span>
+<span class="p">(</span><span class="n">Pdb</span><span class="p">)</span> <span class="n">c</span>
+<span class="n">Deleted</span> <span class="nb">breakpoint</span> <span class="mi">1</span>
+<span class="o">&gt;</span> <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">ashwini</span><span class="o">/</span><span class="n">work</span><span class="o">/</span><span class="n">instamojo</span><span class="o">/</span><span class="n">pdb</span><span class="o">-</span><span class="n">mupy</span><span class="o">/</span><span class="n">breakpoints</span><span class="o">.</span><span class="n">py</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span><span class="n">divide</span><span class="p">()</span>
+<span class="o">-&gt;</span> <span class="nb">print</span> <span class="s2">&quot;Calculating </span><span class="si">{}</span><span class="s2">/</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">numerator</span><span class="p">,</span> <span class="n">denominator</span><span class="p">)</span>
+<span class="p">(</span><span class="n">Pdb</span><span class="p">)</span> <span class="k">break</span>
+<span class="p">(</span><span class="n">Pdb</span><span class="p">)</span>
+</code></pre></div>
+
+<p>This time it did hit the breakpoint and was deleted as well.</p>
+<ul>
+<li><code>cl(ear) [filename:lineno | bpnumber [bpnumber ...]]</code>:</li>
+</ul>
+<p>We can permanently remove breakpoints using <code>cl(ear)</code> command.</p>
+<ul>
+<li><code>disable [bpnumber [bpnumber ...]]</code> or <code>enable [bpnumber [bpnumber ...]]</code>:</li>
+</ul>
+<p>To temporary disable a breakpoint use <code>disable</code> and to re-enable a breakpoint use <code>enable</code>. Unlike <code>clear</code> breakpoints are not removed permanently in this case.</p>
+<ul>
+<li><code>ignore bpnumber [count]</code>:</li>
+</ul>
+<p>We can also ignore a breakpoint count number of times using <code>ignore</code> command. Breakpoint is re-activated when the count becomes 0.</p>
+<ul>
+<li><code>condition bpnumber [condition]</code>:</li>
+</ul>
+<p>To update or add condition to a breakpoint we can use the condition command.</p>
+<p><strong>Note</strong>: If the condition is an invalid Python code then it will be evaluated as True but in case the breakpoint was a temporary one then it won't be deleted and if the breakpoint had an ignore count then it won't be decremented. This is done to notify the user that something's wrong.</p>
+<ul>
+<li><code>commands [bpnumber]</code>:</li>
+</ul>
+<p><code>commands</code> is a pretty useful command related to breakpoints. If used in a certain way then it can be equivalent to adding print statements in our code.</p>
+<p>This command allows us to run multiple commands when a breakpoint is hit.</p>
+<p>Let's add a breakpoint on <code>divide</code> function and now we will print some stuff as well using <code>commands</code>.</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>pdb<span class="w"> </span>breakpoints.py<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="m">5</span>
+&gt;<span class="w"> </span>/pdb-mupy/breakpoints.py<span class="o">(</span><span class="m">2</span><span class="o">)</span>&lt;module&gt;<span class="o">()</span>
+-&gt;<span class="w"> </span>import<span class="w"> </span>sys
+<span class="o">(</span>Pdb<span class="o">)</span><span class="w"> </span><span class="k">break</span><span class="w"> </span>divide
+Breakpoint<span class="w"> </span><span class="m">1</span><span class="w"> </span>at<span class="w"> </span>/Users/ashwini/work/instamojo/pdb-mupy/breakpoints.py:5
+</code></pre></div>
+
+<p>In commands mode the prompt is (com). To end the commands use end.</p>
+<div class="highlight"><pre><span></span><code><span class="p">(</span><span class="n">Pdb</span><span class="p">)</span> <span class="n">commands</span> <span class="mi">1</span>
+<span class="p">(</span><span class="n">com</span><span class="p">)</span> <span class="n">args</span>
+<span class="p">(</span><span class="n">com</span><span class="p">)</span> <span class="n">p</span> <span class="s2">&quot;Inside divide()&quot;</span>
+<span class="p">(</span><span class="n">com</span><span class="p">)</span> <span class="n">end</span>
+<span class="p">(</span><span class="n">Pdb</span><span class="p">)</span> <span class="n">c</span>
+<span class="n">numerator</span> <span class="o">=</span> <span class="mf">10.0</span>
+<span class="n">denominator</span> <span class="o">=</span> <span class="mf">5.0</span>
+<span class="s1">&#39;Inside divide()&#39;</span>
+<span class="o">&gt;</span> <span class="o">/</span><span class="n">pdb</span><span class="o">-</span><span class="n">mupy</span><span class="o">/</span><span class="n">breakpoints</span><span class="o">.</span><span class="n">py</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span><span class="n">divide</span><span class="p">()</span>
+<span class="o">-&gt;</span> <span class="nb">print</span> <span class="s2">&quot;Calculating </span><span class="si">{}</span><span class="s2">/</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">numerator</span><span class="p">,</span> <span class="n">denominator</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Now as you can see our program printed few things on hitting the breakpoint.</p>
+<p>We can also use commands like <code>cont</code>, <code>next</code> etc. But these commands will also act as <code>end</code> because these commands can lead us to next breakpoint which may have its own set of commands and then debugger will be confused about whose commands to run next.</p>
+<p>Another commands is silent, when this command is part of commands list then you won't see the message we get at a breakpoint.</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>pdb<span class="w"> </span>breakpoints.py<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="m">5</span>
+&gt;<span class="w"> </span>/pdb-mupy/breakpoints.py<span class="o">(</span><span class="m">2</span><span class="o">)</span>&lt;module&gt;<span class="o">()</span>
+-&gt;<span class="w"> </span>import<span class="w"> </span>sys
+<span class="o">(</span>Pdb<span class="o">)</span><span class="w"> </span><span class="k">break</span><span class="w"> </span>divide
+Breakpoint<span class="w"> </span><span class="m">1</span><span class="w"> </span>at<span class="w"> </span>/pdb-mupy/breakpoints.py:5
+<span class="o">(</span>Pdb<span class="o">)</span><span class="w"> </span>commands<span class="w"> </span><span class="m">1</span>
+<span class="o">(</span>com<span class="o">)</span><span class="w"> </span>args
+<span class="o">(</span>com<span class="o">)</span><span class="w"> </span>p<span class="w"> </span><span class="s2">&quot;Inside divide()&quot;</span>
+<span class="o">(</span>com<span class="o">)</span><span class="w"> </span>silent
+<span class="o">(</span>com<span class="o">)</span><span class="w"> </span>cont
+<span class="o">(</span>Pdb<span class="o">)</span><span class="w"> </span>c
+<span class="nv">numerator</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span>.0
+<span class="nv">denominator</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span>.0
+<span class="s1">&#39;Inside divide()&#39;</span>
+Calculating<span class="w"> </span><span class="m">10</span>.0/5.0
+<span class="m">2</span>.0
+The<span class="w"> </span>program<span class="w"> </span>finished<span class="w"> </span>and<span class="w"> </span>will<span class="w"> </span>be<span class="w"> </span>restarted
+&gt;<span class="w"> </span>/pdb-mupy/breakpoints.py<span class="o">(</span><span class="m">2</span><span class="o">)</span>&lt;module&gt;<span class="o">()</span>
+-&gt;<span class="w"> </span>import<span class="w"> </span>sys
+<span class="o">(</span>Pdb<span class="o">)</span>
+</code></pre></div>
+
+<p>As you can see above the program didn't stop at the breakpoint this time due to <code>cont</code> command and we didn't see the lines(shown below) related to breakpoint either due to <code>silent</code> command:</p>
+<div class="highlight"><pre><span></span><code><span class="o">&gt;</span> <span class="o">/</span><span class="n">pdb</span><span class="o">-</span><span class="n">mupy</span><span class="o">/</span><span class="n">breakpoints</span><span class="o">.</span><span class="n">py</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span><span class="n">divide</span><span class="p">()</span>
+<span class="o">-&gt;</span> <span class="nb">print</span> <span class="s2">&quot;Calculating </span><span class="si">{}</span><span class="s2">/</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">numerator</span><span class="p">,</span> <span class="n">denominator</span><span class="p">)</span>
+</code></pre></div>
+
+<h3>Tips and tricks</h3>
+<ul>
+<li>
+<p><code>.pdbrc</code> file: If present the commands present in this file are ran at the start of debugger session. This file can be added to your home directory and/or current directory.</p>
+</li>
+<li>
+<p>Plain enter repeats the last command(list command is an exception).</p>
+</li>
+<li>
+<p>To enter multiple commands on a single line use <code>;;</code> as separator.</p>
+</li>
+</ul>
+<h3>What's new in Python 3</h3>
+<h4>Python 3.3+</h4>
+<ul>
+<li>Tab-completion via the <code>readline</code> module is available for commands and command arguments.</li>
+</ul>
+<h4>Python 3.2+</h4>
+<ul>
+<li>
+<p><code>pdb.py</code> now accepts a <code>-c</code> option that executes commands as if given in a <code>`.pdbrc file</code></p>
+</li>
+<li>
+<p>A new command <code>ll</code> can be used to see the source related to the current function or frame.</p>
+</li>
+<li>
+<p>A new command <code>source</code> can be used to see the source code of an expression: <code>source expression</code>.</p>
+</li>
+<li>
+<p>A new command <code>interact</code> can be used to start interactive shell in debugger using the <code>globals()</code> and <code>locals()</code> in the current frame. This can be done in Python 2 using <code>!import code; code.interact(local=vars())</code>.</p>
+</li>
+</ul>
+        </div>
+
+        <div class="meta">
+            <div>
+                    <a href="/tag/python.html" class="tag">python</a>
+                    <a href="/tag/programming.html" class="tag">programming</a>
+            </div>
+        </div>
+    </article>
+
+
+</div>
+
+<style type="text/css">
+{
+    max-width: 700px;
+}
+
+.text_cell .prompt {
+    display: none;
+}
+
+div.cell {
+    padding: 0;
+}
+
+div.text_cell_render {
+    padding: 0;
+}
+
+div.prompt {
+    font-size: 13px;
+}
+
+div.input_prompt {
+    padding: .7em 0.2em;
+}
+
+div.output_prompt {
+    padding: .4em .2em;
+}
+
+div.input_area {
+    margin: .2em 0.4em;
+    max-width: 580px;
+}
+
+table.dataframe {
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    line-height: 20px;
+}
+
+table.dataframe th, td {
+    padding: 4px;
+    text-align: left;
+}
+
+pre code {
+    background-color: inherit;
+}</style>
+
+        </div>
+<!--
+    <footer>
+      <p>
+        © 2012-2017 Ashwini Chaudhary(Monty), license <a href="https://github.com/ashwch/ashwch.github.io/blob/master/LICENSE"> </a>
+        unless otherwise noted.
+        Generated by <a href= "http://docs.getpelican.com/">Pelican</a>.
+      </p>
+    </footer>
+-->
+    </body>
+</html>
