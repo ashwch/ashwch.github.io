@@ -2,7 +2,7 @@ Title: Become a pdb power-user
 Date: 2016-11-08
 Modified: 2023-11-26
 Category: Programming
-Tags: python, programming
+Tags: python, programming, debugging, pdb, ipdb
 Slug: become-a-pdb-power-user
 Authors: Ashwini Chaudhary
 Summary: Become a pdb power-user
