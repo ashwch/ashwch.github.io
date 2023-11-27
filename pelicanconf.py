@@ -23,7 +23,7 @@ TWITTER_USERNAME = 'suicide_chewie'
 GITHUB_USERNAME = 'ashwch'
 STACKOVERFLOW_ADDRESS = 'https://stackoverflow.com/users/846892/ashwini-chaudhary'
 AUTHOR_WEBSITE = 'http://ashwch.com'
-AUTHOR_BLOG = 'http://ashwch.github.io'
+AUTHOR_BLOG = 'http://ashwch.com'
 
 DEFAULT_PAGINATION = 5
 ABOUT_PAGE = '/pages/about.html'
