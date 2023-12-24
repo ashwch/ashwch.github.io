@@ -407,6 +407,50 @@ article .meta a.comments_btn:hover {
 
   <article>
     <header>
+      <h2><a href="/terminal-setup-using-zsh-prezto-starship.md.html">Terminal setup using ZSH, Prezto and Starship on MacOS</a></h2>
+      <time datetime="" title="2023-12-23T00:00:00-05:00" pubdate>Sat 23 December 2023</time>
+    </header>
+
+    <div class="article_content">
+      <h1>ZSH installation</h1>
+<p>Starting with Catalina the default shell was changed to zsh. You can verify your current shell using:</p>
+<div class="highlight"><pre><span></span><code>&#10140;<span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="nv">$SHELL</span>
+/bin/zsh
+</code></pre></div>
+
+<p>If it's not <code>zsh</code> for you, you can install it using <a href="https://brew.sh/">Homebrew</a></p>
+<div class="highlight"><pre><span></span><code>brew<span class="w"> </span>install<span class="w"> </span>zsh
+</code></pre></div>
+
+<p>Once installed we need to make <code>zsh</code> the default shell using:</p>
+<div class="highlight"><pre><span></span><code>chsh<span class="w"> </span>-s<span class="w"> </span>/bin/zsh
+</code></pre></div>
+
+<h1>Prezto installation</h1>
+<p><a href="https://github.com/sorin-ionescu/prezto">Prezto</a> is a configuration framework for <code>zsh</code>. Another well known alternative is <a href="https://ohmyz.sh/">Oh My Zsh</a>.</p>
+<p>I was using Oh My Zsh previously but it had performance issues and switching to Prezto has helped with the performance issues. Oh My Zsh has a much bigger community and receives regular updates and is bit more beginner friendly.</p>
+<p>Before installing make sure to make a back of your <code>.zshrc</code> file if you had one already &#8230;<a class="read-more" href="/terminal-setup-using-zsh-prezto-starship.md.html"><span></span></a></p>
+    </div>
+
+    <div class="meta">
+      <div>
+        <a href="/terminal-setup-using-zsh-prezto-starship.md.html" class="read_more">Read more &#8594;</a>
+      </div>
+
+      <div>
+            <a href="/tag/terminal.html" class="tag">terminal</a>
+            <a href="/tag/setup.html" class="tag">setup</a>
+            <a href="/tag/prezto.html" class="tag">prezto</a>
+            <a href="/tag/starship.html" class="tag">starship</a>
+            <a href="/tag/zsh.html" class="tag">zsh</a>
+      </div>
+
+    </div>
+
+  </article>
+  <div class="separator"></div>
+  <article>
+    <header>
       <h2><a href="/become-a-pdb-power-user.html">Become a pdb power-user</a></h2>
       <time datetime="" title="2016-11-08T00:00:00-05:00" pubdate>Tue 08 November 2016</time>
     </header>
