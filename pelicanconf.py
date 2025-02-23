@@ -1,12 +1,12 @@
-AUTHOR = 'Ashwini Chaudhary(Monty)'
-SITENAME = 'Ashwini\'s blog'
+AUTHOR = "Ashwini Chaudhary(Monty)"
+SITENAME = "Ashwini's blog"
 SITEURL = ""
 
 PATH = "content"
 
-TIMEZONE = 'America/Toronto'
+TIMEZONE = "America/Toronto"
 
-DEFAULT_LANG = 'en'
+DEFAULT_LANG = "en"
 
 # Feed generation is usually not desired when developing
 FEED_ALL_ATOM = None
@@ -19,26 +19,27 @@ GITHUB_URL = "http://github.com/ashwch/"
 DISPLAY_PAGES_ON_MENU = True
 
 
-TWITTER_USERNAME = 'suicide_chewie'
-GITHUB_USERNAME = 'ashwch'
-STACKOVERFLOW_ADDRESS = 'https://stackoverflow.com/users/846892/ashwini-chaudhary'
-AUTHOR_WEBSITE = 'http://ashwch.com'
-AUTHOR_BLOG = 'http://ashwch.com'
+TWITTER_USERNAME = "suicide_chewie"
+GITHUB_USERNAME = "ashwch"
+STACKOVERFLOW_ADDRESS = "https://stackoverflow.com/users/846892/ashwini-chaudhary"
+AUTHOR_WEBSITE = "http://ashwch.com"
+AUTHOR_BLOG = "http://ashwch.com"
+LINKEDIN_ADDRESS = "https://www.linkedin.com/in/ashwch/"
 
 DEFAULT_PAGINATION = 5
-ABOUT_PAGE = '/pages/about.html'
+ABOUT_PAGE = "/pages/about.html"
 
 # Uncomment following line if you want document-relative URLs when developing
 # RELATIVE_URLS = True
 
 # THEME = 'themes/pelican-haerwu-theme'
-OUTPUT_PATH = 'output'
-PATH = 'content'
+OUTPUT_PATH = "output"
+PATH = "content"
 
 
 # Conf related to https://github.com/pelican-plugins/read-more
 SUMMARY_MAX_LENGTH = 127
-READ_MORE_LINK = '<span></span>'
+READ_MORE_LINK = "<span></span>"
 
 
 # Footer info
