@@ -15,6 +15,7 @@
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" href="/theme/css/icons.css"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
         <style>.highlight .hll { background-color: #ffffcc }
 .highlight .c { color: #60a0b0; font-style: italic } /* Comment */
 .highlight .err { border: 1px solid #FF0000 } /* Error */
@@ -375,7 +376,115 @@ article .meta a.comments_btn:hover {
 .col-lg-12 {
   padding-right: 0px;
   padding-left: 0px;
-}</style>
+}
+
+.col-xs-1, .col-sm-1, .col-md-1, .col-lg-1,
+.col-xs-2, .col-sm-2, .col-md-2, .col-lg-2,
+.col-xs-3, .col-sm-3, .col-md-3, .col-lg-3,
+.col-xs-4, .col-sm-4, .col-md-4, .col-lg-4,
+.col-xs-5, .col-sm-5, .col-md-5, .col-lg-5,
+.col-xs-6, .col-sm-6, .col-md-6, .col-lg-6,
+.col-xs-7, .col-sm-7, .col-md-7, .col-lg-7,
+.col-xs-8, .col-sm-8, .col-md-8, .col-lg-8,
+.col-xs-9, .col-sm-9, .col-md-9, .col-lg-9,
+.col-xs-10, .col-sm-10, .col-md-10, .col-lg-10,
+.col-xs-11, .col-sm-11, .col-md-11, .col-lg-11,
+.col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.sidebar {
+  padding: 15px;
+  background: #f8f9fa;
+  border-left: 1px solid #e9ecef;
+  margin-top: 0;
+  height: 100%;
+  position: sticky;
+  top: 20px;
+  position: sticky;
+}
+
+.sidebar h3 {
+  margin-top: 0;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.sidebar ul li {
+  margin-bottom: 10px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+.sidebar small {
+  display: block;
+  color: #999;
+  font-size: 12px;
+}
+
+/* Social Share Buttons */
+.social-share {
+  margin: 30px 0;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+.social-share h4 {
+  margin-bottom: 15px;
+  font-size: 18px;
+}
+
+ul.share-buttons {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+ul.share-buttons li a {
+  display: block;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  border-radius: 50%;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+ul.share-buttons li a:hover {
+  opacity: 0.8;
+  transform: translateY(-3px);
+}
+
+ul.share-buttons li a i.fab {
+  font-size: 20px;
+}
+
+/* Individual icon backgrounds */
+ul.share-buttons li a .fa-twitter {
+  background-color: #1DA1F2;
+}
+
+ul.share-buttons li a .fa-facebook-f {
+  background-color: #3B5998;
+}
+
+ul.share-buttons li a .fa-linkedin-in {
+  background-color: #0077B5;
+}
+
+ul.share-buttons li a .fa-reddit-alien {
+  background-color: #FF4500;
+}
+
+ul.share-buttons li a .fa-hacker-news {
+  background-color: #FF6600;
+}
+
+/* End of Social Share Buttons */</style>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -587,6 +696,42 @@ lazy_load<span class="w"> </span>load_virtualenv<span class="w"> </span>load_nvm
         </div>
     </article>
 
+
+  <div class="social-share">
+  <h4>Share this article</h4>
+  <ul class="share-buttons">
+    <li>
+      <a href="https://twitter.com/intent/tweet?text=Terminal%20setup%20using%20ZSH%2C%20Prezto%20and%20Starship%20on%20MacOS&url=/terminal-setup-using-zsh-prezto-starship.md.html" 
+         target="_blank" title="Share on X">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a href="https://www.facebook.com/sharer/sharer.php?u=/terminal-setup-using-zsh-prezto-starship.md.html&quote=Terminal%20setup%20using%20ZSH%2C%20Prezto%20and%20Starship%20on%20MacOS" 
+         target="_blank" title="Share on Facebook">
+        <i class="fab fa-facebook-f"></i>
+      </a>
+    </li>
+    <li>
+      <a href="https://www.linkedin.com/shareArticle?mini=true&url=/terminal-setup-using-zsh-prezto-starship.md.html&title=Terminal%20setup%20using%20ZSH%2C%20Prezto%20and%20Starship%20on%20MacOS" 
+         target="_blank" title="Share on LinkedIn">
+        <i class="fab fa-linkedin-in"></i>
+      </a>
+    </li>
+    <li>
+      <a href="https://www.reddit.com/submit?url=/terminal-setup-using-zsh-prezto-starship.md.html&title=Terminal%20setup%20using%20ZSH%2C%20Prezto%20and%20Starship%20on%20MacOS" 
+         target="_blank" title="Share on Reddit">
+        <i class="fab fa-reddit-alien"></i>
+      </a>
+    </li>
+    <li>
+      <a href="https://news.ycombinator.com/submitlink?u=/terminal-setup-using-zsh-prezto-starship.md.html&t=Terminal%20setup%20using%20ZSH%2C%20Prezto%20and%20Starship%20on%20MacOS" 
+         target="_blank" title="Share on Hacker News">
+        <i class="fab fa-hacker-news"></i>
+      </a>
+    </li>
+  </ul>
+</div>
 
 </div>
 
