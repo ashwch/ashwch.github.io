@@ -34,42 +34,6 @@
 
   {% include '_includes/disqus_thread.html' %}
 
-  <div class="social-share">
-  <h4>Share this article</h4>
-  <ul class="share-buttons">
-    <li>
-      <a href="https://twitter.com/intent/tweet?text={{ article.title|urlencode }}&url={{ SITEURL }}/{{ article.url|urlencode }}" 
-         target="_blank" title="Share on X">
-        <i class="fab fa-twitter"></i>
-      </a>
-    </li>
-    <li>
-      <a href="https://www.facebook.com/sharer/sharer.php?u={{ SITEURL }}/{{ article.url|urlencode }}&quote={{ article.title|urlencode }}" 
-         target="_blank" title="Share on Facebook">
-        <i class="fab fa-facebook-f"></i>
-      </a>
-    </li>
-    <li>
-      <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ SITEURL }}/{{ article.url|urlencode }}&title={{ article.title|urlencode }}" 
-         target="_blank" title="Share on LinkedIn">
-        <i class="fab fa-linkedin-in"></i>
-      </a>
-    </li>
-    <li>
-      <a href="https://www.reddit.com/submit?url={{ SITEURL }}/{{ article.url|urlencode }}&title={{ article.title|urlencode }}" 
-         target="_blank" title="Share on Reddit">
-        <i class="fab fa-reddit-alien"></i>
-      </a>
-    </li>
-    <li>
-      <a href="https://news.ycombinator.com/submitlink?u={{ SITEURL }}/{{ article.url|urlencode }}&t={{ article.title|urlencode }}" 
-         target="_blank" title="Share on Hacker News">
-        <i class="fab fa-hacker-news"></i>
-      </a>
-    </li>
-  </ul>
-</div>
-
 </div>
 
 <style type="text/css">
