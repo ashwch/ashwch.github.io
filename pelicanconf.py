@@ -32,6 +32,7 @@ LINKEDIN_ADDRESS = "https://www.linkedin.com/in/ashwch/"
 
 DEFAULT_PAGINATION = 5
 ABOUT_PAGE = "/pages/about.html"
+SHOW_ARCHIVES = True
 
 # Uncomment following line if you want document-relative URLs when developing
 # RELATIVE_URLS = True

@@ -4,9 +4,9 @@
 
 {% block content %}
 <div class="container">
-  <div class="row">
-    <!-- Main content -->
-    <div class="col-md-8">
+  <div class="row justify-content-center">
+    <!-- Centered main content -->
+    <div class="col-md-8 col-md-offset-2">
       <div class="index">
         {% for article in articles_page.object_list %}
         <article>
@@ -46,23 +46,6 @@
             {% endif %}
           </div>
         </nav>
-      </div>
-    </div>
-    
-    <!-- Sidebar -->
-    <div class="col-md-4">
-      <div class="sidebar">
-        <h3>All Articles</h3>
-        <ul class="list-unstyled">
-          {% for article in articles %}
-            <li>
-              <a href="{{ SITEURL }}/{{ article.url }}">
-                {{ article.title }}
-              </a>
-              <small>{{ article.date|strftime('%Y-%m-%d') }}</small>
-            </li>
-          {% endfor %}
-        </ul>
       </div>
     </div>
   </div>
