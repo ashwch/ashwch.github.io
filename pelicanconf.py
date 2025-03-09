@@ -1,3 +1,7 @@
+import datetime
+
+CURRENT_YEAR = datetime.datetime.now().year
+
 AUTHOR = "Ashwini Chaudhary(Monty)"
 SITENAME = "Ashwini's blog"
 SITEURL = ""
@@ -44,4 +48,6 @@ READ_MORE_LINK = "<span></span>"
 
 # Footer info
 LICENSE_URL = "https://github.com/ashwch/ashwch.github.io/blob/master/LICENSE"
-LICENSE = "MIT"
+LICENSE_NAME = "MIT"
+
+CURRENT_YEAR = datetime.datetime.now().year

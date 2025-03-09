@@ -343,3 +343,43 @@ article .meta a.comments_btn:hover {
   color: #999;
   font-size: 12px;
 }
+
+
+/* Footer styling */
+html, body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+#wrap {
+  flex: 1 0 auto;
+}
+
+.site-footer {
+  flex-shrink: 0;
+  padding: 20px 0;
+  margin-top: 30px;
+  background-color: #f8f9fa;
+  border-top: 1px solid #e9ecef;
+  text-align: center;
+  font-size: 14px;
+  color: #6c757d;
+}
+
+.site-footer p {
+  margin: 0;
+}
+
+.site-footer a {
+  color: #495057;
+  text-decoration: none;
+}
+
+.site-footer a:hover {
+  text-decoration: underline;
+}
