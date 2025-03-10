@@ -26,21 +26,21 @@
         </div>
 
         <div class="article-meta">
-          <div class="d-flex justify-content-between align-items-center flex-wrap">
-            <div>
-              {% if article.tags %}
-                <h5>Tags:</h5>
-                <div class="d-flex flex-wrap gap-2 mt-2">
-                  {% for tag in article.tags %}
-                    <a href="{{ SITEURL }}/{{ tag.url }}" class="tag">{{ tag }}</a>
-                  {% endfor %}
-                </div>
-              {% endif %}
+          {% if article.tags %}
+            <div class="tags-section">
+              <h5>Tags:</h5>
+              <div class="tags-container">
+                {% for tag in article.tags %}
+                  <a href="{{ SITEURL }}/{{ tag.url }}" class="tag">{{ tag }}</a>
+                {% endfor %}
+              </div>
             </div>
-            
-            <div class="mt-3 mt-md-0">
-              <a href="{{ SITEURL }}" class="btn btn-outline-primary">← Back to Posts</a>
-            </div>
+          {% endif %}
+          
+          <div class="back-button-container">
+            <a href="{{ SITEURL }}" class="back-to-posts">
+              <i class="fa fa-arrow-left"></i> Back to Posts
+            </a>
           </div>
         </div>
       </article>

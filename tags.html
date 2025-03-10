@@ -1,57 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-        <meta charset="utf-8" />
-        <title>Ashwini's blog - Tags</title>
-        <link rel="stylesheet" href="/theme/css/main.css" />
+{% extends "base.html" %}
+{% block title %}Tag: {{ tag }}{% endblock %}
+{% block headerimg %}{{ DEFAUT_HEADER_BG }}{% endblock %}
 
-        <!--[if IE]>
-            <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-        <![endif]-->
-</head>
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 mx-auto">
+      <article class="tag-page">
+        <header class="mb-5">
+          <h1>Tag: <span class="tag-highlight">{{ tag }}</span></h1>
+        </header>
 
-<body id="index" class="home">
-        <header id="banner" class="body">
-                <h1><a href="/">Ashwini's blog </a></h1>
-                <nav><ul>
-                    <li><a href="/category/python.html">Python</a></li>
-                </ul></nav>
-        </header><!-- /#banner -->
+        <!-- Tags Section with clear separation -->
+        <div class="tags-section">
+          <h5>All Tags:</h5>
+          <div class="tags-container">
+            {% for all_tag, articles_list in tags %}
+              <a href="{{ SITEURL }}/{{ all_tag.url }}" class="tag {% if all_tag == tag %}active{% endif %}">{{ all_tag }}</a>
+            {% endfor %}
+          </div>
+        </div>
+        
+        <!-- Clearly separated back button -->
+        <div class="back-button-container">
+          <a href="{{ SITEURL }}" class="back-to-posts">
+            <i class="fa fa-arrow-left"></i> Back to Posts
+          </a>
+        </div>
 
-<section id="content" class="body">
-    <h1>Tags for Ashwini's blog</h1>
-    <ul>
-        <li><a href="/tag/programming.html">Programming</a> (1)</li>
-    </ul>
-</section>
-
-        <section id="extras" class="body">
-                <div class="blogroll">
-                        <h2>blogroll</h2>
-                        <ul>
-                            <li><a href="http://getpelican.com/">Pelican</a></li>
-                            <li><a href="http://python.org/">Python.org</a></li>
-                            <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
-                            <li><a href="#">You can modify those links in your config file</a></li>
-                        </ul>
-                </div><!-- /.blogroll -->
-                <div class="social">
-                        <h2>social</h2>
-                        <ul>
-
-                            <li><a href="#">You can add links in your config file</a></li>
-                            <li><a href="#">Another social link</a></li>
-                        </ul>
-                </div><!-- /.social -->
-        </section><!-- /#extras -->
-
-        <footer id="contentinfo" class="body">
-                <address id="about" class="vcard body">
-                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
-                </address><!-- /#about -->
-
-                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
-        </footer><!-- /#contentinfo -->
-
-</body>
-</html>
+        <div class="tag-content">
+          <ul class="archives-list">
+            {% for article in articles %}
+              <li class="d-flex justify-content-between align-items-center">
+                <h3><a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a></h3>
+                <time>{{ article.date.strftime('%d.%m.%Y') }}</time>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </article>
+    </div>
+  </div>
+</div>
+{% endblock %}

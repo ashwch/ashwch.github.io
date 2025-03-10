@@ -11,12 +11,21 @@
           <h1>Archives and Tags</h1>
           
           {% if tags %}
-          <div class="tags-cloud mt-4">
-            {% for tag, articles in tags %}
-              <a href="{{ SITEURL }}/{{ tag.url }}" class="tag">{{ tag }} ({{ articles | length }})</a>
-            {% endfor %}
+          <div class="tags-section">
+            <h5>All Tags:</h5>
+            <div class="tags-container">
+              {% for tag, articles in tags %}
+                <a href="{{ SITEURL }}/{{ tag.url }}" class="tag">{{ tag }} ({{ articles | length }})</a>
+              {% endfor %}
+            </div>
           </div>
           {% endif %}
+          
+          <div class="back-button-container">
+            <a href="{{ SITEURL }}" class="back-to-posts">
+              <i class="fa fa-arrow-left"></i> Back to Posts
+            </a>
+          </div>
         </header>
 
         <div class="archives-content">
