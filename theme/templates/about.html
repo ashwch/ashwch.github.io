@@ -13,31 +13,45 @@
           <div class="social-links mt-4">
             <ul>
               {% if AUTHOR_WEBSITE %}
-              <li><a href="{{ AUTHOR_WEBSITE }}" rel="me" class="btn btn-sm btn-outline-secondary">Website</a></li>
+              <li><a href="{{ AUTHOR_WEBSITE }}" rel="me" class="btn btn-sm btn-outline-secondary">
+                <i class="fas fa-globe"></i> Website
+              </a></li>
               {% endif %}
               
               {% if AUTHOR_BLOG %}
-              <li><a href="{{ AUTHOR_BLOG }}" rel="me" class="btn btn-sm btn-outline-secondary">Blog</a></li>
+              <li><a href="{{ AUTHOR_BLOG }}" rel="me" class="btn btn-sm btn-outline-secondary">
+                <i class="fas fa-blog"></i> Blog
+              </a></li>
               {% endif %}
               
               {% if AUTHOR_CV %}
-              <li><a href="{{ AUTHOR_CV }}" rel="me" class="btn btn-sm btn-outline-secondary">CV</a></li>
+              <li><a href="{{ AUTHOR_CV }}" rel="me" class="btn btn-sm btn-outline-secondary">
+                <i class="fas fa-file-alt"></i> CV
+              </a></li>
               {% endif %}
               
               {% if TWITTER_USERNAME %}
-              <li><a class="btn btn-sm btn-outline-secondary icon-twitter" href="http://twitter.com/{{ TWITTER_USERNAME }}" rel="me"> Twitter</a></li>
+              <li><a class="btn btn-sm btn-outline-secondary" href="http://twitter.com/{{ TWITTER_USERNAME }}" rel="me">
+                <i class="fab fa-twitter"></i> Twitter
+              </a></li>
               {% endif %}
               
               {% if GITHUB_USERNAME %}
-              <li><a class="btn btn-sm btn-outline-secondary icon-github" href="http://github.com/{{ GITHUB_USERNAME }}" rel="me"> GitHub</a></li>
+              <li><a class="btn btn-sm btn-outline-secondary" href="http://github.com/{{ GITHUB_USERNAME }}" rel="me">
+                <i class="fab fa-github"></i> GitHub
+              </a></li>
               {% endif %}
               
               {% if STACKOVERFLOW_ADDRESS %}
-              <li><a class="btn btn-sm btn-outline-secondary icon-stackoverflow" href="{{ STACKOVERFLOW_ADDRESS }}" rel="me"> Stack Overflow</a></li>
+              <li><a class="btn btn-sm btn-outline-secondary" href="{{ STACKOVERFLOW_ADDRESS }}" rel="me">
+                <i class="fab fa-stack-overflow"></i> Stack Overflow
+              </a></li>
               {% endif %}
               
               {% if LINKEDIN_ADDRESS %}
-              <li><a class="btn btn-sm btn-outline-secondary icon-linkedin" href="{{ LINKEDIN_ADDRESS }}" rel="me"> LinkedIn</a></li>
+              <li><a class="btn btn-sm btn-outline-secondary" href="{{ LINKEDIN_ADDRESS }}" rel="me">
+                <i class="fab fa-linkedin-in"></i> LinkedIn
+              </a></li>
               {% endif %}
             </ul>
           </div>
