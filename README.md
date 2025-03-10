@@ -19,9 +19,9 @@ A clean, responsive, and modern blog built with Pelican, featuring dark mode sup
 
 ### Prerequisites
 
-- Python 3.6 or higher
+- Python 3.8 or higher
+- uv (modern Python package manager)
 - Pelican 4.5 or higher
-- pip (Python package manager)
 
 ### Installation
 
@@ -31,14 +31,36 @@ A clean, responsive, and modern blog built with Pelican, featuring dark mode sup
    cd ashwch.github.io-source
    ```
 
-2. Install required Python packages:
+2. Install uv if you don't have it already:
    ```bash
-   pip install -r requirements.txt
+   curl -sSf https://install.python-poetry.org | python3 -
+   pipx install uv
    ```
 
-   If you don't have a requirements.txt, install these packages:
+   Or with Homebrew on macOS:
    ```bash
-   pip install pelican markdown ghp-import pelican-livereload
+   brew install uv
+   ```
+
+3. Set up a virtual environment and install required packages:
+   ```bash
+   # Create and activate a virtual environment
+   uv venv
+   
+   # Activate the environment (Linux/macOS)
+   source .venv/bin/activate
+   
+   # Activate the environment (Windows)
+   # .venv\Scripts\activate
+   ```
+
+4. Install required Python packages:
+   ```bash
+   # If you have a requirements.txt
+   uv pip install -r requirements.txt
+   
+   # Or install the packages directly
+   uv pip install pelican markdown ghp-import "pelican-livereload>=0.1"
    ```
 
 ### Local Development
@@ -145,6 +167,31 @@ This will generate the static site in the `output/` directory, which you can the
     └── templates/         # HTML templates
 ```
 
+## Using PEP 723 with uv
+
+For simple scripts, you can use PEP 723 to specify dependencies inline within the script itself:
+
+```python
+# /// script
+# requires-python = ">=3.8"
+# dependencies = [
+#   "pelican",
+#   "markdown",
+#   "ghp-import",
+# ]
+# ///
+
+# Your script code here
+```
+
+Then run it using:
+
+```bash
+uv run your_script.py
+```
+
+This is particularly useful for auxiliary scripts or one-off tools used with your blog.
+
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
@@ -154,3 +201,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - Pelican - The static site generator
 - Bootstrap 5 - For the responsive design
 - Inter & Merriweather - Beautiful web fonts
+- uv - Modern Python package manager

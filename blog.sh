@@ -1,12 +1,13 @@
 #!/bin/bash
 
-# blog.sh - A script to manage your Pelican blog
+# blog.sh - A script to manage your Pelican blog with uv package manager
 # Usage: ./blog.sh [command]
 # Commands:
 #   serve    - Build and serve the blog locally
 #   build    - Just build the blog
 #   deploy   - Deploy to GitHub Pages
 #   clean    - Clean output directory
+#   setup    - Set up virtual environment and install dependencies
 #   help     - Show this help message
 
 # Colors for output
@@ -21,6 +22,8 @@ OUTPUT_DIR="output"
 GITHUB_PAGES_BRANCH="gh-pages"
 PELICAN_CONFIG="pelicanconf.py"
 PUBLISH_CONFIG="publishconf.py"
+VENV_DIR=".venv"
+REQUIREMENTS="pelican markdown ghp-import pelican-livereload"
 
 # Function to print colorful headers
 print_header() {
@@ -39,17 +42,83 @@ print_warning() {
     echo -e "${YELLOW}WARNING: $1${NC}"
 }
 
+# Check if uv is installed
+check_uv() {
+    if ! command -v uv &> /dev/null; then
+        print_error "uv is not installed. Please install it with 'pipx install uv' or 'brew install uv'."
+        echo "Visit https://github.com/astral-sh/uv for installation instructions."
+        exit 1
+    fi
+}
+
 # Check if Pelican is installed
 check_pelican() {
     if ! command -v pelican &> /dev/null; then
-        print_error "Pelican is not installed. Please install it with 'pip install pelican'."
+        print_error "Pelican is not installed in your environment."
+        echo "Run './blog.sh setup' to create a virtual environment and install dependencies."
         exit 1
     fi
+}
+
+# Check if virtual environment exists and activate it
+check_venv() {
+    if [ ! -d "$VENV_DIR" ]; then
+        print_warning "Virtual environment not found."
+        read -p "Would you like to create one now? (y/n) " -n 1 -r
+        echo
+        if [[ $REPLY =~ ^[Yy]$ ]]; then
+            setup_environment
+        else
+            print_error "Cannot continue without a virtual environment."
+            exit 1
+        fi
+    else
+        # Activate the virtual environment
+        if [ -f "$VENV_DIR/bin/activate" ]; then
+            source "$VENV_DIR/bin/activate"
+        elif [ -f "$VENV_DIR/Scripts/activate" ]; then
+            source "$VENV_DIR/Scripts/activate"
+        else
+            print_error "Virtual environment exists but activate script not found."
+            exit 1
+        fi
+    fi
+}
+
+# Setup environment with uv
+setup_environment() {
+    print_header "Setting up virtual environment with uv..."
+    check_uv
+    
+    # Create virtual environment
+    uv venv "$VENV_DIR"
+    
+    # Activate the virtual environment
+    if [ -f "$VENV_DIR/bin/activate" ]; then
+        source "$VENV_DIR/bin/activate"
+    elif [ -f "$VENV_DIR/Scripts/activate" ]; then
+        source "$VENV_DIR/Scripts/activate"
+    else
+        print_error "Failed to create virtual environment."
+        exit 1
+    fi
+    
+    # Install dependencies
+    print_header "Installing dependencies with uv..."
+    if [ -f "requirements.txt" ]; then
+        uv pip install -r requirements.txt
+    else
+        uv pip install $REQUIREMENTS
+    fi
+    
+    echo -e "${GREEN}✓ Environment setup complete!${NC}"
+    echo "You can now run './blog.sh serve' to start the development server."
 }
 
 # Build the blog
 build() {
     print_header "Building blog with Pelican..."
+    check_venv
     check_pelican
     
     if [ "$1" == "production" ]; then
@@ -77,6 +146,7 @@ clean() {
 # Serve the blog locally
 serve() {
     print_header "Serving blog locally..."
+    check_venv
     check_pelican
     
     # Check if port is provided
@@ -94,6 +164,7 @@ serve() {
 # Live reload server (with automatic rebuild)
 livereload() {
     print_header "Starting live reload server..."
+    check_venv
     check_pelican
     
     # Check if port is provided
@@ -101,7 +172,7 @@ livereload() {
     
     if ! command -v pelican-livereload &> /dev/null; then
         print_warning "pelican-livereload not found. Installing it..."
-        pip install pelican-livereload
+        uv pip install pelican-livereload
     fi
     
     echo -e "Starting live reload server on http://localhost:${PORT}"
@@ -114,11 +185,12 @@ livereload() {
 # Deploy to GitHub Pages
 deploy() {
     print_header "Deploying blog to GitHub Pages..."
+    check_venv
     
     # Check if ghp-import is installed
     if ! command -v ghp-import &> /dev/null; then
-        print_error "ghp-import is not installed. Please install it with 'pip install ghp-import'."
-        exit 1
+        print_warning "ghp-import not found. Installing it..."
+        uv pip install ghp-import
     fi
     
     # Build for production
@@ -144,11 +216,12 @@ deploy() {
 
 # Show help
 show_help() {
-    echo "Blog Management Script"
+    echo "Blog Management Script (using uv)"
     echo
     echo "Usage: ./blog.sh [command] [options]"
     echo
     echo "Commands:"
+    echo "  setup              - Set up virtual environment and install dependencies"
     echo "  serve [port]       - Build and serve the blog locally (default port: 8000)"
     echo "  livereload [port]  - Start a live reload server (default port: 8000)"
     echo "  build              - Build the blog for development"
@@ -160,6 +233,9 @@ show_help() {
 
 # Main execution
 case "$1" in
+    setup)
+        setup_environment
+        ;;
     serve)
         serve "$2"
         ;;
