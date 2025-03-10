@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -21,6 +21,9 @@
         
         <!-- Bootstrap 5 -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        
+        <!-- Font Awesome for icons -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         
         <!-- Icons CSS -->
         <link rel="stylesheet" type="text/css" href="/theme/css/icons.css"/>
@@ -243,6 +246,16 @@ a:hover {
   margin-bottom: 0.75rem;
 }
 
+.article-card .card-title a {
+  color: var(--text-color);
+  transition: color 0.2s;
+}
+
+.article-card .card-title a:hover {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
 .article-card .card-text {
   color: var(--text-light);
   margin-bottom: 1rem;
@@ -260,10 +273,75 @@ a:hover {
   color: var(--text-light);
 }
 
-.article-card .card-tags {
+/* Tags container styling */
+.tags-container {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Tag styling */
+.tag {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  background: var(--background-alt);
+  color: var(--text-light);
+  border-radius: 9999px;
+  transition: all 0.2s;
+}
+
+.tag:hover {
+  background: var(--primary-color);
+  color: white;
+  text-decoration: none;
+}
+
+/* Tag with active state */
+.tag.active {
+  background: var(--primary-color);
+  color: white;
+}
+
+/* Back to Posts button styling */
+.back-to-posts {
+  display: inline-block;
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 0.5rem 1rem;
+  color: var(--primary-color);
+  background-color: transparent;
+  border: 1px solid var(--primary-color);
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.back-to-posts:hover {
+  background-color: var(--primary-color);
+  color: white;
+  text-decoration: none;
+}
+
+/* Icon for back button */
+.back-to-posts i {
+  margin-right: 0.25rem;
+}
+
+/* Clear separation between tags and back button */
+.tags-section {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* Container for back button */
+.back-button-container {
+  margin-bottom: 2rem;
 }
 
 /* Article page */
@@ -276,6 +354,7 @@ a:hover {
 .article-header h1 {
   font-size: 2.5rem;
   margin-bottom: 0.5rem;
+  color: var(--text-color);
 }
 
 .article-header time {
@@ -361,24 +440,6 @@ a:hover {
   background-color: transparent;
 }
 
-/* Tags */
-.tag {
-  display: inline-block;
-  padding: 0.2rem 0.6rem;
-  font-size: 0.75rem;
-  font-weight: 500;
-  background: var(--background-alt);
-  color: var(--text-light);
-  border-radius: 9999px;
-  transition: all 0.2s;
-}
-
-.tag:hover {
-  background: var(--primary-color);
-  color: white;
-  text-decoration: none;
-}
-
 /* Article Meta */
 .article-meta {
   margin-top: 3rem;
@@ -409,6 +470,11 @@ a:hover {
   margin: 3rem 0;
 }
 
+.pagination-prev,
+.pagination-next {
+  flex: 0 0 auto;
+}
+
 .pagination a {
   display: inline-block;
   padding: 0.5rem 1rem;
@@ -425,24 +491,6 @@ a:hover {
   text-decoration: none;
 }
 
-/* Footer */
-.site-footer {
-  border-top: 1px solid var(--border-color);
-  font-size: 0.9rem;
-  background-color: var(--footer-bg);
-  color: var(--footer-color);
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.site-footer a {
-  color: var(--text-color);
-  transition: color 0.3s ease;
-}
-
-.site-footer a:hover {
-  color: var(--primary-color);
-}
-
 /* Archives & Tags */
 .archives-list {
   list-style-type: none;
@@ -452,6 +500,9 @@ a:hover {
 .archives-list li {
   padding: 1rem 0;
   border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .archives-list li:last-child {
@@ -475,6 +526,7 @@ a:hover {
 
 .social-links ul {
   display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
   padding: 0;
   margin: 1rem 0;
@@ -490,23 +542,22 @@ a:hover {
   color: var(--primary-color);
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .article-header h1 {
-    font-size: 2rem;
-  }
-  
-  .article-content h2 {
-    font-size: 1.5rem;
-  }
-  
-  .article-content h3 {
-    font-size: 1.3rem;
-  }
-  
-  .article-card .card-title {
-    font-size: 1.3rem;
-  }
+/* Footer */
+.site-footer {
+  border-top: 1px solid var(--border-color);
+  font-size: 0.9rem;
+  background-color: var(--footer-bg);
+  color: var(--footer-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.site-footer a {
+  color: var(--text-color);
+  transition: color 0.3s ease;
+}
+
+.site-footer a:hover {
+  color: var(--primary-color);
 }
 
 /* Theme Transition Effects */
@@ -545,6 +596,36 @@ code,
 
 [data-theme="dark"] .bg-white {
   background-color: var(--background-color) !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .article-header h1 {
+    font-size: 2rem;
+  }
+  
+  .article-content h2 {
+    font-size: 1.5rem;
+  }
+  
+  .article-content h3 {
+    font-size: 1.3rem;
+  }
+  
+  .article-card .card-title {
+    font-size: 1.3rem;
+  }
+  
+  .social-links ul {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .pagination {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+  }
 }</style>
 
 
@@ -583,40 +664,49 @@ code,
         <header class="mb-5">
           <h1>Archives and Tags</h1>
           
-          <div class="tags-cloud mt-4">
-              <a href="https://ashwch.com/tag/engineering.html" class="tag">engineering (1)</a>
-              <a href="https://ashwch.com/tag/leadership.html" class="tag">leadership (1)</a>
-              <a href="https://ashwch.com/tag/hiring.html" class="tag">hiring (2)</a>
-              <a href="https://ashwch.com/tag/management.html" class="tag">management (1)</a>
-              <a href="https://ashwch.com/tag/new-hire.html" class="tag">new-hire (1)</a>
-              <a href="https://ashwch.com/tag/engineering-hires.html" class="tag">engineering-hires (1)</a>
-              <a href="https://ashwch.com/tag/onboarding.html" class="tag">onboarding (1)</a>
-              <a href="https://ashwch.com/tag/mentorship.html" class="tag">mentorship (1)</a>
-              <a href="https://ashwch.com/tag/90dayplan.html" class="tag">90dayplan (1)</a>
-              <a href="https://ashwch.com/tag/hiring-success.html" class="tag">hiring-success (1)</a>
-              <a href="https://ashwch.com/tag/python.html" class="tag">python (3)</a>
-              <a href="https://ashwch.com/tag/uv.html" class="tag">uv (1)</a>
-              <a href="https://ashwch.com/tag/packaging.html" class="tag">packaging (1)</a>
-              <a href="https://ashwch.com/tag/uv-internals.html" class="tag">uv-internals (1)</a>
-              <a href="https://ashwch.com/tag/til.html" class="tag">til (1)</a>
-              <a href="https://ashwch.com/tag/python-pep.html" class="tag">python-pep (1)</a>
-              <a href="https://ashwch.com/tag/pep-723.html" class="tag">pep-723 (1)</a>
-              <a href="https://ashwch.com/tag/diversio.html" class="tag">diversio (2)</a>
-              <a href="https://ashwch.com/tag/github.html" class="tag">github (1)</a>
-              <a href="https://ashwch.com/tag/github-copilot.html" class="tag">github-copilot (1)</a>
-              <a href="https://ashwch.com/tag/interviewing.html" class="tag">interviewing (1)</a>
-              <a href="https://ashwch.com/tag/ai.html" class="tag">ai (1)</a>
-              <a href="https://ashwch.com/tag/lessons-learned.html" class="tag">lessons-learned (1)</a>
-              <a href="https://ashwch.com/tag/best-practices.html" class="tag">best-practices (1)</a>
-              <a href="https://ashwch.com/tag/terminal.html" class="tag">terminal (1)</a>
-              <a href="https://ashwch.com/tag/setup.html" class="tag">setup (1)</a>
-              <a href="https://ashwch.com/tag/prezto.html" class="tag">prezto (1)</a>
-              <a href="https://ashwch.com/tag/starship.html" class="tag">starship (1)</a>
-              <a href="https://ashwch.com/tag/zsh.html" class="tag">zsh (1)</a>
-              <a href="https://ashwch.com/tag/programming.html" class="tag">programming (2)</a>
-              <a href="https://ashwch.com/tag/debugging.html" class="tag">debugging (1)</a>
-              <a href="https://ashwch.com/tag/pdb.html" class="tag">pdb (1)</a>
-              <a href="https://ashwch.com/tag/ipdb.html" class="tag">ipdb (1)</a>
+          <div class="tags-section">
+            <h5>All Tags:</h5>
+            <div class="tags-container">
+                <a href="https://ashwch.com/tag/engineering.html" class="tag">engineering (1)</a>
+                <a href="https://ashwch.com/tag/leadership.html" class="tag">leadership (1)</a>
+                <a href="https://ashwch.com/tag/hiring.html" class="tag">hiring (2)</a>
+                <a href="https://ashwch.com/tag/management.html" class="tag">management (1)</a>
+                <a href="https://ashwch.com/tag/new-hire.html" class="tag">new-hire (1)</a>
+                <a href="https://ashwch.com/tag/engineering-hires.html" class="tag">engineering-hires (1)</a>
+                <a href="https://ashwch.com/tag/onboarding.html" class="tag">onboarding (1)</a>
+                <a href="https://ashwch.com/tag/mentorship.html" class="tag">mentorship (1)</a>
+                <a href="https://ashwch.com/tag/90dayplan.html" class="tag">90dayplan (1)</a>
+                <a href="https://ashwch.com/tag/hiring-success.html" class="tag">hiring-success (1)</a>
+                <a href="https://ashwch.com/tag/python.html" class="tag">python (3)</a>
+                <a href="https://ashwch.com/tag/uv.html" class="tag">uv (1)</a>
+                <a href="https://ashwch.com/tag/packaging.html" class="tag">packaging (1)</a>
+                <a href="https://ashwch.com/tag/uv-internals.html" class="tag">uv-internals (1)</a>
+                <a href="https://ashwch.com/tag/til.html" class="tag">til (1)</a>
+                <a href="https://ashwch.com/tag/python-pep.html" class="tag">python-pep (1)</a>
+                <a href="https://ashwch.com/tag/pep-723.html" class="tag">pep-723 (1)</a>
+                <a href="https://ashwch.com/tag/diversio.html" class="tag">diversio (2)</a>
+                <a href="https://ashwch.com/tag/github.html" class="tag">github (1)</a>
+                <a href="https://ashwch.com/tag/github-copilot.html" class="tag">github-copilot (1)</a>
+                <a href="https://ashwch.com/tag/interviewing.html" class="tag">interviewing (1)</a>
+                <a href="https://ashwch.com/tag/ai.html" class="tag">ai (1)</a>
+                <a href="https://ashwch.com/tag/lessons-learned.html" class="tag">lessons-learned (1)</a>
+                <a href="https://ashwch.com/tag/best-practices.html" class="tag">best-practices (1)</a>
+                <a href="https://ashwch.com/tag/terminal.html" class="tag">terminal (1)</a>
+                <a href="https://ashwch.com/tag/setup.html" class="tag">setup (1)</a>
+                <a href="https://ashwch.com/tag/prezto.html" class="tag">prezto (1)</a>
+                <a href="https://ashwch.com/tag/starship.html" class="tag">starship (1)</a>
+                <a href="https://ashwch.com/tag/zsh.html" class="tag">zsh (1)</a>
+                <a href="https://ashwch.com/tag/programming.html" class="tag">programming (2)</a>
+                <a href="https://ashwch.com/tag/debugging.html" class="tag">debugging (1)</a>
+                <a href="https://ashwch.com/tag/pdb.html" class="tag">pdb (1)</a>
+                <a href="https://ashwch.com/tag/ipdb.html" class="tag">ipdb (1)</a>
+            </div>
+          </div>
+          
+          <div class="back-button-container">
+            <a href="https://ashwch.com" class="back-to-posts">
+              <i class="fa fa-arrow-left"></i> Back to Posts
+            </a>
           </div>
         </header>
 
