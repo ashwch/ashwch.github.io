@@ -1,22 +1,32 @@
 {% extends "base.html" %}
-{% block title %}Archives{% endblock %}
+{% block title %}Tag: {{ tag }}{% endblock %}
 {% block headerimg %}{{ DEFAUT_HEADER_BG }}{% endblock %}
 
 {% block content %}
-<div class="container list">
-    <article>
-        <h1 style="margin-bottom: 30px;">Tag: {{ tag }}</h1>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 mx-auto">
+      <article class="tag-page">
+        <header class="mb-5">
+          <h1>Tag: <span class="tag-highlight">{{ tag }}</span></h1>
+        </header>
 
-        <ul class="double-list">
-        {% for article in articles %}
-            <li>
-                <a href='/{{ article.url }}'>
-                    <h2>{{ article.title }}</h2>
-                    <span>{{ article.date.strftime('%d.%m.%Y') }}</span>
-                </a>
-            </li>
-        {% endfor %}
-        </ul>
-    </article>
+        <div class="tag-content">
+          <ul class="archives-list">
+            {% for article in articles %}
+              <li class="d-flex justify-content-between align-items-center">
+                <h3><a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a></h3>
+                <time>{{ article.date.strftime('%d.%m.%Y') }}</time>
+              </li>
+            {% endfor %}
+          </ul>
+          
+          <div class="mt-5">
+            <a href="{{ SITEURL }}/archives.html" class="btn btn-outline-primary">Back to Archives</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
 </div>
 {% endblock %}

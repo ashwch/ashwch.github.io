@@ -2,94 +2,155 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="author" content="{{ AUTHOR }}">
         <meta name="description" content="{% block description %}{%endblock%}">
-        <meta name="viewport" content="width=device-width">
         <title>{% block title %}{% endblock %} | {{ SITENAME }}</title>
 
-	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-	<link rel="icon" href="/favicon.ico" type="image/x-icon">
+        <!-- Favicon -->
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/favicon.ico" type="image/x-icon">
+        
+        <!-- RSS Feed -->
         <link rel="alternate" type="application/atom+xml" title="{{ SITENAME }} blog atom feed" href="/feeds/all.atom.xml" />
-        <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700' rel='stylesheet' type='text/css'>
-
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+        
+        <!-- Bootstrap 5 -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        
+        <!-- Icons CSS -->
         <link rel="stylesheet" type="text/css" href="/theme/css/icons.css"/>
+        
+        <!-- Code highlighting -->
         <style>{% include 'pygments.css' %}</style>
+        
+        <!-- Main CSS -->
         <style>{% include 'main.css' %}</style>
 
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
         {% if ENABLE_MATHJAX %}
-        <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
-        <script type="text/javascript">
-        init_mathjax = function() {
-            if (window.MathJax) {
-                // MathJax loaded
-                MathJax.Hub.Config({
-                    tex2jax: {
-                        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-                        displayMath: [ ['$$','$$'], ["\\[","\\]"] ]
-                    },
-                    displayAlign: 'left', // Change this to 'center' to center equations.
-                    "HTML-CSS": {
-                        styles: {'.MathJax_Display': {"margin": 0}}
-                    }
-                });
-                MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
-            }
-        }
-        init_mathjax();
+        <script>
+        MathJax = {
+          tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']],
+            displayMath: [['$$', '$$'], ['\\[', '\\]']]
+          },
+          svg: {
+            fontCache: 'global'
+          }
+        };
         </script>
-    	{% endif %}
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+        {% endif %}
 
         {% block extra_head %}{%endblock%}
     </head>
 
     <body>
-        <header class="navbar navbar-inverse bs-docs-nav">
-            <div class="container-fluid">
-                <div class="navbar-header">
-		  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#theNavbar">
-		    <span class="icon-bar"></span>
-		    <span class="icon-bar"></span>
-		    <span class="icon-bar"></span> 
-		  </button>
-                  <a class="navbar-brand" href="/" title="Home" class="title">{{ SITENAME }}</a>
+        <header class="site-header shadow-sm">
+            <nav class="navbar navbar-expand-lg navbar-light bg-white">
+                <div class="container">
+                    <a class="navbar-brand fw-bold" href="/">{{ SITENAME }}</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav ms-auto">
+                            {% if ABOUT_PAGE %}
+                                <li class="nav-item"><a class="nav-link" href="{{ ABOUT_PAGE }}" title="About">About</a></li>
+                            {% endif %}
+                            {% if PHOTOS_PAGE %}
+                                <li class="nav-item"><a class="nav-link" href="{{ PHOTOS_PAGE }}" title="Photos">Photos</a></li>
+                            {% endif %}
+                            {% if SHOW_ARCHIVES %}
+                                <li class="nav-item"><a class="nav-link" href="/archives.html" title="Archive">Archive</a></li>
+                            {% endif %}
+                            {% if SHOW_FEED %}
+                                <li class="nav-item"><a class="nav-link icon-rss" href="/{{ FEED_ALL_ATOM }}" title="{{ SITENAME }} RSS feed" rel="me"></a></li>
+                            {% endif %}
+                            <li class="nav-item">
+                                <button id="theme-toggle" class="btn btn-sm btn-outline-secondary ms-2" aria-label="Toggle theme">
+                                    <span id="theme-toggle-light" class="d-none">☀️</span>
+                                    <span id="theme-toggle-dark" class="d-none">🌙</span>
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-                <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation" id="theNavbar">
-		    <ul class="nav navbar-nav navbar-right">
-                        {% if ABOUT_PAGE %}
-                            <li><a href="{{ ABOUT_PAGE }}" title="About">About</a></li>
-                        {% endif %}
-                        {% if PHOTOS_PAGE %}
-                            <li><a href="{{ PHOTOS_PAGE }}" title="Photos">Photos</a></li>
-                        {% endif %}
-                        {% if SHOW_ARCHIVES %}
-                            <li><a href="/archives.html" title="Archive">Archive</a></li>
-                        {% endif %}
-                        {% if SHOW_FEED %}
-                            <li><a class="nodec icon-rss" href="/{{ FEED_ALL_ATOM }}" title="jakevdp.github.io RSS feed" rel="me"></a></li>
-                        {% endif %}
-                    </ul>
-                </nav>
-            </div>
+            </nav>
         </header>
 
-        <div id="wrap" class="flex-grow-1">
+        <main class="site-content my-4">
             {% block content %}{% endblock %}
-        </div>
+        </main>
 
-        <footer class="site-footer">
-            <div class="container">
-                <p>
+        <footer class="site-footer mt-5 py-4 bg-light">
+            <div class="container text-center">
+                <p class="mb-0">
                     © {{ CURRENT_YEAR }} {{ AUTHOR }}, license <a href="{{ LICENSE_URL }}">{{ LICENSE_NAME }}</a>
                     unless otherwise noted.
-                    Generated by <a href="http://docs.getpelican.com/">Pelican</a>.
+                </p>
+                <p class="mb-0 small text-muted">
+                    Generated by <a href="http://docs.getpelican.com/">Pelican</a>
                 </p>
             </div>
         </footer>
+
+        <!-- Bootstrap JS Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        
+        <!-- Theme Switching Script -->
+        <script>
+            // Theme switching functionality
+            (function() {
+                const themeToggle = document.getElementById('theme-toggle');
+                const lightIcon = document.getElementById('theme-toggle-light');
+                const darkIcon = document.getElementById('theme-toggle-dark');
+                const htmlElement = document.documentElement;
+                
+                // Function to set theme
+                function setTheme(theme) {
+                    if (theme === 'dark') {
+                        htmlElement.setAttribute('data-theme', 'dark');
+                        localStorage.setItem('theme', 'dark');
+                        lightIcon.classList.add('d-none');
+                        darkIcon.classList.remove('d-none');
+                    } else {
+                        htmlElement.setAttribute('data-theme', 'light');
+                        localStorage.setItem('theme', 'light');
+                        darkIcon.classList.add('d-none');
+                        lightIcon.classList.remove('d-none');
+                    }
+                }
+                
+                // Check for saved user preference, system preference, or default to light
+                const savedTheme = localStorage.getItem('theme');
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                
+                if (savedTheme === 'dark') {
+                    setTheme('dark');
+                } else if (savedTheme === 'light') {
+                    setTheme('light');
+                } else if (prefersDark) {
+                    setTheme('dark');
+                } else {
+                    setTheme('light');
+                }
+                
+                // Toggle theme on button click
+                themeToggle.addEventListener('click', () => {
+                    const currentTheme = htmlElement.getAttribute('data-theme');
+                    if (currentTheme === 'dark') {
+                        setTheme('light');
+                    } else {
+                        setTheme('dark');
+                    }
+                });
+            })();
+        </script>
 
         {% include '_includes/analytics.html' %}
     </body>

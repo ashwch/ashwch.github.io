@@ -1,47 +1,139 @@
-{
-    max-width: 700px;
+/* Jupyter notebook styling */
+.jp-Cell {
+  max-width: 100%;
+  margin-bottom: 1.5rem;
 }
 
-.text_cell .prompt {
-    display: none;
+.jp-Cell-inputWrapper,
+.jp-Cell-outputWrapper {
+  display: flex;
+  flex-direction: column;
 }
 
+.jp-InputPrompt, 
+.jp-OutputPrompt {
+  font-family: monospace;
+  font-size: 0.9rem;
+  color: #888;
+  width: 4.5rem;
+  padding-right: 0.5rem;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.jp-CodeCell .jp-Cell-inputArea {
+  display: flex;
+  background-color: #f6f8fa;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+}
+
+.jp-CodeCell .jp-Cell-outputArea {
+  display: flex;
+  margin-top: 0.5rem;
+}
+
+.jp-CodeMirror {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  padding: 0.5rem;
+  width: 100%;
+}
+
+.jp-OutputArea-output {
+  padding: 0.5rem;
+  width: 100%;
+  overflow-x: auto;
+}
+
+.jp-RenderedMarkdown {
+  margin: 0;
+}
+
+/* Pandas DataFrames */
+table.dataframe {
+  border-collapse: collapse;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin: 1rem 0;
+  width: 100%;
+}
+
+.dataframe thead th {
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  padding: 0.5rem;
+  text-align: left;
+}
+
+.dataframe tbody td {
+  border: 1px solid #ddd;
+  padding: 0.5rem;
+  text-align: left;
+}
+
+.dataframe tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Matplotlib figures */
+.jp-RenderedImage img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1rem auto;
+}
+
+/* Hide cell execution counts */
+.prompt {
+  display: none;
+}
+
+/* Cell borders */
 div.cell {
-    padding: 0;
+  border: none;
+  margin-bottom: 1.5rem;
 }
 
 div.text_cell_render {
-    padding: 0;
+  padding: 0;
 }
 
-div.prompt {
-    font-size: 13px;
-}
-
-div.input_prompt {
-    padding: .7em 0.2em;
-}
-
-div.output_prompt {
-    padding: .4em .2em;
-}
-
-div.input_area {
-    margin: .2em 0.4em;
-    max-width: 580px;
-}
-
-table.dataframe {
-    font-family: Arial, sans-serif;
-    font-size: 13px;
-    line-height: 20px;
-}
-
-table.dataframe th, td {
-    padding: 4px;
-    text-align: left;
-}
-
+/* Code highlighting */
 pre code {
-    background-color: inherit;
+  background-color: inherit;
+  padding: 0;
+}
+
+/* Jupyter code blocks */
+div.input_area {
+  background-color: #f6f8fa;
+  border-radius: 6px;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+/* Mobile optimization */
+@media (max-width: 768px) {
+  .jp-InputPrompt, 
+  .jp-OutputPrompt {
+    width: 3rem;
+    font-size: 0.8rem;
+  }
+  
+  .jp-CodeMirror,
+  .jp-OutputArea-output {
+    font-size: 0.8rem;
+  }
+  
+  table.dataframe {
+    font-size: 0.8rem;
+  }
+  
+  .dataframe thead th,
+  .dataframe tbody td {
+    padding: 0.3rem;
+  }
 }

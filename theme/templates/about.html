@@ -3,44 +3,51 @@
 {% block headerimg %}{% if page.headerimg %}{{ page.headerimg }}{% else %}{{ DEFAULT_HEADER_BG }}{% endif %}{% endblock %}
 
 {% block content %}
-
-<div class="container post">
-    <article>
-        <header class="about">
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 mx-auto">
+      <article class="about-page">
+        <header class="about-header">
           <h1>{{ page.title }}</h1>
-          {% if page.date %}
-          <time datetime="page.date.isoformat()" pubdate>{{ page.locale_date }}</time>
-          {% endif %}
-	  <div class="social-links">
-	    <ul>
-	      {% if AUTHOR_WEBSITE %}
-	      <li><a href="{{ AUTHOR_WEBSITE }}" rel="me">website</a></li>
+          
+          <div class="social-links mt-4">
+            <ul>
+              {% if AUTHOR_WEBSITE %}
+              <li><a href="{{ AUTHOR_WEBSITE }}" rel="me" class="btn btn-sm btn-outline-secondary">Website</a></li>
               {% endif %}
-	      {% if AUTHOR_BLOG %}
-	      <li><a href="{{ AUTHOR_BLOG }}" rel="me">blog</a></li>
+              
+              {% if AUTHOR_BLOG %}
+              <li><a href="{{ AUTHOR_BLOG }}" rel="me" class="btn btn-sm btn-outline-secondary">Blog</a></li>
               {% endif %}
-	      {% if AUTHOR_CV %}
-	      <li><a href="{{ AUTHOR_CV }}" rel="me">CV</a></li>
-	      {% endif %}
-	      {% if TWITTER_USERNAME %}
-	      <li><a class="nodec icon-twitter" href="http://twitter.com/{{ TWITTER_USERNAME }}" rel="me"></a></li>
+              
+              {% if AUTHOR_CV %}
+              <li><a href="{{ AUTHOR_CV }}" rel="me" class="btn btn-sm btn-outline-secondary">CV</a></li>
               {% endif %}
+              
+              {% if TWITTER_USERNAME %}
+              <li><a class="btn btn-sm btn-outline-secondary icon-twitter" href="http://twitter.com/{{ TWITTER_USERNAME }}" rel="me"> Twitter</a></li>
+              {% endif %}
+              
               {% if GITHUB_USERNAME %}
-	      <li><a class="nodec icon-github" href="http://github.com/{{ GITHUB_USERNAME }}" rel="me"></a></li>
+              <li><a class="btn btn-sm btn-outline-secondary icon-github" href="http://github.com/{{ GITHUB_USERNAME }}" rel="me"> GitHub</a></li>
               {% endif %}
+              
               {% if STACKOVERFLOW_ADDRESS %}
-	      <li><a class="nodec icon-stackoverflow" href="{{ STACKOVERFLOW_ADDRESS }}" rel="me"></a></li>
-	      {% endif %}
-        {% if LINKEDIN_ADDRESS %}
-        <li><a class="nodec icon-linkedin" href="{{ LINKEDIN_ADDRESS }}" rel="me"></a></li>
-        {% endif %}
-	    </ul>
+              <li><a class="btn btn-sm btn-outline-secondary icon-stackoverflow" href="{{ STACKOVERFLOW_ADDRESS }}" rel="me"> Stack Overflow</a></li>
+              {% endif %}
+              
+              {% if LINKEDIN_ADDRESS %}
+              <li><a class="btn btn-sm btn-outline-secondary icon-linkedin" href="{{ LINKEDIN_ADDRESS }}" rel="me"> LinkedIn</a></li>
+              {% endif %}
+            </ul>
+          </div>
         </header>
 
-        <div class="article_content">
-            {{ page.content }}
+        <div class="article-content">
+          {{ page.content }}
         </div>
-
-    </article>
+      </article>
+    </div>
+  </div>
 </div>
 {% endblock %}

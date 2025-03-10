@@ -4,45 +4,52 @@
 
 {% block content %}
 <div class="container">
-  <div class="row justify-content-center">
-    <!-- Centered main content -->
-    <div class="col-md-8 col-md-offset-2">
+  <div class="row">
+    <div class="col-lg-8 mx-auto">
       <div class="index">
         {% for article in articles_page.object_list %}
-        <article>
-          <header>
-            <h2><a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a></h2>
-            <time datetime="{{ article.date.isoformat() }}" title="{{ article.date.isoformat() }}" pubdate>{{ article.locale_date }}</time>
-          </header>
-
-          <div class="article_content">
-            {{ article.summary }}
-          </div>
-
-          <div class="meta">
-            <div>
-              <a href="{{ SITEURL }}/{{ article.url }}" class="read_more">Read more &#8594;</a>
+        <article class="article-card">
+          <div class="card-body">
+            <h2 class="card-title">
+              <a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a>
+            </h2>
+            
+            <div class="card-meta mb-3">
+              <time datetime="{{ article.date.isoformat() }}" class="card-date">
+                {{ article.locale_date }}
+              </time>
             </div>
-
-            <div>
+            
+            <div class="card-text">
+              {{ article.summary }}
+            </div>
+            
+            <div class="mt-4">
+              <!-- Tags section -->
+              <div class="card-tags mb-3">
                 {% for tag in article.tags %}
                   <a href="{{ SITEURL }}/{{ tag.url }}" class="tag">{{ tag }}</a>
                 {% endfor %}
+              </div>
+              
+              <!-- Read more button -->
+              <div>
+                <a href="{{ SITEURL }}/{{ article.url }}" class="read-more-link">Read more</a>
+              </div>
             </div>
           </div>
         </article>
-        <div class="separator"></div>
         {% endfor %}
 
-        <nav class="pagination row">
-          <div class="col-xs-6 left">
-            {% if articles_page.has_next() %}
-              <a class="prev" href="{{ SITEURL }}/{{ articles_next_page.url }}">&#8592; Past</a>
+        <nav class="pagination">
+          <div class="pagination-prev">
+            {% if articles_page.has_previous() %}
+              <a href="{{ SITEURL }}/{{ articles_previous_page.url }}">← Newer Posts</a>
             {% endif %}
           </div>
-          <div class="col-xs-6 right">
-            {% if articles_page.has_previous() %}
-              <a class="next" href="{{ SITEURL }}/{{ articles_previous_page.url }}">Future &#8594;</a>
+          <div class="pagination-next">
+            {% if articles_page.has_next() %}
+              <a href="{{ SITEURL }}/{{ articles_next_page.url }}">Older Posts →</a>
             {% endif %}
           </div>
         </nav>

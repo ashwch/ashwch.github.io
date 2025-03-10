@@ -3,26 +3,34 @@
 {% block headerimg %}{{ DEFAUT_HEADER_BG }}{% endblock %}
 
 {% block content %}
-<div class="container list">
-    <article>
-        <h1 style="margin-bottom: 30px;">Archives and tags</h1>
-
-        <div class="meta" style="margin-bottom: 30px;">
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 mx-auto">
+      <article class="archives-page">
+        <header class="mb-5">
+          <h1>Archives and Tags</h1>
+          
+          {% if tags %}
+          <div class="tags-cloud mt-4">
             {% for tag, articles in tags %}
-                <a href="{{ SITEURL }}/{{ tag.url }}" class="tag">{{ tag }} ({{ articles | length }})</a>
+              <a href="{{ SITEURL }}/{{ tag.url }}" class="tag">{{ tag }} ({{ articles | length }})</a>
             {% endfor %}
-        </div>
+          </div>
+          {% endif %}
+        </header>
 
-        <ul class="double-list">
-        {% for article in articles %}
-            <li>
-                <a href='/{{ article.url }}'>
-                    <h2>{{ article.title }}</h2>
-                    <span>{{ article.date.strftime('%d.%m.%Y') }}</span>
-                </a>
-            </li>
-        {% endfor %}
-        </ul>
-    </article>
+        <div class="archives-content">
+          <ul class="archives-list">
+            {% for article in articles %}
+              <li class="d-flex justify-content-between align-items-center">
+                <h3><a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a></h3>
+                <time>{{ article.date.strftime('%d.%m.%Y') }}</time>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </article>
+    </div>
+  </div>
 </div>
 {% endblock %}
