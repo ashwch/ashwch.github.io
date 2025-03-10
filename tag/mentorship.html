@@ -2,19 +2,30 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="author" content="Ashwini Chaudhary(Monty)">
         <meta name="description" content="">
-        <meta name="viewport" content="width=device-width">
-        <title>Archives | Ashwini's blog</title>
+        <title>Tag: mentorship | Ashwini's blog</title>
 
-	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-	<link rel="icon" href="/favicon.ico" type="image/x-icon">
+        <!-- Favicon -->
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/favicon.ico" type="image/x-icon">
+        
+        <!-- RSS Feed -->
         <link rel="alternate" type="application/atom+xml" title="Ashwini's blog blog atom feed" href="/feeds/all.atom.xml" />
-        <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700' rel='stylesheet' type='text/css'>
-
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+        
+        <!-- Bootstrap 5 -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        
+        <!-- Icons CSS -->
         <link rel="stylesheet" type="text/css" href="/theme/css/icons.css"/>
+        
+        <!-- Code highlighting -->
         <style>.highlight .hll { background-color: #ffffcc }
 .highlight .c { color: #60a0b0; font-style: italic } /* Comment */
 .highlight .err { border: 1px solid #FF0000 } /* Error */
@@ -76,578 +87,593 @@
 .highlight .vg { color: #bb60d5 } /* Name.Variable.Global */
 .highlight .vi { color: #bb60d5 } /* Name.Variable.Instance */
 .highlight .il { color: #40a070 } /* Literal.Number.Integer.Long */</style>
-        <style>/* ==========================================================================
-   Base styles: Typography, colors, and general elements
-   ========================================================================== */
+        
+        <!-- Main CSS -->
+        <style>/* Base styles */
+:root {
+  /* Light theme (default) */
+  --primary-color: #3b82f6;
+  --primary-dark: #2563eb;
+  --secondary-color: #6366f1;
+  --text-color: #1f2937;
+  --text-light: #4b5563;
+  --background-color: #ffffff;
+  --background-alt: #f9fafb;
+  --border-color: #e5e7eb;
+  --code-bg: #f3f4f6;
+  --link-hover: #1d4ed8;
+  --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --navbar-bg: #ffffff;
+  --navbar-color: #4b5563;
+  --footer-bg: #f8f9fa;
+  --footer-color: #6c757d;
+  --card-bg: #ffffff;
+  --blockquote-bg: #f9fafb;
+}
+
+/* Dark theme */
+[data-theme="dark"] {
+  --primary-color: #60a5fa;
+  --primary-dark: #3b82f6;
+  --secondary-color: #818cf8;
+  --text-color: #f3f4f6;
+  --text-light: #d1d5db;
+  --background-color: #111827;
+  --background-alt: #1f2937;
+  --border-color: #374151;
+  --code-bg: #282c34;
+  --link-hover: #93c5fd;
+  --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+  --navbar-bg: #111827;
+  --navbar-color: #d1d5db;
+  --footer-bg: #1f2937;
+  --footer-color: #9ca3af;
+  --card-bg: #1f2937;
+  --blockquote-bg: #111827;
+}
 
 body {
-  margin: 0;
-  padding: 0;
-  font: 15px 'Source Sans Pro', sans-serif;
-  line-height: 1.6em;
-  color: #222;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.7;
+  color: var(--text-color);
+  background-color: var(--background-color);
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 1rem;
 }
 
 a {
-  color: #007EE5;
+  color: var(--primary-color);
   text-decoration: none;
+  transition: color 0.2s;
 }
 
 a:hover {
-  color: #007EE5;
-  text-decoration: none;
+  color: var(--link-hover);
+  text-decoration: underline;
 }
 
-/* ==========================================================================
-   Layout and Grid System
-   ========================================================================== */
-
-html, body {
-  height: 100%;
-}
-
-.container {
-  max-width: 1140px;
-  margin: 0 auto;
-  padding-left: 15px;
-  padding-right: 15px;
-}
-
-@media (min-width: 768px) {
-  .container {
-    width: 750px;
-  }
-}
-
-@media (min-width: 992px) {
-  .container {
-    width: 970px;
-  }
-}
-
-@media (min-width: 1200px) {
-  .container {
-    width: 1170px;
-  }
-}
-
-.row {
-  margin-left: -15px;
-  margin-right: -15px;
-}
-
-/* Grid columns with consistent padding */
-.col-xs-1, .col-sm-1, .col-md-1, .col-lg-1,
-.col-xs-2, .col-sm-2, .col-md-2, .col-lg-2,
-.col-xs-3, .col-sm-3, .col-md-3, .col-lg-3,
-.col-xs-4, .col-sm-4, .col-md-4, .col-lg-4,
-.col-xs-5, .col-sm-5, .col-md-5, .col-lg-5,
-.col-xs-6, .col-sm-6, .col-md-6, .col-lg-6,
-.col-xs-7, .col-sm-7, .col-md-7, .col-lg-7,
-.col-xs-8, .col-sm-8, .col-md-8, .col-lg-8,
-.col-xs-9, .col-sm-9, .col-md-9, .col-lg-9,
-.col-xs-10, .col-sm-10, .col-md-10, .col-lg-10,
-.col-xs-11, .col-sm-11, .col-md-11, .col-lg-11,
-.col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
-  padding-right: 15px;
-  padding-left: 15px;
-  position: relative;
-  min-height: 1px;
-}
-
-/* Flexible main content area */
-#wrap {
+/* Layout */
+.site-content {
   flex: 1 0 auto;
 }
 
-/* ==========================================================================
-   Header
-   ========================================================================== */
-
-header.main-header {
-  background: none repeat scroll 0% 0% #205F29;
-  margin-bottom: 0px;
+.container {
+  max-width: 1200px;
+  padding: 0 1.5rem;
 }
 
-header.main-header a {
-  color: #fff;
+/* Header */
+.site-header {
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--navbar-bg);
+  transition: background-color 0.3s ease;
 }
 
-header.main-header .container {
-  max-width: 1000px;
-}
-
-header.main-header .container nav a:hover {
-  background-color: #5C881C;
-}
-
-/* ==========================================================================
-   Article Styling
-   ========================================================================== */
-
-article {
-  margin: 0;
-}
-
-article header.about {
-  margin-bottom: 0px;
-  padding-bottom: 0px;
-}
-
-article header {
-  margin-bottom: 20px;
-  padding-bottom: 20px;
-}
-
-article header h1 {
-  margin-bottom: 2px;
+.navbar-brand {
   font-weight: 700;
-  color: #000;
+  font-size: 1.5rem;
+  color: var(--text-color);
+  transition: color 0.3s ease;
 }
 
-article header time {
-  color: #9E9E9E;
-  font-size: 0.85em;
-  float: right;
+.navbar-light .navbar-nav .nav-link {
+  color: var(--navbar-color);
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  transition: color 0.3s ease;
 }
 
-article header time.left {
-  color: #9E9E9E;
-  font-size: 0.85em;
-  float: left;
+.navbar-light .navbar-nav .nav-link:hover {
+  color: var(--primary-color);
 }
 
-article div.social-links ul {
-  padding: 0px;
-}
-
-article div.social-links li {
-  display: inline;
-  font-size: 20px;
-}
-
-article div.social-links li a {
-  color: #000;
-  padding: 10px;
-}
-
-article div.social-links li a:hover {
-  color: #666;
-  text-decoration: none;
-}
-
-article p {
-  font-size: 16px;
-  margin-bottom: 20px;
-  line-height: 1.6em;
-}
-
-article p.note {
-  background: #f5f5f5;
-  border: 1px solid #ddd;
-  padding: 0.533em 0.733em;
-}
-
-article p.update {
-  background-color: #FEEFB3;
-  border: 1px solid #e6e68a;
-  padding: 0.533em 0.733em;
-}
-
-article p.alert {
-  background-color: #ffe2e2;
-  border: 1px solid #ffb2b2;
-  padding: 0.533em 0.733em;
-}
-
-article ul,
-article ol {
-  margin-top: 0px;
-  margin-bottom: 25px;
-}
-
-article li {
-  font-size: 16px;
-  line-height: 1.6em;
-}
-
-article a:hover {
-  text-decoration: underline;
-}
-
-article blockquote {
-  border-left: 2px solid #c7c7cc;
-  color: #666;
-  margin: 30px 0;
-  padding: 0 0 0 25px;
-}
-
-article img {
-  max-width: 100%;
-}
-
-article code {
-  color: #333;
-  background-color: #EEE;
-  border-radius: 0;
-  font-size: 13px;
-}
-
-/* Article metadata */
-article .meta {
-  font-size: 11px;
-}
-
-article .meta a:hover {
-  text-decoration: none;
-}
-
-article .meta div {
-  margin-bottom: 20px;
-  display: block;
-}
-
-article .meta a.tag {
-  margin: 0 10px 10px 0;
-  padding: 1px 12px;
-  display: inline-block;
-  font-size: 14px;
-  color: rgba(0, 0, 0, 0.8);
-  background: rgba(0, 0, 0, 0.05);
-}
-
-article .meta a.tag:hover {
-  background: rgba(0, 0, 0, 0.15);
-}
-
-article .meta a.read_more,
-article .meta a.comments_btn {
-  font-size: 14px;
-  font-weight: 800;
-  padding: 10px 20px;
-  color: #205F29;
-  background: #FFF;
-  border: 1px solid #205F29;
-}
-
-article .meta a.read_more:hover,
-article .meta a.comments_btn:hover {
-  color: #FFF;
-  background: #5C881C;
-}
-
-/* ==========================================================================
-   Index Page
-   ========================================================================== */
-
-.index {
-  max-width: 700px;
-}
-
-.index article header h2 {
-  font-size: 36px;
-  margin-bottom: 2px;
-  font-weight: 700;
-}
-
-.index article header h2 a {
-  color: #000;
-}
-
-.index article header h2 a:hover {
-  color: #007EE5;
-  text-decoration: none;
-}
-
-.index .separator {
-  padding: 40px 0 0 0;
-  margin: 0 0 40px 0;
-  height: 10px;
-  border-bottom: solid 1px #CCC;
-}
-
-.index .pagination {
-  display: block;
-  margin-bottom: 100px;
-}
-
-.index .pagination .left {
-  text-align: right;
-}
-
-.index .pagination .right {
-  text-align: left;
-}
-
-.index .pagination a {
-  display: inline-block;
-  border: 2px solid #5C881C;
-  margin: 0 5px;
-  padding: 8px 20px;
-  font-weight: bold;
-  color: #5C881C;
-}
-
-.index .pagination a:hover {
-  color: #FFF;
-  background: #5C881C;
-}
-
-/* ==========================================================================
-   Post Page
-   ========================================================================== */
-
-.post {
-  max-width: 700px;
-}
-
-.post h2:before {
-  content: "# ";
-  font-weight: bold;
-  color: #DDD;
-}
-
-.post h3:before {
-  content: "## ";
-  font-weight: bold;
-  color: #DDD;
-}
-
-.post h4:before {
-  content: "### ";
-  font-weight: bold;
-  color: #DDD;
-}
-
-.post article .meta {
-  margin: 50px 0 100px;
-}
-
-/* ==========================================================================
-   List Pages
-   ========================================================================== */
-
-.list {
-  max-width: 700px;
-}
-
-.list ul.double-list {
-  margin: 0 auto 60px;
+/* Theme toggle button styling */
+#theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
   padding: 0;
-  list-style-type: none;
-}
-
-.list ul.double-list li {
-  padding: 5px 0;
-}
-
-.list ul.double-list li h2 {
-  font-size: 1em;
-  display: inline;
-  font-weight: normal;
-}
-
-.list ul.double-list li span {
-  font-family: sans-serif;
-  text-transform: uppercase;
-  text-align: right;
-  float: right;
-  padding-top: 3px;
-  font-size: 12px;
-  color: #999;
-}
-
-/* ==========================================================================
-   Archives Page
-   ========================================================================== */
-
-.archives-page {
-  margin-top: 30px;
-}
-
-.archives-page h1 {
-  margin-bottom: 30px;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 10px;
-}
-
-.archives-page .year {
-  font-size: 24px;
-  font-weight: bold;
-  margin-top: 30px;
-  margin-bottom: 15px;
-  color: #5C881C;
-}
-
-.archives-page .month {
-  margin-left: 20px;
-  font-size: 18px;
-  font-weight: bold;
-  margin-top: 15px;
-  margin-bottom: 10px;
-}
-
-.archives-page ul {
-  list-style-type: none;
-  padding-left: 40px;
-}
-
-.archives-page li {
-  margin-bottom: 8px;
-}
-
-.archives-page .article-date {
-  display: inline-block;
-  width: 120px;
-  color: #999;
-  font-family: monospace;
-}
-
-/* ==========================================================================
-   Footer
-   ========================================================================== */
-
-.site-footer {
-  flex-shrink: 0;
-  padding: 20px 0;
-  margin-top: 30px;
-  background-color: #f8f9fa;
-  border-top: 1px solid #e9ecef;
-  text-align: center;
-  font-size: 14px;
-  color: #6c757d;
-}
-
-.site-footer p {
-  margin: 0;
-}
-
-.site-footer a {
-  color: #495057;
-  text-decoration: none;
-}
-
-.site-footer a:hover {
-  text-decoration: underline;
-}
-
-/* ==========================================================================
-   Utilities
-   ========================================================================== */
-
-.full-width-content {
-  padding-top: 10px;
-  padding-left: 0px;
-  padding-right: 0px;
-  margin-left: -20px;
-  margin-right: -20px;
-}
-
-/* ==========================================================================
-   Responsive Adjustments
-   ========================================================================== */
-
-@media (max-width: 767px) {
-  article header time {
-    display: block;
-    float: none;
-    margin-bottom: 10px;
-  }
-}
-
-/* View All Articles button */
-.view-all-articles {
-  display: block;
-  width: 220px;
-  margin: 40px auto 60px;
-  padding: 10px 20px;
-  text-align: center;
-  font-size: 16px;
-  font-weight: bold;
-  color: #5C881C;
-  background: #FFF;
-  border: 2px solid #5C881C;
-  border-radius: 4px;
+  border-radius: 50%;
+  border: 1px solid var(--border-color);
+  background-color: var(--background-alt);
+  color: var(--text-color);
+  cursor: pointer;
   transition: all 0.3s ease;
 }
 
-.view-all-articles:hover {
-  color: #FFF;
-  background: #5C881C;
+#theme-toggle:hover {
+  transform: rotate(15deg);
+  background-color: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+/* Article Cards */
+.article-card {
+  background: var(--card-bg);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  margin-bottom: 2.5rem;
+  box-shadow: var(--card-shadow);
+  transition: transform 0.2s, box-shadow 0.2s, background-color 0.3s ease;
+}
+
+.article-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.article-card .card-body {
+  padding: 1.5rem;
+}
+
+.article-card .card-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.article-card .card-text {
+  color: var(--text-light);
+  margin-bottom: 1rem;
+}
+
+.article-card .card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.875rem;
+  color: var(--text-light);
+}
+
+.article-card .card-date {
+  color: var(--text-light);
+}
+
+.article-card .card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* Article page */
+.article-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.article-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.article-header time {
+  color: var(--text-light);
+  font-size: 0.9rem;
+}
+
+.article-content {
+  font-family: 'Merriweather', Georgia, serif;
+  line-height: 1.8;
+}
+
+.article-content p {
+  margin-bottom: 1.5rem;
+}
+
+.article-content h2 {
+  font-size: 1.8rem;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+}
+
+.article-content h3 {
+  font-size: 1.5rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+}
+
+.article-content h4 {
+  font-size: 1.25rem;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+}
+
+.article-content ul, 
+.article-content ol {
+  margin-bottom: 1.5rem;
+  padding-left: 1.5rem;
+}
+
+.article-content li {
+  margin-bottom: 0.5rem;
+}
+
+.article-content blockquote {
+  margin: 2rem 0;
+  padding: 1rem 1.5rem;
+  border-left: 4px solid var(--primary-color);
+  background-color: var(--blockquote-bg);
+  font-style: italic;
+  transition: background-color 0.3s ease;
+}
+
+.article-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  margin: 1.5rem 0;
+}
+
+.article-content pre {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background-color: var(--code-bg);
+  overflow-x: auto;
+  font-size: 0.9rem;
+}
+
+.article-content code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 0.9em;
+  padding: 0.2em 0.4em;
+  border-radius: 0.25rem;
+  background-color: var(--code-bg);
+}
+
+.article-content pre code {
+  padding: 0;
+  background-color: transparent;
+}
+
+/* Tags */
+.tag {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  background: var(--background-alt);
+  color: var(--text-light);
+  border-radius: 9999px;
+  transition: all 0.2s;
+}
+
+.tag:hover {
+  background: var(--primary-color);
+  color: white;
   text-decoration: none;
 }
 
-.view-all-articles i {
-  margin-right: 8px;
-}</style>
+/* Article Meta */
+.article-meta {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-color);
+}
 
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+.read-more-link {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: var(--primary-color);
+  color: white;
+  font-weight: 500;
+  border-radius: 0.25rem;
+  transition: background-color 0.2s;
+}
+
+.read-more-link:hover {
+  background-color: var(--primary-dark);
+  text-decoration: none;
+  color: white;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  margin: 3rem 0;
+}
+
+.pagination a {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--primary-color);
+  border-radius: 0.25rem;
+  color: var(--primary-color);
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.pagination a:hover {
+  background-color: var(--primary-color);
+  color: white;
+  text-decoration: none;
+}
+
+/* Footer */
+.site-footer {
+  border-top: 1px solid var(--border-color);
+  font-size: 0.9rem;
+  background-color: var(--footer-bg);
+  color: var(--footer-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.site-footer a {
+  color: var(--text-color);
+  transition: color 0.3s ease;
+}
+
+.site-footer a:hover {
+  color: var(--primary-color);
+}
+
+/* Archives & Tags */
+.archives-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.archives-list li {
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.archives-list li:last-child {
+  border-bottom: none;
+}
+
+.archives-list h3 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.archives-list time {
+  color: var(--text-light);
+  font-size: 0.875rem;
+}
+
+/* About page */
+.about-header {
+  margin-bottom: 2rem;
+}
+
+.social-links ul {
+  display: flex;
+  gap: 1rem;
+  padding: 0;
+  margin: 1rem 0;
+  list-style: none;
+}
+
+.social-links a {
+  color: var(--text-light);
+  transition: color 0.2s;
+}
+
+.social-links a:hover {
+  color: var(--primary-color);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .article-header h1 {
+    font-size: 2rem;
+  }
+  
+  .article-content h2 {
+    font-size: 1.5rem;
+  }
+  
+  .article-content h3 {
+    font-size: 1.3rem;
+  }
+  
+  .article-card .card-title {
+    font-size: 1.3rem;
+  }
+}
+
+/* Theme Transition Effects */
+.article-header, 
+.article-content,
+.article-meta,
+.card-body,
+.card-title a,
+.card-text,
+.card-meta,
+.tag,
+pre,
+code,
+.read-more-link,
+.pagination a {
+  transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Style adjustments for the dark theme */
+[data-theme="dark"] .navbar-light {
+  background-color: var(--navbar-bg) !important;
+}
+
+[data-theme="dark"] .navbar-light .navbar-nav .nav-link,
+[data-theme="dark"] .navbar-brand {
+  color: var(--text-color);
+}
+
+[data-theme="dark"] .navbar-light .navbar-toggler-icon {
+  filter: invert(1);
+}
+
+[data-theme="dark"] .bg-light {
+  background-color: var(--background-alt) !important;
+}
+
+[data-theme="dark"] .bg-white {
+  background-color: var(--background-color) !important;
+}</style>
 
 
     </head>
 
     <body>
-        <header class="navbar navbar-inverse bs-docs-nav">
-            <div class="container-fluid">
-                <div class="navbar-header">
-		  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#theNavbar">
-		    <span class="icon-bar"></span>
-		    <span class="icon-bar"></span>
-		    <span class="icon-bar"></span> 
-		  </button>
-                  <a class="navbar-brand" href="/" title="Home" class="title">Ashwini's blog</a>
+        <header class="site-header shadow-sm">
+            <nav class="navbar navbar-expand-lg navbar-light bg-white">
+                <div class="container">
+                    <a class="navbar-brand fw-bold" href="/">Ashwini's blog</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav ms-auto">
+                                <li class="nav-item"><a class="nav-link" href="/pages/about.html" title="About">About</a></li>
+                                <li class="nav-item"><a class="nav-link" href="/archives.html" title="Archive">Archive</a></li>
+                                <li class="nav-item"><a class="nav-link icon-rss" href="/feeds/all.atom.xml" title="Ashwini's blog RSS feed" rel="me"></a></li>
+                            <li class="nav-item">
+                                <button id="theme-toggle" class="btn btn-sm btn-outline-secondary ms-2" aria-label="Toggle theme">
+                                    <span id="theme-toggle-light" class="d-none">☀️</span>
+                                    <span id="theme-toggle-dark" class="d-none">🌙</span>
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-                <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation" id="theNavbar">
-		    <ul class="nav navbar-nav navbar-right">
-                            <li><a href="/pages/about.html" title="About">About</a></li>
-                            <li><a href="/archives.html" title="Archive">Archive</a></li>
-                            <li><a class="nodec icon-rss" href="/feeds/all.atom.xml" title="jakevdp.github.io RSS feed" rel="me"></a></li>
-                    </ul>
-                </nav>
-            </div>
+            </nav>
         </header>
 
-        <div id="wrap" class="flex-grow-1">
-<div class="container list">
-    <article>
-        <h1 style="margin-bottom: 30px;">Tag: mentorship</h1>
+        <main class="site-content my-4">
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 mx-auto">
+      <article class="tag-page">
+        <header class="mb-5">
+          <h1>Tag: <span class="tag-highlight">mentorship</span></h1>
+        </header>
 
-        <ul class="double-list">
-            <li>
-                <a href='/30-60-90-set-up-your-engineering-hires-for-success.html'>
-                    <h2>30-60-90 — Set Up Your Engineering Hires for Success</h2>
-                    <span>08.03.2025</span>
-                </a>
-            </li>
-        </ul>
-    </article>
-</div>
+        <div class="tag-content">
+          <ul class="archives-list">
+              <li class="d-flex justify-content-between align-items-center">
+                <h3><a href="https://ashwch.com/30-60-90-set-up-your-engineering-hires-for-success.html">30-60-90 — Set Up Your Engineering Hires for Success</a></h3>
+                <time>08.03.2025</time>
+              </li>
+          </ul>
+          
+          <div class="mt-5">
+            <a href="https://ashwch.com/archives.html" class="btn btn-outline-primary">Back to Archives</a>
+          </div>
         </div>
+      </article>
+    </div>
+  </div>
+</div>
+        </main>
 
-        <footer class="site-footer">
-            <div class="container">
-                <p>
+        <footer class="site-footer mt-5 py-4 bg-light">
+            <div class="container text-center">
+                <p class="mb-0">
                     © 2025 Ashwini Chaudhary(Monty), license <a href="https://github.com/ashwch/ashwch.github.io/blob/master/LICENSE">MIT</a>
                     unless otherwise noted.
-                    Generated by <a href="http://docs.getpelican.com/">Pelican</a>.
+                </p>
+                <p class="mb-0 small text-muted">
+                    Generated by <a href="http://docs.getpelican.com/">Pelican</a>
                 </p>
             </div>
         </footer>
 
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8G7DZ59108"></script>
-    <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+        <!-- Bootstrap JS Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        
+        <!-- Theme Switching Script -->
+        <script>
+            // Theme switching functionality
+            (function() {
+                const themeToggle = document.getElementById('theme-toggle');
+                const lightIcon = document.getElementById('theme-toggle-light');
+                const darkIcon = document.getElementById('theme-toggle-dark');
+                const htmlElement = document.documentElement;
+                
+                // Function to set theme
+                function setTheme(theme) {
+                    if (theme === 'dark') {
+                        htmlElement.setAttribute('data-theme', 'dark');
+                        localStorage.setItem('theme', 'dark');
+                        lightIcon.classList.add('d-none');
+                        darkIcon.classList.remove('d-none');
+                    } else {
+                        htmlElement.setAttribute('data-theme', 'light');
+                        localStorage.setItem('theme', 'light');
+                        darkIcon.classList.add('d-none');
+                        lightIcon.classList.remove('d-none');
+                    }
+                }
+                
+                // Check for saved user preference, system preference, or default to light
+                const savedTheme = localStorage.getItem('theme');
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                
+                if (savedTheme === 'dark') {
+                    setTheme('dark');
+                } else if (savedTheme === 'light') {
+                    setTheme('light');
+                } else if (prefersDark) {
+                    setTheme('dark');
+                } else {
+                    setTheme('light');
+                }
+                
+                // Toggle theme on button click
+                themeToggle.addEventListener('click', () => {
+                    const currentTheme = htmlElement.getAttribute('data-theme');
+                    if (currentTheme === 'dark') {
+                        setTheme('light');
+                    } else {
+                        setTheme('dark');
+                    }
+                });
+            })();
+        </script>
 
-    gtag('config', 'G-8G7DZ59108');
-    </script>
+<!-- Google Analytics (GA4) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8G7DZ59108"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-8G7DZ59108');
+</script>
     </body>
 </html>
