@@ -29,6 +29,7 @@ STACKOVERFLOW_ADDRESS = "https://stackoverflow.com/users/846892/ashwini-chaudhar
 AUTHOR_WEBSITE = "http://ashwch.com"
 AUTHOR_BLOG = "http://ashwch.com"
 LINKEDIN_ADDRESS = "https://www.linkedin.com/in/ashwch/"
+INSTAGRAM_USERNAME = "suicide_chewbacca"
 
 DEFAULT_PAGINATION = 5
 ABOUT_PAGE = "/pages/about.html"
