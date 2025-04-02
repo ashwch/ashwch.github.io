@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="author" content="Ashwini Chaudhary(Monty)">
+        <meta name="description" content="">
+        <title>Managing Context Metadata in Django-PGHistory: Solving the Persistence Problem | Ashwini's blog</title>
+
+        <!-- Favicon -->
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/favicon.ico" type="image/x-icon">
+        
+        <!-- RSS Feed -->
+        <link rel="alternate" type="application/atom+xml" title="Ashwini's blog blog atom feed" href="/feeds/all.atom.xml" />
+        
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+        
+        <!-- Bootstrap 5 -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        
+        <!-- Font Awesome for icons -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        
+        <!-- Icons CSS -->
+        <link rel="stylesheet" type="text/css" href="/theme/css/icons.css"/>
+        
+        <!-- Code highlighting -->
+        <style>.highlight .hll { background-color: #ffffcc }
+.highlight .c { color: #60a0b0; font-style: italic } /* Comment */
+.highlight .err { border: 1px solid #FF0000 } /* Error */
+.highlight .k { color: #007020; font-weight: bold } /* Keyword */
+.highlight .o { color: #666666 } /* Operator */
+.highlight .cm { color: #60a0b0; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #007020 } /* Comment.Preproc */
+.highlight .c1 { color: #60a0b0; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #60a0b0; background-color: #fff0f0 } /* Comment.Special */
+.highlight .gd { color: #A00000 } /* Generic.Deleted */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #FF0000 } /* Generic.Error */
+.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #00A000 } /* Generic.Inserted */
+.highlight .go { color: #808080 } /* Generic.Output */
+.highlight .gp { color: #c65d09; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight .gt { color: #0040D0 } /* Generic.Traceback */
+.highlight .kc { color: #007020; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #007020; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #007020; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #007020 } /* Keyword.Pseudo */
+.highlight .kr { color: #007020; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #902000 } /* Keyword.Type */
+.highlight .m { color: #40a070 } /* Literal.Number */
+.highlight .s { color: #4070a0 } /* Literal.String */
+.highlight .na { color: #4070a0 } /* Name.Attribute */
+.highlight .nb { color: #007020 } /* Name.Builtin */
+.highlight .nc { color: #0e84b5; font-weight: bold } /* Name.Class */
+.highlight .no { color: #60add5 } /* Name.Constant */
+.highlight .nd { color: #555555; font-weight: bold } /* Name.Decorator */
+.highlight .ni { color: #d55537; font-weight: bold } /* Name.Entity */
+.highlight .ne { color: #007020 } /* Name.Exception */
+.highlight .nf { color: #06287e } /* Name.Function */
+.highlight .nl { color: #002070; font-weight: bold } /* Name.Label */
+.highlight .nn { color: #0e84b5; font-weight: bold } /* Name.Namespace */
+.highlight .nt { color: #062873; font-weight: bold } /* Name.Tag */
+.highlight .nv { color: #bb60d5 } /* Name.Variable */
+.highlight .ow { color: #007020; font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mf { color: #40a070 } /* Literal.Number.Float */
+.highlight .mh { color: #40a070 } /* Literal.Number.Hex */
+.highlight .mi { color: #40a070 } /* Literal.Number.Integer */
+.highlight .mo { color: #40a070 } /* Literal.Number.Oct */
+.highlight .sb { color: #4070a0 } /* Literal.String.Backtick */
+.highlight .sc { color: #4070a0 } /* Literal.String.Char */
+.highlight .sd { color: #4070a0; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #4070a0 } /* Literal.String.Double */
+.highlight .se { color: #4070a0; font-weight: bold } /* Literal.String.Escape */
+.highlight .sh { color: #4070a0 } /* Literal.String.Heredoc */
+.highlight .si { color: #70a0d0; font-style: italic } /* Literal.String.Interpol */
+.highlight .sx { color: #c65d09 } /* Literal.String.Other */
+.highlight .sr { color: #235388 } /* Literal.String.Regex */
+.highlight .s1 { color: #4070a0 } /* Literal.String.Single */
+.highlight .ss { color: #517918 } /* Literal.String.Symbol */
+.highlight .bp { color: #007020 } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #bb60d5 } /* Name.Variable.Class */
+.highlight .vg { color: #bb60d5 } /* Name.Variable.Global */
+.highlight .vi { color: #bb60d5 } /* Name.Variable.Instance */
+.highlight .il { color: #40a070 } /* Literal.Number.Integer.Long */</style>
+        
+        <!-- Main CSS -->
+        <style>/* Base styles */
+:root {
+  /* Light theme (default) */
+  --primary-color: #3b82f6;
+  --primary-dark: #2563eb;
+  --secondary-color: #6366f1;
+  --text-color: #1f2937;
+  --text-light: #4b5563;
+  --background-color: #ffffff;
+  --background-alt: #f9fafb;
+  --border-color: #e5e7eb;
+  --code-bg: #f3f4f6;
+  --link-hover: #1d4ed8;
+  --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --navbar-bg: #ffffff;
+  --navbar-color: #4b5563;
+  --footer-bg: #f8f9fa;
+  --footer-color: #6c757d;
+  --card-bg: #ffffff;
+  --blockquote-bg: #f9fafb;
+}
+
+/* Dark theme */
+[data-theme="dark"] {
+  --primary-color: #60a5fa;
+  --primary-dark: #3b82f6;
+  --secondary-color: #818cf8;
+  --text-color: #f3f4f6;
+  --text-light: #d1d5db;
+  --background-color: #111827;
+  --background-alt: #1f2937;
+  --border-color: #374151;
+  --code-bg: #282c34;
+  --link-hover: #93c5fd;
+  --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+  --navbar-bg: #111827;
+  --navbar-color: #d1d5db;
+  --footer-bg: #1f2937;
+  --footer-color: #9ca3af;
+  --card-bg: #1f2937;
+  --blockquote-bg: #111827;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.7;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 1rem;
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+a:hover {
+  color: var(--link-hover);
+  text-decoration: underline;
+}
+
+/* Layout */
+.site-content {
+  flex: 1 0 auto;
+}
+
+.container {
+  max-width: 1200px;
+  padding: 0 1.5rem;
+}
+
+/* Header */
+.site-header {
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--navbar-bg);
+  transition: background-color 0.3s ease;
+}
+
+.navbar-brand {
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--text-color);
+  transition: color 0.3s ease;
+}
+
+.navbar-light .navbar-nav .nav-link {
+  color: var(--navbar-color);
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  transition: color 0.3s ease;
+}
+
+.navbar-light .navbar-nav .nav-link:hover {
+  color: var(--primary-color);
+}
+
+/* Theme toggle button styling */
+#theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid var(--border-color);
+  background-color: var(--background-alt);
+  color: var(--text-color);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#theme-toggle:hover {
+  transform: rotate(15deg);
+  background-color: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+/* Article Cards */
+.article-card {
+  background: var(--card-bg);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  margin-bottom: 2.5rem;
+  box-shadow: var(--card-shadow);
+  transition: transform 0.2s, box-shadow 0.2s, background-color 0.3s ease;
+}
+
+.article-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.article-card .card-body {
+  padding: 1.5rem;
+}
+
+.article-card .card-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.article-card .card-title a {
+  color: var(--text-color);
+  transition: color 0.2s;
+}
+
+.article-card .card-title a:hover {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+.article-card .card-text {
+  color: var(--text-light);
+  margin-bottom: 1rem;
+}
+
+.article-card .card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.875rem;
+  color: var(--text-light);
+}
+
+.article-card .card-date {
+  color: var(--text-light);
+}
+
+/* Tags container styling */
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Tag styling */
+.tag {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  background: var(--background-alt);
+  color: var(--text-light);
+  border-radius: 9999px;
+  transition: all 0.2s;
+}
+
+.tag:hover {
+  background: var(--primary-color);
+  color: white;
+  text-decoration: none;
+}
+
+/* Tag with active state */
+.tag.active {
+  background: var(--primary-color);
+  color: white;
+}
+
+/* Back to Posts button styling */
+.back-to-posts {
+  display: inline-block;
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 0.5rem 1rem;
+  color: var(--primary-color);
+  background-color: transparent;
+  border: 1px solid var(--primary-color);
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.back-to-posts:hover {
+  background-color: var(--primary-color);
+  color: white;
+  text-decoration: none;
+}
+
+/* Icon for back button */
+.back-to-posts i {
+  margin-right: 0.25rem;
+}
+
+/* Clear separation between tags and back button */
+.tags-section {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* Container for back button */
+.back-button-container {
+  margin-bottom: 2rem;
+}
+
+/* Article page */
+.article-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.article-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-color);
+}
+
+.article-header time {
+  color: var(--text-light);
+  font-size: 0.9rem;
+}
+
+.article-content {
+  font-family: 'Merriweather', Georgia, serif;
+  line-height: 1.8;
+}
+
+.article-content p {
+  margin-bottom: 1.5rem;
+}
+
+.article-content h2 {
+  font-size: 1.8rem;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+}
+
+.article-content h3 {
+  font-size: 1.5rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+}
+
+.article-content h4 {
+  font-size: 1.25rem;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+}
+
+.article-content ul, 
+.article-content ol {
+  margin-bottom: 1.5rem;
+  padding-left: 1.5rem;
+}
+
+.article-content li {
+  margin-bottom: 0.5rem;
+}
+
+.article-content blockquote {
+  margin: 2rem 0;
+  padding: 1rem 1.5rem;
+  border-left: 4px solid var(--primary-color);
+  background-color: var(--blockquote-bg);
+  font-style: italic;
+  transition: background-color 0.3s ease;
+}
+
+.article-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  margin: 1.5rem 0;
+}
+
+.article-content pre {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background-color: var(--code-bg);
+  overflow-x: auto;
+  font-size: 0.9rem;
+}
+
+.article-content code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 0.9em;
+  padding: 0.2em 0.4em;
+  border-radius: 0.25rem;
+  background-color: var(--code-bg);
+}
+
+.article-content pre code {
+  padding: 0;
+  background-color: transparent;
+}
+
+/* Article Meta */
+.article-meta {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.read-more-link {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: var(--primary-color);
+  color: white;
+  font-weight: 500;
+  border-radius: 0.25rem;
+  transition: background-color 0.2s;
+}
+
+.read-more-link:hover {
+  background-color: var(--primary-dark);
+  text-decoration: none;
+  color: white;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  margin: 3rem 0;
+}
+
+.pagination-prev,
+.pagination-next {
+  flex: 0 0 auto;
+}
+
+.pagination a {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--primary-color);
+  border-radius: 0.25rem;
+  color: var(--primary-color);
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.pagination a:hover {
+  background-color: var(--primary-color);
+  color: white;
+  text-decoration: none;
+}
+
+/* Archives & Tags */
+.archives-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.archives-list li {
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.archives-list li:last-child {
+  border-bottom: none;
+}
+
+.archives-list h3 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.archives-list time {
+  color: var(--text-light);
+  font-size: 0.875rem;
+}
+
+/* About page */
+.about-header {
+  margin-bottom: 2rem;
+}
+
+.social-links ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 0;
+  margin: 1rem 0;
+  list-style: none;
+}
+
+.social-links a {
+  color: var(--text-light);
+  transition: color 0.2s;
+}
+
+.social-links a:hover {
+  color: var(--primary-color);
+}
+
+/* Footer */
+.site-footer {
+  border-top: 1px solid var(--border-color);
+  font-size: 0.9rem;
+  background-color: var(--footer-bg);
+  color: var(--footer-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.site-footer a {
+  color: var(--text-color);
+  transition: color 0.3s ease;
+}
+
+.site-footer a:hover {
+  color: var(--primary-color);
+}
+
+/* Theme Transition Effects */
+.article-header, 
+.article-content,
+.article-meta,
+.card-body,
+.card-title a,
+.card-text,
+.card-meta,
+.tag,
+pre,
+code,
+.read-more-link,
+.pagination a {
+  transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Style adjustments for the dark theme */
+[data-theme="dark"] .navbar-light {
+  background-color: var(--navbar-bg) !important;
+}
+
+[data-theme="dark"] .navbar-light .navbar-nav .nav-link,
+[data-theme="dark"] .navbar-brand {
+  color: var(--text-color);
+}
+
+[data-theme="dark"] .navbar-light .navbar-toggler-icon {
+  filter: invert(1);
+}
+
+[data-theme="dark"] .bg-light {
+  background-color: var(--background-alt) !important;
+}
+
+[data-theme="dark"] .bg-white {
+  background-color: var(--background-color) !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .article-header h1 {
+    font-size: 2rem;
+  }
+  
+  .article-content h2 {
+    font-size: 1.5rem;
+  }
+  
+  .article-content h3 {
+    font-size: 1.3rem;
+  }
+  
+  .article-card .card-title {
+    font-size: 1.3rem;
+  }
+  
+  .social-links ul {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .pagination {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+  }
+}</style>
+
+
+    </head>
+
+    <body>
+        <header class="site-header shadow-sm">
+            <nav class="navbar navbar-expand-lg navbar-light bg-white">
+                <div class="container">
+                    <a class="navbar-brand fw-bold" href="/">Ashwini's blog</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav ms-auto">
+                                <li class="nav-item"><a class="nav-link" href="/pages/about.html" title="About">About</a></li>
+                                <li class="nav-item"><a class="nav-link" href="/archives.html" title="Archive">Archive</a></li>
+                                <li class="nav-item"><a class="nav-link icon-rss" href="/feeds/all.atom.xml" title="Ashwini's blog RSS feed" rel="me"></a></li>
+                            <li class="nav-item">
+                                <button id="theme-toggle" class="btn btn-sm btn-outline-secondary ms-2" aria-label="Toggle theme">
+                                    <span id="theme-toggle-light" class="d-none">☀️</span>
+                                    <span id="theme-toggle-dark" class="d-none">🌙</span>
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <main class="site-content my-4">
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 mx-auto">
+      <article class="post">
+        <header class="article-header">
+          <h1>Managing Context Metadata in Django-PGHistory: Solving the Persistence Problem</h1>
+          <time datetime="2025-04-02T00:00:00-04:00" pubdate>Wed 02 April 2025</time>
+        </header>
+
+        <div class="article-content">
+          <p>In this post you would learn how <code>pghistory.context</code> works and some of its gotchas that we faced at Diversio(thanks to <a href="https://github.com/amalrajdiversio">Amal Raj B R</a> who identified this) and how we adjusted our approach to avoid saving context metadata that is not relevant to the current business but is being carried over from a parent context.</p>
+<h3>What is <code>pghistory.context</code>?</h3>
+<p><code>pghistory.context</code> is a decorator and a function that is part of the fantastic <a href="https://django-pghistory.readthedocs.io/en/stable/"><code>django-pghistory</code></a> project. I would cover how we use <code>django-pghistory</code> in a separate post.</p>
+<p>When <code>django-pghistory</code> is keeping track of changes to Django models, there are several instances where we want to include additional information with the tracked changes. This is where <code>pghistory.context</code> comes into picture to easily capture such metadata.</p>
+<p>We are making use of <a href="https://django-pghistory.readthedocs.io/en/3.5.5/context/?h=historymiddleware#middleware"><code>pghistory.middleware.HistoryMiddleware</code></a> to collect basic fields that we want to store with each change. This includes IP address, URL and the User who made the request. Some of this is done by the <a href="https://github.com/AmbitionEng/django-pghistory/blob/e991e610ddfc393aa7e3f39945627485e0d7bc60/pghistory/middleware.py#L42">library itself</a> (comments removed for brevity) as seen in the code below.</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">HistoryMiddleware</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">get_response</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_response</span> <span class="o">=</span> <span class="n">get_response</span>
+
+    <span class="k">def</span> <span class="nf">get_context</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">_meta</span><span class="o">.</span><span class="n">pk</span><span class="o">.</span><span class="n">get_db_prep_value</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">pk</span><span class="p">,</span> <span class="n">connection</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;user&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="s2">&quot;_meta&quot;</span><span class="p">)</span>
+            <span class="k">else</span> <span class="kc">None</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;user&quot;</span><span class="p">:</span> <span class="n">user</span><span class="p">,</span> <span class="s2">&quot;url&quot;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">path</span><span class="p">}</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="ow">in</span> <span class="n">config</span><span class="o">.</span><span class="n">middleware_methods</span><span class="p">():</span>
+            <span class="k">with</span> <span class="n">pghistory</span><span class="o">.</span><span class="n">context</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">get_context</span><span class="p">(</span><span class="n">request</span><span class="p">)):</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">DjangoWSGIRequest</span><span class="p">):</span>
+                    <span class="n">request</span><span class="o">.</span><span class="vm">__class__</span> <span class="o">=</span> <span class="n">WSGIRequest</span>
+                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">DjangoASGIRequest</span><span class="p">):</span>
+                    <span class="n">request</span><span class="o">.</span><span class="vm">__class__</span> <span class="o">=</span> <span class="n">ASGIRequest</span>
+
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_response</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_response</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+</code></pre></div>
+
+<p>An interesting thing happening here is that the request-response is wrapped in the <code>pghistory.context</code> context manager. That means all call to <code>pghistory.context</code> anywhere in views would keep on accumulating the metadata that <code>pghistory.context</code> is getting. This is a powerful pattern for audit tracking without having to manually pass context through your application code. Every database change automatically gets tagged with "who" (user) and "where" (URL) the change happened.</p>
+<p>But this also has an unintended effect, let's use an example to explain it(<a href="https://gist.github.com/ashwch/1fc98f3f76860b95936bf278ba38dbba">gist</a>)</p>
+<div class="highlight"><pre><span></span><code><span class="n">In</span> <span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="kn">import</span> <span class="nn">pghistory</span>
+   <span class="o">...</span><span class="p">:</span>
+   <span class="o">...</span><span class="p">:</span> <span class="k">with</span> <span class="n">pghistory</span><span class="o">.</span><span class="n">context</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s2">&quot;/foo/bar&quot;</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="s2">&quot;bugs-bunny&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">pg</span><span class="p">:</span>
+   <span class="o">...</span><span class="p">:</span>     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Level 1-1: </span><span class="si">{</span><span class="n">pg</span><span class="o">.</span><span class="n">metadata</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+   <span class="o">...</span><span class="p">:</span>
+   <span class="o">...</span><span class="p">:</span>     <span class="k">with</span> <span class="n">pghistory</span><span class="o">.</span><span class="n">context</span><span class="p">(</span><span class="n">foo</span><span class="o">=</span><span class="s2">&quot;bar&quot;</span><span class="p">):</span>
+   <span class="o">...</span><span class="p">:</span>         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Level 2-1: </span><span class="si">{</span><span class="n">pg</span><span class="o">.</span><span class="n">metadata</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+   <span class="o">...</span><span class="p">:</span>         <span class="k">with</span> <span class="n">pghistory</span><span class="o">.</span><span class="n">context</span><span class="p">(</span><span class="n">spam</span><span class="o">=</span><span class="s2">&quot;eggs&quot;</span><span class="p">):</span>
+   <span class="o">...</span><span class="p">:</span>             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Level 3-1: </span><span class="si">{</span><span class="n">pg</span><span class="o">.</span><span class="n">metadata</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+   <span class="o">...</span><span class="p">:</span>
+   <span class="o">...</span><span class="p">:</span>         <span class="k">with</span> <span class="n">pghistory</span><span class="o">.</span><span class="n">context</span><span class="p">(</span><span class="n">hannah</span><span class="o">=</span><span class="s2">&quot;montana&quot;</span><span class="p">):</span>
+   <span class="o">...</span><span class="p">:</span>             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Level 3-2: </span><span class="si">{</span><span class="n">pg</span><span class="o">.</span><span class="n">metadata</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+   <span class="o">...</span><span class="p">:</span>             <span class="k">with</span> <span class="n">pghistory</span><span class="o">.</span><span class="n">context</span><span class="p">(</span><span class="n">timon</span><span class="o">=</span><span class="s2">&quot;pumba&quot;</span><span class="p">):</span>
+   <span class="o">...</span><span class="p">:</span>                 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Level 4-1: </span><span class="si">{</span><span class="n">pg</span><span class="o">.</span><span class="n">metadata</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+   <span class="o">...</span><span class="p">:</span>
+   <span class="o">...</span><span class="p">:</span>     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Level 1-2: </span><span class="si">{</span><span class="n">pg</span><span class="o">.</span><span class="n">metadata</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+   <span class="o">...</span><span class="p">:</span>     <span class="k">with</span> <span class="n">pghistory</span><span class="o">.</span><span class="n">context</span><span class="p">(</span><span class="n">monty</span><span class="o">=</span><span class="s2">&quot;python&quot;</span><span class="p">):</span>
+   <span class="o">...</span><span class="p">:</span>         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Level 2-2: </span><span class="si">{</span><span class="n">pg</span><span class="o">.</span><span class="n">metadata</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+   <span class="o">...</span><span class="p">:</span>
+   <span class="o">...</span><span class="p">:</span>
+   <span class="o">...</span><span class="p">:</span> <span class="k">with</span> <span class="n">pghistory</span><span class="o">.</span><span class="n">context</span><span class="p">(</span><span class="n">guido</span><span class="o">=</span><span class="s2">&quot;bdfl&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">pg</span><span class="p">:</span>
+   <span class="o">...</span><span class="p">:</span>     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Level 1-4: </span><span class="si">{</span><span class="n">pg</span><span class="o">.</span><span class="n">metadata</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+   <span class="o">...</span><span class="p">:</span>
+   <span class="o">...</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Level 1-5: </span><span class="si">{</span><span class="n">pg</span><span class="o">.</span><span class="n">metadata</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">Level</span> <span class="mi">1</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="s1">&#39;/foo/bar&#39;</span><span class="p">,</span> <span class="s1">&#39;user&#39;</span><span class="p">:</span> <span class="s1">&#39;bugs-bunny&#39;</span><span class="p">}</span>
+<span class="n">Level</span> <span class="mi">2</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="s1">&#39;/foo/bar&#39;</span><span class="p">,</span> <span class="s1">&#39;user&#39;</span><span class="p">:</span> <span class="s1">&#39;bugs-bunny&#39;</span><span class="p">,</span> <span class="s1">&#39;foo&#39;</span><span class="p">:</span> <span class="s1">&#39;bar&#39;</span><span class="p">}</span>
+<span class="n">Level</span> <span class="mi">3</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="s1">&#39;/foo/bar&#39;</span><span class="p">,</span> <span class="s1">&#39;user&#39;</span><span class="p">:</span> <span class="s1">&#39;bugs-bunny&#39;</span><span class="p">,</span> <span class="s1">&#39;foo&#39;</span><span class="p">:</span> <span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="s1">&#39;spam&#39;</span><span class="p">:</span> <span class="s1">&#39;eggs&#39;</span><span class="p">}</span>
+<span class="n">Level</span> <span class="mi">3</span><span class="o">-</span><span class="mi">2</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="s1">&#39;/foo/bar&#39;</span><span class="p">,</span> <span class="s1">&#39;user&#39;</span><span class="p">:</span> <span class="s1">&#39;bugs-bunny&#39;</span><span class="p">,</span> <span class="s1">&#39;foo&#39;</span><span class="p">:</span> <span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="s1">&#39;spam&#39;</span><span class="p">:</span> <span class="s1">&#39;eggs&#39;</span><span class="p">,</span> <span class="s1">&#39;hannah&#39;</span><span class="p">:</span> <span class="s1">&#39;montana&#39;</span><span class="p">}</span>
+<span class="n">Level</span> <span class="mi">4</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="s1">&#39;/foo/bar&#39;</span><span class="p">,</span> <span class="s1">&#39;user&#39;</span><span class="p">:</span> <span class="s1">&#39;bugs-bunny&#39;</span><span class="p">,</span> <span class="s1">&#39;foo&#39;</span><span class="p">:</span> <span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="s1">&#39;spam&#39;</span><span class="p">:</span> <span class="s1">&#39;eggs&#39;</span><span class="p">,</span> <span class="s1">&#39;hannah&#39;</span><span class="p">:</span> <span class="s1">&#39;montana&#39;</span><span class="p">,</span> <span class="s1">&#39;timon&#39;</span><span class="p">:</span> <span class="s1">&#39;pumba&#39;</span><span class="p">}</span>
+<span class="n">Level</span> <span class="mi">1</span><span class="o">-</span><span class="mi">2</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="s1">&#39;/foo/bar&#39;</span><span class="p">,</span> <span class="s1">&#39;user&#39;</span><span class="p">:</span> <span class="s1">&#39;bugs-bunny&#39;</span><span class="p">,</span> <span class="s1">&#39;foo&#39;</span><span class="p">:</span> <span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="s1">&#39;spam&#39;</span><span class="p">:</span> <span class="s1">&#39;eggs&#39;</span><span class="p">,</span> <span class="s1">&#39;hannah&#39;</span><span class="p">:</span> <span class="s1">&#39;montana&#39;</span><span class="p">,</span> <span class="s1">&#39;timon&#39;</span><span class="p">:</span> <span class="s1">&#39;pumba&#39;</span><span class="p">}</span>
+<span class="n">Level</span> <span class="mi">2</span><span class="o">-</span><span class="mi">2</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="s1">&#39;/foo/bar&#39;</span><span class="p">,</span> <span class="s1">&#39;user&#39;</span><span class="p">:</span> <span class="s1">&#39;bugs-bunny&#39;</span><span class="p">,</span> <span class="s1">&#39;foo&#39;</span><span class="p">:</span> <span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="s1">&#39;spam&#39;</span><span class="p">:</span> <span class="s1">&#39;eggs&#39;</span><span class="p">,</span> <span class="s1">&#39;hannah&#39;</span><span class="p">:</span> <span class="s1">&#39;montana&#39;</span><span class="p">,</span> <span class="s1">&#39;timon&#39;</span><span class="p">:</span> <span class="s1">&#39;pumba&#39;</span><span class="p">,</span> <span class="s1">&#39;monty&#39;</span><span class="p">:</span> <span class="s1">&#39;python&#39;</span><span class="p">}</span>
+<span class="n">Level</span> <span class="mi">1</span><span class="o">-</span><span class="mi">4</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="s1">&#39;/foo/bar&#39;</span><span class="p">,</span> <span class="s1">&#39;user&#39;</span><span class="p">:</span> <span class="s1">&#39;bugs-bunny&#39;</span><span class="p">,</span> <span class="s1">&#39;foo&#39;</span><span class="p">:</span> <span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="s1">&#39;spam&#39;</span><span class="p">:</span> <span class="s1">&#39;eggs&#39;</span><span class="p">,</span> <span class="s1">&#39;hannah&#39;</span><span class="p">:</span> <span class="s1">&#39;montana&#39;</span><span class="p">,</span> <span class="s1">&#39;timon&#39;</span><span class="p">:</span> <span class="s1">&#39;pumba&#39;</span><span class="p">,</span> <span class="s1">&#39;monty&#39;</span><span class="p">:</span> <span class="s1">&#39;python&#39;</span><span class="p">,</span> <span class="s1">&#39;guide&#39;</span><span class="p">:</span> <span class="s1">&#39;bdfl&#39;</span><span class="p">}</span>
+<span class="n">Level</span> <span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="s1">&#39;/foo/bar&#39;</span><span class="p">,</span> <span class="s1">&#39;user&#39;</span><span class="p">:</span> <span class="s1">&#39;bugs-bunny&#39;</span><span class="p">,</span> <span class="s1">&#39;foo&#39;</span><span class="p">:</span> <span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="s1">&#39;spam&#39;</span><span class="p">:</span> <span class="s1">&#39;eggs&#39;</span><span class="p">,</span> <span class="s1">&#39;hannah&#39;</span><span class="p">:</span> <span class="s1">&#39;montana&#39;</span><span class="p">,</span> <span class="s1">&#39;timon&#39;</span><span class="p">:</span> <span class="s1">&#39;pumba&#39;</span><span class="p">,</span> <span class="s1">&#39;monty&#39;</span><span class="p">:</span> <span class="s1">&#39;python&#39;</span><span class="p">,</span> <span class="s1">&#39;guide&#39;</span><span class="p">:</span> <span class="s1">&#39;bdfl&#39;</span><span class="p">}</span>
+</code></pre></div>
+
+<p>Here as we can see, regardless of which level of context manager we are in, or even if it's a completely new context manager, the keys keep on accumulating. </p>
+<p>This is not something we want because there are multiple places in our business logic where we want to track different changes with different metadata instead of using the metadata from previous calls to <code>pghistory.context</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">my_view</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;POST&quot;</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">pghistory</span><span class="o">.</span><span class="n">context</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;POST&quot;</span><span class="p">):</span>
+            <span class="c1"># Perform some action</span>
+            <span class="c1"># save audit log</span>
+            <span class="k">pass</span>
+
+    <span class="k">elif</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;GET&quot;</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">pghistory</span><span class="o">.</span><span class="n">context</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;GET&quot;</span><span class="p">):</span>
+            <span class="c1"># Perform some action</span>
+            <span class="c1"># save audit log</span>
+            <span class="k">pass</span>
+
+    <span class="c1"># External API call</span>
+    <span class="c1"># Update an internal state</span>
+    <span class="k">with</span> <span class="n">pghistory</span><span class="o">.</span><span class="n">context</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;EXTERNAL&quot;</span><span class="p">):</span>
+        <span class="c1"># Perform some action</span>
+        <span class="c1"># save audit log</span>
+        <span class="k">pass</span>
+
+    <span class="c1"># Another action that updates the internal state</span>
+    <span class="k">with</span> <span class="n">pghistory</span><span class="o">.</span><span class="n">context</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;INTERNAL&quot;</span><span class="p">):</span>
+        <span class="c1"># Perform some action</span>
+        <span class="c1"># save audit log</span>
+        <span class="k">pass</span>
+</code></pre></div>
+
+<p>Now for the above, the ideal behaviour we want is that every audit log should get the keys that were included in its context, but not the ones added by other contexts, apart from the common keys coming from the middleware.</p>
+<h3>Solution</h3>
+<p>We want a solution where we want the keys added by the middleware to persist, but we do not want the keys added inside the views to persist, and every time we exit from a context the keys should be removed from the metadata.</p>
+<p>For this the solution was to override the default implementation of <a href="https://github.com/AmbitionEng/django-pghistory/blob/e991e610ddfc393aa7e3f39945627485e0d7bc60/pghistory/runtime.py#L115"><code>pghistory.context</code></a>. Let's say the custom implementation is called <code>custom_pg_context</code>, then we want the output of the program we had earlier on to be:</p>
+<p>Here only want the <code>user</code> and <code>url</code> to persist (later on <code>timon</code> as well)</p>
+<div class="highlight"><pre><span></span><code>Level<span class="w"> </span><span class="m">1</span>-1:<span class="w"> </span><span class="o">{</span><span class="s1">&#39;url&#39;</span>:<span class="w"> </span><span class="s1">&#39;/foo/bar&#39;</span>,<span class="w"> </span><span class="s1">&#39;user&#39;</span>:<span class="w"> </span><span class="s1">&#39;bugs-bunny&#39;</span><span class="o">}</span>
+Level<span class="w"> </span><span class="m">2</span>-1:<span class="w"> </span><span class="o">{</span><span class="s1">&#39;url&#39;</span>:<span class="w"> </span><span class="s1">&#39;/foo/bar&#39;</span>,<span class="w"> </span><span class="s1">&#39;user&#39;</span>:<span class="w"> </span><span class="s1">&#39;bugs-bunny&#39;</span>,<span class="w"> </span><span class="s1">&#39;foo&#39;</span>:<span class="w"> </span><span class="s1">&#39;bar&#39;</span><span class="o">}</span>
+Level<span class="w"> </span><span class="m">3</span>-1:<span class="w"> </span><span class="o">{</span><span class="s1">&#39;url&#39;</span>:<span class="w"> </span><span class="s1">&#39;/foo/bar&#39;</span>,<span class="w"> </span><span class="s1">&#39;user&#39;</span>:<span class="w"> </span><span class="s1">&#39;bugs-bunny&#39;</span>,<span class="w"> </span><span class="s1">&#39;foo&#39;</span>:<span class="w"> </span><span class="s1">&#39;bar&#39;</span>,<span class="w"> </span><span class="s1">&#39;spam&#39;</span>:<span class="w"> </span><span class="s1">&#39;eggs&#39;</span><span class="o">}</span>
+<span class="c1"># Notice the lack of &#39;spam&#39;: &#39;eggs&#39; in 3-2</span>
+Level<span class="w"> </span><span class="m">3</span>-2:<span class="w"> </span><span class="o">{</span><span class="s1">&#39;url&#39;</span>:<span class="w"> </span><span class="s1">&#39;/foo/bar&#39;</span>,<span class="w"> </span><span class="s1">&#39;user&#39;</span>:<span class="w"> </span><span class="s1">&#39;bugs-bunny&#39;</span>,<span class="w"> </span><span class="s1">&#39;foo&#39;</span>:<span class="w"> </span><span class="s1">&#39;bar&#39;</span>,<span class="w"> </span><span class="s1">&#39;hannah&#39;</span>:<span class="w"> </span><span class="s1">&#39;montana&#39;</span><span class="o">}</span>
+Level<span class="w"> </span><span class="m">4</span>-1:<span class="w"> </span><span class="o">{</span><span class="s1">&#39;url&#39;</span>:<span class="w"> </span><span class="s1">&#39;/foo/bar&#39;</span>,<span class="w"> </span><span class="s1">&#39;user&#39;</span>:<span class="w"> </span><span class="s1">&#39;bugs-bunny&#39;</span>,<span class="w"> </span><span class="s1">&#39;foo&#39;</span>:<span class="w"> </span><span class="s1">&#39;bar&#39;</span>,<span class="w"> </span><span class="s1">&#39;hannah&#39;</span>:<span class="w"> </span><span class="s1">&#39;montana&#39;</span>,<span class="w"> </span><span class="s1">&#39;timon&#39;</span>:<span class="w"> </span><span class="s1">&#39;pumba&#39;</span><span class="o">}</span>
+<span class="c1"># Everything has been removed when we hit 1-2 except for url and user</span>
+<span class="c1"># and timon, because these we want to persist.</span>
+Level<span class="w"> </span><span class="m">1</span>-2:<span class="w"> </span><span class="o">{</span><span class="s1">&#39;url&#39;</span>:<span class="w"> </span><span class="s1">&#39;/foo/bar&#39;</span>,<span class="w"> </span><span class="s1">&#39;user&#39;</span>:<span class="w"> </span><span class="s1">&#39;bugs-bunny&#39;</span>,<span class="w"> </span><span class="s1">&#39;timon&#39;</span>:<span class="w"> </span><span class="s1">&#39;pumba&#39;</span><span class="o">}</span>
+Level<span class="w"> </span><span class="m">2</span>-2:<span class="w"> </span><span class="o">{</span><span class="s1">&#39;url&#39;</span>:<span class="w"> </span><span class="s1">&#39;/foo/bar&#39;</span>,<span class="w"> </span><span class="s1">&#39;user&#39;</span>:<span class="w"> </span><span class="s1">&#39;bugs-bunny&#39;</span>,<span class="w"> </span><span class="s1">&#39;timon&#39;</span>:<span class="w"> </span><span class="s1">&#39;pumba&#39;</span>,<span class="w"> </span><span class="s1">&#39;monty&#39;</span>:<span class="w"> </span><span class="s1">&#39;python&#39;</span><span class="o">}</span>
+Level<span class="w"> </span><span class="m">1</span>-4:<span class="w"> </span><span class="o">{</span><span class="s1">&#39;url&#39;</span>:<span class="w"> </span><span class="s1">&#39;/foo/bar&#39;</span>,<span class="w"> </span><span class="s1">&#39;user&#39;</span>:<span class="w"> </span><span class="s1">&#39;bugs-bunny&#39;</span>,<span class="w"> </span><span class="s1">&#39;timon&#39;</span>:<span class="w"> </span><span class="s1">&#39;pumba&#39;</span>,<span class="w"> </span><span class="s1">&#39;guido&#39;</span>:<span class="w"> </span><span class="s1">&#39;bdfl&#39;</span><span class="o">}</span>
+Level<span class="w"> </span><span class="m">1</span>-5:<span class="w"> </span><span class="o">{</span><span class="s1">&#39;url&#39;</span>:<span class="w"> </span><span class="s1">&#39;/foo/bar&#39;</span>,<span class="w"> </span><span class="s1">&#39;user&#39;</span>:<span class="w"> </span><span class="s1">&#39;bugs-bunny&#39;</span>,<span class="w"> </span><span class="s1">&#39;timon&#39;</span>:<span class="w"> </span><span class="s1">&#39;pumba&#39;</span>,<span class="w"> </span><span class="s1">&#39;guido&#39;</span>:<span class="w"> </span><span class="s1">&#39;bdfl&#39;</span><span class="o">}</span>
+Level<span class="w"> </span><span class="m">1</span>-6:<span class="w"> </span><span class="o">{</span><span class="s1">&#39;url&#39;</span>:<span class="w"> </span><span class="s1">&#39;/foo/bar&#39;</span>,<span class="w"> </span><span class="s1">&#39;user&#39;</span>:<span class="w"> </span><span class="s1">&#39;bugs-bunny&#39;</span>,<span class="w"> </span><span class="s1">&#39;timon&#39;</span>:<span class="w"> </span><span class="s1">&#39;pumba&#39;</span>,<span class="w"> </span><span class="s1">&#39;guido&#39;</span>:<span class="w"> </span><span class="s1">&#39;bdfl&#39;</span><span class="o">}</span>
+</code></pre></div>
+
+<p>Now this is what the code looks like now(<a href="https://gist.github.com/ashwch/87a32121b80e41446260be0b3a89bf7e">gist</a>):</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span> <span class="nn">contextvars</span> <span class="kn">import</span> <span class="n">ContextVar</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+
+<span class="kn">import</span> <span class="nn">pghistory</span>
+
+<span class="n">context_stack</span><span class="p">:</span> <span class="n">ContextVar</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">custom_pg_context</span><span class="p">]]</span> <span class="o">=</span> <span class="n">ContextVar</span><span class="p">(</span>
+    <span class="s2">&quot;context_stack&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="p">[]</span>
+<span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">custom_pg_context</span><span class="p">(</span><span class="n">pghistory</span><span class="o">.</span><span class="n">context</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">persist</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">metadata</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_persist</span> <span class="o">=</span> <span class="n">persist</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_local_metadata</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">token</span> <span class="o">=</span> <span class="n">context_stack</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">context_stack</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">+</span> <span class="p">[</span><span class="bp">self</span><span class="p">])</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">metadata</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">return_value</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__enter__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tracker_value</span> <span class="o">=</span> <span class="n">return_value</span>
+        <span class="k">return</span> <span class="n">return_value</span>
+
+    <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_val</span><span class="p">,</span> <span class="n">exc_tb</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_persist</span><span class="p">:</span>
+                <span class="n">stack</span> <span class="o">=</span> <span class="n">context_stack</span><span class="o">.</span><span class="n">get</span><span class="p">()[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">parent</span> <span class="ow">in</span> <span class="n">stack</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">parent</span><span class="o">.</span><span class="n">_tracker_value</span><span class="p">:</span>
+                        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_local_metadata</span><span class="p">:</span>
+                            <span class="n">parent</span><span class="o">.</span><span class="n">_tracker_value</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__exit__</span><span class="p">(</span><span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_val</span><span class="p">,</span> <span class="n">exc_tb</span><span class="p">)</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="n">current_stack</span> <span class="o">=</span> <span class="n">context_stack</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">current_stack</span> <span class="ow">and</span> <span class="n">current_stack</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">self</span><span class="p">:</span>
+                <span class="n">context_stack</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">current_stack</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_parent_context</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">custom_pg_context</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">stack</span> <span class="o">=</span> <span class="n">context_stack</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">stack</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">stack</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="kc">None</span>
+
+
+<span class="k">with</span> <span class="n">custom_pg_context</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s2">&quot;/foo/bar&quot;</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="s2">&quot;bugs-bunny&quot;</span><span class="p">,</span> <span class="n">persist</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">pg</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Level 1-1: </span><span class="si">{</span><span class="n">pg</span><span class="o">.</span><span class="n">metadata</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="n">custom_pg_context</span><span class="p">(</span><span class="n">foo</span><span class="o">=</span><span class="s2">&quot;bar&quot;</span><span class="p">,</span> <span class="n">persist</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Level 2-1: </span><span class="si">{</span><span class="n">pg</span><span class="o">.</span><span class="n">metadata</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">custom_pg_context</span><span class="p">(</span><span class="n">spam</span><span class="o">=</span><span class="s2">&quot;eggs&quot;</span><span class="p">,</span> <span class="n">persist</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Level 3-1: </span><span class="si">{</span><span class="n">pg</span><span class="o">.</span><span class="n">metadata</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="n">custom_pg_context</span><span class="p">(</span><span class="n">hannah</span><span class="o">=</span><span class="s2">&quot;montana&quot;</span><span class="p">,</span> <span class="n">persist</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Level 3-2: </span><span class="si">{</span><span class="n">pg</span><span class="o">.</span><span class="n">metadata</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">with</span> <span class="n">custom_pg_context</span><span class="p">(</span><span class="n">timon</span><span class="o">=</span><span class="s2">&quot;pumba&quot;</span><span class="p">,</span> <span class="n">persist</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Level 4-1: </span><span class="si">{</span><span class="n">pg</span><span class="o">.</span><span class="n">metadata</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Level 1-2: </span><span class="si">{</span><span class="n">pg</span><span class="o">.</span><span class="n">metadata</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">custom_pg_context</span><span class="p">(</span><span class="n">monty</span><span class="o">=</span><span class="s2">&quot;python&quot;</span><span class="p">,</span> <span class="n">persist</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Level 2-2: </span><span class="si">{</span><span class="n">pg</span><span class="o">.</span><span class="n">metadata</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="k">with</span> <span class="n">custom_pg_context</span><span class="p">(</span><span class="n">guido</span><span class="o">=</span><span class="s2">&quot;bdfl&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">pg_2</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Level 1-4: </span><span class="si">{</span><span class="n">pg_2</span><span class="o">.</span><span class="n">metadata</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Level 1-5: </span><span class="si">{</span><span class="n">pg</span><span class="o">.</span><span class="n">metadata</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Level 1-6: </span><span class="si">{</span><span class="n">pg_2</span><span class="o">.</span><span class="n">metadata</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<h4>What's happening here?</h4>
+<ol>
+<li>We are making use of <code>ContextVar</code> from the <a href="https://docs.python.org/3/library/contextvars.html"><code>contextvars</code></a> module to maintain a stack of all contexts and identify parents and children of any particular context we are in.</li>
+<li>We create a custom class <code>custom_pg_context</code> that inherits from <code>pghistory.context</code>, with an additional <code>persist</code> parameter that defaults to <code>True</code>.</li>
+<li>In the constructor, we keep a copy of the local metadata and add ourselves to the context stack.</li>
+<li>During <code>__enter__</code>, we store the tracker object returned by the parent class for later use.</li>
+<li>The magic happens in <code>__exit__</code>: </li>
+<li>If <code>persist=False</code>, we look through all parent contexts in the stack and remove any keys from our local metadata.</li>
+<li>This ensures that temporary metadata isn't carried forward to other contexts.</li>
+<li>Keys with <code>persist=True</code> (like our <code>user</code>, <code>url</code>, and <code>timon</code>) remain in the metadata across all contexts.</li>
+<li>We also maintain proper stack management by removing our context from the stack when exiting.</li>
+<li>The <code>get_parent_context()</code> static method provides a way to access the parent context if needed.</li>
+</ol>
+<p>This implementation solves our problem by allowing us to control which metadata persists across different parts of our application. We can use <code>persist=True</code> for global tracking (like user and URL from middleware) and <code>persist=False</code> for local, context-specific metadata that shouldn't leak into other operations.</p>
+<h3>Using the Custom Context in Django</h3>
+<p>To implement this in a Django project, you would:</p>
+<ol>
+<li>Create a new module (e.g., <code>core/context.py</code>) with the <code>custom_pg_context</code> implementation.</li>
+<li>Update your middleware to use this custom context manager instead of the default one:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">core.context</span> <span class="kn">import</span> <span class="n">custom_pg_context</span>
+
+<span class="k">class</span> <span class="nc">CustomHistoryMiddleware</span><span class="p">(</span><span class="n">HistoryMiddleware</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="ow">in</span> <span class="n">config</span><span class="o">.</span><span class="n">middleware_methods</span><span class="p">():</span>
+            <span class="c1"># Use our custom context manager with persist=True</span>
+            <span class="k">with</span> <span class="n">custom_pg_context</span><span class="p">(</span><span class="n">persist</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">get_context</span><span class="p">(</span><span class="n">request</span><span class="p">)):</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">DjangoWSGIRequest</span><span class="p">):</span>
+                    <span class="n">request</span><span class="o">.</span><span class="vm">__class__</span> <span class="o">=</span> <span class="n">WSGIRequest</span>
+                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">DjangoASGIRequest</span><span class="p">):</span>
+                    <span class="n">request</span><span class="o">.</span><span class="vm">__class__</span> <span class="o">=</span> <span class="n">ASGIRequest</span>
+
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_response</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_response</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+</code></pre></div>
+
+<ol>
+<li>In your views and services, use the custom context manager with <code>persist=False</code> for operation-specific metadata:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">core.context</span> <span class="kn">import</span> <span class="n">custom_pg_context</span>
+
+<span class="k">def</span> <span class="nf">my_view</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="c1"># Use persist=False for view-specific metadata</span>
+    <span class="k">with</span> <span class="n">custom_pg_context</span><span class="p">(</span><span class="n">operation</span><span class="o">=</span><span class="s2">&quot;view_details&quot;</span><span class="p">,</span> <span class="n">persist</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="c1"># Perform database operations</span>
+        <span class="n">item</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>  <span class="c1"># This will include the operation metadata</span>
+
+    <span class="c1"># Start a new context without leaking previous metadata</span>
+    <span class="k">with</span> <span class="n">custom_pg_context</span><span class="p">(</span><span class="n">operation</span><span class="o">=</span><span class="s2">&quot;update_related&quot;</span><span class="p">,</span> <span class="n">persist</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="c1"># Perform more operations</span>
+        <span class="n">related_item</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>  <span class="c1"># Only includes this operation&#39;s metadata</span>
+</code></pre></div>
+
+<h3>Performance Considerations</h3>
+<p>One thing to note is that this approach does add some overhead, especially with deeply nested contexts. For most applications, this overhead is negligible compared to database operations, but it's something to keep in mind for performance-critical code paths.</p>
+<p>If you're concerned about performance, you could optimize the implementation further:</p>
+<ol>
+<li>Use a more efficient data structure for the context stack</li>
+<li>Limit the depth of context nesting</li>
+<li>Consider using a profiler to identify bottlenecks in your specific use case</li>
+</ol>
+<h3>Conclusion</h3>
+<p>By extending <code>pghistory.context</code> with our custom implementation, we've solved the metadata leakage problem while maintaining the convenience of the context-based tracking system. This approach gives us fine-grained control over which metadata persists across different operations, making our audit logs more accurate and meaningful.</p>
+<p>In a real-world Django application, this means we can add specific tracking metadata to different operations without polluting the audit trail of unrelated operations, while still maintaining the global context from middleware.</p>
+        </div>
+
+        <div class="article-meta">
+            <div class="tags-section">
+              <h5>Tags:</h5>
+              <div class="tags-container">
+                  <a href="https://ashwch.com/tag/django.html" class="tag">django</a>
+                  <a href="https://ashwch.com/tag/programming.html" class="tag">programming</a>
+                  <a href="https://ashwch.com/tag/python.html" class="tag">python</a>
+                  <a href="https://ashwch.com/tag/django-pghistory.html" class="tag">django-pghistory</a>
+                  <a href="https://ashwch.com/tag/diversio.html" class="tag">diversio</a>
+                  <a href="https://ashwch.com/tag/audit-trails.html" class="tag">audit-trails</a>
+                  <a href="https://ashwch.com/tag/context-management.html" class="tag">context-management</a>
+                  <a href="https://ashwch.com/tag/django-middleware.html" class="tag">django-middleware</a>
+                  <a href="https://ashwch.com/tag/python-contextvars.html" class="tag">python-contextvars</a>
+                  <a href="https://ashwch.com/tag/database-tracking.html" class="tag">database-tracking</a>
+                  <a href="https://ashwch.com/tag/django-models.html" class="tag">django-models</a>
+                  <a href="https://ashwch.com/tag/code-patterns.html" class="tag">code-patterns</a>
+                  <a href="https://ashwch.com/tag/postgresql.html" class="tag">postgresql</a>
+                  <a href="https://ashwch.com/tag/django-orm.html" class="tag">django-orm</a>
+                  <a href="https://ashwch.com/tag/debugging.html" class="tag">debugging</a>
+              </div>
+            </div>
+          
+          <div class="back-button-container">
+            <a href="https://ashwch.com" class="back-to-posts">
+              <i class="fas fa-arrow-left"></i> Back to Posts
+            </a>
+          </div>
+        </div>
+      </article>
+
+<section class="comments mt-5">
+  <div class="card">
+    <div class="card-header">
+      <h3 class="mb-0">Comments</h3>
+    </div>
+    <div class="card-body">
+      <div id="disqus_thread" aria-live="polite">
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+      <script type="text/javascript">
+        var disqus_shortname = 'ashwch';
+        var disqus_identifier = '/managing-context-metadata-django-pghistory-solving-persistence-problem.html';
+        var disqus_url = 'https://ashwch.com/managing-context-metadata-django-pghistory-solving-persistence-problem.html';
+        var disqus_title = 'Managing Context Metadata in Django-PGHistory: Solving the Persistence Problem';
+        (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = "//" + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+    </div>
+  </div>
+</section>
+    </div>
+  </div>
+</div>
+
+<style type="text/css">
+/* Jupyter notebook styling */
+.jp-Cell {
+  max-width: 100%;
+  margin-bottom: 1.5rem;
+}
+
+.jp-Cell-inputWrapper,
+.jp-Cell-outputWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.jp-InputPrompt, 
+.jp-OutputPrompt {
+  font-family: monospace;
+  font-size: 0.9rem;
+  color: #888;
+  width: 4.5rem;
+  padding-right: 0.5rem;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.jp-CodeCell .jp-Cell-inputArea {
+  display: flex;
+  background-color: #f6f8fa;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+}
+
+.jp-CodeCell .jp-Cell-outputArea {
+  display: flex;
+  margin-top: 0.5rem;
+}
+
+.jp-CodeMirror {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  padding: 0.5rem;
+  width: 100%;
+}
+
+.jp-OutputArea-output {
+  padding: 0.5rem;
+  width: 100%;
+  overflow-x: auto;
+}
+
+.jp-RenderedMarkdown {
+  margin: 0;
+}
+
+/* Pandas DataFrames */
+table.dataframe {
+  border-collapse: collapse;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin: 1rem 0;
+  width: 100%;
+}
+
+.dataframe thead th {
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  padding: 0.5rem;
+  text-align: left;
+}
+
+.dataframe tbody td {
+  border: 1px solid #ddd;
+  padding: 0.5rem;
+  text-align: left;
+}
+
+.dataframe tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Matplotlib figures */
+.jp-RenderedImage img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1rem auto;
+}
+
+/* Hide cell execution counts */
+.prompt {
+  display: none;
+}
+
+/* Cell borders */
+div.cell {
+  border: none;
+  margin-bottom: 1.5rem;
+}
+
+div.text_cell_render {
+  padding: 0;
+}
+
+/* Code highlighting */
+pre code {
+  background-color: inherit;
+  padding: 0;
+}
+
+/* Jupyter code blocks */
+div.input_area {
+  background-color: #f6f8fa;
+  border-radius: 6px;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+/* Mobile optimization */
+@media (max-width: 768px) {
+  .jp-InputPrompt, 
+  .jp-OutputPrompt {
+    width: 3rem;
+    font-size: 0.8rem;
+  }
+  
+  .jp-CodeMirror,
+  .jp-OutputArea-output {
+    font-size: 0.8rem;
+  }
+  
+  table.dataframe {
+    font-size: 0.8rem;
+  }
+  
+  .dataframe thead th,
+  .dataframe tbody td {
+    padding: 0.3rem;
+  }
+}</style>
+        </main>
+
+        <footer class="site-footer mt-5 py-4 bg-light">
+            <div class="container text-center">
+                <p class="mb-0">
+                    © 2025 Ashwini Chaudhary(Monty), license <a href="https://github.com/ashwch/ashwch.github.io/blob/master/LICENSE">MIT</a>
+                    unless otherwise noted.
+                </p>
+                <p class="mb-0 small text-muted">
+                    Generated by <a href="http://docs.getpelican.com/">Pelican</a>
+                </p>
+            </div>
+        </footer>
+
+        <!-- Bootstrap JS Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        
+        <!-- Theme Switching Script -->
+        <script>
+            // Theme switching functionality
+            (function() {
+                const themeToggle = document.getElementById('theme-toggle');
+                const lightIcon = document.getElementById('theme-toggle-light');
+                const darkIcon = document.getElementById('theme-toggle-dark');
+                const htmlElement = document.documentElement;
+                
+                // Function to set theme
+                function setTheme(theme) {
+                    if (theme === 'dark') {
+                        htmlElement.setAttribute('data-theme', 'dark');
+                        localStorage.setItem('theme', 'dark');
+                        lightIcon.classList.add('d-none');
+                        darkIcon.classList.remove('d-none');
+                    } else {
+                        htmlElement.setAttribute('data-theme', 'light');
+                        localStorage.setItem('theme', 'light');
+                        darkIcon.classList.add('d-none');
+                        lightIcon.classList.remove('d-none');
+                    }
+                }
+                
+                // Check for saved user preference, system preference, or default to light
+                const savedTheme = localStorage.getItem('theme');
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                
+                if (savedTheme === 'dark') {
+                    setTheme('dark');
+                } else if (savedTheme === 'light') {
+                    setTheme('light');
+                } else if (prefersDark) {
+                    setTheme('dark');
+                } else {
+                    setTheme('light');
+                }
+                
+                // Toggle theme on button click
+                themeToggle.addEventListener('click', () => {
+                    const currentTheme = htmlElement.getAttribute('data-theme');
+                    if (currentTheme === 'dark') {
+                        setTheme('light');
+                    } else {
+                        setTheme('dark');
+                    }
+                });
+            })();
+        </script>
+
+<!-- Google Analytics (GA4) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8G7DZ59108"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-8G7DZ59108');
+</script>
+    </body>
+</html>

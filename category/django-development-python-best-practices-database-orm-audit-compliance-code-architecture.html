@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="author" content="Ashwini Chaudhary(Monty)">
         <meta name="description" content="">
-        <title>Ashwini's blog - Categories | Ashwini's blog</title>
+        <title>Ashwini's blog - Django Development, Python Best Practices, Database & ORM, Audit & Compliance, Code Architecture category | Ashwini's blog</title>
 
         <!-- Favicon -->
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
@@ -657,15 +657,68 @@ code,
         </header>
 
         <main class="site-content my-4">
-    <h2>Categories on Ashwini's blog</h2>
-    <ul>
-        <li><a href="https://ashwch.com/category/business-leadership.html">Business & Leadership</a> (1)</li>
-        <li><a href="https://ashwch.com/category/django-development-python-best-practices-database-orm-audit-compliance-code-architecture.html">Django Development, Python Best Practices, Database & ORM, Audit & Compliance, Code Architecture</a> (1)</li>
-        <li><a href="https://ashwch.com/category/engineering-management.html">Engineering Management</a> (1)</li>
-        <li><a href="https://ashwch.com/category/hiring.html">Hiring</a> (1)</li>
-        <li><a href="https://ashwch.com/category/productivity-self-improvement-life-lessons.html">Productivity, Self-Improvement, Life Lessons</a> (1)</li>
-        <li><a href="https://ashwch.com/category/programming.html">Programming</a> (4)</li>
-    </ul>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 mx-auto">
+      <div class="index">
+        <article class="article-card">
+          <div class="card-body">
+            <h2 class="card-title">
+              <a href="https://ashwch.com/managing-context-metadata-django-pghistory-solving-persistence-problem.html">Managing Context Metadata in Django-PGHistory: Solving the Persistence Problem</a>
+            </h2>
+            
+            <div class="card-meta mb-3">
+              <time datetime="2025-04-02T00:00:00-04:00" class="card-date">
+                Wed 02 April 2025
+              </time>
+            </div>
+            
+            <div class="card-text">
+              <p>In this post you would learn how <code>pghistory.context</code> works and some of its gotchas that we faced at Diversio(thanks to <a href="https://github.com/amalrajdiversio">Amal Raj B R</a> who identified this) and how we adjusted our approach to avoid saving context metadata that is not relevant to the current business but is being carried over from a parent context.</p>
+<h3>What is <code>pghistory.context</code>?</h3>
+<p><code>pghistory.context</code> is a decorator and a function that is part of the fantastic <a href="https://django-pghistory.readthedocs.io/en/stable/"><code>django-pghistory</code></a> project. I would cover how we use <code>django-pghistory</code> in a separate post.</p>
+<p>When <code>django-pghistory</code> is keeping track of changes to Django models, there are several instances where we want to include additional information with the tracked changes. This is where <code>pghistory.context</code> comes into picture to easily capture such metadata.</p>
+<p>We &#8230;<a class="read-more" href="/managing-context-metadata-django-pghistory-solving-persistence-problem.html"><span></span></a></p>
+            </div>
+            
+            <div class="mt-4">
+              <!-- Tags section -->
+              <div class="card-tags mb-3">
+                  <a href="https://ashwch.com/tag/django.html" class="tag">django</a>
+                  <a href="https://ashwch.com/tag/programming.html" class="tag">programming</a>
+                  <a href="https://ashwch.com/tag/python.html" class="tag">python</a>
+                  <a href="https://ashwch.com/tag/django-pghistory.html" class="tag">django-pghistory</a>
+                  <a href="https://ashwch.com/tag/diversio.html" class="tag">diversio</a>
+                  <a href="https://ashwch.com/tag/audit-trails.html" class="tag">audit-trails</a>
+                  <a href="https://ashwch.com/tag/context-management.html" class="tag">context-management</a>
+                  <a href="https://ashwch.com/tag/django-middleware.html" class="tag">django-middleware</a>
+                  <a href="https://ashwch.com/tag/python-contextvars.html" class="tag">python-contextvars</a>
+                  <a href="https://ashwch.com/tag/database-tracking.html" class="tag">database-tracking</a>
+                  <a href="https://ashwch.com/tag/django-models.html" class="tag">django-models</a>
+                  <a href="https://ashwch.com/tag/code-patterns.html" class="tag">code-patterns</a>
+                  <a href="https://ashwch.com/tag/postgresql.html" class="tag">postgresql</a>
+                  <a href="https://ashwch.com/tag/django-orm.html" class="tag">django-orm</a>
+                  <a href="https://ashwch.com/tag/debugging.html" class="tag">debugging</a>
+              </div>
+              
+              <!-- Read more button -->
+              <div>
+                <a href="https://ashwch.com/managing-context-metadata-django-pghistory-solving-persistence-problem.html" class="read-more-link">Read more</a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <nav class="pagination">
+          <div class="pagination-prev">
+          </div>
+          <div class="pagination-next">
+          </div>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
         </main>
 
         <footer class="site-footer mt-5 py-4 bg-light">
