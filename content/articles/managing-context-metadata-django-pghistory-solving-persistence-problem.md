@@ -7,7 +7,7 @@ Slug: managing-context-metadata-django-pghistory-solving-persistence-problem
 Authors: Ashwini Chaudhary
 Summary: Learn how to prevent metadata leakage between contexts in django-pghistory for cleaner, more accurate audit trails in your Django applications.
 
-In this post you would learn how `pghistory.context` works and some of its gotchas that we faced at Diversio(thanks to [Amal Raj B R](https://github.com/amalrajdiversio) who identified this) and how we adjusted our approach to avoid saving context metadata that is not relevant to the current business but is being carried over from a parent context.
+In this post you would learn how `pghistory.context` works and some of its gotchas that we faced at Diversio(thanks to [Amal Raj B R](https://github.com/amalrajdiversio) who identified this) and how we adjusted our approach to avoid saving context metadata that is not relevant to the current business logic but is being carried over from a parent context.
 
 ### What is `pghistory.context`?
 
@@ -70,10 +70,12 @@ In [1]: import pghistory
    ...:         print(f"Level 2-2: {pg.metadata}")
    ...:
    ...:
-   ...: with pghistory.context(guido="bdfl") as pg:
-   ...:     print(f"Level 1-4: {pg.metadata}")
+   ...: with pghistory.context(guido="bdfl") as pg_2:
+   ...:     print(f"Level 1-4: {pg_2.metadata}")
    ...:
    ...: print(f"Level 1-5: {pg.metadata}")
+   ...: print(f"Level 1-6: {pg_2.metadata}")
+   ...:
 
 Level 1-1: {'url': '/foo/bar', 'user': 'bugs-bunny'}
 Level 2-1: {'url': '/foo/bar', 'user': 'bugs-bunny', 'foo': 'bar'}
@@ -82,8 +84,9 @@ Level 3-2: {'url': '/foo/bar', 'user': 'bugs-bunny', 'foo': 'bar', 'spam': 'eggs
 Level 4-1: {'url': '/foo/bar', 'user': 'bugs-bunny', 'foo': 'bar', 'spam': 'eggs', 'hannah': 'montana', 'timon': 'pumba'}
 Level 1-2: {'url': '/foo/bar', 'user': 'bugs-bunny', 'foo': 'bar', 'spam': 'eggs', 'hannah': 'montana', 'timon': 'pumba'}
 Level 2-2: {'url': '/foo/bar', 'user': 'bugs-bunny', 'foo': 'bar', 'spam': 'eggs', 'hannah': 'montana', 'timon': 'pumba', 'monty': 'python'}
-Level 1-4: {'url': '/foo/bar', 'user': 'bugs-bunny', 'foo': 'bar', 'spam': 'eggs', 'hannah': 'montana', 'timon': 'pumba', 'monty': 'python', 'guide': 'bdfl'}
-Level 1-5: {'url': '/foo/bar', 'user': 'bugs-bunny', 'foo': 'bar', 'spam': 'eggs', 'hannah': 'montana', 'timon': 'pumba', 'monty': 'python', 'guide': 'bdfl'}
+Level 1-4: {'url': '/foo/bar', 'user': 'bugs-bunny', 'foo': 'bar', 'spam': 'eggs', 'hannah': 'montana', 'timon': 'pumba', 'monty': 'python', 'guido': 'bdfl'}
+Level 1-5: {'url': '/foo/bar', 'user': 'bugs-bunny', 'foo': 'bar', 'spam': 'eggs', 'hannah': 'montana', 'timon': 'pumba', 'monty': 'python', 'guido': 'bdfl'}
+Level 1-6: {'url': '/foo/bar', 'user': 'bugs-bunny', 'foo': 'bar', 'spam': 'eggs', 'hannah': 'montana', 'timon': 'pumba', 'monty': 'python', 'guido': 'bdfl'}
 ```
 
 Here as we can see, regardless of which level of context manager we are in, or even if it's a completely new context manager, the keys keep on accumulating. 
@@ -127,6 +130,8 @@ Now for the above, the ideal behaviour we want is that every audit log should ge
 We want a solution where we want the keys added by the middleware to persist, but we do not want the keys added inside the views to persist, and every time we exit from a context the keys should be removed from the metadata.
 
 For this the solution was to override the default implementation of [`pghistory.context`](https://github.com/AmbitionEng/django-pghistory/blob/e991e610ddfc393aa7e3f39945627485e0d7bc60/pghistory/runtime.py#L115). Let's say the custom implementation is called `custom_pg_context`, then we want the output of the program we had earlier on to be:
+
+The key change we made was introducing a new parameter called `persist`. When set to `True` (the default), metadata keys will persist across nested contexts and remain available to other contexts. When set to `False`, metadata keys added in the current context will automatically be removed upon exiting the context, ensuring they don't leak into subsequent operations.
 
 Here only want the `user` and `url` to persist (later on `timon` as well)
 
@@ -179,6 +184,7 @@ class custom_pg_context(pghistory.context):
     def __exit__(self, exc_type, exc_val, exc_tb):
         try:
             if not self._persist:
+                # Removing keys added in this context from parent contexts
                 stack = context_stack.get()[:-1]
                 for parent in stack:
                     if parent._tracker_value:
