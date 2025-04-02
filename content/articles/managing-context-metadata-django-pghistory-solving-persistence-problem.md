@@ -235,10 +235,12 @@ print(f"Level 1-6: {pg_2.metadata}")
 2. We create a custom class `custom_pg_context` that inherits from `pghistory.context`, with an additional `persist` parameter that defaults to `True`.
 3. In the constructor, we keep a copy of the local metadata and add ourselves to the context stack.
 4. During `__enter__`, we store the tracker object returned by the parent class for later use.
-5. The magic happens in `__exit__`: 
-   - If `persist=False`, we look through all parent contexts in the stack and remove any keys from our local metadata.
-   - This ensures that temporary metadata isn't carried forward to other contexts.
-   - Keys with `persist=True` (like our `user`, `url`, and `timon`) remain in the metadata across all contexts.
+5. The magic happens in `__exit__`:
+
+     - If `persist=False`, we look through all parent contexts in the stack and remove any keys from our local metadata.
+     - This ensures that temporary metadata isn't carried forward to other contexts.
+     - Keys with `persist=True` (like our `user`, `url`, and `timon`) remain in the metadata across all contexts.
+
 6. We also maintain proper stack management by removing our context from the stack when exiting.
 7. The `get_parent_context()` static method provides a way to access the parent context if needed.
 
