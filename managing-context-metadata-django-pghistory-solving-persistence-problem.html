@@ -866,11 +866,17 @@ Level<span class="w"> </span><span class="m">1</span>-6:<span class="w"> </span>
 <li>We create a custom class <code>custom_pg_context</code> that inherits from <code>pghistory.context</code>, with an additional <code>persist</code> parameter that defaults to <code>True</code>.</li>
 <li>In the constructor, we keep a copy of the local metadata and add ourselves to the context stack.</li>
 <li>During <code>__enter__</code>, we store the tracker object returned by the parent class for later use.</li>
-<li>The magic happens in <code>__exit__</code>: </li>
+<li>
+<p>The magic happens in <code>__exit__</code>:</p>
+<ul>
 <li>If <code>persist=False</code>, we look through all parent contexts in the stack and remove any keys from our local metadata.</li>
 <li>This ensures that temporary metadata isn't carried forward to other contexts.</li>
 <li>Keys with <code>persist=True</code> (like our <code>user</code>, <code>url</code>, and <code>timon</code>) remain in the metadata across all contexts.</li>
-<li>We also maintain proper stack management by removing our context from the stack when exiting.</li>
+</ul>
+</li>
+<li>
+<p>We also maintain proper stack management by removing our context from the stack when exiting.</p>
+</li>
 <li>The <code>get_parent_context()</code> static method provides a way to access the parent context if needed.</li>
 </ol>
 <p>This implementation solves our problem by allowing us to control which metadata persists across different parts of our application. We can use <code>persist=True</code> for global tracking (like user and URL from middleware) and <code>persist=False</code> for local, context-specific metadata that shouldn't leak into other operations.</p>
