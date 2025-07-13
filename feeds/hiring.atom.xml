@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Ashwini's blog - Hiring</title><link href="https://ashwch.com/" rel="alternate"></link><link href="https://ashwch.com/feeds/hiring.atom.xml" rel="self"></link><id>https://ashwch.com/</id><updated>2025-02-23T00:00:00-05:00</updated><entry><title>Evolving Engineering Recruitment at Diversio in the Age of AI</title><link href="https://ashwch.com/evolving-engineering-recruitment-at-diversio-in-the-age-of-ai.html" rel="alternate"></link><published>2025-02-23T00:00:00-05:00</published><updated>2025-02-23T00:00:00-05:00</updated><author><name>Ashwini Chaudhary</name></author><id>tag:ashwch.com,2025-02-23:/evolving-engineering-recruitment-at-diversio-in-the-age-of-ai.html</id><summary type="html">&lt;p&gt;What we have learned hiring at Diversio&lt;/p&gt;</summary><content type="html">&lt;h1 id="introduction-evolution-at-diversio"&gt;&lt;a class="toclink" href="#introduction-evolution-at-diversio"&gt;Introduction &amp;amp; Evolution at Diversio&lt;/a&gt;&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Ashwini's blog - Hiring</title><link href="https://ashwch.com/" rel="alternate"></link><link href="https://ashwch.com/feeds/hiring.atom.xml" rel="self"></link><id>https://ashwch.com/</id><updated>2025-02-23T00:00:00-05:00</updated><entry><title>Evolving Engineering Recruitment at Diversio in the Age of AI</title><link href="https://ashwch.com/evolving-engineering-recruitment-at-diversio-in-the-age-of-ai.html" rel="alternate"></link><published>2025-02-23T00:00:00-05:00</published><updated>2025-02-23T00:00:00-05:00</updated><author><name>Ashwini Chaudhary</name></author><id>tag:ashwch.com,2025-02-23:/evolving-engineering-recruitment-at-diversio-in-the-age-of-ai.html</id><summary type="html">&lt;p&gt;What we have learned hiring at Diversio&lt;/p&gt;</summary><content type="html">&lt;h2 id="table-of-contents"&gt;&lt;a class="toclink" href="#table-of-contents"&gt;Table of Contents&lt;/a&gt;&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href="#introduction-evolution-at-diversio"&gt;Introduction &amp;amp; Evolution at Diversio&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#how-we-used-to-do-it-pre-chatgpt"&gt;How We Used to Do It (Pre-ChatGPT)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#resume-screening"&gt;Resume Screening&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#take-home-exercises"&gt;Take Home Exercises&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#zoom-interview"&gt;Zoom Interview&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#interviewing-in-2025"&gt;Interviewing in 2025&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#posting-the-job-ad"&gt;Posting the Job Ad&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#filtering-resumes"&gt;Filtering Resumes&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#screening-round"&gt;Screening Round&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#coding-round"&gt;Coding Round&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#final-round"&gt;Final Round&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;h1 id="introduction-evolution-at-diversio"&gt;&lt;a class="toclink" href="#introduction-evolution-at-diversio"&gt;Introduction &amp;amp; Evolution at Diversio&lt;/a&gt;&lt;/h1&gt;
 &lt;p&gt;At Diversio, our hiring process has evolved significantly over the years. In our early days, we relied heavily on detailed resume screenings and take-home exercises. Today, we’ve adapted to a new landscape where remote hiring, AI-assisted filtering, and a streamlined interview process help us manage the increased applicant volume while ensuring we find the best long-term fits.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Key Changes at a Glance:&lt;/strong&gt;&lt;/p&gt;
 &lt;ul&gt;
