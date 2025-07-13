@@ -7,6 +7,21 @@ Slug: evolving-engineering-recruitment-at-diversio-in-the-age-of-ai
 Authors: Ashwini Chaudhary
 Summary: What we have learned hiring at Diversio
 
+## Table of Contents
+
+1. [Introduction & Evolution at Diversio](#introduction-evolution-at-diversio)
+2. [How We Used to Do It (Pre-ChatGPT)](#how-we-used-to-do-it-pre-chatgpt)
+   - [Resume Screening](#resume-screening)
+   - [Take Home Exercises](#take-home-exercises)
+   - [Zoom Interview](#zoom-interview)
+3. [Interviewing in 2025](#interviewing-in-2025)
+   - [Posting the Job Ad](#posting-the-job-ad)
+   - [Filtering Resumes](#filtering-resumes)
+   - [Screening Round](#screening-round)
+   - [Coding Round](#coding-round)
+   - [Final Round](#final-round)
+
+---
 
 # Introduction & Evolution at Diversio
 

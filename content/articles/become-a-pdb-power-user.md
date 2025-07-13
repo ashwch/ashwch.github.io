@@ -11,6 +11,23 @@ This is an explanatory article related to my talk at [MUPy](https://www.pypals.o
 
 This article was originally published on [Medium](https://medium.com/instamojo-matters/become-a-pdb-power-user-e3fc4e2774b2)
 
+## Table of Contents
+
+1. [What's pdb?](#whats-pdb)
+2. [Why pdb?](#why-pdb)
+3. [How to start pdb?](#how-to-start-pdb)
+   - [Starting program under debugger control](#starting-program-under-debugger-control)
+   - [Running code under debugger control](#running-code-under-debugger-control)
+   - [Set a hardcoded breakpoint](#set-a-hardcoded-breakpoint)
+   - [Post-mortem debugging](#post-mortem-debugging)
+4. [Basic pdb commands](#basic-pdb-commands)
+   - [Stepping through code](#stepping-through-code)
+   - [Jumping between stacks](#jumping-between-stacks)
+   - [Breakpoints](#breakpoints)
+   - [Tips and tricks](#tips-and-tricks)
+   - [What's new in Python 3](#whats-new-in-python-3)
+
+---
 
 ## What's pdb?
 
