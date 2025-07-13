@@ -58,3 +58,16 @@ CURRENT_YEAR = datetime.datetime.now().year
 # Static files configuration
 STATIC_PATHS = ['images', 'extra/CNAME']
 EXTRA_PATH_METADATA = {'extra/CNAME': {'path': 'CNAME'}}
+
+# Markdown extensions for anchor links
+MARKDOWN = {
+    'extension_configs': {
+        'markdown.extensions.toc': {
+            'anchorlink': True,
+        },
+        'markdown.extensions.codehilite': {'css_class': 'highlight'},
+        'markdown.extensions.extra': {},
+        'markdown.extensions.meta': {},
+    },
+    'output_format': 'html5',
+}
