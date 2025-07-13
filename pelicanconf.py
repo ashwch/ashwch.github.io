@@ -54,3 +54,7 @@ LICENSE_URL = "https://github.com/ashwch/ashwch.github.io/blob/master/LICENSE"
 LICENSE_NAME = "MIT"
 
 CURRENT_YEAR = datetime.datetime.now().year
+
+# Static files configuration
+STATIC_PATHS = ['images', 'extra/CNAME']
+EXTRA_PATH_METADATA = {'extra/CNAME': {'path': 'CNAME'}}
