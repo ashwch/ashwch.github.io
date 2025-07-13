@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Ashwini's blog - Hiring</title><link href="https://ashwch.com/" rel="alternate"></link><link href="https://ashwch.com/feeds/hiring.atom.xml" rel="self"></link><id>https://ashwch.com/</id><updated>2025-02-23T00:00:00-05:00</updated><entry><title>Evolving Engineering Recruitment at Diversio in the Age of AI</title><link href="https://ashwch.com/evolving-engineering-recruitment-at-diversio-in-the-age-of-ai.html" rel="alternate"></link><published>2025-02-23T00:00:00-05:00</published><updated>2025-02-23T00:00:00-05:00</updated><author><name>Ashwini Chaudhary</name></author><id>tag:ashwch.com,2025-02-23:/evolving-engineering-recruitment-at-diversio-in-the-age-of-ai.html</id><summary type="html">&lt;p&gt;What we have learned hiring at Diversio&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Introduction &amp;amp; Evolution at Diversio&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Ashwini's blog - Hiring</title><link href="https://ashwch.com/" rel="alternate"></link><link href="https://ashwch.com/feeds/hiring.atom.xml" rel="self"></link><id>https://ashwch.com/</id><updated>2025-02-23T00:00:00-05:00</updated><entry><title>Evolving Engineering Recruitment at Diversio in the Age of AI</title><link href="https://ashwch.com/evolving-engineering-recruitment-at-diversio-in-the-age-of-ai.html" rel="alternate"></link><published>2025-02-23T00:00:00-05:00</published><updated>2025-02-23T00:00:00-05:00</updated><author><name>Ashwini Chaudhary</name></author><id>tag:ashwch.com,2025-02-23:/evolving-engineering-recruitment-at-diversio-in-the-age-of-ai.html</id><summary type="html">&lt;p&gt;What we have learned hiring at Diversio&lt;/p&gt;</summary><content type="html">&lt;h1 id="introduction-evolution-at-diversio"&gt;&lt;a class="toclink" href="#introduction-evolution-at-diversio"&gt;Introduction &amp;amp; Evolution at Diversio&lt;/a&gt;&lt;/h1&gt;
 &lt;p&gt;At Diversio, our hiring process has evolved significantly over the years. In our early days, we relied heavily on detailed resume screenings and take-home exercises. Today, we’ve adapted to a new landscape where remote hiring, AI-assisted filtering, and a streamlined interview process help us manage the increased applicant volume while ensuring we find the best long-term fits.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Key Changes at a Glance:&lt;/strong&gt;&lt;/p&gt;
 &lt;ul&gt;
@@ -8,11 +8,11 @@
 &lt;li&gt;Increased focus on cultural fit and long-term alignment.&lt;/li&gt;
 &lt;li&gt;Emphasis on transparent, remote hiring practices.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h1&gt;How We Used to Do It (Pre-ChatGPT)&lt;/h1&gt;
+&lt;h1 id="how-we-used-to-do-it-pre-chatgpt"&gt;&lt;a class="toclink" href="#how-we-used-to-do-it-pre-chatgpt"&gt;How We Used to Do It (Pre-ChatGPT)&lt;/a&gt;&lt;/h1&gt;
 &lt;p&gt;We were very lucky in terms of hiring at Diversio until 2023—we had an excellent attrition rate and were fortunate to hire very talented interns from the University of Toronto, University of Waterloo, and Queen's University. The full-time hires were mostly referrals.&lt;/p&gt;
-&lt;h3&gt;1. Resume Screening&lt;/h3&gt;
+&lt;h3 id="1-resume-screening"&gt;&lt;a class="toclink" href="#1-resume-screening"&gt;1. Resume Screening&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;A resume screening was conducted by myself and the PM, including checking candidates' past co-op remarks from other companies.&lt;/p&gt;
-&lt;h3&gt;2. Take Home Exercises&lt;/h3&gt;
+&lt;h3 id="2-take-home-exercises"&gt;&lt;a class="toclink" href="#2-take-home-exercises"&gt;2. Take Home Exercises&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;We have a strong belief in asking questions that are directly relevant to what a candidate will do on a day-to-day basis at Diversio.&lt;/p&gt;
 &lt;p&gt;Depending on the position, we provided a different set of questions. Our exercises included:&lt;/p&gt;
 &lt;ul&gt;
@@ -40,10 +40,10 @@
 &lt;li&gt;How is their code structure, documentation, and testing?&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Candidates were expected to submit their solutions on GitHub, which we then reviewed (by myself and other engineers) and provided feedback on.&lt;/p&gt;
-&lt;h3&gt;3. Zoom Interview&lt;/h3&gt;
-&lt;h4&gt;Walkthrough and Discussing Their Solutions&lt;/h4&gt;
+&lt;h3 id="3-zoom-interview"&gt;&lt;a class="toclink" href="#3-zoom-interview"&gt;3. Zoom Interview&lt;/a&gt;&lt;/h3&gt;
+&lt;h4 id="walkthrough-and-discussing-their-solutions"&gt;&lt;a class="toclink" href="#walkthrough-and-discussing-their-solutions"&gt;Walkthrough and Discussing Their Solutions&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;Candidates whose solutions passed our internal review were invited to a Zoom interview. During this round, we discussed their take-home exercises in depth—asking them to explain their solutions and thought processes, and throwing in some edge cases or tweaking the requirements to see if they could adapt their solution on the fly.&lt;/p&gt;
-&lt;h4&gt;Real-Time Code Review&lt;/h4&gt;
+&lt;h4 id="real-time-code-review"&gt;&lt;a class="toclink" href="#real-time-code-review"&gt;Real-Time Code Review&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;At Diversio, we invest a significant amount of time in code reviews because we believe that the effort not only benefits the company but also provides an opportunity to teach and learn from each other.&lt;/p&gt;
 &lt;p&gt;For this, we used a Python script deliberately filled with poorly written code—ignoring best practices, using inefficient data structures, and exhibiting problematic file I/O, networking, and error handling. The candidate was asked to explain what each section of the script did and to propose better solutions for each section or function, along with justifications.&lt;/p&gt;
 &lt;p&gt;Goals here were:&lt;/p&gt;
@@ -53,7 +53,7 @@
 &lt;li&gt;To gauge their knowledge of best practices and their ability to identify poor coding practices.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;We allowed candidates to use Google during the interviews to look up anything they didn’t know. Since their screen was shared with us, we could observe how they searched for information and selected among the different results.&lt;/p&gt;
-&lt;h1&gt;Interviewing in 2025&lt;/h1&gt;
+&lt;h1 id="interviewing-in-2025"&gt;&lt;a class="toclink" href="#interviewing-in-2025"&gt;Interviewing in 2025&lt;/a&gt;&lt;/h1&gt;
 &lt;p&gt;A lot has changed since 2023:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;We are a much bigger company now, so when we post a job, we receive many more applicants.&lt;/li&gt;
@@ -62,11 +62,11 @@
 &lt;li&gt;Candidates are using resume tools to trick ATS auto-screening into thinking their resumes are the best.&lt;/li&gt;
 &lt;li&gt;Remote hiring is the norm.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3&gt;Posting the Job Ad&lt;/h3&gt;
+&lt;h3 id="posting-the-job-ad"&gt;&lt;a class="toclink" href="#posting-the-job-ad"&gt;Posting the Job Ad&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;We use Collage internally, which automatically posts the job on Indeed. In addition, we use Instahyre and &lt;a href="https://hasjob.co/"&gt;Hasjob&lt;/a&gt;. I also post about it on my LinkedIn to increase its reach.&lt;/p&gt;
-&lt;h4&gt;When to Post?&lt;/h4&gt;
+&lt;h4 id="when-to-post"&gt;&lt;a class="toclink" href="#when-to-post"&gt;When to Post?&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;We have found that posting on Friday works best for us. Within the first two days, we received around 400 applicants, and since it was the weekend, I had enough time to review them and filter out those who appeared promising. This built a pipeline for the next 1–2 weeks that was within our team’s capacity.&lt;/p&gt;
-&lt;h3&gt;Filtering Resumes&lt;/h3&gt;
+&lt;h3 id="filtering-resumes"&gt;&lt;a class="toclink" href="#filtering-resumes"&gt;Filtering Resumes&lt;/a&gt;&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;strong&gt;Size of Resume:&lt;/strong&gt;
@@ -90,9 +90,9 @@
   We verify that the candidate’s LinkedIn profile matches their resume, that the listed companies are credible, and we review their post history.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h4&gt;ChatGPT&lt;/h4&gt;
+&lt;h4 id="chatgpt"&gt;&lt;a class="toclink" href="#chatgpt"&gt;ChatGPT&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;To speed up the filtering process, we use a custom GPT tool that evaluates most of the above criteria (except for the last two points), assigning points to each resume so that we can sort them efficiently.&lt;/p&gt;
-&lt;h3&gt;Screening Round&lt;/h3&gt;
+&lt;h3 id="screening-round"&gt;&lt;a class="toclink" href="#screening-round"&gt;Screening Round&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;Candidates selected after resume screening go through a screening round with a senior engineer at Diversio. We require screen sharing and that the camera be turned on to ensure there is no cheating. Candidates are allowed to use Google—but only on the shared screen.&lt;/p&gt;
 &lt;p&gt;The goal of this 30–45 minute call is to:&lt;/p&gt;
 &lt;ul&gt;
@@ -103,12 +103,12 @@
 &lt;li&gt;Discuss their notice period and salary expectations.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Candidates are then ranked based on feedback, and top performers move forward.&lt;/p&gt;
-&lt;h3&gt;Coding Round&lt;/h3&gt;
+&lt;h3 id="coding-round"&gt;&lt;a class="toclink" href="#coding-round"&gt;Coding Round&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;This round is conducted with the senior engineer leading the respective department (backend or frontend). It is a 1h 15min to 1h 30min call during which the candidate is required to share their screen and have their camera turned on.&lt;/p&gt;
 &lt;p&gt;This call includes:
 - In-depth technical discussions around backend or frontend topics.
 - Solving two coding questions and explaining their approach.&lt;/p&gt;
-&lt;h3&gt;Final Round&lt;/h3&gt;
+&lt;h3 id="final-round"&gt;&lt;a class="toclink" href="#final-round"&gt;Final Round&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;The final round is a non-technical interview with me, reserved for candidates who performed exceptionally in the screening and coding rounds and met our criteria.&lt;/p&gt;
 &lt;p&gt;This interview is designed to provide a holistic view of the candidate by:&lt;/p&gt;
 &lt;ul&gt;

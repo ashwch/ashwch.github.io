@@ -3,7 +3,7 @@
 &lt;p&gt;We moved our entire Postman collection to Bruno over a weekend and let Claude Code chew on the new files by Monday morning. By lunchtime, API docs were writing themselves.&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;hr&gt;
-&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;h2 id="table-of-contents"&gt;&lt;a class="toclink" href="#table-of-contents"&gt;Table of Contents&lt;/a&gt;&lt;/h2&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;a href="#what-youll-learn"&gt;What you'll learn&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#why-we-relied-on-postman-for-so-long--where-it-falls-short"&gt;Why we relied on Postman for so long &amp;amp; where it falls short&lt;/a&gt;&lt;/li&gt;
@@ -16,7 +16,7 @@
 &lt;li&gt;&lt;a href="#what-this-means-for-engineering-teams"&gt;What This Means for Engineering Teams&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;hr&gt;
-&lt;h2&gt;What you'll learn&lt;/h2&gt;
+&lt;h2 id="what-youll-learn"&gt;&lt;a class="toclink" href="#what-youll-learn"&gt;What you'll learn&lt;/a&gt;&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;Migrate&lt;/strong&gt; a Postman collection (requests &lt;em&gt;and&lt;/em&gt; environments) to Bruno in a few hours.&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Keep docs in‑lockstep&lt;/strong&gt; with your codebase; no more stale Postman descriptions.&lt;/li&gt;
@@ -25,7 +25,7 @@
 &lt;/ul&gt;
 &lt;p&gt;If you're exploring AI‑first tooling and looking to streamline your API workflow, this guide walks you through our practical migration step‑by‑step. If you're already using Bruno, you'll learn how to help improve your existing workflow further using AI.&lt;/p&gt;
 &lt;hr&gt;
-&lt;h2&gt;Why we relied on Postman for so long &amp;amp; where it falls short&lt;/h2&gt;
+&lt;h2 id="why-we-relied-on-postman-for-so-long-where-it-falls-short"&gt;&lt;a class="toclink" href="#why-we-relied-on-postman-for-so-long-where-it-falls-short"&gt;Why we relied on Postman for so long &amp;amp; where it falls short&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;At &lt;a href="https://diversio.com/"&gt;Diversio&lt;/a&gt;, Postman had been our all‑purpose API toolkit since the company's first endpoint shipped in 2018. Every engineer has owned a collection or three; shared environments lived in the cloud; QA and PMs could fire requests without touching the codebase.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Why Postman Works for Us (So Far)&lt;/strong&gt;&lt;/p&gt;
 &lt;ul&gt;
@@ -48,7 +48,7 @@
 &lt;p&gt;&lt;em&gt;Collaborative&lt;/em&gt;: Share links meant non‑engineers could poke endpoints in seconds.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3&gt;Why it started to hurt&lt;/h3&gt;
+&lt;h3 id="why-it-started-to-hurt"&gt;&lt;a class="toclink" href="#why-it-started-to-hurt"&gt;Why it started to hurt&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;As our API surface has increased and now we are working on more and more features at once(thanks to agentic coding), the workflow that once felt effortless began eating hours and hurting our productivity.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
@@ -66,8 +66,8 @@
 &lt;/ul&gt;
 &lt;p&gt;Postman still &lt;em&gt;works&lt;/em&gt; but it has just slowed us down. Any change meant updating code &lt;em&gt;and&lt;/em&gt; a JSON export no one liked opening. That lag became the bottleneck.&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://www.usebruno.com/"&gt;Bruno&lt;/a&gt;'s Git‑friendly plain‑text format, and its ability to embed full Markdown docs, looked like a way out. The best part? AI agents can read &lt;code&gt;.bru&lt;/code&gt; files like normal code, so automation suddenly became trivial and APIs are now part of our codebase and included in diffs during code reviews.&lt;/p&gt;
-&lt;h2&gt;Migration basics&lt;/h2&gt;
-&lt;h3&gt;1. Script syntax&lt;/h3&gt;
+&lt;h2 id="migration-basics"&gt;&lt;a class="toclink" href="#migration-basics"&gt;Migration basics&lt;/a&gt;&lt;/h2&gt;
+&lt;h3 id="1-script-syntax"&gt;&lt;a class="toclink" href="#1-script-syntax"&gt;1. Script syntax&lt;/a&gt;&lt;/h3&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;// Postman&lt;/span&gt;
 &lt;span class="kd"&gt;var&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;json&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;JSON&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;parse&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;responseBody&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;span class="kd"&gt;var&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;token&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;json&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;access_token&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
@@ -79,7 +79,7 @@
 &lt;span class="nx"&gt;bru&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;setEnvVar&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;auth_token&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;token&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3&gt;2. Base64 helpers&lt;/h3&gt;
+&lt;h3 id="2-base64-helpers"&gt;&lt;a class="toclink" href="#2-base64-helpers"&gt;2. Base64 helpers&lt;/a&gt;&lt;/h3&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;// Postman&lt;/span&gt;
 &lt;span class="kd"&gt;const&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;payload&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;JSON&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;parse&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;atob&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;token&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;split&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;.&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)[&lt;/span&gt;&lt;span class="mf"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]));&lt;/span&gt;
 
@@ -87,14 +87,14 @@
 &lt;span class="kd"&gt;const&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;payload&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;JSON&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;parse&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;Buffer&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="kr"&gt;from&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;token&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;split&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;.&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)[&lt;/span&gt;&lt;span class="mf"&gt;1&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;base64&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;toString&lt;/span&gt;&lt;span class="p"&gt;());&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3&gt;3. Environment files&lt;/h3&gt;
+&lt;h3 id="3-environment-files"&gt;&lt;a class="toclink" href="#3-environment-files"&gt;3. Environment files&lt;/a&gt;&lt;/h3&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;vars&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;base_url&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;http&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="n"&gt;localhost&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;8000&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;api_key&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{{&lt;/span&gt;&lt;span class="n"&gt;process&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;API_KEY&lt;/span&gt;&lt;span class="p"&gt;}}&lt;/span&gt;
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3&gt;4. In‑line Markdown docs&lt;/h3&gt;
+&lt;h3 id="4-inline-markdown-docs"&gt;&lt;a class="toclink" href="#4-inline-markdown-docs"&gt;4. In‑line Markdown docs&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;Bruno lets every request double as a mini README:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;docs&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="c1"&gt;# User Authentication&lt;/span&gt;
@@ -112,7 +112,7 @@
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Rich tables, code fences, emojis etc can be included. Because it's Markdown, Claude Code and other AI tools parse it effortlessly.&lt;/p&gt;
-&lt;h3&gt;5. Organizing your Bruno collections&lt;/h3&gt;
+&lt;h3 id="5-organizing-your-bruno-collections"&gt;&lt;a class="toclink" href="#5-organizing-your-bruno-collections"&gt;5. Organizing your Bruno collections&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;After migration, we organized our Bruno files by feature rather than by API version. Here's our structure:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;bruno/
 ├── .env                  # Local secrets (git-ignored)
@@ -159,14 +159,14 @@
 &lt;li&gt;Keep sensitive data out of version control&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr&gt;
-&lt;h2&gt;Scripts that saved us hours&lt;/h2&gt;
-&lt;h3&gt;Environment converter (Python)&lt;/h3&gt;
+&lt;h2 id="scripts-that-saved-us-hours"&gt;&lt;a class="toclink" href="#scripts-that-saved-us-hours"&gt;Scripts that saved us hours&lt;/a&gt;&lt;/h2&gt;
+&lt;h3 id="environment-converter-python"&gt;&lt;a class="toclink" href="#environment-converter-python"&gt;Environment converter (Python)&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;The script is available in this GitHub gist: &lt;a href="https://gist.github.com/ashwch/317ce7d35dd605187bedf39e6b7858a8"&gt;migrate_postman_envs.py&lt;/a&gt;&lt;/p&gt;
-&lt;h4&gt;Command&lt;/h4&gt;
+&lt;h4 id="command"&gt;&lt;a class="toclink" href="#command"&gt;Command&lt;/a&gt;&lt;/h4&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$&lt;span class="w"&gt; &lt;/span&gt;uv&lt;span class="w"&gt; &lt;/span&gt;run&lt;span class="w"&gt; &lt;/span&gt;migrate_postman_envs.py&lt;span class="w"&gt; &lt;/span&gt;./postman_environments/&lt;span class="w"&gt; &lt;/span&gt;./bruno_environments/
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h4&gt;Output&lt;/h4&gt;
+&lt;h4 id="output"&gt;&lt;a class="toclink" href="#output"&gt;Output&lt;/a&gt;&lt;/h4&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;🔄 Processing 10 file(s)...
 
 ✅ Converted webhook_env.json → ./bruno_environments/webhook_env.bru
@@ -183,13 +183,13 @@
 ✨ Done! Converted 10/10 file(s)
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h4&gt;Validator Command&lt;/h4&gt;
+&lt;h4 id="validator-command"&gt;&lt;a class="toclink" href="#validator-command"&gt;Validator Command&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;The script can be found here: &lt;a href="https://gist.github.com/ashwch/cd87eb1574b1b88d21ddef1508a186f6"&gt;validate_bruno_files.py&lt;/a&gt;&lt;/p&gt;
-&lt;h3&gt;Command&lt;/h3&gt;
+&lt;h3 id="command_1"&gt;&lt;a class="toclink" href="#command_1"&gt;Command&lt;/a&gt;&lt;/h3&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$&lt;span class="w"&gt; &lt;/span&gt;uv&lt;span class="w"&gt; &lt;/span&gt;run&lt;span class="w"&gt; &lt;/span&gt;validate_bruno_files.py&lt;span class="w"&gt; &lt;/span&gt;./bruno_environments/
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3&gt;Output&lt;/h3&gt;
+&lt;h3 id="output_1"&gt;&lt;a class="toclink" href="#output_1"&gt;Output&lt;/a&gt;&lt;/h3&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;🔍 Validating 10 Bruno file(s)...
 
 ✅ demo_env.bru
@@ -206,7 +206,7 @@
 📊 Summary: 10/10 file(s) valid
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3&gt;Request Migration Script&lt;/h3&gt;
+&lt;h3 id="request-migration-script"&gt;&lt;a class="toclink" href="#request-migration-script"&gt;Request Migration Script&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;For the actual requests, here's a simple bash script:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="ch"&gt;#!/bin/bash&lt;/span&gt;
 &lt;span class="c1"&gt;# convert_postman_scripts.sh&lt;/span&gt;
@@ -221,8 +221,8 @@ sed&lt;span class="w"&gt; &lt;/span&gt;-i&lt;span class="w"&gt; &lt;/span&gt;&lt
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;Pro tip&lt;/strong&gt;: Run this on a copy first. Some replacements might need manual review, especially if you have complex string patterns.&lt;/p&gt;
-&lt;h2&gt;Common Migration Patterns&lt;/h2&gt;
-&lt;h3&gt;Response Validation&lt;/h3&gt;
+&lt;h2 id="common-migration-patterns"&gt;&lt;a class="toclink" href="#common-migration-patterns"&gt;Common Migration Patterns&lt;/a&gt;&lt;/h2&gt;
+&lt;h3 id="response-validation"&gt;&lt;a class="toclink" href="#response-validation"&gt;Response Validation&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;Add defensive checks when migrating:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;// Old Postman way (often broke with null responses)&lt;/span&gt;
 &lt;span class="kd"&gt;var&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;id&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;JSON&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;parse&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;responseBody&lt;/span&gt;&lt;span class="p"&gt;)[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;data&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;id&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
@@ -236,7 +236,7 @@ sed&lt;span class="w"&gt; &lt;/span&gt;-i&lt;span class="w"&gt; &lt;/span&gt;&lt
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3&gt;Test Migration&lt;/h3&gt;
+&lt;h3 id="test-migration"&gt;&lt;a class="toclink" href="#test-migration"&gt;Test Migration&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;If you have Postman tests:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;// Postman test&lt;/span&gt;
 &lt;span class="nx"&gt;pm&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;test&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Status code is 200&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
@@ -249,9 +249,9 @@ sed&lt;span class="w"&gt; &lt;/span&gt;-i&lt;span class="w"&gt; &lt;/span&gt;&lt
 &lt;span class="p"&gt;});&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h2&gt;The AI Integration Revolution&lt;/h2&gt;
+&lt;h2 id="the-ai-integration-revolution"&gt;&lt;a class="toclink" href="#the-ai-integration-revolution"&gt;The AI Integration Revolution&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;Here's where things get exciting. I created a custom Claude &lt;a href="https://docs.anthropic.com/en/docs/claude-code/slash-commands"&gt;slash command&lt;/a&gt; that analyzes our Bruno files and generates comprehensive documentation by inspecting our Django codebase.&lt;/p&gt;
-&lt;h3&gt;The &lt;code&gt;/bruno-api&lt;/code&gt; Command&lt;/h3&gt;
+&lt;h3 id="the-bruno-api-command"&gt;&lt;a class="toclink" href="#the-bruno-api-command"&gt;The &lt;code&gt;/bruno-api&lt;/code&gt; Command&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;Instead of maintaining documentation scripts, we taught Claude to understand our codebase. Here's how the actual command works:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;# Custom Claude Command: /bruno-api
 
@@ -289,7 +289,7 @@ When the user types `/bruno-api [bruno-file-path]`, you will:
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Note: For brevity, we have excluded a lot of details like &lt;code&gt;allowed-tools&lt;/code&gt;, &lt;code&gt;Context&lt;/code&gt; etc from the command above. But these and other internal project specific details are present in our &lt;code&gt;/bruno-api&lt;/code&gt; command.&lt;/p&gt;
-&lt;h3&gt;How It Analyzes Your Code&lt;/h3&gt;
+&lt;h3 id="how-it-analyzes-your-code"&gt;&lt;a class="toclink" href="#how-it-analyzes-your-code"&gt;How It Analyzes Your Code&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;The sophistication comes from how Claude connects all the pieces:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;# Claude&amp;#39;s Analysis Process:
 
@@ -306,7 +306,7 @@ When the user types `/bruno-api [bruno-file-path]`, you will:
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;The magic&lt;/strong&gt;: This is more than just brittle script parsing AST. Claude Code understands our code semantically, follows imports, and comprehends business logic and can inspect multiple aspects of an API.&lt;/p&gt;
-&lt;h3&gt;Real Example Output&lt;/h3&gt;
+&lt;h3 id="real-example-output"&gt;&lt;a class="toclink" href="#real-example-output"&gt;Real Example Output&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;&lt;strong&gt;Input:&lt;/strong&gt; Simple Bruno file from Postman migration - &lt;a href="https://gist.github.com/ashwch/2a9d05024ac43479782092acbd4eae8f"&gt;see this basic file&lt;/a&gt; (just endpoint + auth)&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Command:&lt;/strong&gt; &lt;code&gt;/bruno-api bruno/analytics/user_metrics.bru&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Output:&lt;/strong&gt; Claude analyzes the Django codebase and generates comprehensive documentation. Here's a small sample:&lt;/p&gt;
@@ -362,7 +362,7 @@ When the user types `/bruno-api [bruno-file-path]`, you will:
 &lt;li&gt;Implementation details and database optimization notes&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;strong&gt;The key insight:&lt;/strong&gt; Claude reads the actual implementation, so the documentation is always accurate. &lt;em&gt;It can still make mistakes, so it's always critical to review the files and nudge it in right direction&lt;/em&gt;.&lt;/p&gt;
-&lt;h3&gt;Adapting for Your Framework&lt;/h3&gt;
+&lt;h3 id="adapting-for-your-framework"&gt;&lt;a class="toclink" href="#adapting-for-your-framework"&gt;Adapting for Your Framework&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;This approach works for any framework:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;Django&lt;/strong&gt;: Find views, serializers, permissions&lt;/li&gt;
@@ -370,8 +370,8 @@ When the user types `/bruno-api [bruno-file-path]`, you will:
 &lt;li&gt;&lt;strong&gt;Rails&lt;/strong&gt;: Analyze controllers, strong params&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;FastAPI&lt;/strong&gt;: Extract Pydantic models, dependencies&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2&gt;The Unexpected Benefits&lt;/h2&gt;
-&lt;h3&gt;1. Code Reviews for API Changes&lt;/h3&gt;
+&lt;h2 id="the-unexpected-benefits"&gt;&lt;a class="toclink" href="#the-unexpected-benefits"&gt;The Unexpected Benefits&lt;/a&gt;&lt;/h2&gt;
+&lt;h3 id="1-code-reviews-for-api-changes"&gt;&lt;a class="toclink" href="#1-code-reviews-for-api-changes"&gt;1. Code Reviews for API Changes&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;When someone changes an API, reviewers can see it in the PR:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;git diff api/users/create.bru
 
@@ -385,16 +385,16 @@ When the user types `/bruno-api [bruno-file-path]`, you will:
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Breaking changes are caught before deployment, not after.&lt;/p&gt;
-&lt;h3&gt;2. AI-Powered API Discovery&lt;/h3&gt;
+&lt;h3 id="2-ai-powered-api-discovery"&gt;&lt;a class="toclink" href="#2-ai-powered-api-discovery"&gt;2. AI-Powered API Discovery&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;New and existing team members can ask:
 - "Show me all endpoints that return user data"
 - "How do I paginate through results?"
 - "Generate TypeScript types for the profile endpoint"&lt;/p&gt;
 &lt;p&gt;Claude reads your Bruno collections and provides accurate answers and vice-versa.&lt;/p&gt;
-&lt;h3&gt;3. Documentation That Stays Fresh&lt;/h3&gt;
+&lt;h3 id="3-documentation-that-stays-fresh"&gt;&lt;a class="toclink" href="#3-documentation-that-stays-fresh"&gt;3. Documentation That Stays Fresh&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;Since docs live with code, they're more likely to stay updated. We are working on a pre-commit hook that is going to remind developers to update Bruno files when an API related change is made.&lt;/p&gt;
-&lt;h2&gt;Getting Your Team Started&lt;/h2&gt;
-&lt;h3&gt;Start Small, Move Fast&lt;/h3&gt;
+&lt;h2 id="getting-your-team-started"&gt;&lt;a class="toclink" href="#getting-your-team-started"&gt;Getting Your Team Started&lt;/a&gt;&lt;/h2&gt;
+&lt;h3 id="start-small-move-fast"&gt;&lt;a class="toclink" href="#start-small-move-fast"&gt;Start Small, Move Fast&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;We did our entire migration over a weekend, and you can too. Here's what worked for us:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;strong&gt;Pick your proof of concept&lt;/strong&gt; - Choose one well-used Postman collection&lt;/li&gt;
@@ -402,25 +402,25 @@ When the user types `/bruno-api [bruno-file-path]`, you will:
 &lt;li&gt;&lt;strong&gt;Set up your first AI command&lt;/strong&gt; - Start with our &lt;code&gt;/bruno-api&lt;/code&gt; template&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Show, don't tell&lt;/strong&gt; - Generate docs for one endpoint and share with the team&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h3&gt;The Aha Moment&lt;/h3&gt;
+&lt;h3 id="the-aha-moment"&gt;&lt;a class="toclink" href="#the-aha-moment"&gt;The Aha Moment&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;The real buy-in happens when developers see:
 - Their API changes appearing in PR diffs
 - Claude Code generating accurate TypeScript interfaces
 - Documentation that actually matches the code
 - No more "update Postman" tickets in the backlog&lt;/p&gt;
-&lt;h3&gt;Practical Next Steps&lt;/h3&gt;
+&lt;h3 id="practical-next-steps"&gt;&lt;a class="toclink" href="#practical-next-steps"&gt;Practical Next Steps&lt;/a&gt;&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;Today&lt;/strong&gt;: &lt;a href="https://learning.postman.com/docs/getting-started/importing-and-exporting/exporting-data/"&gt;Export one Postman collection&lt;/a&gt;, import to Bruno&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Tomorrow&lt;/strong&gt;: Create your first custom Claude command&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;This Week&lt;/strong&gt;: Add &lt;code&gt;.bru&lt;/code&gt; files to your repo and update PR templates&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Next Sprint&lt;/strong&gt;: Deprecate Postman licenses and celebrate the cost savings&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3&gt;Common Questions We Heard&lt;/h3&gt;
+&lt;h3 id="common-questions-we-heard"&gt;&lt;a class="toclink" href="#common-questions-we-heard"&gt;Common Questions We Heard&lt;/a&gt;&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;"Can QA still use it?" → Yes, Bruno has a UI too (and it's free)&lt;/li&gt;
 &lt;li&gt;"What if we need to go back?" → Keep Postman exports for 30 days, but we never looked back&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3&gt;Creating Your Own AI Commands&lt;/h3&gt;
+&lt;h3 id="creating-your-own-ai-commands"&gt;&lt;a class="toclink" href="#creating-your-own-ai-commands"&gt;Creating Your Own AI Commands&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;Here's a complete example you can adapt:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gh"&gt;# .claude/commands/bruno-api.md&lt;/span&gt;
 
@@ -453,9 +453,9 @@ Use our conventions:
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;Implementation tip&lt;/strong&gt;: Start with one endpoint type (e.g., CRUD operations) and expand from there.&lt;/p&gt;
-&lt;h2&gt;What This Means for Engineering Teams&lt;/h2&gt;
+&lt;h2 id="what-this-means-for-engineering-teams"&gt;&lt;a class="toclink" href="#what-this-means-for-engineering-teams"&gt;What This Means for Engineering Teams&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;The shift from Postman to Bruno in 2025 is really a shift in how we think about API documentation. It's no longer a separate artifact that gets out of sync. It's part of your codebase, reviewed like code, and enhanced by AI.&lt;/p&gt;
-&lt;h3&gt;Immediate Benefits We Measured&lt;/h3&gt;
+&lt;h3 id="immediate-benefits-we-measured"&gt;&lt;a class="toclink" href="#immediate-benefits-we-measured"&gt;Immediate Benefits We Measured&lt;/a&gt;&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;API documentation time&lt;/strong&gt;: Reduced from days to hours&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Documentation quality&lt;/strong&gt;: Rich Markdown docs with examples, tables, and diagrams (vs. limited formatting options and inconsistent AI-generated docs in Postman)&lt;/li&gt;
@@ -463,7 +463,7 @@ Use our conventions:
 &lt;li&gt;&lt;strong&gt;Team participation&lt;/strong&gt;: Entire team can now contribute without needing a Postman seat&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Onboarding time&lt;/strong&gt;: New engineers integrate APIs faster with self-documenting collections and AI-generated examples&lt;/li&gt;
 &lt;/ul&gt;</content><category term="Engineering"></category><category term="postman"></category><category term="bruno"></category><category term="api"></category><category term="ai"></category><category term="claude-code"></category><category term="productivity"></category><category term="diversio"></category><category term="engineering"></category><category term="tooling"></category><category term="developer-experience"></category></entry><entry><title>Managing Context Metadata in Django-PGHistory: Solving the Persistence Problem</title><link href="https://ashwch.com/managing-context-metadata-django-pghistory-solving-persistence-problem.html" rel="alternate"></link><published>2025-04-02T00:00:00-04:00</published><updated>2025-04-02T00:00:00-04:00</updated><author><name>Ashwini Chaudhary</name></author><id>tag:ashwch.com,2025-04-02:/managing-context-metadata-django-pghistory-solving-persistence-problem.html</id><summary type="html">&lt;p&gt;Learn how to prevent metadata leakage between contexts in django-pghistory for cleaner, more accurate audit trails in your Django applications.&lt;/p&gt;</summary><content type="html">&lt;p&gt;In this post you would learn how &lt;code&gt;pghistory.context&lt;/code&gt; works and some of its gotchas that we faced at Diversio(thanks to &lt;a href="https://github.com/amalrajdiversio"&gt;Amal Raj B R&lt;/a&gt; who identified this) and how we adjusted our approach to avoid saving context metadata that is not relevant to the current business logic but is being carried over from a parent context.&lt;/p&gt;
-&lt;h3&gt;What is &lt;code&gt;pghistory.context&lt;/code&gt;?&lt;/h3&gt;
+&lt;h3 id="what-is-pghistorycontext"&gt;&lt;a class="toclink" href="#what-is-pghistorycontext"&gt;What is &lt;code&gt;pghistory.context&lt;/code&gt;?&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;&lt;code&gt;pghistory.context&lt;/code&gt; is a decorator and a function that is part of the fantastic &lt;a href="https://django-pghistory.readthedocs.io/en/stable/"&gt;&lt;code&gt;django-pghistory&lt;/code&gt;&lt;/a&gt; project. I would cover how we use &lt;code&gt;django-pghistory&lt;/code&gt; in a separate post.&lt;/p&gt;
 &lt;p&gt;When &lt;code&gt;django-pghistory&lt;/code&gt; is keeping track of changes to Django models, there are several instances where we want to include additional information with the tracked changes. This is where &lt;code&gt;pghistory.context&lt;/code&gt; comes into picture to easily capture such metadata.&lt;/p&gt;
 &lt;p&gt;We are making use of &lt;a href="https://django-pghistory.readthedocs.io/en/3.5.5/context/?h=historymiddleware#middleware"&gt;&lt;code&gt;pghistory.middleware.HistoryMiddleware&lt;/code&gt;&lt;/a&gt; to collect basic fields that we want to store with each change. This includes IP address, URL and the User who made the request. Some of this is done by the &lt;a href="https://github.com/AmbitionEng/django-pghistory/blob/e991e610ddfc393aa7e3f39945627485e0d7bc60/pghistory/middleware.py#L42"&gt;library itself&lt;/a&gt; (comments removed for brevity) as seen in the code below.&lt;/p&gt;
@@ -563,7 +563,7 @@ Use our conventions:
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Now for the above, the ideal behaviour we want is that every audit log should get the keys that were included in its context, but not the ones added by other contexts, apart from the common keys coming from the middleware.&lt;/p&gt;
-&lt;h3&gt;Solution&lt;/h3&gt;
+&lt;h3 id="solution"&gt;&lt;a class="toclink" href="#solution"&gt;Solution&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;We want a solution where we want the keys added by the middleware to persist, but we do not want the keys added inside the views to persist, and every time we exit from a context the keys should be removed from the metadata.&lt;/p&gt;
 &lt;p&gt;For this the solution was to override the default implementation of &lt;a href="https://github.com/AmbitionEng/django-pghistory/blob/e991e610ddfc393aa7e3f39945627485e0d7bc60/pghistory/runtime.py#L115"&gt;&lt;code&gt;pghistory.context&lt;/code&gt;&lt;/a&gt;. Let's say the custom implementation is called &lt;code&gt;custom_pg_context&lt;/code&gt;, then we want the output of the program we had earlier on to be:&lt;/p&gt;
 &lt;p&gt;The key change we made was introducing a new parameter called &lt;code&gt;persist&lt;/code&gt;. When set to &lt;code&gt;True&lt;/code&gt; (the default), metadata keys will persist across nested contexts and remain available to other contexts. When set to &lt;code&gt;False&lt;/code&gt;, metadata keys added in the current context will automatically be removed upon exiting the context, ensuring they don't leak into subsequent operations.&lt;/p&gt;
@@ -655,7 +655,7 @@ Level&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;-6:
 &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Level 1-6: &lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;pg_2&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;metadata&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h4&gt;What's happening here?&lt;/h4&gt;
+&lt;h4 id="whats-happening-here"&gt;&lt;a class="toclink" href="#whats-happening-here"&gt;What's happening here?&lt;/a&gt;&lt;/h4&gt;
 &lt;ol&gt;
 &lt;li&gt;We are making use of &lt;code&gt;ContextVar&lt;/code&gt; from the &lt;a href="https://docs.python.org/3/library/contextvars.html"&gt;&lt;code&gt;contextvars&lt;/code&gt;&lt;/a&gt; module to maintain a stack of all contexts and identify parents and children of any particular context we are in.&lt;/li&gt;
 &lt;li&gt;We create a custom class &lt;code&gt;custom_pg_context&lt;/code&gt; that inherits from &lt;code&gt;pghistory.context&lt;/code&gt;, with an additional &lt;code&gt;persist&lt;/code&gt; parameter that defaults to &lt;code&gt;True&lt;/code&gt;.&lt;/li&gt;
@@ -675,7 +675,7 @@ Level&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;-6:
 &lt;li&gt;The &lt;code&gt;get_parent_context()&lt;/code&gt; static method provides a way to access the parent context if needed.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;This implementation solves our problem by allowing us to control which metadata persists across different parts of our application. We can use &lt;code&gt;persist=True&lt;/code&gt; for global tracking (like user and URL from middleware) and &lt;code&gt;persist=False&lt;/code&gt; for local, context-specific metadata that shouldn't leak into other operations.&lt;/p&gt;
-&lt;h3&gt;Using the Custom Context in Django&lt;/h3&gt;
+&lt;h3 id="using-the-custom-context-in-django"&gt;&lt;a class="toclink" href="#using-the-custom-context-in-django"&gt;Using the Custom Context in Django&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;To implement this in a Django project, you would:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;Create a new module (e.g., &lt;code&gt;core/context.py&lt;/code&gt;) with the &lt;code&gt;custom_pg_context&lt;/code&gt; implementation.&lt;/li&gt;
@@ -715,7 +715,7 @@ Level&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;-6:
         &lt;span class="n"&gt;related_item&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;save&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;  &lt;span class="c1"&gt;# Only includes this operation&amp;#39;s metadata&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3&gt;Performance Considerations&lt;/h3&gt;
+&lt;h3 id="performance-considerations"&gt;&lt;a class="toclink" href="#performance-considerations"&gt;Performance Considerations&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;One thing to note is that this approach does add some overhead, especially with deeply nested contexts. For most applications, this overhead is negligible compared to database operations, but it's something to keep in mind for performance-critical code paths.&lt;/p&gt;
 &lt;p&gt;If you're concerned about performance, you could optimize the implementation further:&lt;/p&gt;
 &lt;ol&gt;
@@ -723,12 +723,12 @@ Level&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;-6:
 &lt;li&gt;Limit the depth of context nesting&lt;/li&gt;
 &lt;li&gt;Consider using a profiler to identify bottlenecks in your specific use case&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h3&gt;Conclusion&lt;/h3&gt;
+&lt;h3 id="conclusion"&gt;&lt;a class="toclink" href="#conclusion"&gt;Conclusion&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;By extending &lt;code&gt;pghistory.context&lt;/code&gt; with our custom implementation, we've solved the metadata leakage problem while maintaining the convenience of the context-based tracking system. This approach gives us fine-grained control over which metadata persists across different operations, making our audit logs more accurate and meaningful.&lt;/p&gt;
 &lt;p&gt;In a real-world Django application, this means we can add specific tracking metadata to different operations without polluting the audit trail of unrelated operations, while still maintaining the global context from middleware.&lt;/p&gt;</content><category term="Django Development, Python Best Practices, Database &amp; ORM, Audit &amp; Compliance, Code Architecture"></category><category term="django"></category><category term="programming"></category><category term="python"></category><category term="django-pghistory"></category><category term="diversio"></category><category term="audit-trails"></category><category term="context-management"></category><category term="django-middleware"></category><category term="python-contextvars"></category><category term="database-tracking"></category><category term="django-models"></category><category term="code-patterns"></category><category term="postgresql"></category><category term="django-orm"></category><category term="debugging"></category></entry><entry><title>Designing a Life: Lessons from Benjamin Franklin</title><link href="https://ashwch.com/life-lessons-benjamin-franklin.html" rel="alternate"></link><published>2025-03-26T00:00:00-04:00</published><updated>2025-03-26T00:00:00-04:00</updated><author><name>Ashwini Chaudhary</name></author><id>tag:ashwch.com,2025-03-26:/life-lessons-benjamin-franklin.html</id><summary type="html">&lt;p&gt;How Benjamin Franklin designed his life, built habits, and used humor, curiosity, and community to continuously reinvent himself.&lt;/p&gt;</summary><content type="html">&lt;p&gt;Before listening to &lt;a href="https://www.takeoverpod.com/episodes/benjamin-franklin"&gt;&lt;em&gt;How to Take Over the World&lt;/em&gt;&lt;/a&gt;'s episode on Benjamin Franklin, my impression of him was limited to “kite, key, electricity.” Afterward, I realized he didn't just discover electricity -- he basically invented the blueprint for self-improvement, then actually lived it.&lt;/p&gt;
 &lt;p&gt;He wasn't just an inventor; he created institutions and actively built himself. And he did it in a way that it feels surprisingly relevant today, without losing his sense of humour.&lt;/p&gt;
 &lt;p&gt;Some things that stuck with me.&lt;/p&gt;
-&lt;h3&gt;Benjamin Franklin: The Original Self-Made Person&lt;/h3&gt;
+&lt;h3 id="benjamin-franklin-the-original-self-made-person"&gt;&lt;a class="toclink" href="#benjamin-franklin-the-original-self-made-person"&gt;Benjamin Franklin: The Original Self-Made Person&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;He's the most literal example of self-made people. He didn't just bootstrap a career, he designed who he wanted to be and iterated toward it.&lt;/p&gt;
 &lt;p&gt;At one point in his life, he wrote out a list of 13 virtues. Things like temperance, resolution, industry, humility. And then created a tracking system to improve one per week. Like a habit tracker, but from the 1700s. He had a grid and he reviewed it nightly. He built an internal feedback loop before we had that language.&lt;/p&gt;
 &lt;p&gt;Did it make him perfect? Not even close. But &lt;a href="https://www.goodreads.com/quotes/426224-but-on-the-whole-though-i-never-arrived-at-the"&gt;he said something&lt;/a&gt; that stuck with me:&lt;/p&gt;
@@ -736,10 +736,10 @@ Level&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;-6:
 &lt;p&gt;“But on the whole, though I never arrived at the perfection I had been so ambitious of obtaining, but fell far short of it, yet I was, by the endeavour, a better and happier man than I otherwise should have been had I not attempted it; as those who aim at perfect writing by imitating the engraved copies, their hand is mended by the endeavour, and is tolerable while it continues fair and legible”&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;That’s the point.&lt;/p&gt;
-&lt;h3&gt;Learning by reverse-engineering&lt;/h3&gt;
+&lt;h3 id="learning-by-reverse-engineering"&gt;&lt;a class="toclink" href="#learning-by-reverse-engineering"&gt;Learning by reverse-engineering&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;Franklin taught himself how to write by reading essays in &lt;em&gt;The Spectator&lt;/em&gt;. He used to summarize the key arguments, and then he would try to rewrite the entire piece from scratch a few days later. Then he'd compare his version with the original and note where he went wrong.&lt;/p&gt;
 &lt;p&gt;This is a simple yet brilliant way to learn. He built muscle memory towards it with this approach.&lt;/p&gt;
-&lt;h3&gt;Curious, Playful, and Unafraid to Experiment&lt;/h3&gt;
+&lt;h3 id="curious-playful-and-unafraid-to-experiment"&gt;&lt;a class="toclink" href="#curious-playful-and-unafraid-to-experiment"&gt;Curious, Playful, and Unafraid to Experiment&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;This is my favorite part from the episode. Franklin did what interested him, even if it didn't have any obvious ROI.&lt;/p&gt;
 &lt;p&gt;Someone once asked him why he was experimenting with hot air balloons, and he responded:&lt;/p&gt;
 &lt;blockquote&gt;
@@ -747,19 +747,19 @@ Level&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;-6:
 &lt;/blockquote&gt;
 &lt;p&gt;He just liked it and trusted that something good would come out of following that instinct. Which is actually how most breakthroughs happen.&lt;/p&gt;
 &lt;p&gt;Most productive people aren't just focussed on productivity, they are the ones who still let them chase just because it's fun or weird or fascinating.&lt;/p&gt;
-&lt;h3&gt;Peer-driven growth&lt;/h3&gt;
+&lt;h3 id="peer-driven-growth"&gt;&lt;a class="toclink" href="#peer-driven-growth"&gt;Peer-driven growth&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;Franklin started something called the Junto. It was a group of ambitious, curious people who met weekly to debate ideas, share essays, and challenge each other to improve.&lt;/p&gt;
 &lt;p&gt;This wasn't about ego or point-scoring. The rule was: no arguing, no personal attacks, no pretending you're the smartest person in the room. Just honest enquiry and curiosity.&lt;/p&gt;
 &lt;p&gt;Junto lasted for 40 years.&lt;/p&gt;
 &lt;p&gt;And it wasn’t just talk -- real things came out of it. The idea for America’s first subscription library was born in the Junto and became the Library Company of Philadelphia.&lt;/p&gt;
-&lt;h3&gt;Serious About Humour&lt;/h3&gt;
+&lt;h3 id="serious-about-humour"&gt;&lt;a class="toclink" href="#serious-about-humour"&gt;Serious About Humour&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;Franklin was funny, like actually funny. But he didn't use it just to entertain -- it was how he disarmed people, made ideas stick, and built a public persona people trusted.&lt;/p&gt;
 &lt;p&gt;When he was 15, he wrote letters under the name &lt;em&gt;Silence Dogood&lt;/em&gt; and dropped them anonymously on the doorstep of his brother’s print shop. They were supposedly written by a widowed woman who was “handsome and sometimes witty.” That “sometimes” kills me. It’s the perfect character detail, funny, self-aware, instantly charming.&lt;/p&gt;
 &lt;p&gt;Later, as the fake author of &lt;em&gt;Poor Richard’s Almanack&lt;/em&gt;, he’d write snarky fake feuds with imaginary critics. One of my favorites: he predicted another writer’s death, then when the guy wrote in angry that he was very much alive, Franklin insisted the letter must be a forgery -- because the real man would never write so poorly.&lt;/p&gt;
 &lt;p&gt;Franklin didn’t take himself too seriously.  And that &lt;em&gt;was&lt;/em&gt; part of his power.&lt;/p&gt;
 &lt;p&gt;His charm made people want to read him. It made political enemies underestimate him. And it made allies feel like they were in on the joke.&lt;/p&gt;
 &lt;p&gt;In a world full of Very Serious Men trying to win arguments, Franklin laughed -- and then won anyway.&lt;/p&gt;
-&lt;h3&gt;Lessons&lt;/h3&gt;
+&lt;h3 id="lessons"&gt;&lt;a class="toclink" href="#lessons"&gt;Lessons&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;Franklin wasn’t just a scientist, or a writer, or a politician, or a businessman. He was all of those things. But more than anything, he was a systems thinker for human life.&lt;/p&gt;
 &lt;p&gt;He designed how he lived.&lt;br&gt;
 He chased what made him curious.&lt;br&gt;
@@ -784,7 +784,7 @@ And he never let ambition overshadow joy.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Benjamin Franklin didn't just build a remarkable life -- he left behind a blueprint we can all still follow.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h3&gt;The 13 virtues&lt;/h3&gt;
+&lt;h3 id="the-13-virtues"&gt;&lt;a class="toclink" href="#the-13-virtues"&gt;The 13 virtues&lt;/a&gt;&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;Temperance&lt;/strong&gt; – Eat not to dullness; drink not to elevation.&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Silence&lt;/strong&gt; – Speak not but what may benefit others or yourself; avoid trifling conversation.&lt;/li&gt;
@@ -804,45 +804,45 @@ And he never let ambition overshadow joy.&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;Podcast: &lt;a href="https://www.founderspodcast.com/episodes/374-rare-jeff-bezos-interview"&gt;https://www.founderspodcast.com/episodes/374-rare-jeff-bezos-interview&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;YouTube: &lt;a href="https://youtu.be/s71nJQqzYRQ"&gt;https://youtu.be/s71nJQqzYRQ&lt;/a&gt;&lt;/p&gt;
-&lt;h4&gt;Build something that outlasts you&lt;/h4&gt;
+&lt;h4 id="build-something-that-outlasts-you"&gt;&lt;a class="toclink" href="#build-something-that-outlasts-you"&gt;Build something that outlasts you&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;Since early days of Amazon Bezos was thinking long-term and was quite clear that he wanted to build a company that would outlast him.&lt;/p&gt;
 &lt;p&gt;Spotify's Daniel Ek shares a similar sentiment: Companies grow like children — initially they are a reflection of their creator, but over time they develops its own traits and characteristics.&lt;/p&gt;
 &lt;p&gt;Steve Jobs said something similar: You build a company that will stand for something a generation or two from now.&lt;/p&gt;
-&lt;h4&gt;Follow your curiosity&lt;/h4&gt;
+&lt;h4 id="follow-your-curiosity"&gt;&lt;a class="toclink" href="#follow-your-curiosity"&gt;Follow your curiosity&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;One of his driving principles is "I wake up and follow my curiosity".  Paul Graham calls curiosity the best guide for doing &lt;em&gt;great&lt;/em&gt; work.&lt;/p&gt;
 &lt;p&gt;Instead of over-analyzing your next move, follow your curiosity and let that be your compass.&lt;/p&gt;
-&lt;h4&gt;AI is the new electricity&lt;/h4&gt;
+&lt;h4 id="ai-is-the-new-electricity"&gt;&lt;a class="toclink" href="#ai-is-the-new-electricity"&gt;AI is the new electricity&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;He describes AI as just an horizontal enabling layer, just like electricity. When electricity came out, people only wanted light bulbs; everything else came after. People weren't putting electricity in their homes; they were putting light bulbs in their homes. At that point they weren't even thinking of appliances, switchboard or anything, and there wasn't even a concept of off switch.&lt;/p&gt;
 &lt;p&gt;Similarly, AI, like electricity before, will be embedded into everything, transforming industries in unpredictable ways.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;If AI is an enabling layer, ask: How can AI supercharge my business, my workflows, my products?_ The most valuable companies of the next decade will answer this question well.&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;Link to his 2003 TED talk: &lt;a href="https://www.ted.com/talks/jeff_bezos_the_electricity_metaphor_for_the_web_s_future"&gt;link&lt;/a&gt;&lt;/p&gt;
-&lt;h4&gt;The AWS Insight: Computing as a Utility&lt;/h4&gt;
+&lt;h4 id="the-aws-insight-computing-as-a-utility"&gt;&lt;a class="toclink" href="#the-aws-insight-computing-as-a-utility"&gt;The AWS Insight: Computing as a Utility&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;His inspiration for AWS came from a 300 year old Luxembourg brewery that had its own power generator -- because at that time, there were no power grids. Similarly, before AWS companies had their own data center and he realized that it's not going to last.&lt;/p&gt;
 &lt;p&gt;That meant companies had to focus on something that wasn't their core business, true for anything in the past that had to worry about generating their own electricity.&lt;/p&gt;
-&lt;h4&gt;The Power of Being Misunderstood&lt;/h4&gt;
+&lt;h4 id="the-power-of-being-misunderstood"&gt;&lt;a class="toclink" href="#the-power-of-being-misunderstood"&gt;The Power of Being Misunderstood&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;He has long accepted that he will be misunderstood. He prioritizes doing what he believes is right over chasing a good PR. He said, if even your closest loved ones do not fully know you, how can you expect others to understand you?&lt;/p&gt;
 &lt;p&gt;Warren Buffett and Charlie Munger have similar philosophy. They keep an inner scorecard -- measuring success by their own principles, not external validation.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;If no one skeptical about what you're doing, you're probably not pushing hard enough.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h4&gt;Meetings Should Be Messy&lt;/h4&gt;
+&lt;h4 id="meetings-should-be-messy"&gt;&lt;a class="toclink" href="#meetings-should-be-messy"&gt;Meetings Should Be Messy&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;He insists that meetings should wander, and people should not come into meetings with rehearsed responses. He also always speaks last and is always asking if anyone has any dissenting opinions.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Meetings should be raw, unfiltered and people should feel comfortable challenging ideas.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h4&gt;Optimism is a Moral Duty&lt;/h4&gt;
+&lt;h4 id="optimism-is-a-moral-duty"&gt;&lt;a class="toclink" href="#optimism-is-a-moral-duty"&gt;Optimism is a Moral Duty&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;Edwin Land, Steve Jobs' hero, believed that "optimism is a moral duty". Bezos embodies this mindset, he truly believes there has never been a better time to be alive.&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;As a leader, you need to exude optimism. Ambitious projects require an unshakeable belief in a better future.&lt;/em&gt;&lt;/p&gt;
-&lt;h4&gt;Every Decision is an Opportunity Cost&lt;/h4&gt;
+&lt;h4 id="every-decision-is-an-opportunity-cost"&gt;&lt;a class="toclink" href="#every-decision-is-an-opportunity-cost"&gt;Every Decision is an Opportunity Cost&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;He explains why he does so few interview. &lt;em&gt;"Every minute I'm doing this, I'm not spending that time doing something else"&lt;/em&gt;. &lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Time is your most valuable resource — guard it fiercely. Choose only what moves the needle for you.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h4&gt;Ferocious Intelligence&lt;/h4&gt;
+&lt;h4 id="ferocious-intelligence"&gt;&lt;a class="toclink" href="#ferocious-intelligence"&gt;Ferocious Intelligence&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;Charlie Munger once said,  &lt;em&gt;"He is ferociously intelligent&lt;/em&gt;."&lt;/p&gt;
-&lt;p&gt;The relentless curiosity, optimism, and long-term thinking are what makes Bezos worth studying. &lt;/p&gt;</content><category term="Business &amp; Leadership"></category><category term="jeff-bezos"></category><category term="entrepreneurship"></category><category term="long-term-thinking"></category><category term="company-building"></category><category term="ai-revolution"></category><category term="innovation"></category><category term="curiosity"></category><category term="optimism"></category><category term="opportunity-cost"></category><category term="blue-origin"></category><category term="amazon"></category><category term="leadership"></category><category term="decision-making"></category><category term="business-strategy"></category><category term="meetings"></category><category term="bezos-quotes"></category><category term="charlie-munger"></category><category term="warren-buffett"></category><category term="technology"></category><category term="invention"></category><category term="future-thinking"></category><category term="risk-taking"></category><category term="wealth-creation"></category><category term="podcast"></category><category term="founders-podcast"></category></entry><entry><title>30-60-90 — Set Up Your Engineering Hires for Success</title><link href="https://ashwch.com/30-60-90-set-up-your-engineering-hires-for-success.html" rel="alternate"></link><published>2025-03-08T00:00:00-05:00</published><updated>2025-03-08T00:00:00-05:00</updated><author><name>Ashwini Chaudhary</name></author><id>tag:ashwch.com,2025-03-08:/30-60-90-set-up-your-engineering-hires-for-success.html</id><summary type="html">&lt;p&gt;A 90-day roadmap that empowers new engineering hires through structured mentorship, engaging tasks, and continuous feedback.&lt;/p&gt;</summary><content type="html">&lt;h2&gt;Week 1&lt;/h2&gt;
+&lt;p&gt;The relentless curiosity, optimism, and long-term thinking are what makes Bezos worth studying. &lt;/p&gt;</content><category term="Business &amp; Leadership"></category><category term="jeff-bezos"></category><category term="entrepreneurship"></category><category term="long-term-thinking"></category><category term="company-building"></category><category term="ai-revolution"></category><category term="innovation"></category><category term="curiosity"></category><category term="optimism"></category><category term="opportunity-cost"></category><category term="blue-origin"></category><category term="amazon"></category><category term="leadership"></category><category term="decision-making"></category><category term="business-strategy"></category><category term="meetings"></category><category term="bezos-quotes"></category><category term="charlie-munger"></category><category term="warren-buffett"></category><category term="technology"></category><category term="invention"></category><category term="future-thinking"></category><category term="risk-taking"></category><category term="wealth-creation"></category><category term="podcast"></category><category term="founders-podcast"></category></entry><entry><title>30-60-90 — Set Up Your Engineering Hires for Success</title><link href="https://ashwch.com/30-60-90-set-up-your-engineering-hires-for-success.html" rel="alternate"></link><published>2025-03-08T00:00:00-05:00</published><updated>2025-03-08T00:00:00-05:00</updated><author><name>Ashwini Chaudhary</name></author><id>tag:ashwch.com,2025-03-08:/30-60-90-set-up-your-engineering-hires-for-success.html</id><summary type="html">&lt;p&gt;A 90-day roadmap that empowers new engineering hires through structured mentorship, engaging tasks, and continuous feedback.&lt;/p&gt;</summary><content type="html">&lt;h2 id="week-1"&gt;&lt;a class="toclink" href="#week-1"&gt;Week 1&lt;/a&gt;&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;Assign a buddy or mentor but avoid using a direct manager for this, as the person won't be that open and comfortable with their manager.&lt;/p&gt;
@@ -860,7 +860,7 @@ And he never let ambition overshadow joy.&lt;/p&gt;
 &lt;p&gt;Help them set up 1:1s with different members of the team&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2&gt;First month&lt;/h2&gt;
+&lt;h2 id="first-month"&gt;&lt;a class="toclink" href="#first-month"&gt;First month&lt;/a&gt;&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;Make sure their local set up is up and running.&lt;/p&gt;
@@ -887,7 +887,7 @@ And he never let ambition overshadow joy.&lt;/p&gt;
 &lt;p&gt;Have them identify gaps in documentation or processes for a fresh perspective.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2&gt;Second month&lt;/h2&gt;
+&lt;h2 id="second-month"&gt;&lt;a class="toclink" href="#second-month"&gt;Second month&lt;/a&gt;&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;Set up slightly bigger tasks for them. Something that would require critical thinking and creativity from their end. Do not spoon feed the task, instead let them go through it themselves and come back to you with their own understanding.&lt;/li&gt;
 &lt;/ul&gt;
@@ -903,7 +903,7 @@ And he never let ambition overshadow joy.&lt;/p&gt;
 &lt;p&gt;Ensure they are learning from mistakes and are avoiding them in the future. It's also important to see if they pass on the same knowledge to others in the team.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2&gt;Third month&lt;/h2&gt;
+&lt;h2 id="third-month"&gt;&lt;a class="toclink" href="#third-month"&gt;Third month&lt;/a&gt;&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;By the end of this month they should be actively contributing to technical or non-technical discussions.&lt;/p&gt;
@@ -926,7 +926,7 @@ And he never let ambition overshadow joy.&lt;/p&gt;
 &lt;li&gt;
 &lt;p&gt;Keep an eye on their code reviews. Are they mostly just accepting everything and not really providing much feedback? How are they interacting in code reviews?&lt;/p&gt;
 &lt;/li&gt;
-&lt;/ul&gt;</content><category term="Engineering Management"></category><category term="engineering"></category><category term="leadership"></category><category term="hiring"></category><category term="management"></category><category term="new-hire"></category><category term="engineering-hires"></category><category term="onboarding"></category><category term="mentorship"></category><category term="90dayplan"></category><category term="hiring-success"></category></entry><entry><title>uv and PEP 723</title><link href="https://ashwch.com/uv-and-pep-723.html" rel="alternate"></link><published>2025-03-05T00:00:00-05:00</published><updated>2025-03-05T00:00:00-05:00</updated><author><name>Ashwini Chaudhary</name></author><id>tag:ashwch.com,2025-03-05:/uv-and-pep-723.html</id><summary type="html">&lt;p&gt;Using uv with PEP 723 simplifies dependency management for standalone Python scripts, making quick scripting with LLM-generated code effortless.&lt;/p&gt;</summary><content type="html">&lt;h1&gt;uv and PEP 723&lt;/h1&gt;
+&lt;/ul&gt;</content><category term="Engineering Management"></category><category term="engineering"></category><category term="leadership"></category><category term="hiring"></category><category term="management"></category><category term="new-hire"></category><category term="engineering-hires"></category><category term="onboarding"></category><category term="mentorship"></category><category term="90dayplan"></category><category term="hiring-success"></category></entry><entry><title>uv and PEP 723</title><link href="https://ashwch.com/uv-and-pep-723.html" rel="alternate"></link><published>2025-03-05T00:00:00-05:00</published><updated>2025-03-05T00:00:00-05:00</updated><author><name>Ashwini Chaudhary</name></author><id>tag:ashwch.com,2025-03-05:/uv-and-pep-723.html</id><summary type="html">&lt;p&gt;Using uv with PEP 723 simplifies dependency management for standalone Python scripts, making quick scripting with LLM-generated code effortless.&lt;/p&gt;</summary><content type="html">&lt;h1 id="uv-and-pep-723"&gt;&lt;a class="toclink" href="#uv-and-pep-723"&gt;uv and PEP 723&lt;/a&gt;&lt;/h1&gt;
 &lt;p&gt;I have recently started using &lt;code&gt;uv&lt;/code&gt; a lot, specially for quick standalone scripts, most of these scripts are generated by various LLMs for different tasks. The biggest pain point I had with these scripts was to setup a virtual env, installing the packages and asking ChatGPT and other LLMs to give me requirements file/list.&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://docs.astral.sh/uv/guides/scripts/#declaring-script-dependencies"&gt;&lt;code&gt;uv&lt;/code&gt; changed that by utilizing PEP 723&lt;/a&gt; and embedding these requirement inline to the script.&lt;/p&gt;
 &lt;p&gt;At Diversio, I  frequently use &lt;a href="https://github.com/copilot"&gt;GitHub Copilot&lt;/a&gt; a lot, and there I've added a small instruction to make sure it's embedding the requirements in the script itself.&lt;/p&gt;
@@ -972,7 +972,7 @@ Summary&lt;span class="w"&gt; &lt;/span&gt;Statistics:
 &lt;span class="w"&gt;  &lt;/span&gt;Standard&lt;span class="w"&gt; &lt;/span&gt;Deviation:&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;107&lt;/span&gt;.35&lt;span class="w"&gt; &lt;/span&gt;ms
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h2&gt;Where is &lt;code&gt;uv&lt;/code&gt; storing these packages?&lt;/h2&gt;
+&lt;h2 id="where-is-uv-storing-these-packages"&gt;&lt;a class="toclink" href="#where-is-uv-storing-these-packages"&gt;Where is &lt;code&gt;uv&lt;/code&gt; storing these packages?&lt;/a&gt;&lt;/h2&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;➜&lt;span class="w"&gt; &lt;/span&gt;ls&lt;span class="w"&gt; &lt;/span&gt;-l&lt;span class="w"&gt; &lt;/span&gt;~/.cache/uv/environments-v2/uv-pep-723-example-af4300630d2aced4/lib/python3.12/site-packages
 total&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;12&lt;/span&gt;
 drwxr-xr-x&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;monty&lt;span class="w"&gt; &lt;/span&gt;staff&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="m"&gt;96&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;Mar&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="m"&gt;5&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;00&lt;/span&gt;:25&lt;span class="w"&gt; &lt;/span&gt;__pycache__
@@ -999,12 +999,12 @@ drwxr-xr-x&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="m"&gt;8&lt;/span&
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;The cache can be cleaned using the &lt;code&gt;uv cache clean&lt;/code&gt; command as specified &lt;a href="https://docs.astral.sh/uv/concepts/cache/#clearing-the-cache"&gt;here&lt;/a&gt;.&lt;/p&gt;
-&lt;h2&gt;References&lt;/h2&gt;
+&lt;h2 id="references"&gt;&lt;a class="toclink" href="#references"&gt;References&lt;/a&gt;&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;https://peps.python.org/pep-0723/&lt;/li&gt;
 &lt;li&gt;https://docs.astral.sh/uv/guides/scripts/#declaring-script-dependencies&lt;/li&gt;
 &lt;li&gt;https://docs.astral.sh/uv/concepts/cache/#clearing-the-cache&lt;/li&gt;
-&lt;/ul&gt;</content><category term="Programming"></category><category term="python"></category><category term="uv"></category><category term="packaging"></category><category term="uv-internals"></category><category term="til"></category><category term="python-pep"></category><category term="pep-723"></category><category term="diversio"></category><category term="github"></category><category term="github-copilot"></category></entry><entry><title>Evolving Engineering Recruitment at Diversio in the Age of AI</title><link href="https://ashwch.com/evolving-engineering-recruitment-at-diversio-in-the-age-of-ai.html" rel="alternate"></link><published>2025-02-23T00:00:00-05:00</published><updated>2025-02-23T00:00:00-05:00</updated><author><name>Ashwini Chaudhary</name></author><id>tag:ashwch.com,2025-02-23:/evolving-engineering-recruitment-at-diversio-in-the-age-of-ai.html</id><summary type="html">&lt;p&gt;What we have learned hiring at Diversio&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Introduction &amp;amp; Evolution at Diversio&lt;/h1&gt;
+&lt;/ul&gt;</content><category term="Programming"></category><category term="python"></category><category term="uv"></category><category term="packaging"></category><category term="uv-internals"></category><category term="til"></category><category term="python-pep"></category><category term="pep-723"></category><category term="diversio"></category><category term="github"></category><category term="github-copilot"></category></entry><entry><title>Evolving Engineering Recruitment at Diversio in the Age of AI</title><link href="https://ashwch.com/evolving-engineering-recruitment-at-diversio-in-the-age-of-ai.html" rel="alternate"></link><published>2025-02-23T00:00:00-05:00</published><updated>2025-02-23T00:00:00-05:00</updated><author><name>Ashwini Chaudhary</name></author><id>tag:ashwch.com,2025-02-23:/evolving-engineering-recruitment-at-diversio-in-the-age-of-ai.html</id><summary type="html">&lt;p&gt;What we have learned hiring at Diversio&lt;/p&gt;</summary><content type="html">&lt;h1 id="introduction-evolution-at-diversio"&gt;&lt;a class="toclink" href="#introduction-evolution-at-diversio"&gt;Introduction &amp;amp; Evolution at Diversio&lt;/a&gt;&lt;/h1&gt;
 &lt;p&gt;At Diversio, our hiring process has evolved significantly over the years. In our early days, we relied heavily on detailed resume screenings and take-home exercises. Today, we’ve adapted to a new landscape where remote hiring, AI-assisted filtering, and a streamlined interview process help us manage the increased applicant volume while ensuring we find the best long-term fits.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Key Changes at a Glance:&lt;/strong&gt;&lt;/p&gt;
 &lt;ul&gt;
@@ -1013,11 +1013,11 @@ drwxr-xr-x&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="m"&gt;8&lt;/span&
 &lt;li&gt;Increased focus on cultural fit and long-term alignment.&lt;/li&gt;
 &lt;li&gt;Emphasis on transparent, remote hiring practices.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h1&gt;How We Used to Do It (Pre-ChatGPT)&lt;/h1&gt;
+&lt;h1 id="how-we-used-to-do-it-pre-chatgpt"&gt;&lt;a class="toclink" href="#how-we-used-to-do-it-pre-chatgpt"&gt;How We Used to Do It (Pre-ChatGPT)&lt;/a&gt;&lt;/h1&gt;
 &lt;p&gt;We were very lucky in terms of hiring at Diversio until 2023—we had an excellent attrition rate and were fortunate to hire very talented interns from the University of Toronto, University of Waterloo, and Queen's University. The full-time hires were mostly referrals.&lt;/p&gt;
-&lt;h3&gt;1. Resume Screening&lt;/h3&gt;
+&lt;h3 id="1-resume-screening"&gt;&lt;a class="toclink" href="#1-resume-screening"&gt;1. Resume Screening&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;A resume screening was conducted by myself and the PM, including checking candidates' past co-op remarks from other companies.&lt;/p&gt;
-&lt;h3&gt;2. Take Home Exercises&lt;/h3&gt;
+&lt;h3 id="2-take-home-exercises"&gt;&lt;a class="toclink" href="#2-take-home-exercises"&gt;2. Take Home Exercises&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;We have a strong belief in asking questions that are directly relevant to what a candidate will do on a day-to-day basis at Diversio.&lt;/p&gt;
 &lt;p&gt;Depending on the position, we provided a different set of questions. Our exercises included:&lt;/p&gt;
 &lt;ul&gt;
@@ -1045,10 +1045,10 @@ drwxr-xr-x&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="m"&gt;8&lt;/span&
 &lt;li&gt;How is their code structure, documentation, and testing?&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Candidates were expected to submit their solutions on GitHub, which we then reviewed (by myself and other engineers) and provided feedback on.&lt;/p&gt;
-&lt;h3&gt;3. Zoom Interview&lt;/h3&gt;
-&lt;h4&gt;Walkthrough and Discussing Their Solutions&lt;/h4&gt;
+&lt;h3 id="3-zoom-interview"&gt;&lt;a class="toclink" href="#3-zoom-interview"&gt;3. Zoom Interview&lt;/a&gt;&lt;/h3&gt;
+&lt;h4 id="walkthrough-and-discussing-their-solutions"&gt;&lt;a class="toclink" href="#walkthrough-and-discussing-their-solutions"&gt;Walkthrough and Discussing Their Solutions&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;Candidates whose solutions passed our internal review were invited to a Zoom interview. During this round, we discussed their take-home exercises in depth—asking them to explain their solutions and thought processes, and throwing in some edge cases or tweaking the requirements to see if they could adapt their solution on the fly.&lt;/p&gt;
-&lt;h4&gt;Real-Time Code Review&lt;/h4&gt;
+&lt;h4 id="real-time-code-review"&gt;&lt;a class="toclink" href="#real-time-code-review"&gt;Real-Time Code Review&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;At Diversio, we invest a significant amount of time in code reviews because we believe that the effort not only benefits the company but also provides an opportunity to teach and learn from each other.&lt;/p&gt;
 &lt;p&gt;For this, we used a Python script deliberately filled with poorly written code—ignoring best practices, using inefficient data structures, and exhibiting problematic file I/O, networking, and error handling. The candidate was asked to explain what each section of the script did and to propose better solutions for each section or function, along with justifications.&lt;/p&gt;
 &lt;p&gt;Goals here were:&lt;/p&gt;
@@ -1058,7 +1058,7 @@ drwxr-xr-x&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="m"&gt;8&lt;/span&
 &lt;li&gt;To gauge their knowledge of best practices and their ability to identify poor coding practices.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;We allowed candidates to use Google during the interviews to look up anything they didn’t know. Since their screen was shared with us, we could observe how they searched for information and selected among the different results.&lt;/p&gt;
-&lt;h1&gt;Interviewing in 2025&lt;/h1&gt;
+&lt;h1 id="interviewing-in-2025"&gt;&lt;a class="toclink" href="#interviewing-in-2025"&gt;Interviewing in 2025&lt;/a&gt;&lt;/h1&gt;
 &lt;p&gt;A lot has changed since 2023:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;We are a much bigger company now, so when we post a job, we receive many more applicants.&lt;/li&gt;
@@ -1067,11 +1067,11 @@ drwxr-xr-x&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="m"&gt;8&lt;/span&
 &lt;li&gt;Candidates are using resume tools to trick ATS auto-screening into thinking their resumes are the best.&lt;/li&gt;
 &lt;li&gt;Remote hiring is the norm.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3&gt;Posting the Job Ad&lt;/h3&gt;
+&lt;h3 id="posting-the-job-ad"&gt;&lt;a class="toclink" href="#posting-the-job-ad"&gt;Posting the Job Ad&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;We use Collage internally, which automatically posts the job on Indeed. In addition, we use Instahyre and &lt;a href="https://hasjob.co/"&gt;Hasjob&lt;/a&gt;. I also post about it on my LinkedIn to increase its reach.&lt;/p&gt;
-&lt;h4&gt;When to Post?&lt;/h4&gt;
+&lt;h4 id="when-to-post"&gt;&lt;a class="toclink" href="#when-to-post"&gt;When to Post?&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;We have found that posting on Friday works best for us. Within the first two days, we received around 400 applicants, and since it was the weekend, I had enough time to review them and filter out those who appeared promising. This built a pipeline for the next 1–2 weeks that was within our team’s capacity.&lt;/p&gt;
-&lt;h3&gt;Filtering Resumes&lt;/h3&gt;
+&lt;h3 id="filtering-resumes"&gt;&lt;a class="toclink" href="#filtering-resumes"&gt;Filtering Resumes&lt;/a&gt;&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;strong&gt;Size of Resume:&lt;/strong&gt;
@@ -1095,9 +1095,9 @@ drwxr-xr-x&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="m"&gt;8&lt;/span&
   We verify that the candidate’s LinkedIn profile matches their resume, that the listed companies are credible, and we review their post history.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h4&gt;ChatGPT&lt;/h4&gt;
+&lt;h4 id="chatgpt"&gt;&lt;a class="toclink" href="#chatgpt"&gt;ChatGPT&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;To speed up the filtering process, we use a custom GPT tool that evaluates most of the above criteria (except for the last two points), assigning points to each resume so that we can sort them efficiently.&lt;/p&gt;
-&lt;h3&gt;Screening Round&lt;/h3&gt;
+&lt;h3 id="screening-round"&gt;&lt;a class="toclink" href="#screening-round"&gt;Screening Round&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;Candidates selected after resume screening go through a screening round with a senior engineer at Diversio. We require screen sharing and that the camera be turned on to ensure there is no cheating. Candidates are allowed to use Google—but only on the shared screen.&lt;/p&gt;
 &lt;p&gt;The goal of this 30–45 minute call is to:&lt;/p&gt;
 &lt;ul&gt;
@@ -1108,12 +1108,12 @@ drwxr-xr-x&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="m"&gt;8&lt;/span&
 &lt;li&gt;Discuss their notice period and salary expectations.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Candidates are then ranked based on feedback, and top performers move forward.&lt;/p&gt;
-&lt;h3&gt;Coding Round&lt;/h3&gt;
+&lt;h3 id="coding-round"&gt;&lt;a class="toclink" href="#coding-round"&gt;Coding Round&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;This round is conducted with the senior engineer leading the respective department (backend or frontend). It is a 1h 15min to 1h 30min call during which the candidate is required to share their screen and have their camera turned on.&lt;/p&gt;
 &lt;p&gt;This call includes:
 - In-depth technical discussions around backend or frontend topics.
 - Solving two coding questions and explaining their approach.&lt;/p&gt;
-&lt;h3&gt;Final Round&lt;/h3&gt;
+&lt;h3 id="final-round"&gt;&lt;a class="toclink" href="#final-round"&gt;Final Round&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;The final round is a non-technical interview with me, reserved for candidates who performed exceptionally in the screening and coding rounds and met our criteria.&lt;/p&gt;
 &lt;p&gt;This interview is designed to provide a holistic view of the candidate by:&lt;/p&gt;
 &lt;ul&gt;
@@ -1121,7 +1121,7 @@ drwxr-xr-x&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="m"&gt;8&lt;/span&
 &lt;li&gt;&lt;strong&gt;Assessing Collaboration &amp;amp; Adaptability:&lt;/strong&gt; Exploring how candidates navigate teamwork challenges and manage unexpected changes within dynamic environments.&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Evaluating Cultural &amp;amp; Career Fit:&lt;/strong&gt; Discussing work styles, long-term aspirations, and feedback experiences to ensure alignment with Diversio’s team values.&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Setting Clear Role Expectations:&lt;/strong&gt; Clarifying work dynamics such as flexible hours and communication preferences, while highlighting Diversio’s vision and engineering culture.&lt;/li&gt;
-&lt;/ul&gt;</content><category term="Hiring"></category><category term="hiring"></category><category term="interviewing"></category><category term="ai"></category><category term="diversio"></category><category term="lessons-learned"></category><category term="best-practices"></category></entry><entry><title>Terminal setup using ZSH, Prezto and Starship on MacOS</title><link href="https://ashwch.com/terminal-setup-using-zsh-prezto-starship.md.html" rel="alternate"></link><published>2023-12-23T00:00:00-05:00</published><updated>2023-12-23T00:00:00-05:00</updated><author><name>Ashwini Chaudhary</name></author><id>tag:ashwch.com,2023-12-23:/terminal-setup-using-zsh-prezto-starship.md.html</id><summary type="html">&lt;p&gt;Terminal setup using ZSH, Prezto and Starship on MacOS&lt;/p&gt;</summary><content type="html">&lt;h1&gt;ZSH installation&lt;/h1&gt;
+&lt;/ul&gt;</content><category term="Hiring"></category><category term="hiring"></category><category term="interviewing"></category><category term="ai"></category><category term="diversio"></category><category term="lessons-learned"></category><category term="best-practices"></category></entry><entry><title>Terminal setup using ZSH, Prezto and Starship on MacOS</title><link href="https://ashwch.com/terminal-setup-using-zsh-prezto-starship.md.html" rel="alternate"></link><published>2023-12-23T00:00:00-05:00</published><updated>2023-12-23T00:00:00-05:00</updated><author><name>Ashwini Chaudhary</name></author><id>tag:ashwch.com,2023-12-23:/terminal-setup-using-zsh-prezto-starship.md.html</id><summary type="html">&lt;p&gt;Terminal setup using ZSH, Prezto and Starship on MacOS&lt;/p&gt;</summary><content type="html">&lt;h1 id="zsh-installation"&gt;&lt;a class="toclink" href="#zsh-installation"&gt;ZSH installation&lt;/a&gt;&lt;/h1&gt;
 &lt;p&gt;Starting with Catalina the default shell was changed to zsh. You can verify your current shell using:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;➜&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;$SHELL&lt;/span&gt;
 /bin/zsh
@@ -1135,15 +1135,15 @@ drwxr-xr-x&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="m"&gt;8&lt;/span&
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;chsh&lt;span class="w"&gt; &lt;/span&gt;-s&lt;span class="w"&gt; &lt;/span&gt;/bin/zsh
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h1&gt;Prezto installation&lt;/h1&gt;
+&lt;h1 id="prezto-installation"&gt;&lt;a class="toclink" href="#prezto-installation"&gt;Prezto installation&lt;/a&gt;&lt;/h1&gt;
 &lt;p&gt;&lt;a href="https://github.com/sorin-ionescu/prezto"&gt;Prezto&lt;/a&gt; is a configuration framework for &lt;code&gt;zsh&lt;/code&gt;. Another well known alternative is &lt;a href="https://ohmyz.sh/"&gt;Oh My Zsh&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;I was using Oh My Zsh previously but it had performance issues and switching to Prezto has helped with the performance issues. Oh My Zsh has a much bigger community and receives regular updates and is bit more beginner friendly.&lt;/p&gt;
 &lt;p&gt;Before installing make sure to make a back of your &lt;code&gt;.zshrc&lt;/code&gt; file if you had one already as Prezto can ve problematic with existing &lt;code&gt;.zshrc&lt;/code&gt; files.&lt;/p&gt;
-&lt;h2&gt;Clone the Prezto repo&lt;/h2&gt;
+&lt;h2 id="clone-the-prezto-repo"&gt;&lt;a class="toclink" href="#clone-the-prezto-repo"&gt;Clone the Prezto repo&lt;/a&gt;&lt;/h2&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;git&lt;span class="w"&gt; &lt;/span&gt;clone&lt;span class="w"&gt; &lt;/span&gt;--recursive&lt;span class="w"&gt; &lt;/span&gt;https://github.com/sorin-ionescu/prezto.git&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;ZDOTDIR&lt;/span&gt;&lt;span class="k"&gt;:-&lt;/span&gt;&lt;span class="nv"&gt;$HOME&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;/.zprezto&amp;quot;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h2&gt;Link the new zsh config files provided by Prezto to your home directory&lt;/h2&gt;
+&lt;h2 id="link-the-new-zsh-config-files-provided-by-prezto-to-your-home-directory"&gt;&lt;a class="toclink" href="#link-the-new-zsh-config-files-provided-by-prezto-to-your-home-directory"&gt;Link the new zsh config files provided by Prezto to your home directory&lt;/a&gt;&lt;/h2&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;setopt&lt;span class="w"&gt; &lt;/span&gt;EXTENDED_GLOB
 &lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;rcfile&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;in&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;ZDOTDIR&lt;/span&gt;&lt;span class="k"&gt;:-&lt;/span&gt;&lt;span class="nv"&gt;$HOME&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;/.zprezto/runcoms/^README.md&lt;span class="o"&gt;(&lt;/span&gt;.N&lt;span class="o"&gt;)&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;do&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;ln&lt;span class="w"&gt; &lt;/span&gt;-s&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$rcfile&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;ZDOTDIR&lt;/span&gt;&lt;span class="k"&gt;:-&lt;/span&gt;&lt;span class="nv"&gt;$HOME&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;/.&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;rcfile&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="nv"&gt;t&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
@@ -1196,9 +1196,9 @@ func&lt;span class="w"&gt; &lt;/span&gt;load_nvm&lt;span class="w"&gt; &lt;/span
 lazy_load&lt;span class="w"&gt; &lt;/span&gt;load_virtualenv&lt;span class="w"&gt; &lt;/span&gt;load_nvm
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h2&gt;Selecting theme&lt;/h2&gt;
+&lt;h2 id="selecting-theme"&gt;&lt;a class="toclink" href="#selecting-theme"&gt;Selecting theme&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;Prezto comes with a bunch of themes. To list the themes use &lt;code&gt;prompt -l&lt;/code&gt; and to preview one use &lt;code&gt;prompt -p name&lt;/code&gt;. Once you've picked a theme open your &lt;code&gt;.zpreztorc&lt;/code&gt; file and add it  &lt;code&gt;zstyle ':prezto:module:prompt' theme 'pure'&lt;/code&gt; (here &lt;code&gt;'pure'&lt;/code&gt; is the prompt theme's name).&lt;/p&gt;
-&lt;h2&gt;Fonts&lt;/h2&gt;
+&lt;h2 id="fonts"&gt;&lt;a class="toclink" href="#fonts"&gt;Fonts&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;Currently, I'm using GitHub's &lt;a href="https://github.com/githubnext/monaspace#monaspace"&gt;Monaspace font&lt;/a&gt;, its Krypton variation. This font supports ligatures.&lt;/p&gt;
 &lt;p&gt;Other fonts I highly recommend:&lt;/p&gt;
 &lt;ul&gt;
@@ -1211,7 +1211,7 @@ lazy_load&lt;span class="w"&gt; &lt;/span&gt;load_virtualenv&lt;span class="w"&g
 &lt;p&gt;&lt;strong&gt;Font setup in VS Code:&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;&lt;img alt="Font setup in VS Code" src="https://i.imgur.com/bvNgNz0.png"&gt;&lt;/p&gt;
 &lt;p&gt;&lt;img alt="Ligatures setup in VS Code" src="https://i.imgur.com/ausDfmG.png"&gt;&lt;/p&gt;
-&lt;h1&gt;Prompt Customization&lt;/h1&gt;
+&lt;h1 id="prompt-customization"&gt;&lt;a class="toclink" href="#prompt-customization"&gt;Prompt Customization&lt;/a&gt;&lt;/h1&gt;
 &lt;p&gt;I'm using &lt;a href="https://starship.rs/"&gt;Starship&lt;/a&gt; for customizing the prompt. Note that by default it requires &lt;a href="https://www.nerdfonts.com/font-downloads"&gt;Nerd Font&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;To install it Homebrew can be used:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;brew&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&gt;starship
@@ -1282,10 +1282,10 @@ lazy_load&lt;span class="w"&gt; &lt;/span&gt;load_virtualenv&lt;span class="w"&g
 &lt;p&gt;&lt;img alt="Starship configured prompt" src="https://i.imgur.com/Y9VQ4SW.png"&gt;&lt;/p&gt;
 &lt;p&gt;The setting available under any such action is in the docs: &lt;a href="https://starship.rs/config/#username"&gt;username&lt;/a&gt;, &lt;a href="https://starship.rs/config/#directory"&gt;directory&lt;/a&gt;, &lt;a href="https://starship.rs/config/#git_branch"&gt;git_branch&lt;/a&gt; and &lt;a href="https://starship.rs/config/#custom-commands"&gt;custom&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;Find detailed documentation here: &lt;a href="https://starship.rs/config/#prompt"&gt;https://starship.rs/config/#prompt&lt;/a&gt;&lt;/p&gt;
-&lt;h1&gt;Checking performance&lt;/h1&gt;
+&lt;h1 id="checking-performance"&gt;&lt;a class="toclink" href="#checking-performance"&gt;Checking performance&lt;/a&gt;&lt;/h1&gt;
 &lt;p&gt;If your shell is taking a while to load then it can be profiled by adding &lt;code&gt;zmodload zsh/zprof&lt;/code&gt; at the start of &lt;code&gt;.zshrc&lt;/code&gt; file and &lt;code&gt;zprof&lt;/code&gt; at the end of the file. In addition individual modules can be timed using &lt;code&gt;time (pmodload '&amp;lt;module_name&amp;gt;')&lt;/code&gt;.&lt;/p&gt;</content><category term="Programming"></category><category term="terminal"></category><category term="setup"></category><category term="prezto"></category><category term="starship"></category><category term="zsh"></category></entry><entry><title>Become a pdb power-user</title><link href="https://ashwch.com/become-a-pdb-power-user.html" rel="alternate"></link><published>2016-11-08T00:00:00-05:00</published><updated>2023-11-26T00:00:00-05:00</updated><author><name>Ashwini Chaudhary</name></author><id>tag:ashwch.com,2016-11-08:/become-a-pdb-power-user.html</id><summary type="html">&lt;p&gt;Become a pdb power-user&lt;/p&gt;</summary><content type="html">&lt;p&gt;This is an explanatory article related to my talk at &lt;a href="https://www.pypals.org/mupy"&gt;MUPy&lt;/a&gt;  -- &lt;a href="http://slides.com/ashwch/pdb-mupy#/"&gt; Become a pdb power-user&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;This article was originally published on &lt;a href="https://medium.com/instamojo-matters/become-a-pdb-power-user-e3fc4e2774b2"&gt;Medium&lt;/a&gt;&lt;/p&gt;
-&lt;h2&gt;What's pdb?&lt;/h2&gt;
+&lt;h2 id="whats-pdb"&gt;&lt;a class="toclink" href="#whats-pdb"&gt;What's pdb?&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;&lt;code&gt;pdb&lt;/code&gt; is a module from Python's standard library that allows us to do things like:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Stepping through source code&lt;/li&gt;
@@ -1295,12 +1295,12 @@ lazy_load&lt;span class="w"&gt; &lt;/span&gt;load_virtualenv&lt;span class="w"&g
 &lt;li&gt;Running Python code in a context&lt;/li&gt;
 &lt;li&gt;Post-mortem debugging&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2&gt;Why pdb?&lt;/h2&gt;
+&lt;h2 id="why-pdb"&gt;&lt;a class="toclink" href="#why-pdb"&gt;Why pdb?&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;It is not necessary to use &lt;code&gt;pdb&lt;/code&gt; all the time, sometimes we can get away with simple &lt;code&gt;print&lt;/code&gt; statements or logging.&lt;/p&gt;
 &lt;p&gt;But these other approaches are most of the time not good enough and don't give us enough control while debugging. Plus after debugging we also have to take care of removing the `print`` statements that we had added to our program just for debugging purpose, this isn't true for logging though as we can filter out logs easily. But at the end both of these approaches clutter our code and don't give us enough debugging power either.&lt;/p&gt;
-&lt;h2&gt;How to start pdb?&lt;/h2&gt;
+&lt;h2 id="how-to-start-pdb"&gt;&lt;a class="toclink" href="#how-to-start-pdb"&gt;How to start pdb?&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;There are multiple ways to start pdb depending on your use case.&lt;/p&gt;
-&lt;h3&gt;1. Starting program under debugger control&lt;/h3&gt;
+&lt;h3 id="1-starting-program-under-debugger-control"&gt;&lt;a class="toclink" href="#1-starting-program-under-debugger-control"&gt;1. Starting program under debugger control&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;We can start a script itself under debugger's control by executing the script using &lt;code&gt;-m pdb&lt;/code&gt; argument. Let's run script.py:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$&lt;span class="w"&gt; &lt;/span&gt;python&lt;span class="w"&gt; &lt;/span&gt;-m&lt;span class="w"&gt; &lt;/span&gt;pdb&lt;span class="w"&gt; &lt;/span&gt;script.py
 &lt;span class="w"&gt; &lt;/span&gt;&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;/pdb-mupy/script.py&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;&amp;lt;module&amp;gt;&lt;span class="o"&gt;()&lt;/span&gt;
@@ -1310,7 +1310,7 @@ lazy_load&lt;span class="w"&gt; &lt;/span&gt;load_virtualenv&lt;span class="w"&g
 
 &lt;p&gt;In this mode Python will stop the program on first line and you are going to be inside debugger(&lt;code&gt;(Pdb)&lt;/code&gt; is pdb's prompt). At this point you can either set breakpoints or continue executing your program.&lt;/p&gt;
 &lt;p&gt;Another special thing about it is that after the program completion if no exception occurred then your program will restart in same mode otherwise it will start in post-mortem mode. After post-mortem mode you can restart the program again.&lt;/p&gt;
-&lt;h3&gt;2. Running code under debugger control&lt;/h3&gt;
+&lt;h3 id="2-running-code-under-debugger-control"&gt;&lt;a class="toclink" href="#2-running-code-under-debugger-control"&gt;2. Running code under debugger control&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;Instead of running the whole code under debugger control we can run particular code under using &lt;code&gt;pdb.run&lt;/code&gt;, &lt;code&gt;pdb.runeval&lt;/code&gt; and &lt;code&gt;pdb.runcall&lt;/code&gt;.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;pdb&lt;/span&gt;
 &lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;script&lt;/span&gt;
@@ -1338,9 +1338,9 @@ lazy_load&lt;span class="w"&gt; &lt;/span&gt;load_virtualenv&lt;span class="w"&g
 &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Pdb&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3&gt;3. Set a hardcoded breakpoint&lt;/h3&gt;
+&lt;h3 id="3-set-a-hardcoded-breakpoint"&gt;&lt;a class="toclink" href="#3-set-a-hardcoded-breakpoint"&gt;3. Set a hardcoded breakpoint&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;This is the most common way to debug programs, it basically involves adding the line pdb.set_trace() in the source code wherever we want our program to stop.&lt;/p&gt;
-&lt;h3&gt;4. Post-mortem debugging&lt;/h3&gt;
+&lt;h3 id="4-post-mortem-debugging"&gt;&lt;a class="toclink" href="#4-post-mortem-debugging"&gt;4. Post-mortem debugging&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;Post-mortem debugging allows us to debug a dead program using its &lt;code&gt;traceback&lt;/code&gt; object. In post-mortem debugging we can inspect the state of the program at the time it died. But apart from inspecting the state we can't do much here(like stepping through the code) because like the name suggests we are performing post-mortem of a dead program.&lt;/p&gt;
 &lt;p&gt;By default the &lt;code&gt;-m pdb&lt;/code&gt; we had discussed earlier puts us in post-mortem mode if an exception occurs. Other ways are using: &lt;code&gt;pdb.pm()&lt;/code&gt; and &lt;code&gt;pdm.post_mortem()&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;pdb.pm()&lt;/code&gt; will take us to the post-mortem mode for the exception found in &lt;code&gt;sys.last_traceback&lt;/code&gt;.&lt;/p&gt;
@@ -1384,7 +1384,7 @@ lazy_load&lt;span class="w"&gt; &lt;/span&gt;load_virtualenv&lt;span class="w"&g
 &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Pdb&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h2&gt;Basic pdb commands&lt;/h2&gt;
+&lt;h2 id="basic-pdb-commands"&gt;&lt;a class="toclink" href="#basic-pdb-commands"&gt;Basic pdb commands&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;&lt;code&gt;(Pdb)&lt;/code&gt; prompt we have seen so far is pdb's own shell and it has its own set of commands that makes debugging even easier. In this section we will go through some of the basic commands.&lt;/p&gt;
 &lt;p&gt;Before starting with the commands it is important to understand the notation we use for commands, for example a command like &lt;code&gt;c&lt;/code&gt;(&lt;code&gt;ont&lt;/code&gt;(&lt;code&gt;inue&lt;/code&gt;)) means we can either use &lt;code&gt;c&lt;/code&gt;, &lt;code&gt;cont&lt;/code&gt; or &lt;code&gt;continue&lt;/code&gt; for this command. The square brackets(&lt;code&gt;[]&lt;/code&gt;) followed by a command are its optional arguments, without square brackets it is a compulsory argument.&lt;/p&gt;
 &lt;ul&gt;
@@ -1528,7 +1528,7 @@ List&lt;span class="w"&gt; &lt;/span&gt;lines&lt;span class="w"&gt; &lt;/span&gt
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;To remove an alias use &lt;code&gt;unalias&lt;/code&gt; command followed by the command name.&lt;/p&gt;
-&lt;h3&gt;Stepping through code&lt;/h3&gt;
+&lt;h3 id="stepping-through-code"&gt;&lt;a class="toclink" href="#stepping-through-code"&gt;Stepping through code&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;One of the strongest feature of pdb is that we can move through our code in various ways: 
 - Line by line 
 - Jumping inside a function 
@@ -1618,7 +1618,7 @@ List&lt;span class="w"&gt; &lt;/span&gt;lines&lt;span class="w"&gt; &lt;/span&gt
 &lt;span class="n"&gt;We&lt;/span&gt; &lt;span class="n"&gt;have&lt;/span&gt; &lt;span class="n"&gt;found&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;Holy&lt;/span&gt; &lt;span class="n"&gt;Grail&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3&gt;Jumping between stacks&lt;/h3&gt;
+&lt;h3 id="jumping-between-stacks"&gt;&lt;a class="toclink" href="#jumping-between-stacks"&gt;Jumping between stacks&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;So far we have only seen how to move forward in code by moving line by line and jumping inside a function call. But &lt;code&gt;pdb&lt;/code&gt; also provides us functionality to jump up and down in the current stack.&lt;/p&gt;
 &lt;p&gt;Best way to demonstrate this is to use a recursive function as an example, its code can be found at &lt;a href="https://github.com/ashwch/pdb-mupy/blob/master/recursive.py"&gt;&lt;code&gt;recursive.py&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;The three commands we will be going through in this section are &lt;code&gt;u(p)&lt;/code&gt;, &lt;code&gt;d(own)&lt;/code&gt; and &lt;code&gt;w(here)&lt;/code&gt;.&lt;/p&gt;
@@ -1668,7 +1668,7 @@ List&lt;span class="w"&gt; &lt;/span&gt;lines&lt;span class="w"&gt; &lt;/span&gt
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;code&gt;u(p)&lt;/code&gt; is also useful when you stepped(&lt;code&gt;s(tep)&lt;/code&gt;)inside a function accidentally and want to go back.&lt;/p&gt;
-&lt;h3&gt;Breakpoints&lt;/h3&gt;
+&lt;h3 id="breakpoints"&gt;&lt;a class="toclink" href="#breakpoints"&gt;Breakpoints&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;So far we have only seen how to set a break-point by updating the code and adding &lt;code&gt;pdb.set_trace()&lt;/code&gt; wherever we want to stop our program. But, &lt;code&gt;pdb&lt;/code&gt; also provides us a way to set dynamic conditional breakpoints without updating the source code. In this section we will be using code from &lt;a href="https://github.com/ashwch/pdb-mupy/blob/master/breakpoints.py"&gt;&lt;code&gt;breakpoints.py&lt;/code&gt;&lt;/a&gt; file.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;b(reak) [[filename:]lineno | function[, condition]]&lt;/code&gt;:&lt;/li&gt;
@@ -1840,7 +1840,7 @@ The&lt;span class="w"&gt; &lt;/span&gt;program&lt;span class="w"&gt; &lt;/span&g
 &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="nb"&gt;print&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Calculating &lt;/span&gt;&lt;span class="si"&gt;{}&lt;/span&gt;&lt;span class="s2"&gt;/&lt;/span&gt;&lt;span class="si"&gt;{}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;numerator&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;denominator&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3&gt;Tips and tricks&lt;/h3&gt;
+&lt;h3 id="tips-and-tricks"&gt;&lt;a class="toclink" href="#tips-and-tricks"&gt;Tips and tricks&lt;/a&gt;&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;code&gt;.pdbrc&lt;/code&gt; file: If present the commands present in this file are ran at the start of debugger session. This file can be added to your home directory and/or current directory.&lt;/p&gt;
@@ -1852,12 +1852,12 @@ The&lt;span class="w"&gt; &lt;/span&gt;program&lt;span class="w"&gt; &lt;/span&g
 &lt;p&gt;To enter multiple commands on a single line use &lt;code&gt;;;&lt;/code&gt; as separator.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3&gt;What's new in Python 3&lt;/h3&gt;
-&lt;h4&gt;Python 3.3+&lt;/h4&gt;
+&lt;h3 id="whats-new-in-python-3"&gt;&lt;a class="toclink" href="#whats-new-in-python-3"&gt;What's new in Python 3&lt;/a&gt;&lt;/h3&gt;
+&lt;h4 id="python-33"&gt;&lt;a class="toclink" href="#python-33"&gt;Python 3.3+&lt;/a&gt;&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;Tab-completion via the &lt;code&gt;readline&lt;/code&gt; module is available for commands and command arguments.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h4&gt;Python 3.2+&lt;/h4&gt;
+&lt;h4 id="python-32"&gt;&lt;a class="toclink" href="#python-32"&gt;Python 3.2+&lt;/a&gt;&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;code&gt;pdb.py&lt;/code&gt; now accepts a &lt;code&gt;-c&lt;/code&gt; option that executes commands as if given in a &lt;code&gt;`.pdbrc file&lt;/code&gt;&lt;/p&gt;
@@ -2010,8 +2010,8 @@ The&lt;span class="w"&gt; &lt;/span&gt;program&lt;span class="w"&gt; &lt;/span&g
 &lt;p&gt;Works! ;-)&lt;/p&gt;
 &lt;p&gt;I hope you must have learned something about string formatting in Python with the aforementioned method.&lt;/p&gt;
 &lt;p&gt;But is there any other way to do this?&lt;/p&gt;
-&lt;h3&gt;Yes!&lt;/h3&gt;
-&lt;h2&gt;Second way:&lt;/h2&gt;
+&lt;h3 id="yes"&gt;&lt;a class="toclink" href="#yes"&gt;Yes!&lt;/a&gt;&lt;/h3&gt;
+&lt;h2 id="second-way"&gt;&lt;a class="toclink" href="#second-way"&gt;Second way:&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;We can achieve the same thing as above using &lt;a href="https://docs.python.org/2/library/string.html#string.Formatter"&gt;&lt;code&gt;Formatter&lt;/code&gt;&lt;/a&gt; class from string module, the &lt;a href="https://docs.python.org/2/library/string.html#string.Formatter.parse"&gt;&lt;code&gt;parse()&lt;/code&gt;&lt;/a&gt; method of this class can be used to parse the format string. It returns an iterable that yields a tuple containing (literal_text, field_name, format_spec, conversion). We can use these fields to re-create our string.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;functools&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;reduce&lt;/span&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;operator&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;attrgetter&lt;/span&gt;

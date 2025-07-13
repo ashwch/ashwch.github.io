@@ -668,7 +668,7 @@ code,
         </header>
 
         <div class="article-content">
-          <h1>ZSH installation</h1>
+          <h1 id="zsh-installation"><a class="toclink" href="#zsh-installation">ZSH installation</a></h1>
 <p>Starting with Catalina the default shell was changed to zsh. You can verify your current shell using:</p>
 <div class="highlight"><pre><span></span><code>➜<span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="nv">$SHELL</span>
 /bin/zsh
@@ -682,15 +682,15 @@ code,
 <div class="highlight"><pre><span></span><code>chsh<span class="w"> </span>-s<span class="w"> </span>/bin/zsh
 </code></pre></div>
 
-<h1>Prezto installation</h1>
+<h1 id="prezto-installation"><a class="toclink" href="#prezto-installation">Prezto installation</a></h1>
 <p><a href="https://github.com/sorin-ionescu/prezto">Prezto</a> is a configuration framework for <code>zsh</code>. Another well known alternative is <a href="https://ohmyz.sh/">Oh My Zsh</a>.</p>
 <p>I was using Oh My Zsh previously but it had performance issues and switching to Prezto has helped with the performance issues. Oh My Zsh has a much bigger community and receives regular updates and is bit more beginner friendly.</p>
 <p>Before installing make sure to make a back of your <code>.zshrc</code> file if you had one already as Prezto can ve problematic with existing <code>.zshrc</code> files.</p>
-<h2>Clone the Prezto repo</h2>
+<h2 id="clone-the-prezto-repo"><a class="toclink" href="#clone-the-prezto-repo">Clone the Prezto repo</a></h2>
 <div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>--recursive<span class="w"> </span>https://github.com/sorin-ionescu/prezto.git<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">ZDOTDIR</span><span class="k">:-</span><span class="nv">$HOME</span><span class="si">}</span><span class="s2">/.zprezto&quot;</span>
 </code></pre></div>
 
-<h2>Link the new zsh config files provided by Prezto to your home directory</h2>
+<h2 id="link-the-new-zsh-config-files-provided-by-prezto-to-your-home-directory"><a class="toclink" href="#link-the-new-zsh-config-files-provided-by-prezto-to-your-home-directory">Link the new zsh config files provided by Prezto to your home directory</a></h2>
 <div class="highlight"><pre><span></span><code>setopt<span class="w"> </span>EXTENDED_GLOB
 <span class="k">for</span><span class="w"> </span>rcfile<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">ZDOTDIR</span><span class="k">:-</span><span class="nv">$HOME</span><span class="si">}</span><span class="s2">&quot;</span>/.zprezto/runcoms/^README.md<span class="o">(</span>.N<span class="o">)</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
 <span class="w">  </span>ln<span class="w"> </span>-s<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$rcfile</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">ZDOTDIR</span><span class="k">:-</span><span class="nv">$HOME</span><span class="si">}</span><span class="s2">/.</span><span class="si">${</span><span class="nv">rcfile</span><span class="p">:</span><span class="nv">t</span><span class="si">}</span><span class="s2">&quot;</span>
@@ -743,9 +743,9 @@ func<span class="w"> </span>load_nvm<span class="w"> </span><span class="o">()</
 lazy_load<span class="w"> </span>load_virtualenv<span class="w"> </span>load_nvm
 </code></pre></div>
 
-<h2>Selecting theme</h2>
+<h2 id="selecting-theme"><a class="toclink" href="#selecting-theme">Selecting theme</a></h2>
 <p>Prezto comes with a bunch of themes. To list the themes use <code>prompt -l</code> and to preview one use <code>prompt -p name</code>. Once you've picked a theme open your <code>.zpreztorc</code> file and add it  <code>zstyle ':prezto:module:prompt' theme 'pure'</code> (here <code>'pure'</code> is the prompt theme's name).</p>
-<h2>Fonts</h2>
+<h2 id="fonts"><a class="toclink" href="#fonts">Fonts</a></h2>
 <p>Currently, I'm using GitHub's <a href="https://github.com/githubnext/monaspace#monaspace">Monaspace font</a>, its Krypton variation. This font supports ligatures.</p>
 <p>Other fonts I highly recommend:</p>
 <ul>
@@ -758,7 +758,7 @@ lazy_load<span class="w"> </span>load_virtualenv<span class="w"> </span>load_nvm
 <p><strong>Font setup in VS Code:</strong></p>
 <p><img alt="Font setup in VS Code" src="https://i.imgur.com/bvNgNz0.png"></p>
 <p><img alt="Ligatures setup in VS Code" src="https://i.imgur.com/ausDfmG.png"></p>
-<h1>Prompt Customization</h1>
+<h1 id="prompt-customization"><a class="toclink" href="#prompt-customization">Prompt Customization</a></h1>
 <p>I'm using <a href="https://starship.rs/">Starship</a> for customizing the prompt. Note that by default it requires <a href="https://www.nerdfonts.com/font-downloads">Nerd Font</a>.</p>
 <p>To install it Homebrew can be used:</p>
 <div class="highlight"><pre><span></span><code>brew<span class="w"> </span>install<span class="w"> </span>starship
@@ -829,7 +829,7 @@ lazy_load<span class="w"> </span>load_virtualenv<span class="w"> </span>load_nvm
 <p><img alt="Starship configured prompt" src="https://i.imgur.com/Y9VQ4SW.png"></p>
 <p>The setting available under any such action is in the docs: <a href="https://starship.rs/config/#username">username</a>, <a href="https://starship.rs/config/#directory">directory</a>, <a href="https://starship.rs/config/#git_branch">git_branch</a> and <a href="https://starship.rs/config/#custom-commands">custom</a></p>
 <p>Find detailed documentation here: <a href="https://starship.rs/config/#prompt">https://starship.rs/config/#prompt</a></p>
-<h1>Checking performance</h1>
+<h1 id="checking-performance"><a class="toclink" href="#checking-performance">Checking performance</a></h1>
 <p>If your shell is taking a while to load then it can be profiled by adding <code>zmodload zsh/zprof</code> at the start of <code>.zshrc</code> file and <code>zprof</code> at the end of the file. In addition individual modules can be timed using <code>time (pmodload '&lt;module_name&gt;')</code>.</p>
         </div>
 

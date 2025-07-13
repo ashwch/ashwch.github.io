@@ -3,7 +3,7 @@
 &lt;p&gt;We moved our entire Postman collection to Bruno over a weekend and let Claude Code chew on the new files by Monday morning. By lunchtime, API docs were writing themselves.&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;hr&gt;
-&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;h2 id="table-of-contents"&gt;&lt;a class="toclink" href="#table-of-contents"&gt;Table of Contents&lt;/a&gt;&lt;/h2&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;a href="#what-youll-learn"&gt;What you'll learn&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#why-we-relied-on-postman-for-so-long--where-it-falls-short"&gt;Why we relied on Postman for so long &amp;amp; where it falls short&lt;/a&gt;&lt;/li&gt;
@@ -16,7 +16,7 @@
 &lt;li&gt;&lt;a href="#what-this-means-for-engineering-teams"&gt;What This Means for Engineering Teams&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;hr&gt;
-&lt;h2&gt;What you'll learn&lt;/h2&gt;
+&lt;h2 id="what-youll-learn"&gt;&lt;a class="toclink" href="#what-youll-learn"&gt;What you'll learn&lt;/a&gt;&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;Migrate&lt;/strong&gt; a Postman collection (requests &lt;em&gt;and&lt;/em&gt; environments) to Bruno in a few hours.&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Keep docs in‑lockstep&lt;/strong&gt; with your codebase; no more stale Postman descriptions.&lt;/li&gt;
@@ -25,7 +25,7 @@
 &lt;/ul&gt;
 &lt;p&gt;If you're exploring AI‑first tooling and looking to streamline your API workflow, this guide walks you through our practical migration step‑by‑step. If you're already using Bruno, you'll learn how to help improve your existing workflow further using AI.&lt;/p&gt;
 &lt;hr&gt;
-&lt;h2&gt;Why we relied on Postman for so long &amp;amp; where it falls short&lt;/h2&gt;
+&lt;h2 id="why-we-relied-on-postman-for-so-long-where-it-falls-short"&gt;&lt;a class="toclink" href="#why-we-relied-on-postman-for-so-long-where-it-falls-short"&gt;Why we relied on Postman for so long &amp;amp; where it falls short&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;At &lt;a href="https://diversio.com/"&gt;Diversio&lt;/a&gt;, Postman had been our all‑purpose API toolkit since the company's first endpoint shipped in 2018. Every engineer has owned a collection or three; shared environments lived in the cloud; QA and PMs could fire requests without touching the codebase.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Why Postman Works for Us (So Far)&lt;/strong&gt;&lt;/p&gt;
 &lt;ul&gt;
@@ -48,7 +48,7 @@
 &lt;p&gt;&lt;em&gt;Collaborative&lt;/em&gt;: Share links meant non‑engineers could poke endpoints in seconds.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3&gt;Why it started to hurt&lt;/h3&gt;
+&lt;h3 id="why-it-started-to-hurt"&gt;&lt;a class="toclink" href="#why-it-started-to-hurt"&gt;Why it started to hurt&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;As our API surface has increased and now we are working on more and more features at once(thanks to agentic coding), the workflow that once felt effortless began eating hours and hurting our productivity.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
@@ -66,8 +66,8 @@
 &lt;/ul&gt;
 &lt;p&gt;Postman still &lt;em&gt;works&lt;/em&gt; but it has just slowed us down. Any change meant updating code &lt;em&gt;and&lt;/em&gt; a JSON export no one liked opening. That lag became the bottleneck.&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://www.usebruno.com/"&gt;Bruno&lt;/a&gt;'s Git‑friendly plain‑text format, and its ability to embed full Markdown docs, looked like a way out. The best part? AI agents can read &lt;code&gt;.bru&lt;/code&gt; files like normal code, so automation suddenly became trivial and APIs are now part of our codebase and included in diffs during code reviews.&lt;/p&gt;
-&lt;h2&gt;Migration basics&lt;/h2&gt;
-&lt;h3&gt;1. Script syntax&lt;/h3&gt;
+&lt;h2 id="migration-basics"&gt;&lt;a class="toclink" href="#migration-basics"&gt;Migration basics&lt;/a&gt;&lt;/h2&gt;
+&lt;h3 id="1-script-syntax"&gt;&lt;a class="toclink" href="#1-script-syntax"&gt;1. Script syntax&lt;/a&gt;&lt;/h3&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;// Postman&lt;/span&gt;
 &lt;span class="kd"&gt;var&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;json&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;JSON&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;parse&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;responseBody&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;span class="kd"&gt;var&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;token&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;json&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;access_token&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
@@ -79,7 +79,7 @@
 &lt;span class="nx"&gt;bru&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;setEnvVar&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;auth_token&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;token&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3&gt;2. Base64 helpers&lt;/h3&gt;
+&lt;h3 id="2-base64-helpers"&gt;&lt;a class="toclink" href="#2-base64-helpers"&gt;2. Base64 helpers&lt;/a&gt;&lt;/h3&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;// Postman&lt;/span&gt;
 &lt;span class="kd"&gt;const&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;payload&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;JSON&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;parse&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;atob&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;token&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;split&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;.&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)[&lt;/span&gt;&lt;span class="mf"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]));&lt;/span&gt;
 
@@ -87,14 +87,14 @@
 &lt;span class="kd"&gt;const&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;payload&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;JSON&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;parse&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;Buffer&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="kr"&gt;from&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;token&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;split&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;.&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)[&lt;/span&gt;&lt;span class="mf"&gt;1&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;base64&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;toString&lt;/span&gt;&lt;span class="p"&gt;());&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3&gt;3. Environment files&lt;/h3&gt;
+&lt;h3 id="3-environment-files"&gt;&lt;a class="toclink" href="#3-environment-files"&gt;3. Environment files&lt;/a&gt;&lt;/h3&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;vars&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;base_url&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;http&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="n"&gt;localhost&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;8000&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;api_key&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{{&lt;/span&gt;&lt;span class="n"&gt;process&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;API_KEY&lt;/span&gt;&lt;span class="p"&gt;}}&lt;/span&gt;
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3&gt;4. In‑line Markdown docs&lt;/h3&gt;
+&lt;h3 id="4-inline-markdown-docs"&gt;&lt;a class="toclink" href="#4-inline-markdown-docs"&gt;4. In‑line Markdown docs&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;Bruno lets every request double as a mini README:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;docs&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="c1"&gt;# User Authentication&lt;/span&gt;
@@ -112,7 +112,7 @@
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Rich tables, code fences, emojis etc can be included. Because it's Markdown, Claude Code and other AI tools parse it effortlessly.&lt;/p&gt;
-&lt;h3&gt;5. Organizing your Bruno collections&lt;/h3&gt;
+&lt;h3 id="5-organizing-your-bruno-collections"&gt;&lt;a class="toclink" href="#5-organizing-your-bruno-collections"&gt;5. Organizing your Bruno collections&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;After migration, we organized our Bruno files by feature rather than by API version. Here's our structure:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;bruno/
 ├── .env                  # Local secrets (git-ignored)
@@ -159,14 +159,14 @@
 &lt;li&gt;Keep sensitive data out of version control&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr&gt;
-&lt;h2&gt;Scripts that saved us hours&lt;/h2&gt;
-&lt;h3&gt;Environment converter (Python)&lt;/h3&gt;
+&lt;h2 id="scripts-that-saved-us-hours"&gt;&lt;a class="toclink" href="#scripts-that-saved-us-hours"&gt;Scripts that saved us hours&lt;/a&gt;&lt;/h2&gt;
+&lt;h3 id="environment-converter-python"&gt;&lt;a class="toclink" href="#environment-converter-python"&gt;Environment converter (Python)&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;The script is available in this GitHub gist: &lt;a href="https://gist.github.com/ashwch/317ce7d35dd605187bedf39e6b7858a8"&gt;migrate_postman_envs.py&lt;/a&gt;&lt;/p&gt;
-&lt;h4&gt;Command&lt;/h4&gt;
+&lt;h4 id="command"&gt;&lt;a class="toclink" href="#command"&gt;Command&lt;/a&gt;&lt;/h4&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$&lt;span class="w"&gt; &lt;/span&gt;uv&lt;span class="w"&gt; &lt;/span&gt;run&lt;span class="w"&gt; &lt;/span&gt;migrate_postman_envs.py&lt;span class="w"&gt; &lt;/span&gt;./postman_environments/&lt;span class="w"&gt; &lt;/span&gt;./bruno_environments/
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h4&gt;Output&lt;/h4&gt;
+&lt;h4 id="output"&gt;&lt;a class="toclink" href="#output"&gt;Output&lt;/a&gt;&lt;/h4&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;🔄 Processing 10 file(s)...
 
 ✅ Converted webhook_env.json → ./bruno_environments/webhook_env.bru
@@ -183,13 +183,13 @@
 ✨ Done! Converted 10/10 file(s)
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h4&gt;Validator Command&lt;/h4&gt;
+&lt;h4 id="validator-command"&gt;&lt;a class="toclink" href="#validator-command"&gt;Validator Command&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;The script can be found here: &lt;a href="https://gist.github.com/ashwch/cd87eb1574b1b88d21ddef1508a186f6"&gt;validate_bruno_files.py&lt;/a&gt;&lt;/p&gt;
-&lt;h3&gt;Command&lt;/h3&gt;
+&lt;h3 id="command_1"&gt;&lt;a class="toclink" href="#command_1"&gt;Command&lt;/a&gt;&lt;/h3&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$&lt;span class="w"&gt; &lt;/span&gt;uv&lt;span class="w"&gt; &lt;/span&gt;run&lt;span class="w"&gt; &lt;/span&gt;validate_bruno_files.py&lt;span class="w"&gt; &lt;/span&gt;./bruno_environments/
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3&gt;Output&lt;/h3&gt;
+&lt;h3 id="output_1"&gt;&lt;a class="toclink" href="#output_1"&gt;Output&lt;/a&gt;&lt;/h3&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;🔍 Validating 10 Bruno file(s)...
 
 ✅ demo_env.bru
@@ -206,7 +206,7 @@
 📊 Summary: 10/10 file(s) valid
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3&gt;Request Migration Script&lt;/h3&gt;
+&lt;h3 id="request-migration-script"&gt;&lt;a class="toclink" href="#request-migration-script"&gt;Request Migration Script&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;For the actual requests, here's a simple bash script:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="ch"&gt;#!/bin/bash&lt;/span&gt;
 &lt;span class="c1"&gt;# convert_postman_scripts.sh&lt;/span&gt;
@@ -221,8 +221,8 @@ sed&lt;span class="w"&gt; &lt;/span&gt;-i&lt;span class="w"&gt; &lt;/span&gt;&lt
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;Pro tip&lt;/strong&gt;: Run this on a copy first. Some replacements might need manual review, especially if you have complex string patterns.&lt;/p&gt;
-&lt;h2&gt;Common Migration Patterns&lt;/h2&gt;
-&lt;h3&gt;Response Validation&lt;/h3&gt;
+&lt;h2 id="common-migration-patterns"&gt;&lt;a class="toclink" href="#common-migration-patterns"&gt;Common Migration Patterns&lt;/a&gt;&lt;/h2&gt;
+&lt;h3 id="response-validation"&gt;&lt;a class="toclink" href="#response-validation"&gt;Response Validation&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;Add defensive checks when migrating:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;// Old Postman way (often broke with null responses)&lt;/span&gt;
 &lt;span class="kd"&gt;var&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;id&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;JSON&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;parse&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;responseBody&lt;/span&gt;&lt;span class="p"&gt;)[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;data&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;id&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
@@ -236,7 +236,7 @@ sed&lt;span class="w"&gt; &lt;/span&gt;-i&lt;span class="w"&gt; &lt;/span&gt;&lt
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3&gt;Test Migration&lt;/h3&gt;
+&lt;h3 id="test-migration"&gt;&lt;a class="toclink" href="#test-migration"&gt;Test Migration&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;If you have Postman tests:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;// Postman test&lt;/span&gt;
 &lt;span class="nx"&gt;pm&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;test&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Status code is 200&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
@@ -249,9 +249,9 @@ sed&lt;span class="w"&gt; &lt;/span&gt;-i&lt;span class="w"&gt; &lt;/span&gt;&lt
 &lt;span class="p"&gt;});&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h2&gt;The AI Integration Revolution&lt;/h2&gt;
+&lt;h2 id="the-ai-integration-revolution"&gt;&lt;a class="toclink" href="#the-ai-integration-revolution"&gt;The AI Integration Revolution&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;Here's where things get exciting. I created a custom Claude &lt;a href="https://docs.anthropic.com/en/docs/claude-code/slash-commands"&gt;slash command&lt;/a&gt; that analyzes our Bruno files and generates comprehensive documentation by inspecting our Django codebase.&lt;/p&gt;
-&lt;h3&gt;The &lt;code&gt;/bruno-api&lt;/code&gt; Command&lt;/h3&gt;
+&lt;h3 id="the-bruno-api-command"&gt;&lt;a class="toclink" href="#the-bruno-api-command"&gt;The &lt;code&gt;/bruno-api&lt;/code&gt; Command&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;Instead of maintaining documentation scripts, we taught Claude to understand our codebase. Here's how the actual command works:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;# Custom Claude Command: /bruno-api
 
@@ -289,7 +289,7 @@ When the user types `/bruno-api [bruno-file-path]`, you will:
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Note: For brevity, we have excluded a lot of details like &lt;code&gt;allowed-tools&lt;/code&gt;, &lt;code&gt;Context&lt;/code&gt; etc from the command above. But these and other internal project specific details are present in our &lt;code&gt;/bruno-api&lt;/code&gt; command.&lt;/p&gt;
-&lt;h3&gt;How It Analyzes Your Code&lt;/h3&gt;
+&lt;h3 id="how-it-analyzes-your-code"&gt;&lt;a class="toclink" href="#how-it-analyzes-your-code"&gt;How It Analyzes Your Code&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;The sophistication comes from how Claude connects all the pieces:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;# Claude&amp;#39;s Analysis Process:
 
@@ -306,7 +306,7 @@ When the user types `/bruno-api [bruno-file-path]`, you will:
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;The magic&lt;/strong&gt;: This is more than just brittle script parsing AST. Claude Code understands our code semantically, follows imports, and comprehends business logic and can inspect multiple aspects of an API.&lt;/p&gt;
-&lt;h3&gt;Real Example Output&lt;/h3&gt;
+&lt;h3 id="real-example-output"&gt;&lt;a class="toclink" href="#real-example-output"&gt;Real Example Output&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;&lt;strong&gt;Input:&lt;/strong&gt; Simple Bruno file from Postman migration - &lt;a href="https://gist.github.com/ashwch/2a9d05024ac43479782092acbd4eae8f"&gt;see this basic file&lt;/a&gt; (just endpoint + auth)&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Command:&lt;/strong&gt; &lt;code&gt;/bruno-api bruno/analytics/user_metrics.bru&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Output:&lt;/strong&gt; Claude analyzes the Django codebase and generates comprehensive documentation. Here's a small sample:&lt;/p&gt;
@@ -362,7 +362,7 @@ When the user types `/bruno-api [bruno-file-path]`, you will:
 &lt;li&gt;Implementation details and database optimization notes&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;strong&gt;The key insight:&lt;/strong&gt; Claude reads the actual implementation, so the documentation is always accurate. &lt;em&gt;It can still make mistakes, so it's always critical to review the files and nudge it in right direction&lt;/em&gt;.&lt;/p&gt;
-&lt;h3&gt;Adapting for Your Framework&lt;/h3&gt;
+&lt;h3 id="adapting-for-your-framework"&gt;&lt;a class="toclink" href="#adapting-for-your-framework"&gt;Adapting for Your Framework&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;This approach works for any framework:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;Django&lt;/strong&gt;: Find views, serializers, permissions&lt;/li&gt;
@@ -370,8 +370,8 @@ When the user types `/bruno-api [bruno-file-path]`, you will:
 &lt;li&gt;&lt;strong&gt;Rails&lt;/strong&gt;: Analyze controllers, strong params&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;FastAPI&lt;/strong&gt;: Extract Pydantic models, dependencies&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2&gt;The Unexpected Benefits&lt;/h2&gt;
-&lt;h3&gt;1. Code Reviews for API Changes&lt;/h3&gt;
+&lt;h2 id="the-unexpected-benefits"&gt;&lt;a class="toclink" href="#the-unexpected-benefits"&gt;The Unexpected Benefits&lt;/a&gt;&lt;/h2&gt;
+&lt;h3 id="1-code-reviews-for-api-changes"&gt;&lt;a class="toclink" href="#1-code-reviews-for-api-changes"&gt;1. Code Reviews for API Changes&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;When someone changes an API, reviewers can see it in the PR:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;git diff api/users/create.bru
 
@@ -385,16 +385,16 @@ When the user types `/bruno-api [bruno-file-path]`, you will:
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Breaking changes are caught before deployment, not after.&lt;/p&gt;
-&lt;h3&gt;2. AI-Powered API Discovery&lt;/h3&gt;
+&lt;h3 id="2-ai-powered-api-discovery"&gt;&lt;a class="toclink" href="#2-ai-powered-api-discovery"&gt;2. AI-Powered API Discovery&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;New and existing team members can ask:
 - "Show me all endpoints that return user data"
 - "How do I paginate through results?"
 - "Generate TypeScript types for the profile endpoint"&lt;/p&gt;
 &lt;p&gt;Claude reads your Bruno collections and provides accurate answers and vice-versa.&lt;/p&gt;
-&lt;h3&gt;3. Documentation That Stays Fresh&lt;/h3&gt;
+&lt;h3 id="3-documentation-that-stays-fresh"&gt;&lt;a class="toclink" href="#3-documentation-that-stays-fresh"&gt;3. Documentation That Stays Fresh&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;Since docs live with code, they're more likely to stay updated. We are working on a pre-commit hook that is going to remind developers to update Bruno files when an API related change is made.&lt;/p&gt;
-&lt;h2&gt;Getting Your Team Started&lt;/h2&gt;
-&lt;h3&gt;Start Small, Move Fast&lt;/h3&gt;
+&lt;h2 id="getting-your-team-started"&gt;&lt;a class="toclink" href="#getting-your-team-started"&gt;Getting Your Team Started&lt;/a&gt;&lt;/h2&gt;
+&lt;h3 id="start-small-move-fast"&gt;&lt;a class="toclink" href="#start-small-move-fast"&gt;Start Small, Move Fast&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;We did our entire migration over a weekend, and you can too. Here's what worked for us:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;strong&gt;Pick your proof of concept&lt;/strong&gt; - Choose one well-used Postman collection&lt;/li&gt;
@@ -402,25 +402,25 @@ When the user types `/bruno-api [bruno-file-path]`, you will:
 &lt;li&gt;&lt;strong&gt;Set up your first AI command&lt;/strong&gt; - Start with our &lt;code&gt;/bruno-api&lt;/code&gt; template&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Show, don't tell&lt;/strong&gt; - Generate docs for one endpoint and share with the team&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h3&gt;The Aha Moment&lt;/h3&gt;
+&lt;h3 id="the-aha-moment"&gt;&lt;a class="toclink" href="#the-aha-moment"&gt;The Aha Moment&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;The real buy-in happens when developers see:
 - Their API changes appearing in PR diffs
 - Claude Code generating accurate TypeScript interfaces
 - Documentation that actually matches the code
 - No more "update Postman" tickets in the backlog&lt;/p&gt;
-&lt;h3&gt;Practical Next Steps&lt;/h3&gt;
+&lt;h3 id="practical-next-steps"&gt;&lt;a class="toclink" href="#practical-next-steps"&gt;Practical Next Steps&lt;/a&gt;&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;Today&lt;/strong&gt;: &lt;a href="https://learning.postman.com/docs/getting-started/importing-and-exporting/exporting-data/"&gt;Export one Postman collection&lt;/a&gt;, import to Bruno&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Tomorrow&lt;/strong&gt;: Create your first custom Claude command&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;This Week&lt;/strong&gt;: Add &lt;code&gt;.bru&lt;/code&gt; files to your repo and update PR templates&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Next Sprint&lt;/strong&gt;: Deprecate Postman licenses and celebrate the cost savings&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3&gt;Common Questions We Heard&lt;/h3&gt;
+&lt;h3 id="common-questions-we-heard"&gt;&lt;a class="toclink" href="#common-questions-we-heard"&gt;Common Questions We Heard&lt;/a&gt;&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;"Can QA still use it?" → Yes, Bruno has a UI too (and it's free)&lt;/li&gt;
 &lt;li&gt;"What if we need to go back?" → Keep Postman exports for 30 days, but we never looked back&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3&gt;Creating Your Own AI Commands&lt;/h3&gt;
+&lt;h3 id="creating-your-own-ai-commands"&gt;&lt;a class="toclink" href="#creating-your-own-ai-commands"&gt;Creating Your Own AI Commands&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;Here's a complete example you can adapt:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gh"&gt;# .claude/commands/bruno-api.md&lt;/span&gt;
 
@@ -453,9 +453,9 @@ Use our conventions:
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;Implementation tip&lt;/strong&gt;: Start with one endpoint type (e.g., CRUD operations) and expand from there.&lt;/p&gt;
-&lt;h2&gt;What This Means for Engineering Teams&lt;/h2&gt;
+&lt;h2 id="what-this-means-for-engineering-teams"&gt;&lt;a class="toclink" href="#what-this-means-for-engineering-teams"&gt;What This Means for Engineering Teams&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;The shift from Postman to Bruno in 2025 is really a shift in how we think about API documentation. It's no longer a separate artifact that gets out of sync. It's part of your codebase, reviewed like code, and enhanced by AI.&lt;/p&gt;
-&lt;h3&gt;Immediate Benefits We Measured&lt;/h3&gt;
+&lt;h3 id="immediate-benefits-we-measured"&gt;&lt;a class="toclink" href="#immediate-benefits-we-measured"&gt;Immediate Benefits We Measured&lt;/a&gt;&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;API documentation time&lt;/strong&gt;: Reduced from days to hours&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Documentation quality&lt;/strong&gt;: Rich Markdown docs with examples, tables, and diagrams (vs. limited formatting options and inconsistent AI-generated docs in Postman)&lt;/li&gt;

@@ -670,7 +670,7 @@ code,
         <div class="article-content">
           <p>This is an explanatory article related to my talk at <a href="https://www.pypals.org/mupy">MUPy</a>  -- <a href="http://slides.com/ashwch/pdb-mupy#/"> Become a pdb power-user</a>.</p>
 <p>This article was originally published on <a href="https://medium.com/instamojo-matters/become-a-pdb-power-user-e3fc4e2774b2">Medium</a></p>
-<h2>What's pdb?</h2>
+<h2 id="whats-pdb"><a class="toclink" href="#whats-pdb">What's pdb?</a></h2>
 <p><code>pdb</code> is a module from Python's standard library that allows us to do things like:</p>
 <ul>
 <li>Stepping through source code</li>
@@ -680,12 +680,12 @@ code,
 <li>Running Python code in a context</li>
 <li>Post-mortem debugging</li>
 </ul>
-<h2>Why pdb?</h2>
+<h2 id="why-pdb"><a class="toclink" href="#why-pdb">Why pdb?</a></h2>
 <p>It is not necessary to use <code>pdb</code> all the time, sometimes we can get away with simple <code>print</code> statements or logging.</p>
 <p>But these other approaches are most of the time not good enough and don't give us enough control while debugging. Plus after debugging we also have to take care of removing the `print`` statements that we had added to our program just for debugging purpose, this isn't true for logging though as we can filter out logs easily. But at the end both of these approaches clutter our code and don't give us enough debugging power either.</p>
-<h2>How to start pdb?</h2>
+<h2 id="how-to-start-pdb"><a class="toclink" href="#how-to-start-pdb">How to start pdb?</a></h2>
 <p>There are multiple ways to start pdb depending on your use case.</p>
-<h3>1. Starting program under debugger control</h3>
+<h3 id="1-starting-program-under-debugger-control"><a class="toclink" href="#1-starting-program-under-debugger-control">1. Starting program under debugger control</a></h3>
 <p>We can start a script itself under debugger's control by executing the script using <code>-m pdb</code> argument. Let's run script.py:</p>
 <div class="highlight"><pre><span></span><code>$<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>pdb<span class="w"> </span>script.py
 <span class="w"> </span>&gt;<span class="w"> </span>/pdb-mupy/script.py<span class="o">(</span><span class="m">1</span><span class="o">)</span>&lt;module&gt;<span class="o">()</span>
@@ -695,7 +695,7 @@ code,
 
 <p>In this mode Python will stop the program on first line and you are going to be inside debugger(<code>(Pdb)</code> is pdb's prompt). At this point you can either set breakpoints or continue executing your program.</p>
 <p>Another special thing about it is that after the program completion if no exception occurred then your program will restart in same mode otherwise it will start in post-mortem mode. After post-mortem mode you can restart the program again.</p>
-<h3>2. Running code under debugger control</h3>
+<h3 id="2-running-code-under-debugger-control"><a class="toclink" href="#2-running-code-under-debugger-control">2. Running code under debugger control</a></h3>
 <p>Instead of running the whole code under debugger control we can run particular code under using <code>pdb.run</code>, <code>pdb.runeval</code> and <code>pdb.runcall</code>.</p>
 <div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">pdb</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">script</span>
@@ -723,9 +723,9 @@ code,
 <span class="p">(</span><span class="n">Pdb</span><span class="p">)</span>
 </code></pre></div>
 
-<h3>3. Set a hardcoded breakpoint</h3>
+<h3 id="3-set-a-hardcoded-breakpoint"><a class="toclink" href="#3-set-a-hardcoded-breakpoint">3. Set a hardcoded breakpoint</a></h3>
 <p>This is the most common way to debug programs, it basically involves adding the line pdb.set_trace() in the source code wherever we want our program to stop.</p>
-<h3>4. Post-mortem debugging</h3>
+<h3 id="4-post-mortem-debugging"><a class="toclink" href="#4-post-mortem-debugging">4. Post-mortem debugging</a></h3>
 <p>Post-mortem debugging allows us to debug a dead program using its <code>traceback</code> object. In post-mortem debugging we can inspect the state of the program at the time it died. But apart from inspecting the state we can't do much here(like stepping through the code) because like the name suggests we are performing post-mortem of a dead program.</p>
 <p>By default the <code>-m pdb</code> we had discussed earlier puts us in post-mortem mode if an exception occurs. Other ways are using: <code>pdb.pm()</code> and <code>pdm.post_mortem()</code>.</p>
 <p><code>pdb.pm()</code> will take us to the post-mortem mode for the exception found in <code>sys.last_traceback</code>.</p>
@@ -769,7 +769,7 @@ code,
 <span class="p">(</span><span class="n">Pdb</span><span class="p">)</span>
 </code></pre></div>
 
-<h2>Basic pdb commands</h2>
+<h2 id="basic-pdb-commands"><a class="toclink" href="#basic-pdb-commands">Basic pdb commands</a></h2>
 <p><code>(Pdb)</code> prompt we have seen so far is pdb's own shell and it has its own set of commands that makes debugging even easier. In this section we will go through some of the basic commands.</p>
 <p>Before starting with the commands it is important to understand the notation we use for commands, for example a command like <code>c</code>(<code>ont</code>(<code>inue</code>)) means we can either use <code>c</code>, <code>cont</code> or <code>continue</code> for this command. The square brackets(<code>[]</code>) followed by a command are its optional arguments, without square brackets it is a compulsory argument.</p>
 <ul>
@@ -913,7 +913,7 @@ List<span class="w"> </span>lines<span class="w"> </span><span class="m">5</span
 </code></pre></div>
 
 <p>To remove an alias use <code>unalias</code> command followed by the command name.</p>
-<h3>Stepping through code</h3>
+<h3 id="stepping-through-code"><a class="toclink" href="#stepping-through-code">Stepping through code</a></h3>
 <p>One of the strongest feature of pdb is that we can move through our code in various ways: 
 - Line by line 
 - Jumping inside a function 
@@ -1003,7 +1003,7 @@ List<span class="w"> </span>lines<span class="w"> </span><span class="m">5</span
 <span class="n">We</span> <span class="n">have</span> <span class="n">found</span> <span class="n">the</span> <span class="n">Holy</span> <span class="n">Grail</span><span class="o">.</span>
 </code></pre></div>
 
-<h3>Jumping between stacks</h3>
+<h3 id="jumping-between-stacks"><a class="toclink" href="#jumping-between-stacks">Jumping between stacks</a></h3>
 <p>So far we have only seen how to move forward in code by moving line by line and jumping inside a function call. But <code>pdb</code> also provides us functionality to jump up and down in the current stack.</p>
 <p>Best way to demonstrate this is to use a recursive function as an example, its code can be found at <a href="https://github.com/ashwch/pdb-mupy/blob/master/recursive.py"><code>recursive.py</code></a>.</p>
 <p>The three commands we will be going through in this section are <code>u(p)</code>, <code>d(own)</code> and <code>w(here)</code>.</p>
@@ -1053,7 +1053,7 @@ List<span class="w"> </span>lines<span class="w"> </span><span class="m">5</span
 </code></pre></div>
 
 <p><code>u(p)</code> is also useful when you stepped(<code>s(tep)</code>)inside a function accidentally and want to go back.</p>
-<h3>Breakpoints</h3>
+<h3 id="breakpoints"><a class="toclink" href="#breakpoints">Breakpoints</a></h3>
 <p>So far we have only seen how to set a break-point by updating the code and adding <code>pdb.set_trace()</code> wherever we want to stop our program. But, <code>pdb</code> also provides us a way to set dynamic conditional breakpoints without updating the source code. In this section we will be using code from <a href="https://github.com/ashwch/pdb-mupy/blob/master/breakpoints.py"><code>breakpoints.py</code></a> file.</p>
 <ul>
 <li><code>b(reak) [[filename:]lineno | function[, condition]]</code>:</li>
@@ -1225,7 +1225,7 @@ The<span class="w"> </span>program<span class="w"> </span>finished<span class="w
 <span class="o">-&gt;</span> <span class="nb">print</span> <span class="s2">&quot;Calculating </span><span class="si">{}</span><span class="s2">/</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">numerator</span><span class="p">,</span> <span class="n">denominator</span><span class="p">)</span>
 </code></pre></div>
 
-<h3>Tips and tricks</h3>
+<h3 id="tips-and-tricks"><a class="toclink" href="#tips-and-tricks">Tips and tricks</a></h3>
 <ul>
 <li>
 <p><code>.pdbrc</code> file: If present the commands present in this file are ran at the start of debugger session. This file can be added to your home directory and/or current directory.</p>
@@ -1237,12 +1237,12 @@ The<span class="w"> </span>program<span class="w"> </span>finished<span class="w
 <p>To enter multiple commands on a single line use <code>;;</code> as separator.</p>
 </li>
 </ul>
-<h3>What's new in Python 3</h3>
-<h4>Python 3.3+</h4>
+<h3 id="whats-new-in-python-3"><a class="toclink" href="#whats-new-in-python-3">What's new in Python 3</a></h3>
+<h4 id="python-33"><a class="toclink" href="#python-33">Python 3.3+</a></h4>
 <ul>
 <li>Tab-completion via the <code>readline</code> module is available for commands and command arguments.</li>
 </ul>
-<h4>Python 3.2+</h4>
+<h4 id="python-32"><a class="toclink" href="#python-32">Python 3.2+</a></h4>
 <ul>
 <li>
 <p><code>pdb.py</code> now accepts a <code>-c</code> option that executes commands as if given in a <code>`.pdbrc file</code></p>

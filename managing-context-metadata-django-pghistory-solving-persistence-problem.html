@@ -669,7 +669,7 @@ code,
 
         <div class="article-content">
           <p>In this post you would learn how <code>pghistory.context</code> works and some of its gotchas that we faced at Diversio(thanks to <a href="https://github.com/amalrajdiversio">Amal Raj B R</a> who identified this) and how we adjusted our approach to avoid saving context metadata that is not relevant to the current business logic but is being carried over from a parent context.</p>
-<h3>What is <code>pghistory.context</code>?</h3>
+<h3 id="what-is-pghistorycontext"><a class="toclink" href="#what-is-pghistorycontext">What is <code>pghistory.context</code>?</a></h3>
 <p><code>pghistory.context</code> is a decorator and a function that is part of the fantastic <a href="https://django-pghistory.readthedocs.io/en/stable/"><code>django-pghistory</code></a> project. I would cover how we use <code>django-pghistory</code> in a separate post.</p>
 <p>When <code>django-pghistory</code> is keeping track of changes to Django models, there are several instances where we want to include additional information with the tracked changes. This is where <code>pghistory.context</code> comes into picture to easily capture such metadata.</p>
 <p>We are making use of <a href="https://django-pghistory.readthedocs.io/en/3.5.5/context/?h=historymiddleware#middleware"><code>pghistory.middleware.HistoryMiddleware</code></a> to collect basic fields that we want to store with each change. This includes IP address, URL and the User who made the request. Some of this is done by the <a href="https://github.com/AmbitionEng/django-pghistory/blob/e991e610ddfc393aa7e3f39945627485e0d7bc60/pghistory/middleware.py#L42">library itself</a> (comments removed for brevity) as seen in the code below.</p>
@@ -769,7 +769,7 @@ code,
 </code></pre></div>
 
 <p>Now for the above, the ideal behaviour we want is that every audit log should get the keys that were included in its context, but not the ones added by other contexts, apart from the common keys coming from the middleware.</p>
-<h3>Solution</h3>
+<h3 id="solution"><a class="toclink" href="#solution">Solution</a></h3>
 <p>We want a solution where we want the keys added by the middleware to persist, but we do not want the keys added inside the views to persist, and every time we exit from a context the keys should be removed from the metadata.</p>
 <p>For this the solution was to override the default implementation of <a href="https://github.com/AmbitionEng/django-pghistory/blob/e991e610ddfc393aa7e3f39945627485e0d7bc60/pghistory/runtime.py#L115"><code>pghistory.context</code></a>. Let's say the custom implementation is called <code>custom_pg_context</code>, then we want the output of the program we had earlier on to be:</p>
 <p>The key change we made was introducing a new parameter called <code>persist</code>. When set to <code>True</code> (the default), metadata keys will persist across nested contexts and remain available to other contexts. When set to <code>False</code>, metadata keys added in the current context will automatically be removed upon exiting the context, ensuring they don't leak into subsequent operations.</p>
@@ -861,7 +861,7 @@ Level<span class="w"> </span><span class="m">1</span>-6:<span class="w"> </span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Level 1-6: </span><span class="si">{</span><span class="n">pg_2</span><span class="o">.</span><span class="n">metadata</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div>
 
-<h4>What's happening here?</h4>
+<h4 id="whats-happening-here"><a class="toclink" href="#whats-happening-here">What's happening here?</a></h4>
 <ol>
 <li>We are making use of <code>ContextVar</code> from the <a href="https://docs.python.org/3/library/contextvars.html"><code>contextvars</code></a> module to maintain a stack of all contexts and identify parents and children of any particular context we are in.</li>
 <li>We create a custom class <code>custom_pg_context</code> that inherits from <code>pghistory.context</code>, with an additional <code>persist</code> parameter that defaults to <code>True</code>.</li>
@@ -881,7 +881,7 @@ Level<span class="w"> </span><span class="m">1</span>-6:<span class="w"> </span>
 <li>The <code>get_parent_context()</code> static method provides a way to access the parent context if needed.</li>
 </ol>
 <p>This implementation solves our problem by allowing us to control which metadata persists across different parts of our application. We can use <code>persist=True</code> for global tracking (like user and URL from middleware) and <code>persist=False</code> for local, context-specific metadata that shouldn't leak into other operations.</p>
-<h3>Using the Custom Context in Django</h3>
+<h3 id="using-the-custom-context-in-django"><a class="toclink" href="#using-the-custom-context-in-django">Using the Custom Context in Django</a></h3>
 <p>To implement this in a Django project, you would:</p>
 <ol>
 <li>Create a new module (e.g., <code>core/context.py</code>) with the <code>custom_pg_context</code> implementation.</li>
@@ -921,7 +921,7 @@ Level<span class="w"> </span><span class="m">1</span>-6:<span class="w"> </span>
         <span class="n">related_item</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>  <span class="c1"># Only includes this operation&#39;s metadata</span>
 </code></pre></div>
 
-<h3>Performance Considerations</h3>
+<h3 id="performance-considerations"><a class="toclink" href="#performance-considerations">Performance Considerations</a></h3>
 <p>One thing to note is that this approach does add some overhead, especially with deeply nested contexts. For most applications, this overhead is negligible compared to database operations, but it's something to keep in mind for performance-critical code paths.</p>
 <p>If you're concerned about performance, you could optimize the implementation further:</p>
 <ol>
@@ -929,7 +929,7 @@ Level<span class="w"> </span><span class="m">1</span>-6:<span class="w"> </span>
 <li>Limit the depth of context nesting</li>
 <li>Consider using a profiler to identify bottlenecks in your specific use case</li>
 </ol>
-<h3>Conclusion</h3>
+<h3 id="conclusion"><a class="toclink" href="#conclusion">Conclusion</a></h3>
 <p>By extending <code>pghistory.context</code> with our custom implementation, we've solved the metadata leakage problem while maintaining the convenience of the context-based tracking system. This approach gives us fine-grained control over which metadata persists across different operations, making our audit logs more accurate and meaningful.</p>
 <p>In a real-world Django application, this means we can add specific tracking metadata to different operations without polluting the audit trail of unrelated operations, while still maintaining the global context from middleware.</p>
         </div>

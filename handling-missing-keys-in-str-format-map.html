@@ -807,8 +807,8 @@ code,
 <p>Works! ;-)</p>
 <p>I hope you must have learned something about string formatting in Python with the aforementioned method.</p>
 <p>But is there any other way to do this?</p>
-<h3>Yes!</h3>
-<h2>Second way:</h2>
+<h3 id="yes"><a class="toclink" href="#yes">Yes!</a></h3>
+<h2 id="second-way"><a class="toclink" href="#second-way">Second way:</a></h2>
 <p>We can achieve the same thing as above using <a href="https://docs.python.org/2/library/string.html#string.Formatter"><code>Formatter</code></a> class from string module, the <a href="https://docs.python.org/2/library/string.html#string.Formatter.parse"><code>parse()</code></a> method of this class can be used to parse the format string. It returns an iterable that yields a tuple containing (literal_text, field_name, format_spec, conversion). We can use these fields to re-create our string.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">reduce</span>
 <span class="kn">from</span> <span class="nn">operator</span> <span class="kn">import</span> <span class="n">attrgetter</span>
