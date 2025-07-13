@@ -1,0 +1,1405 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="author" content="Ashwini Chaudhary(Monty)">
+        <meta name="description" content="">
+        <title>Postman to Bruno: A Weekend Migration That Transformed Our API Workflow | Ashwini's blog</title>
+
+        <!-- Favicon -->
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/favicon.ico" type="image/x-icon">
+        
+        <!-- RSS Feed -->
+        <link rel="alternate" type="application/atom+xml" title="Ashwini's blog blog atom feed" href="/feeds/all.atom.xml" />
+        
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+        
+        <!-- Bootstrap 5 -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        
+        <!-- Font Awesome for icons -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        
+        <!-- Icons CSS -->
+        <link rel="stylesheet" type="text/css" href="/theme/css/icons.css"/>
+        
+        <!-- Code highlighting -->
+        <style>.highlight .hll { background-color: #ffffcc }
+.highlight .c { color: #60a0b0; font-style: italic } /* Comment */
+.highlight .err { border: 1px solid #FF0000 } /* Error */
+.highlight .k { color: #007020; font-weight: bold } /* Keyword */
+.highlight .o { color: #666666 } /* Operator */
+.highlight .cm { color: #60a0b0; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #007020 } /* Comment.Preproc */
+.highlight .c1 { color: #60a0b0; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #60a0b0; background-color: #fff0f0 } /* Comment.Special */
+.highlight .gd { color: #A00000 } /* Generic.Deleted */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #FF0000 } /* Generic.Error */
+.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #00A000 } /* Generic.Inserted */
+.highlight .go { color: #808080 } /* Generic.Output */
+.highlight .gp { color: #c65d09; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight .gt { color: #0040D0 } /* Generic.Traceback */
+.highlight .kc { color: #007020; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #007020; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #007020; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #007020 } /* Keyword.Pseudo */
+.highlight .kr { color: #007020; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #902000 } /* Keyword.Type */
+.highlight .m { color: #40a070 } /* Literal.Number */
+.highlight .s { color: #4070a0 } /* Literal.String */
+.highlight .na { color: #4070a0 } /* Name.Attribute */
+.highlight .nb { color: #007020 } /* Name.Builtin */
+.highlight .nc { color: #0e84b5; font-weight: bold } /* Name.Class */
+.highlight .no { color: #60add5 } /* Name.Constant */
+.highlight .nd { color: #555555; font-weight: bold } /* Name.Decorator */
+.highlight .ni { color: #d55537; font-weight: bold } /* Name.Entity */
+.highlight .ne { color: #007020 } /* Name.Exception */
+.highlight .nf { color: #06287e } /* Name.Function */
+.highlight .nl { color: #002070; font-weight: bold } /* Name.Label */
+.highlight .nn { color: #0e84b5; font-weight: bold } /* Name.Namespace */
+.highlight .nt { color: #062873; font-weight: bold } /* Name.Tag */
+.highlight .nv { color: #bb60d5 } /* Name.Variable */
+.highlight .ow { color: #007020; font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mf { color: #40a070 } /* Literal.Number.Float */
+.highlight .mh { color: #40a070 } /* Literal.Number.Hex */
+.highlight .mi { color: #40a070 } /* Literal.Number.Integer */
+.highlight .mo { color: #40a070 } /* Literal.Number.Oct */
+.highlight .sb { color: #4070a0 } /* Literal.String.Backtick */
+.highlight .sc { color: #4070a0 } /* Literal.String.Char */
+.highlight .sd { color: #4070a0; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #4070a0 } /* Literal.String.Double */
+.highlight .se { color: #4070a0; font-weight: bold } /* Literal.String.Escape */
+.highlight .sh { color: #4070a0 } /* Literal.String.Heredoc */
+.highlight .si { color: #70a0d0; font-style: italic } /* Literal.String.Interpol */
+.highlight .sx { color: #c65d09 } /* Literal.String.Other */
+.highlight .sr { color: #235388 } /* Literal.String.Regex */
+.highlight .s1 { color: #4070a0 } /* Literal.String.Single */
+.highlight .ss { color: #517918 } /* Literal.String.Symbol */
+.highlight .bp { color: #007020 } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #bb60d5 } /* Name.Variable.Class */
+.highlight .vg { color: #bb60d5 } /* Name.Variable.Global */
+.highlight .vi { color: #bb60d5 } /* Name.Variable.Instance */
+.highlight .il { color: #40a070 } /* Literal.Number.Integer.Long */</style>
+        
+        <!-- Main CSS -->
+        <style>/* Base styles */
+:root {
+  /* Light theme (default) */
+  --primary-color: #3b82f6;
+  --primary-dark: #2563eb;
+  --secondary-color: #6366f1;
+  --text-color: #1f2937;
+  --text-light: #4b5563;
+  --background-color: #ffffff;
+  --background-alt: #f9fafb;
+  --border-color: #e5e7eb;
+  --code-bg: #f3f4f6;
+  --link-hover: #1d4ed8;
+  --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --navbar-bg: #ffffff;
+  --navbar-color: #4b5563;
+  --footer-bg: #f8f9fa;
+  --footer-color: #6c757d;
+  --card-bg: #ffffff;
+  --blockquote-bg: #f9fafb;
+}
+
+/* Dark theme */
+[data-theme="dark"] {
+  --primary-color: #60a5fa;
+  --primary-dark: #3b82f6;
+  --secondary-color: #818cf8;
+  --text-color: #f3f4f6;
+  --text-light: #d1d5db;
+  --background-color: #111827;
+  --background-alt: #1f2937;
+  --border-color: #374151;
+  --code-bg: #282c34;
+  --link-hover: #93c5fd;
+  --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+  --navbar-bg: #111827;
+  --navbar-color: #d1d5db;
+  --footer-bg: #1f2937;
+  --footer-color: #9ca3af;
+  --card-bg: #1f2937;
+  --blockquote-bg: #111827;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.7;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 1rem;
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+a:hover {
+  color: var(--link-hover);
+  text-decoration: underline;
+}
+
+/* Layout */
+.site-content {
+  flex: 1 0 auto;
+}
+
+.container {
+  max-width: 1200px;
+  padding: 0 1.5rem;
+}
+
+/* Header */
+.site-header {
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--navbar-bg);
+  transition: background-color 0.3s ease;
+}
+
+.navbar-brand {
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--text-color);
+  transition: color 0.3s ease;
+}
+
+.navbar-light .navbar-nav .nav-link {
+  color: var(--navbar-color);
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  transition: color 0.3s ease;
+}
+
+.navbar-light .navbar-nav .nav-link:hover {
+  color: var(--primary-color);
+}
+
+/* Theme toggle button styling */
+#theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid var(--border-color);
+  background-color: var(--background-alt);
+  color: var(--text-color);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#theme-toggle:hover {
+  transform: rotate(15deg);
+  background-color: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+/* Article Cards */
+.article-card {
+  background: var(--card-bg);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  margin-bottom: 2.5rem;
+  box-shadow: var(--card-shadow);
+  transition: transform 0.2s, box-shadow 0.2s, background-color 0.3s ease;
+}
+
+.article-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.article-card .card-body {
+  padding: 1.5rem;
+}
+
+.article-card .card-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.article-card .card-title a {
+  color: var(--text-color);
+  transition: color 0.2s;
+}
+
+.article-card .card-title a:hover {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+.article-card .card-text {
+  color: var(--text-light);
+  margin-bottom: 1rem;
+}
+
+.article-card .card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.875rem;
+  color: var(--text-light);
+}
+
+.article-card .card-date {
+  color: var(--text-light);
+}
+
+/* Tags container styling */
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Tag styling */
+.tag {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  background: var(--background-alt);
+  color: var(--text-light);
+  border-radius: 9999px;
+  transition: all 0.2s;
+}
+
+.tag:hover {
+  background: var(--primary-color);
+  color: white;
+  text-decoration: none;
+}
+
+/* Tag with active state */
+.tag.active {
+  background: var(--primary-color);
+  color: white;
+}
+
+/* Back to Posts button styling */
+.back-to-posts {
+  display: inline-block;
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 0.5rem 1rem;
+  color: var(--primary-color);
+  background-color: transparent;
+  border: 1px solid var(--primary-color);
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.back-to-posts:hover {
+  background-color: var(--primary-color);
+  color: white;
+  text-decoration: none;
+}
+
+/* Icon for back button */
+.back-to-posts i {
+  margin-right: 0.25rem;
+}
+
+/* Clear separation between tags and back button */
+.tags-section {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* Container for back button */
+.back-button-container {
+  margin-bottom: 2rem;
+}
+
+/* Article page */
+.article-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.article-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-color);
+}
+
+.article-header time {
+  color: var(--text-light);
+  font-size: 0.9rem;
+}
+
+.article-content {
+  font-family: 'Merriweather', Georgia, serif;
+  line-height: 1.8;
+}
+
+.article-content p {
+  margin-bottom: 1.5rem;
+}
+
+.article-content h2 {
+  font-size: 1.8rem;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+}
+
+.article-content h3 {
+  font-size: 1.5rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+}
+
+.article-content h4 {
+  font-size: 1.25rem;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+}
+
+.article-content ul, 
+.article-content ol {
+  margin-bottom: 1.5rem;
+  padding-left: 1.5rem;
+}
+
+.article-content li {
+  margin-bottom: 0.5rem;
+}
+
+.article-content blockquote {
+  margin: 2rem 0;
+  padding: 1rem 1.5rem;
+  border-left: 4px solid var(--primary-color);
+  background-color: var(--blockquote-bg);
+  font-style: italic;
+  transition: background-color 0.3s ease;
+}
+
+.article-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  margin: 1.5rem 0;
+}
+
+.article-content pre {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background-color: var(--code-bg);
+  overflow-x: auto;
+  font-size: 0.9rem;
+}
+
+.article-content code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 0.9em;
+  padding: 0.2em 0.4em;
+  border-radius: 0.25rem;
+  background-color: var(--code-bg);
+}
+
+.article-content pre code {
+  padding: 0;
+  background-color: transparent;
+}
+
+/* Article Meta */
+.article-meta {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.read-more-link {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: var(--primary-color);
+  color: white;
+  font-weight: 500;
+  border-radius: 0.25rem;
+  transition: background-color 0.2s;
+}
+
+.read-more-link:hover {
+  background-color: var(--primary-dark);
+  text-decoration: none;
+  color: white;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  margin: 3rem 0;
+}
+
+.pagination-prev,
+.pagination-next {
+  flex: 0 0 auto;
+}
+
+.pagination a {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--primary-color);
+  border-radius: 0.25rem;
+  color: var(--primary-color);
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.pagination a:hover {
+  background-color: var(--primary-color);
+  color: white;
+  text-decoration: none;
+}
+
+/* Archives & Tags */
+.archives-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.archives-list li {
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.archives-list li:last-child {
+  border-bottom: none;
+}
+
+.archives-list h3 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.archives-list time {
+  color: var(--text-light);
+  font-size: 0.875rem;
+}
+
+/* About page */
+.about-header {
+  margin-bottom: 2rem;
+}
+
+.social-links ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 0;
+  margin: 1rem 0;
+  list-style: none;
+}
+
+.social-links a {
+  color: var(--text-light);
+  transition: color 0.2s;
+}
+
+.social-links a:hover {
+  color: var(--primary-color);
+}
+
+/* Footer */
+.site-footer {
+  border-top: 1px solid var(--border-color);
+  font-size: 0.9rem;
+  background-color: var(--footer-bg);
+  color: var(--footer-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.site-footer a {
+  color: var(--text-color);
+  transition: color 0.3s ease;
+}
+
+.site-footer a:hover {
+  color: var(--primary-color);
+}
+
+/* Theme Transition Effects */
+.article-header, 
+.article-content,
+.article-meta,
+.card-body,
+.card-title a,
+.card-text,
+.card-meta,
+.tag,
+pre,
+code,
+.read-more-link,
+.pagination a {
+  transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Style adjustments for the dark theme */
+[data-theme="dark"] .navbar-light {
+  background-color: var(--navbar-bg) !important;
+}
+
+[data-theme="dark"] .navbar-light .navbar-nav .nav-link,
+[data-theme="dark"] .navbar-brand {
+  color: var(--text-color);
+}
+
+[data-theme="dark"] .navbar-light .navbar-toggler-icon {
+  filter: invert(1);
+}
+
+[data-theme="dark"] .bg-light {
+  background-color: var(--background-alt) !important;
+}
+
+[data-theme="dark"] .bg-white {
+  background-color: var(--background-color) !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .article-header h1 {
+    font-size: 2rem;
+  }
+  
+  .article-content h2 {
+    font-size: 1.5rem;
+  }
+  
+  .article-content h3 {
+    font-size: 1.3rem;
+  }
+  
+  .article-card .card-title {
+    font-size: 1.3rem;
+  }
+  
+  .social-links ul {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .pagination {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+  }
+}</style>
+
+
+    </head>
+
+    <body>
+        <header class="site-header shadow-sm">
+            <nav class="navbar navbar-expand-lg navbar-light bg-white">
+                <div class="container">
+                    <a class="navbar-brand fw-bold" href="/">Ashwini's blog</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav ms-auto">
+                                <li class="nav-item"><a class="nav-link" href="/pages/about.html" title="About">About</a></li>
+                                <li class="nav-item"><a class="nav-link" href="/pages/projects.html" title="Projects">Projects</a></li>
+                                <li class="nav-item"><a class="nav-link" href="/archives.html" title="Archive">Archive</a></li>
+                                <li class="nav-item"><a class="nav-link icon-rss" href="/feeds/all.atom.xml" title="Ashwini's blog RSS feed" rel="me"></a></li>
+                            <li class="nav-item">
+                                <button id="theme-toggle" class="btn btn-sm btn-outline-secondary ms-2" aria-label="Toggle theme">
+                                    <span id="theme-toggle-light" class="d-none">☀️</span>
+                                    <span id="theme-toggle-dark" class="d-none">🌙</span>
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <main class="site-content my-4">
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 mx-auto">
+      <article class="post">
+        <header class="article-header">
+          <h1>Postman to Bruno: A Weekend Migration That Transformed Our API Workflow</h1>
+          <time datetime="2025-07-13T00:00:00-04:00" pubdate>Sun 13 July 2025</time>
+        </header>
+
+        <div class="article-content">
+          <blockquote>
+<p>We moved our entire Postman collection to Bruno over a weekend and let Claude Code chew on the new files by Monday morning. By lunchtime, API docs were writing themselves.</p>
+</blockquote>
+<hr>
+<h2>Table of Contents</h2>
+<ol>
+<li><a href="#what-youll-learn">What you'll learn</a></li>
+<li><a href="#why-we-relied-on-postman-for-so-long--where-it-falls-short">Why we relied on Postman for so long &amp; where it falls short</a></li>
+<li><a href="#migration-basics">Migration basics</a></li>
+<li><a href="#scripts-that-saved-us-hours">Scripts that saved us hours</a></li>
+<li><a href="#common-migration-patterns">Common Migration Patterns</a></li>
+<li><a href="#the-ai-integration-revolution">The AI Integration Revolution</a></li>
+<li><a href="#the-unexpected-benefits">The Unexpected Benefits</a></li>
+<li><a href="#getting-your-team-started">Getting Your Team Started</a></li>
+<li><a href="#what-this-means-for-engineering-teams">What This Means for Engineering Teams</a></li>
+</ol>
+<hr>
+<h2>What you'll learn</h2>
+<ul>
+<li><strong>Migrate</strong> a Postman collection (requests <em>and</em> environments) to Bruno in a few hours.</li>
+<li><strong>Keep docs in‑lockstep</strong> with your codebase; no more stale Postman descriptions.</li>
+<li><strong>Let AI write the boring bits:</strong> type <code>/bruno-api path/to/request.bru</code> and get ready‑to‑ship docs, TypeScript types, and React Query hooks.</li>
+<li><strong>Catch breaking changes at review time,</strong> not after deploy night.</li>
+</ul>
+<p>If you're exploring AI‑first tooling and looking to streamline your API workflow, this guide walks you through our practical migration step‑by‑step. If you're already using Bruno, you'll learn how to help improve your existing workflow further using AI.</p>
+<hr>
+<h2>Why we relied on Postman for so long &amp; where it falls short</h2>
+<p>At <a href="https://diversio.com/">Diversio</a>, Postman had been our all‑purpose API toolkit since the company's first endpoint shipped in 2018. Every engineer has owned a collection or three; shared environments lived in the cloud; QA and PMs could fire requests without touching the codebase.</p>
+<p><strong>Why Postman Works for Us (So Far)</strong></p>
+<ul>
+<li>
+<p><em>Scriptable</em>: Pre‑request scripts spun up test users, refreshed auth tokens, and handled auth with a single click.</p>
+</li>
+<li>
+<p><em>Variable templating</em>: <code>{{base_url}}</code>, <code>{{auth_token}}</code>, and other vars kept requests DRY across local and cloud setups.</p>
+</li>
+<li>
+<p><em>Chained workflows</em>: Scripts set environment variables that downstream requests consumed, so multi‑step API flows ran end‑to‑end without anyone hand‑editing the shared collection.</p>
+</li>
+<li>
+<p><em>Performance‑testing ready</em>: The same collections powered our performance tests, giving us baseline latency numbers without duplicating effort.</p>
+</li>
+<li>
+<p><em>Full‑stack friendly</em>: Frontend and backend engineers could debug and iterate on the same requests without context‑switching or extra tooling.</p>
+</li>
+<li>
+<p><em>Collaborative</em>: Share links meant non‑engineers could poke endpoints in seconds.</p>
+</li>
+</ul>
+<h3>Why it started to hurt</h3>
+<p>As our API surface has increased and now we are working on more and more features at once(thanks to agentic coding), the workflow that once felt effortless began eating hours and hurting our productivity.</p>
+<ul>
+<li>
+<p><strong>Manual sync tax</strong> – Every new endpoint meant combing through multiple collections to wire up scripts, tests, and examples by hand.</p>
+</li>
+<li>
+<p><strong>Docs drift</strong> – Descriptions hid in Postman's UI; unless someone remembered to update them, they slipped out of date.</p>
+</li>
+<li>
+<p><strong>Invisible breaking changes</strong> – Because collections lived in Postman's cloud, reviewers never saw contract updates during code review.</p>
+</li>
+<li>
+<p><strong>Meeting creep</strong> – We still ended up on calls to reconcile mismatched examples and edge‑case behaviours. A lot of time spent in huddles and stand-ups discussing APIs that we couldn't document well inside of Postman.</p>
+</li>
+</ul>
+<p>Postman still <em>works</em> but it has just slowed us down. Any change meant updating code <em>and</em> a JSON export no one liked opening. That lag became the bottleneck.</p>
+<p><a href="https://www.usebruno.com/">Bruno</a>'s Git‑friendly plain‑text format, and its ability to embed full Markdown docs, looked like a way out. The best part? AI agents can read <code>.bru</code> files like normal code, so automation suddenly became trivial and APIs are now part of our codebase and included in diffs during code reviews.</p>
+<h2>Migration basics</h2>
+<h3>1. Script syntax</h3>
+<div class="highlight"><pre><span></span><code><span class="c1">// Postman</span>
+<span class="kd">var</span><span class="w"> </span><span class="nx">json</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">responseBody</span><span class="p">);</span>
+<span class="kd">var</span><span class="w"> </span><span class="nx">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">json</span><span class="p">[</span><span class="s2">&quot;access_token&quot;</span><span class="p">];</span>
+<span class="nx">pm</span><span class="p">.</span><span class="nx">environment</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;auth_token&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">token</span><span class="p">);</span>
+
+<span class="c1">// Bruno</span>
+<span class="kd">var</span><span class="w"> </span><span class="nx">json</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">res</span><span class="p">.</span><span class="nx">getBody</span><span class="p">();</span>
+<span class="kd">var</span><span class="w"> </span><span class="nx">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">json</span><span class="p">.</span><span class="nx">access_token</span><span class="p">;</span>
+<span class="nx">bru</span><span class="p">.</span><span class="nx">setEnvVar</span><span class="p">(</span><span class="s2">&quot;auth_token&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">token</span><span class="p">);</span>
+</code></pre></div>
+
+<h3>2. Base64 helpers</h3>
+<div class="highlight"><pre><span></span><code><span class="c1">// Postman</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">payload</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">atob</span><span class="p">(</span><span class="nx">token</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mf">1</span><span class="p">]));</span>
+
+<span class="c1">// Bruno (Buffer.from works in Bruno&#39;s Node.js environment)</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">payload</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">Buffer</span><span class="p">.</span><span class="kr">from</span><span class="p">(</span><span class="nx">token</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mf">1</span><span class="p">],</span><span class="w"> </span><span class="s1">&#39;base64&#39;</span><span class="p">).</span><span class="nx">toString</span><span class="p">());</span>
+</code></pre></div>
+
+<h3>3. Environment files</h3>
+<div class="highlight"><pre><span></span><code><span class="n">vars</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">base_url</span><span class="p">:</span><span class="w"> </span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">localhost</span><span class="p">:</span><span class="mi">8000</span>
+<span class="w">  </span><span class="n">api_key</span><span class="p">:</span><span class="w"> </span><span class="p">{{</span><span class="n">process</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">API_KEY</span><span class="p">}}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3>4. In‑line Markdown docs</h3>
+<p>Bruno lets every request double as a mini README:</p>
+<div class="highlight"><pre><span></span><code><span class="n">docs</span><span class="w"> </span><span class="err">{</span>
+<span class="w">  </span><span class="c1"># User Authentication</span>
+
+<span class="w">  </span><span class="n n-Quoted">`POST`</span><span class="w"> </span><span class="n n-Quoted">`/api/v2/auth/login`</span>
+
+<span class="w">  </span><span class="c1">## Overview</span>
+
+<span class="w">  </span><span class="k">Returns</span><span class="w"> </span><span class="n">JWT</span><span class="w"> </span><span class="n">tokens</span><span class="p">.</span>
+
+<span class="w">  </span><span class="n">⚡</span><span class="w"> </span><span class="o">**</span><span class="n">Rate</span><span class="w"> </span><span class="k">Limit</span><span class="o">**:</span><span class="w"> </span><span class="mi">5</span><span class="o">/</span><span class="n">min</span><span class="w"> </span><span class="n">per</span><span class="w"> </span><span class="n">IP</span>
+
+<span class="w">  </span><span class="p">...</span>
+<span class="err">}</span>
+</code></pre></div>
+
+<p>Rich tables, code fences, emojis etc can be included. Because it's Markdown, Claude Code and other AI tools parse it effortlessly.</p>
+<h3>5. Organizing your Bruno collections</h3>
+<p>After migration, we organized our Bruno files by feature rather than by API version. Here's our structure:</p>
+<div class="highlight"><pre><span></span><code>bruno/
+├── .env                  # Local secrets (git-ignored)
+├── .env.example          # Template for team members
+├── .gitignore           # Ensures .env stays local
+├── environments/
+│   ├── local.bru
+│   ├── staging.bru
+│   └── production.bru
+├── auth/
+│   ├── login.bru
+│   ├── refresh_token.bru
+│   └── logout.bru
+├── users/
+│   ├── get_profile.bru
+│   ├── update_profile.bru
+│   └── list_users.bru
+├── analytics/
+│   ├── dashboard_metrics.bru
+│   └── export_reports.bru
+└── integrations/
+    ├── stripe/
+    │   └── create_payment.bru
+    └── webhooks/
+        └── incoming_webhooks.bru
+</code></pre></div>
+
+<p><strong>Security tip</strong>: Always add <code>.env</code> to your <code>.gitignore</code>. Create a <code>.env.example</code> with dummy values so team members know what environment variables to set:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># .env.example</span>
+<span class="nv">API_BASE_URL</span><span class="o">=</span>http://localhost:8000
+<span class="nv">API_KEY</span><span class="o">=</span>your-api-key-here
+<span class="nv">JWT_TOKEN</span><span class="o">=</span>will-be-set-by-login-script
+<span class="nv">DEFAULT_COMPANY_ID</span><span class="o">=</span><span class="m">1234</span>
+<span class="nv">TEST_USERNAME</span><span class="o">=</span>testuser
+<span class="nv">TEST_PASSWORD</span><span class="o">=</span>testpass
+</code></pre></div>
+
+<p>Each <code>.bru</code> file can include documentation, pre/post scripts, and environment variable references. This structure makes it easy to:</p>
+<ul>
+<li>Find related endpoints quickly</li>
+<li>Review API changes in PRs</li>
+<li>Generate documentation by feature area</li>
+<li>Manage permissions at the folder level</li>
+<li>Keep sensitive data out of version control</li>
+</ul>
+<hr>
+<h2>Scripts that saved us hours</h2>
+<h3>Environment converter (Python)</h3>
+<p>The script is available in this GitHub gist: <a href="https://gist.github.com/ashwch/317ce7d35dd605187bedf39e6b7858a8">migrate_postman_envs.py</a></p>
+<h4>Command</h4>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>uv<span class="w"> </span>run<span class="w"> </span>migrate_postman_envs.py<span class="w"> </span>./postman_environments/<span class="w"> </span>./bruno_environments/
+</code></pre></div>
+
+<h4>Output</h4>
+<div class="highlight"><pre><span></span><code>🔄 Processing 10 file(s)...
+
+✅ Converted webhook_env.json → ./bruno_environments/webhook_env.bru
+✅ Converted local_env.json → ./bruno_environments/local_env.bru
+✅ Converted production.json → ./bruno_environments/production.bru
+✅ Converted staging.json → ./bruno_environments/staging.bru
+✅ Converted development.json → ./bruno_environments/development.bru
+✅ Converted test_env.json → ./bruno_environments/test_env.bru
+✅ Converted qa_env.json → ./bruno_environments/qa_env.bru
+✅ Converted sandbox.json → ./bruno_environments/sandbox.bru
+✅ Converted integration.json → ./bruno_environments/integration.bru
+✅ Converted demo_env.json → ./bruno_environments/demo_env.bru
+
+✨ Done! Converted 10/10 file(s)
+</code></pre></div>
+
+<h4>Validator Command</h4>
+<p>The script can be found here: <a href="https://gist.github.com/ashwch/cd87eb1574b1b88d21ddef1508a186f6">validate_bruno_files.py</a></p>
+<h3>Command</h3>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>uv<span class="w"> </span>run<span class="w"> </span>validate_bruno_files.py<span class="w"> </span>./bruno_environments/
+</code></pre></div>
+
+<h3>Output</h3>
+<div class="highlight"><pre><span></span><code>🔍 Validating 10 Bruno file(s)...
+
+✅ demo_env.bru
+✅ development.bru
+✅ integration.bru
+✅ local_dev.bru
+✅ performance_test.bru
+✅ production.bru
+✅ qa_testing.bru
+✅ sandbox.bru
+✅ staging.bru
+✅ user_acceptance.bru
+
+📊 Summary: 10/10 file(s) valid
+</code></pre></div>
+
+<h3>Request Migration Script</h3>
+<p>For the actual requests, here's a simple bash script:</p>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash</span>
+<span class="c1"># convert_postman_scripts.sh</span>
+
+<span class="c1"># Common replacements</span>
+sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;s/JSON\.parse(responseBody)/res.getBody()/g&#39;</span><span class="w"> </span>*.bru
+sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;s/atob(/Buffer.from(/g&#39;</span><span class="w"> </span>*.bru
+sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;s/pm\.environment\.set(/bru.setEnvVar(/g&#39;</span><span class="w"> </span>*.bru
+
+<span class="c1"># Fix dictionary access patterns</span>
+sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;s/jsonData\[&quot;\([^&quot;]*\)&quot;\]/jsonData.\1/g&#39;</span><span class="w"> </span>*.bru
+</code></pre></div>
+
+<p><strong>Pro tip</strong>: Run this on a copy first. Some replacements might need manual review, especially if you have complex string patterns.</p>
+<h2>Common Migration Patterns</h2>
+<h3>Response Validation</h3>
+<p>Add defensive checks when migrating:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Old Postman way (often broke with null responses)</span>
+<span class="kd">var</span><span class="w"> </span><span class="nx">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">responseBody</span><span class="p">)[</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="s2">&quot;id&quot;</span><span class="p">];</span>
+
+<span class="c1">// Better Bruno pattern</span>
+<span class="kd">var</span><span class="w"> </span><span class="nx">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">res</span><span class="p">.</span><span class="nx">getBody</span><span class="p">();</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">response</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">response</span><span class="p">.</span><span class="nx">data</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">response</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">bru</span><span class="p">.</span><span class="nx">setEnvVar</span><span class="p">(</span><span class="s2">&quot;resource_id&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">response</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+<span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s2">&quot;Unexpected response structure:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">response</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3>Test Migration</h3>
+<p>If you have Postman tests:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Postman test</span>
+<span class="nx">pm</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="s2">&quot;Status code is 200&quot;</span><span class="p">,</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">pm</span><span class="p">.</span><span class="nx">response</span><span class="p">.</span><span class="nx">to</span><span class="p">.</span><span class="nx">have</span><span class="p">.</span><span class="nx">status</span><span class="p">(</span><span class="mf">200</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="c1">// Bruno test</span>
+<span class="nx">test</span><span class="p">(</span><span class="s2">&quot;Status code is 200&quot;</span><span class="p">,</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">expect</span><span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nx">getStatus</span><span class="p">()).</span><span class="nx">to</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="mf">200</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div>
+
+<h2>The AI Integration Revolution</h2>
+<p>Here's where things get exciting. I created a custom Claude <a href="https://docs.anthropic.com/en/docs/claude-code/slash-commands">slash command</a> that analyzes our Bruno files and generates comprehensive documentation by inspecting our Django codebase.</p>
+<h3>The <code>/bruno-api</code> Command</h3>
+<p>Instead of maintaining documentation scripts, we taught Claude to understand our codebase. Here's how the actual command works:</p>
+<div class="highlight"><pre><span></span><code># Custom Claude Command: /bruno-api
+
+When the user types `/bruno-api [bruno-file-path]`, you will:
+
+1. **Parse the Bruno File**
+   - Extract the HTTP method, endpoint URL, headers, and body structure
+   - Identify authentication requirements (Bearer token, API key, etc.)
+   - Note any pre/post-request scripts for context
+
+2. **Reverse Engineer the Backend**
+   - Use the endpoint URL to find the Django URL pattern:
+     path(&#39;api/v2/users/&#39;, UserViewSet.as_view())
+     re_path(r&#39;^api/v1/reports/(?P&lt;pk&gt;\d+)/$&#39;, ReportDetailView.as_view())
+   - Locate the corresponding view/viewset class
+   - For Django Ninja endpoints, find the router and operation functions
+
+3. **Deep Code Analysis**
+   - Extract serializer fields, types, validation rules
+   - Identify permission classes and authentication requirements
+   - Trace through the view method to understand:
+     - Query parameters and filtering
+     - Data transformations
+     - External service calls
+     - Error conditions
+
+4. **Generate Comprehensive Documentation**
+   Including:
+   - Full API endpoint documentation
+   - TypeScript interfaces for request/response
+   - React Query hooks with error handling
+   - Authentication requirements
+   - Business logic notes (caching, rate limits, etc.)
+   - Common error scenarios
+</code></pre></div>
+
+<p>Note: For brevity, we have excluded a lot of details like <code>allowed-tools</code>, <code>Context</code> etc from the command above. But these and other internal project specific details are present in our <code>/bruno-api</code> command.</p>
+<h3>How It Analyzes Your Code</h3>
+<p>The sophistication comes from how Claude connects all the pieces:</p>
+<div class="highlight"><pre><span></span><code># Claude&#39;s Analysis Process:
+
+1. Bruno file says: GET /api/v2/analytics/inclusion-scores/
+2. Find in urls.py: path(&#39;api/v2/analytics/inclusion-scores/&#39;, InclusionScoresView.as_view())
+3. Find InclusionScoresView class
+4. Analyze the get() method:
+   - What serializer? InclusionScoresSerializer
+   - What permissions? IsAuthenticated + HasAnalyticsAccess
+   - What does it do? Aggregates survey data with demographic breakdowns
+5. Check serializer fields and validation
+6. Find related models and business logic
+7. Generate complete, accurate documentation
+</code></pre></div>
+
+<p><strong>The magic</strong>: This is more than just brittle script parsing AST. Claude Code understands our code semantically, follows imports, and comprehends business logic and can inspect multiple aspects of an API.</p>
+<h3>Real Example Output</h3>
+<p><strong>Input:</strong> Simple Bruno file from Postman migration - <a href="https://gist.github.com/ashwch/2a9d05024ac43479782092acbd4eae8f">see this basic file</a> (just endpoint + auth)</p>
+<p><strong>Command:</strong> <code>/bruno-api bruno/analytics/user_metrics.bru</code></p>
+<p><strong>Output:</strong> Claude analyzes the Django codebase and generates comprehensive documentation. Here's a small sample:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// TypeScript Interfaces (auto-generated from Django serializers)</span>
+<span class="kd">interface</span><span class="w"> </span><span class="nx">UserMetricsResponse</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">count</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">next</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">results</span><span class="o">:</span><span class="w"> </span><span class="kt">Array</span><span class="o">&lt;</span><span class="p">{</span>
+<span class="w">    </span><span class="nx">user_id</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="w">    </span><span class="nx">email</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="w">    </span><span class="nx">last_active</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="w">    </span><span class="nx">total_sessions</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span>
+<span class="w">    </span><span class="nx">sessions_this_month</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span>
+<span class="w">    </span><span class="nx">avg_session_duration</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="w">    </span><span class="nx">status</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;active&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;inactive&#39;</span><span class="p">;</span>
+<span class="w">    </span><span class="nx">role</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="w">    </span><span class="nx">department</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// React Query Hook (with error handling derived from Django views)</span>
+<span class="k">export</span><span class="w"> </span><span class="kd">const</span><span class="w"> </span><span class="nx">useUserMetrics</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nx">companyId</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">params?</span><span class="o">:</span><span class="w"> </span><span class="kt">UserMetricsParams</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nx">useQuery</span><span class="p">({</span>
+<span class="w">    </span><span class="nx">queryKey</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s1">&#39;user-metrics&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">companyId</span><span class="p">,</span><span class="w"> </span><span class="nx">params</span><span class="p">],</span>
+<span class="w">    </span><span class="nx">queryFn</span><span class="o">:</span><span class="w"> </span><span class="kt">async</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="kd">const</span><span class="w"> </span><span class="nx">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">apiClient</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span>
+<span class="w">        </span><span class="sb">`/api/v2/companies/</span><span class="si">${</span><span class="nx">companyId</span><span class="si">}</span><span class="sb">/user-metrics/`</span><span class="p">,</span>
+<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="nx">params</span><span class="w"> </span><span class="p">}</span>
+<span class="w">      </span><span class="p">);</span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="nx">response</span><span class="p">.</span><span class="nx">data</span><span class="p">;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nx">enabled</span><span class="o">:</span><span class="w"> </span><span class="o">!!</span><span class="nx">companyId</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">retry</span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="nx">failureCount</span><span class="p">,</span><span class="w"> </span><span class="nx">error</span><span class="o">:</span><span class="w"> </span><span class="kt">any</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="c1">// Smart retry logic based on Django view error handling</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="o">?</span><span class="p">.</span><span class="nx">response</span><span class="o">?</span><span class="p">.</span><span class="nx">status</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mf">401</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nx">error</span><span class="o">?</span><span class="p">.</span><span class="nx">response</span><span class="o">?</span><span class="p">.</span><span class="nx">status</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mf">403</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="nx">failureCount</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">3</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">});</span>
+<span class="p">};</span>
+</code></pre></div>
+
+<p><strong>This is just a fraction of the output.</strong> <a href="https://gist.github.com/ashwch/65dc35b651c989355bb924b5bfb09bd8">See the complete generated documentation</a> which includes:</p>
+<ul>
+<li>Complete API documentation with request/response examples</li>
+<li>Comprehensive error handling for all status codes</li>
+<li>Authentication and permission requirements</li>
+<li>TypeScript interfaces for all data structures</li>
+<li>React Query hooks with infinite scrolling support</li>
+<li>Testing examples and integration patterns</li>
+<li>Business logic notes and performance considerations</li>
+<li>Implementation details and database optimization notes</li>
+</ul>
+<p><strong>The key insight:</strong> Claude reads the actual implementation, so the documentation is always accurate. <em>It can still make mistakes, so it's always critical to review the files and nudge it in right direction</em>.</p>
+<h3>Adapting for Your Framework</h3>
+<p>This approach works for any framework:</p>
+<ul>
+<li><strong>Django</strong>: Find views, serializers, permissions</li>
+<li><strong>Express</strong>: Parse routes, middleware, validators</li>
+<li><strong>Rails</strong>: Analyze controllers, strong params</li>
+<li><strong>FastAPI</strong>: Extract Pydantic models, dependencies</li>
+</ul>
+<h2>The Unexpected Benefits</h2>
+<h3>1. Code Reviews for API Changes</h3>
+<p>When someone changes an API, reviewers can see it in the PR:</p>
+<div class="highlight"><pre><span></span><code>git diff api/users/create.bru
+
+<span class="gi">+ body:json {</span>
+<span class="gi">+   {</span>
+<span class="gi">+     &quot;email&quot;: &quot;{{email}}&quot;,</span>
+<span class="gi">+     &quot;role&quot;: &quot;{{role}}&quot;,</span>
+<span class="gi">+     &quot;department&quot;: &quot;{{department}}&quot;  // New field added</span>
+<span class="gi">+   }</span>
+<span class="gi">+ }</span>
+</code></pre></div>
+
+<p>Breaking changes are caught before deployment, not after.</p>
+<h3>2. AI-Powered API Discovery</h3>
+<p>New and existing team members can ask:
+- "Show me all endpoints that return user data"
+- "How do I paginate through results?"
+- "Generate TypeScript types for the profile endpoint"</p>
+<p>Claude reads your Bruno collections and provides accurate answers and vice-versa.</p>
+<h3>3. Documentation That Stays Fresh</h3>
+<p>Since docs live with code, they're more likely to stay updated. We are working on a pre-commit hook that is going to remind developers to update Bruno files when an API related change is made.</p>
+<h2>Getting Your Team Started</h2>
+<h3>Start Small, Move Fast</h3>
+<p>We did our entire migration over a weekend, and you can too. Here's what worked for us:</p>
+<ol>
+<li><strong>Pick your proof of concept</strong> - Choose one well-used Postman collection</li>
+<li><strong>Run the migration scripts</strong> - Use the Python converters linked above</li>
+<li><strong>Set up your first AI command</strong> - Start with our <code>/bruno-api</code> template</li>
+<li><strong>Show, don't tell</strong> - Generate docs for one endpoint and share with the team</li>
+</ol>
+<h3>The Aha Moment</h3>
+<p>The real buy-in happens when developers see:
+- Their API changes appearing in PR diffs
+- Claude Code generating accurate TypeScript interfaces
+- Documentation that actually matches the code
+- No more "update Postman" tickets in the backlog</p>
+<h3>Practical Next Steps</h3>
+<ul>
+<li><strong>Today</strong>: <a href="https://learning.postman.com/docs/getting-started/importing-and-exporting/exporting-data/">Export one Postman collection</a>, import to Bruno</li>
+<li><strong>Tomorrow</strong>: Create your first custom Claude command</li>
+<li><strong>This Week</strong>: Add <code>.bru</code> files to your repo and update PR templates</li>
+<li><strong>Next Sprint</strong>: Deprecate Postman licenses and celebrate the cost savings</li>
+</ul>
+<h3>Common Questions We Heard</h3>
+<ul>
+<li>"Can QA still use it?" → Yes, Bruno has a UI too (and it's free)</li>
+<li>"What if we need to go back?" → Keep Postman exports for 30 days, but we never looked back</li>
+</ul>
+<h3>Creating Your Own AI Commands</h3>
+<p>Here's a complete example you can adapt:</p>
+<div class="highlight"><pre><span></span><code><span class="gh"># .claude/commands/bruno-api.md</span>
+
+You are an API documentation expert for our [Framework] application.
+
+When user types /bruno-api [file-path]:
+
+<span class="k">1.</span> Read the Bruno file at the specified path
+<span class="k">2.</span> Extract: method, URL, headers, body structure
+<span class="k">3.</span> Find the implementation:
+<span class="w">   </span><span class="k">-</span><span class="w"> </span>For Express: Find app.get/post/put in routes/
+<span class="w">   </span><span class="k">-</span><span class="w"> </span>For Django: Find path() in urls.py, then view
+<span class="w">   </span><span class="k">-</span><span class="w"> </span>For Rails: Find route in config/routes.rb
+<span class="k">4.</span> Analyze the handler/controller to determine:
+<span class="w">   </span><span class="k">-</span><span class="w"> </span>Required parameters and validation
+<span class="w">   </span><span class="k">-</span><span class="w"> </span>Authentication/authorization 
+<span class="w">   </span><span class="k">-</span><span class="w"> </span>Response structure
+<span class="w">   </span><span class="k">-</span><span class="w"> </span>Error cases
+<span class="k">5.</span> Generate documentation including:
+<span class="w">   </span><span class="k">-</span><span class="w"> </span>Clear description of what the endpoint does
+<span class="w">   </span><span class="k">-</span><span class="w"> </span>Request/response examples with real data
+<span class="w">   </span><span class="k">-</span><span class="w"> </span>[Your frontend framework] integration code
+<span class="w">   </span><span class="k">-</span><span class="w"> </span>Common errors and how to handle them
+
+Use our conventions:
+<span class="k">-</span><span class="w"> </span>TypeScript for all interfaces
+<span class="k">-</span><span class="w"> </span>Include data validation rules
+<span class="k">-</span><span class="w"> </span>Show rate limits if applicable
+<span class="k">-</span><span class="w"> </span>Note any side effects (emails, webhooks, etc.)
+</code></pre></div>
+
+<p><strong>Implementation tip</strong>: Start with one endpoint type (e.g., CRUD operations) and expand from there.</p>
+<h2>What This Means for Engineering Teams</h2>
+<p>The shift from Postman to Bruno in 2025 is really a shift in how we think about API documentation. It's no longer a separate artifact that gets out of sync. It's part of your codebase, reviewed like code, and enhanced by AI.</p>
+<h3>Immediate Benefits We Measured</h3>
+<ul>
+<li><strong>API documentation time</strong>: Reduced from days to hours</li>
+<li><strong>Documentation quality</strong>: Rich Markdown docs with examples, tables, and diagrams (vs. limited formatting options and inconsistent AI-generated docs in Postman)</li>
+<li><strong>Breaking changes caught</strong>: Significant improvement during code review (from rarely caught to consistently visible in PRs)</li>
+<li><strong>Team participation</strong>: Entire team can now contribute without needing a Postman seat</li>
+<li><strong>Onboarding time</strong>: New engineers integrate APIs faster with self-documenting collections and AI-generated examples</li>
+</ul>
+        </div>
+
+        <div class="article-meta">
+            <div class="tags-section">
+              <h5>Tags:</h5>
+              <div class="tags-container">
+                  <a href="https://ashwch.com/tag/postman.html" class="tag">postman</a>
+                  <a href="https://ashwch.com/tag/bruno.html" class="tag">bruno</a>
+                  <a href="https://ashwch.com/tag/api.html" class="tag">api</a>
+                  <a href="https://ashwch.com/tag/ai.html" class="tag">ai</a>
+                  <a href="https://ashwch.com/tag/claude-code.html" class="tag">claude-code</a>
+                  <a href="https://ashwch.com/tag/productivity.html" class="tag">productivity</a>
+                  <a href="https://ashwch.com/tag/diversio.html" class="tag">diversio</a>
+                  <a href="https://ashwch.com/tag/engineering.html" class="tag">engineering</a>
+                  <a href="https://ashwch.com/tag/tooling.html" class="tag">tooling</a>
+                  <a href="https://ashwch.com/tag/developer-experience.html" class="tag">developer-experience</a>
+              </div>
+            </div>
+          
+          <div class="back-button-container">
+            <a href="https://ashwch.com" class="back-to-posts">
+              <i class="fas fa-arrow-left"></i> Back to Posts
+            </a>
+          </div>
+        </div>
+      </article>
+
+<section class="comments mt-5">
+  <div class="card">
+    <div class="card-header">
+      <h3 class="mb-0">Comments</h3>
+    </div>
+    <div class="card-body">
+      <div id="disqus_thread" aria-live="polite">
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+      <script type="text/javascript">
+        var disqus_shortname = 'ashwch';
+        var disqus_identifier = '/from-postman-to-bruno-how-ai-changed-our-api-workflow.html';
+        var disqus_url = 'https://ashwch.com/from-postman-to-bruno-how-ai-changed-our-api-workflow.html';
+        var disqus_title = 'Postman to Bruno: A Weekend Migration That Transformed Our API Workflow';
+        (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = "//" + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+    </div>
+  </div>
+</section>
+    </div>
+  </div>
+</div>
+
+<style type="text/css">
+/* Jupyter notebook styling */
+.jp-Cell {
+  max-width: 100%;
+  margin-bottom: 1.5rem;
+}
+
+.jp-Cell-inputWrapper,
+.jp-Cell-outputWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.jp-InputPrompt, 
+.jp-OutputPrompt {
+  font-family: monospace;
+  font-size: 0.9rem;
+  color: #888;
+  width: 4.5rem;
+  padding-right: 0.5rem;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.jp-CodeCell .jp-Cell-inputArea {
+  display: flex;
+  background-color: #f6f8fa;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+}
+
+.jp-CodeCell .jp-Cell-outputArea {
+  display: flex;
+  margin-top: 0.5rem;
+}
+
+.jp-CodeMirror {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  padding: 0.5rem;
+  width: 100%;
+}
+
+.jp-OutputArea-output {
+  padding: 0.5rem;
+  width: 100%;
+  overflow-x: auto;
+}
+
+.jp-RenderedMarkdown {
+  margin: 0;
+}
+
+/* Pandas DataFrames */
+table.dataframe {
+  border-collapse: collapse;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin: 1rem 0;
+  width: 100%;
+}
+
+.dataframe thead th {
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  padding: 0.5rem;
+  text-align: left;
+}
+
+.dataframe tbody td {
+  border: 1px solid #ddd;
+  padding: 0.5rem;
+  text-align: left;
+}
+
+.dataframe tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Matplotlib figures */
+.jp-RenderedImage img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1rem auto;
+}
+
+/* Hide cell execution counts */
+.prompt {
+  display: none;
+}
+
+/* Cell borders */
+div.cell {
+  border: none;
+  margin-bottom: 1.5rem;
+}
+
+div.text_cell_render {
+  padding: 0;
+}
+
+/* Code highlighting */
+pre code {
+  background-color: inherit;
+  padding: 0;
+}
+
+/* Jupyter code blocks */
+div.input_area {
+  background-color: #f6f8fa;
+  border-radius: 6px;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+/* Mobile optimization */
+@media (max-width: 768px) {
+  .jp-InputPrompt, 
+  .jp-OutputPrompt {
+    width: 3rem;
+    font-size: 0.8rem;
+  }
+  
+  .jp-CodeMirror,
+  .jp-OutputArea-output {
+    font-size: 0.8rem;
+  }
+  
+  table.dataframe {
+    font-size: 0.8rem;
+  }
+  
+  .dataframe thead th,
+  .dataframe tbody td {
+    padding: 0.3rem;
+  }
+}</style>
+        </main>
+
+        <footer class="site-footer mt-5 py-4 bg-light">
+            <div class="container text-center">
+                <p class="mb-0">
+                    © 2025 Ashwini Chaudhary(Monty), license <a href="https://github.com/ashwch/ashwch.github.io/blob/master/LICENSE">MIT</a>
+                    unless otherwise noted.
+                </p>
+                <p class="mb-0 small text-muted">
+                    Generated by <a href="http://docs.getpelican.com/">Pelican</a>
+                </p>
+            </div>
+        </footer>
+
+        <!-- Bootstrap JS Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        
+        <!-- Theme Switching Script -->
+        <script>
+            // Theme switching functionality
+            (function() {
+                const themeToggle = document.getElementById('theme-toggle');
+                const lightIcon = document.getElementById('theme-toggle-light');
+                const darkIcon = document.getElementById('theme-toggle-dark');
+                const htmlElement = document.documentElement;
+                
+                // Function to set theme
+                function setTheme(theme) {
+                    if (theme === 'dark') {
+                        htmlElement.setAttribute('data-theme', 'dark');
+                        localStorage.setItem('theme', 'dark');
+                        lightIcon.classList.add('d-none');
+                        darkIcon.classList.remove('d-none');
+                    } else {
+                        htmlElement.setAttribute('data-theme', 'light');
+                        localStorage.setItem('theme', 'light');
+                        darkIcon.classList.add('d-none');
+                        lightIcon.classList.remove('d-none');
+                    }
+                }
+                
+                // Check for saved user preference, system preference, or default to light
+                const savedTheme = localStorage.getItem('theme');
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                
+                if (savedTheme === 'dark') {
+                    setTheme('dark');
+                } else if (savedTheme === 'light') {
+                    setTheme('light');
+                } else if (prefersDark) {
+                    setTheme('dark');
+                } else {
+                    setTheme('light');
+                }
+                
+                // Toggle theme on button click
+                themeToggle.addEventListener('click', () => {
+                    const currentTheme = htmlElement.getAttribute('data-theme');
+                    if (currentTheme === 'dark') {
+                        setTheme('light');
+                    } else {
+                        setTheme('dark');
+                    }
+                });
+            })();
+        </script>
+
+<!-- Google Analytics (GA4) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8G7DZ59108"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-8G7DZ59108');
+</script>
+    </body>
+</html>

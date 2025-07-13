@@ -1,5 +1,468 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Ashwini's blog</title><link href="https://ashwch.com/" rel="alternate"></link><link href="https://ashwch.com/feeds/all.atom.xml" rel="self"></link><id>https://ashwch.com/</id><updated>2025-04-02T00:00:00-04:00</updated><entry><title>Managing Context Metadata in Django-PGHistory: Solving the Persistence Problem</title><link href="https://ashwch.com/managing-context-metadata-django-pghistory-solving-persistence-problem.html" rel="alternate"></link><published>2025-04-02T00:00:00-04:00</published><updated>2025-04-02T00:00:00-04:00</updated><author><name>Ashwini Chaudhary</name></author><id>tag:ashwch.com,2025-04-02:/managing-context-metadata-django-pghistory-solving-persistence-problem.html</id><summary type="html">&lt;p&gt;Learn how to prevent metadata leakage between contexts in django-pghistory for cleaner, more accurate audit trails in your Django applications.&lt;/p&gt;</summary><content type="html">&lt;p&gt;In this post you would learn how &lt;code&gt;pghistory.context&lt;/code&gt; works and some of its gotchas that we faced at Diversio(thanks to &lt;a href="https://github.com/amalrajdiversio"&gt;Amal Raj B R&lt;/a&gt; who identified this) and how we adjusted our approach to avoid saving context metadata that is not relevant to the current business logic but is being carried over from a parent context.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Ashwini's blog</title><link href="https://ashwch.com/" rel="alternate"></link><link href="https://ashwch.com/feeds/all.atom.xml" rel="self"></link><id>https://ashwch.com/</id><updated>2025-07-13T00:00:00-04:00</updated><entry><title>Postman to Bruno: A Weekend Migration That Transformed Our API Workflow</title><link href="https://ashwch.com/from-postman-to-bruno-how-ai-changed-our-api-workflow.html" rel="alternate"></link><published>2025-07-13T00:00:00-04:00</published><updated>2025-07-13T00:00:00-04:00</updated><author><name>Ashwini Chaudhary</name></author><id>tag:ashwch.com,2025-07-13:/from-postman-to-bruno-how-ai-changed-our-api-workflow.html</id><summary type="html">&lt;p&gt;We migrated our entire Postman collection to Bruno over a weekend and leveraged Claude Code to automate API documentation, reducing documentation time by 90% and catching breaking changes at review time.&lt;/p&gt;</summary><content type="html">&lt;blockquote&gt;
+&lt;p&gt;We moved our entire Postman collection to Bruno over a weekend and let Claude Code chew on the new files by Monday morning. By lunchtime, API docs were writing themselves.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href="#what-youll-learn"&gt;What you'll learn&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#why-we-relied-on-postman-for-so-long--where-it-falls-short"&gt;Why we relied on Postman for so long &amp;amp; where it falls short&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#migration-basics"&gt;Migration basics&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#scripts-that-saved-us-hours"&gt;Scripts that saved us hours&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#common-migration-patterns"&gt;Common Migration Patterns&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#the-ai-integration-revolution"&gt;The AI Integration Revolution&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#the-unexpected-benefits"&gt;The Unexpected Benefits&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#getting-your-team-started"&gt;Getting Your Team Started&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#what-this-means-for-engineering-teams"&gt;What This Means for Engineering Teams&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;h2&gt;What you'll learn&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Migrate&lt;/strong&gt; a Postman collection (requests &lt;em&gt;and&lt;/em&gt; environments) to Bruno in a few hours.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Keep docs in‑lockstep&lt;/strong&gt; with your codebase; no more stale Postman descriptions.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Let AI write the boring bits:&lt;/strong&gt; type &lt;code&gt;/bruno-api path/to/request.bru&lt;/code&gt; and get ready‑to‑ship docs, TypeScript types, and React Query hooks.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Catch breaking changes at review time,&lt;/strong&gt; not after deploy night.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;If you're exploring AI‑first tooling and looking to streamline your API workflow, this guide walks you through our practical migration step‑by‑step. If you're already using Bruno, you'll learn how to help improve your existing workflow further using AI.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Why we relied on Postman for so long &amp;amp; where it falls short&lt;/h2&gt;
+&lt;p&gt;At &lt;a href="https://diversio.com/"&gt;Diversio&lt;/a&gt;, Postman had been our all‑purpose API toolkit since the company's first endpoint shipped in 2018. Every engineer has owned a collection or three; shared environments lived in the cloud; QA and PMs could fire requests without touching the codebase.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Why Postman Works for Us (So Far)&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;em&gt;Scriptable&lt;/em&gt;: Pre‑request scripts spun up test users, refreshed auth tokens, and handled auth with a single click.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;em&gt;Variable templating&lt;/em&gt;: &lt;code&gt;{{base_url}}&lt;/code&gt;, &lt;code&gt;{{auth_token}}&lt;/code&gt;, and other vars kept requests DRY across local and cloud setups.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;em&gt;Chained workflows&lt;/em&gt;: Scripts set environment variables that downstream requests consumed, so multi‑step API flows ran end‑to‑end without anyone hand‑editing the shared collection.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;em&gt;Performance‑testing ready&lt;/em&gt;: The same collections powered our performance tests, giving us baseline latency numbers without duplicating effort.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;em&gt;Full‑stack friendly&lt;/em&gt;: Frontend and backend engineers could debug and iterate on the same requests without context‑switching or extra tooling.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;em&gt;Collaborative&lt;/em&gt;: Share links meant non‑engineers could poke endpoints in seconds.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Why it started to hurt&lt;/h3&gt;
+&lt;p&gt;As our API surface has increased and now we are working on more and more features at once(thanks to agentic coding), the workflow that once felt effortless began eating hours and hurting our productivity.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Manual sync tax&lt;/strong&gt; – Every new endpoint meant combing through multiple collections to wire up scripts, tests, and examples by hand.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Docs drift&lt;/strong&gt; – Descriptions hid in Postman's UI; unless someone remembered to update them, they slipped out of date.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Invisible breaking changes&lt;/strong&gt; – Because collections lived in Postman's cloud, reviewers never saw contract updates during code review.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Meeting creep&lt;/strong&gt; – We still ended up on calls to reconcile mismatched examples and edge‑case behaviours. A lot of time spent in huddles and stand-ups discussing APIs that we couldn't document well inside of Postman.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Postman still &lt;em&gt;works&lt;/em&gt; but it has just slowed us down. Any change meant updating code &lt;em&gt;and&lt;/em&gt; a JSON export no one liked opening. That lag became the bottleneck.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.usebruno.com/"&gt;Bruno&lt;/a&gt;'s Git‑friendly plain‑text format, and its ability to embed full Markdown docs, looked like a way out. The best part? AI agents can read &lt;code&gt;.bru&lt;/code&gt; files like normal code, so automation suddenly became trivial and APIs are now part of our codebase and included in diffs during code reviews.&lt;/p&gt;
+&lt;h2&gt;Migration basics&lt;/h2&gt;
+&lt;h3&gt;1. Script syntax&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;// Postman&lt;/span&gt;
+&lt;span class="kd"&gt;var&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;json&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;JSON&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;parse&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;responseBody&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="kd"&gt;var&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;token&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;json&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;access_token&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+&lt;span class="nx"&gt;pm&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;environment&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;set&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;auth_token&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;token&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+&lt;span class="c1"&gt;// Bruno&lt;/span&gt;
+&lt;span class="kd"&gt;var&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;json&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;res&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;getBody&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="kd"&gt;var&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;token&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;json&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;access_token&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="nx"&gt;bru&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;setEnvVar&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;auth_token&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;token&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3&gt;2. Base64 helpers&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;// Postman&lt;/span&gt;
+&lt;span class="kd"&gt;const&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;payload&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;JSON&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;parse&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;atob&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;token&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;split&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;.&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)[&lt;/span&gt;&lt;span class="mf"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]));&lt;/span&gt;
+
+&lt;span class="c1"&gt;// Bruno (Buffer.from works in Bruno&amp;#39;s Node.js environment)&lt;/span&gt;
+&lt;span class="kd"&gt;const&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;payload&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;JSON&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;parse&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;Buffer&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="kr"&gt;from&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;token&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;split&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;.&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)[&lt;/span&gt;&lt;span class="mf"&gt;1&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;base64&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;toString&lt;/span&gt;&lt;span class="p"&gt;());&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3&gt;3. Environment files&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;vars&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;base_url&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;http&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="n"&gt;localhost&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;8000&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;api_key&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{{&lt;/span&gt;&lt;span class="n"&gt;process&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;API_KEY&lt;/span&gt;&lt;span class="p"&gt;}}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3&gt;4. In‑line Markdown docs&lt;/h3&gt;
+&lt;p&gt;Bruno lets every request double as a mini README:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;docs&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="c1"&gt;# User Authentication&lt;/span&gt;
+
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n n-Quoted"&gt;`POST`&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n n-Quoted"&gt;`/api/v2/auth/login`&lt;/span&gt;
+
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="c1"&gt;## Overview&lt;/span&gt;
+
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="k"&gt;Returns&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;JWT&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;tokens&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;
+
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;⚡&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;Rate&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;Limit&lt;/span&gt;&lt;span class="o"&gt;**:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;min&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;per&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;IP&lt;/span&gt;
+
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt;
+&lt;span class="err"&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Rich tables, code fences, emojis etc can be included. Because it's Markdown, Claude Code and other AI tools parse it effortlessly.&lt;/p&gt;
+&lt;h3&gt;5. Organizing your Bruno collections&lt;/h3&gt;
+&lt;p&gt;After migration, we organized our Bruno files by feature rather than by API version. Here's our structure:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;bruno/
+├── .env                  # Local secrets (git-ignored)
+├── .env.example          # Template for team members
+├── .gitignore           # Ensures .env stays local
+├── environments/
+│   ├── local.bru
+│   ├── staging.bru
+│   └── production.bru
+├── auth/
+│   ├── login.bru
+│   ├── refresh_token.bru
+│   └── logout.bru
+├── users/
+│   ├── get_profile.bru
+│   ├── update_profile.bru
+│   └── list_users.bru
+├── analytics/
+│   ├── dashboard_metrics.bru
+│   └── export_reports.bru
+└── integrations/
+    ├── stripe/
+    │   └── create_payment.bru
+    └── webhooks/
+        └── incoming_webhooks.bru
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Security tip&lt;/strong&gt;: Always add &lt;code&gt;.env&lt;/code&gt; to your &lt;code&gt;.gitignore&lt;/code&gt;. Create a &lt;code&gt;.env.example&lt;/code&gt; with dummy values so team members know what environment variables to set:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# .env.example&lt;/span&gt;
+&lt;span class="nv"&gt;API_BASE_URL&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;http://localhost:8000
+&lt;span class="nv"&gt;API_KEY&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;your-api-key-here
+&lt;span class="nv"&gt;JWT_TOKEN&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;will-be-set-by-login-script
+&lt;span class="nv"&gt;DEFAULT_COMPANY_ID&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;1234&lt;/span&gt;
+&lt;span class="nv"&gt;TEST_USERNAME&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;testuser
+&lt;span class="nv"&gt;TEST_PASSWORD&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;testpass
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Each &lt;code&gt;.bru&lt;/code&gt; file can include documentation, pre/post scripts, and environment variable references. This structure makes it easy to:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Find related endpoints quickly&lt;/li&gt;
+&lt;li&gt;Review API changes in PRs&lt;/li&gt;
+&lt;li&gt;Generate documentation by feature area&lt;/li&gt;
+&lt;li&gt;Manage permissions at the folder level&lt;/li&gt;
+&lt;li&gt;Keep sensitive data out of version control&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2&gt;Scripts that saved us hours&lt;/h2&gt;
+&lt;h3&gt;Environment converter (Python)&lt;/h3&gt;
+&lt;p&gt;The script is available in this GitHub gist: &lt;a href="https://gist.github.com/ashwch/317ce7d35dd605187bedf39e6b7858a8"&gt;migrate_postman_envs.py&lt;/a&gt;&lt;/p&gt;
+&lt;h4&gt;Command&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$&lt;span class="w"&gt; &lt;/span&gt;uv&lt;span class="w"&gt; &lt;/span&gt;run&lt;span class="w"&gt; &lt;/span&gt;migrate_postman_envs.py&lt;span class="w"&gt; &lt;/span&gt;./postman_environments/&lt;span class="w"&gt; &lt;/span&gt;./bruno_environments/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h4&gt;Output&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;🔄 Processing 10 file(s)...
+
+✅ Converted webhook_env.json → ./bruno_environments/webhook_env.bru
+✅ Converted local_env.json → ./bruno_environments/local_env.bru
+✅ Converted production.json → ./bruno_environments/production.bru
+✅ Converted staging.json → ./bruno_environments/staging.bru
+✅ Converted development.json → ./bruno_environments/development.bru
+✅ Converted test_env.json → ./bruno_environments/test_env.bru
+✅ Converted qa_env.json → ./bruno_environments/qa_env.bru
+✅ Converted sandbox.json → ./bruno_environments/sandbox.bru
+✅ Converted integration.json → ./bruno_environments/integration.bru
+✅ Converted demo_env.json → ./bruno_environments/demo_env.bru
+
+✨ Done! Converted 10/10 file(s)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h4&gt;Validator Command&lt;/h4&gt;
+&lt;p&gt;The script can be found here: &lt;a href="https://gist.github.com/ashwch/cd87eb1574b1b88d21ddef1508a186f6"&gt;validate_bruno_files.py&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;Command&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$&lt;span class="w"&gt; &lt;/span&gt;uv&lt;span class="w"&gt; &lt;/span&gt;run&lt;span class="w"&gt; &lt;/span&gt;validate_bruno_files.py&lt;span class="w"&gt; &lt;/span&gt;./bruno_environments/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3&gt;Output&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;🔍 Validating 10 Bruno file(s)...
+
+✅ demo_env.bru
+✅ development.bru
+✅ integration.bru
+✅ local_dev.bru
+✅ performance_test.bru
+✅ production.bru
+✅ qa_testing.bru
+✅ sandbox.bru
+✅ staging.bru
+✅ user_acceptance.bru
+
+📊 Summary: 10/10 file(s) valid
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3&gt;Request Migration Script&lt;/h3&gt;
+&lt;p&gt;For the actual requests, here's a simple bash script:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="ch"&gt;#!/bin/bash&lt;/span&gt;
+&lt;span class="c1"&gt;# convert_postman_scripts.sh&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Common replacements&lt;/span&gt;
+sed&lt;span class="w"&gt; &lt;/span&gt;-i&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;s/JSON\.parse(responseBody)/res.getBody()/g&amp;#39;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;*.bru
+sed&lt;span class="w"&gt; &lt;/span&gt;-i&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;s/atob(/Buffer.from(/g&amp;#39;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;*.bru
+sed&lt;span class="w"&gt; &lt;/span&gt;-i&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;s/pm\.environment\.set(/bru.setEnvVar(/g&amp;#39;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;*.bru
+
+&lt;span class="c1"&gt;# Fix dictionary access patterns&lt;/span&gt;
+sed&lt;span class="w"&gt; &lt;/span&gt;-i&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;s/jsonData\[&amp;quot;\([^&amp;quot;]*\)&amp;quot;\]/jsonData.\1/g&amp;#39;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;*.bru
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Pro tip&lt;/strong&gt;: Run this on a copy first. Some replacements might need manual review, especially if you have complex string patterns.&lt;/p&gt;
+&lt;h2&gt;Common Migration Patterns&lt;/h2&gt;
+&lt;h3&gt;Response Validation&lt;/h3&gt;
+&lt;p&gt;Add defensive checks when migrating:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;// Old Postman way (often broke with null responses)&lt;/span&gt;
+&lt;span class="kd"&gt;var&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;id&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;JSON&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;parse&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;responseBody&lt;/span&gt;&lt;span class="p"&gt;)[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;data&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;id&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+
+&lt;span class="c1"&gt;// Better Bruno pattern&lt;/span&gt;
+&lt;span class="kd"&gt;var&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;response&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;res&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;getBody&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;response&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;response&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;data&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;response&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;data&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;id&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nx"&gt;bru&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;setEnvVar&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;resource_id&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;response&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;data&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;id&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nx"&gt;console&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;error&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Unexpected response structure:&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;response&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3&gt;Test Migration&lt;/h3&gt;
+&lt;p&gt;If you have Postman tests:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;// Postman test&lt;/span&gt;
+&lt;span class="nx"&gt;pm&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;test&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Status code is 200&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nx"&gt;pm&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;response&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;to&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;have&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;status&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mf"&gt;200&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;});&lt;/span&gt;
+
+&lt;span class="c1"&gt;// Bruno test&lt;/span&gt;
+&lt;span class="nx"&gt;test&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Status code is 200&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nx"&gt;expect&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;res&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;getStatus&lt;/span&gt;&lt;span class="p"&gt;()).&lt;/span&gt;&lt;span class="nx"&gt;to&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;equal&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mf"&gt;200&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;});&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2&gt;The AI Integration Revolution&lt;/h2&gt;
+&lt;p&gt;Here's where things get exciting. I created a custom Claude &lt;a href="https://docs.anthropic.com/en/docs/claude-code/slash-commands"&gt;slash command&lt;/a&gt; that analyzes our Bruno files and generates comprehensive documentation by inspecting our Django codebase.&lt;/p&gt;
+&lt;h3&gt;The &lt;code&gt;/bruno-api&lt;/code&gt; Command&lt;/h3&gt;
+&lt;p&gt;Instead of maintaining documentation scripts, we taught Claude to understand our codebase. Here's how the actual command works:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;# Custom Claude Command: /bruno-api
+
+When the user types `/bruno-api [bruno-file-path]`, you will:
+
+1. **Parse the Bruno File**
+   - Extract the HTTP method, endpoint URL, headers, and body structure
+   - Identify authentication requirements (Bearer token, API key, etc.)
+   - Note any pre/post-request scripts for context
+
+2. **Reverse Engineer the Backend**
+   - Use the endpoint URL to find the Django URL pattern:
+     path(&amp;#39;api/v2/users/&amp;#39;, UserViewSet.as_view())
+     re_path(r&amp;#39;^api/v1/reports/(?P&amp;lt;pk&amp;gt;\d+)/$&amp;#39;, ReportDetailView.as_view())
+   - Locate the corresponding view/viewset class
+   - For Django Ninja endpoints, find the router and operation functions
+
+3. **Deep Code Analysis**
+   - Extract serializer fields, types, validation rules
+   - Identify permission classes and authentication requirements
+   - Trace through the view method to understand:
+     - Query parameters and filtering
+     - Data transformations
+     - External service calls
+     - Error conditions
+
+4. **Generate Comprehensive Documentation**
+   Including:
+   - Full API endpoint documentation
+   - TypeScript interfaces for request/response
+   - React Query hooks with error handling
+   - Authentication requirements
+   - Business logic notes (caching, rate limits, etc.)
+   - Common error scenarios
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Note: For brevity, we have excluded a lot of details like &lt;code&gt;allowed-tools&lt;/code&gt;, &lt;code&gt;Context&lt;/code&gt; etc from the command above. But these and other internal project specific details are present in our &lt;code&gt;/bruno-api&lt;/code&gt; command.&lt;/p&gt;
+&lt;h3&gt;How It Analyzes Your Code&lt;/h3&gt;
+&lt;p&gt;The sophistication comes from how Claude connects all the pieces:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;# Claude&amp;#39;s Analysis Process:
+
+1. Bruno file says: GET /api/v2/analytics/inclusion-scores/
+2. Find in urls.py: path(&amp;#39;api/v2/analytics/inclusion-scores/&amp;#39;, InclusionScoresView.as_view())
+3. Find InclusionScoresView class
+4. Analyze the get() method:
+   - What serializer? InclusionScoresSerializer
+   - What permissions? IsAuthenticated + HasAnalyticsAccess
+   - What does it do? Aggregates survey data with demographic breakdowns
+5. Check serializer fields and validation
+6. Find related models and business logic
+7. Generate complete, accurate documentation
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;The magic&lt;/strong&gt;: This is more than just brittle script parsing AST. Claude Code understands our code semantically, follows imports, and comprehends business logic and can inspect multiple aspects of an API.&lt;/p&gt;
+&lt;h3&gt;Real Example Output&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Input:&lt;/strong&gt; Simple Bruno file from Postman migration - &lt;a href="https://gist.github.com/ashwch/2a9d05024ac43479782092acbd4eae8f"&gt;see this basic file&lt;/a&gt; (just endpoint + auth)&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Command:&lt;/strong&gt; &lt;code&gt;/bruno-api bruno/analytics/user_metrics.bru&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Output:&lt;/strong&gt; Claude analyzes the Django codebase and generates comprehensive documentation. Here's a small sample:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;// TypeScript Interfaces (auto-generated from Django serializers)&lt;/span&gt;
+&lt;span class="kd"&gt;interface&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;UserMetricsResponse&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nx"&gt;count&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kt"&gt;number&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nx"&gt;next&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kt"&gt;string&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kc"&gt;null&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nx"&gt;results&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kt"&gt;Array&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nx"&gt;user_id&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kt"&gt;string&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nx"&gt;email&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kt"&gt;string&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nx"&gt;last_active&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kt"&gt;string&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nx"&gt;total_sessions&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kt"&gt;number&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nx"&gt;sessions_this_month&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kt"&gt;number&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nx"&gt;avg_session_duration&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kt"&gt;string&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nx"&gt;status&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;active&amp;#39;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;inactive&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nx"&gt;role&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kt"&gt;string&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nx"&gt;department&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kt"&gt;string&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kc"&gt;null&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="c1"&gt;// React Query Hook (with error handling derived from Django views)&lt;/span&gt;
+&lt;span class="k"&gt;export&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kd"&gt;const&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;useUserMetrics&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;companyId&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kt"&gt;string&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;params?&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kt"&gt;UserMetricsParams&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;=&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="k"&gt;return&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;useQuery&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nx"&gt;queryKey&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;user-metrics&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;companyId&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;params&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nx"&gt;queryFn&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kt"&gt;async&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;=&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="kd"&gt;const&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;response&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;await&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;apiClient&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="sb"&gt;`/api/v2/companies/&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nx"&gt;companyId&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="sb"&gt;/user-metrics/`&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;params&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="k"&gt;return&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;response&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;data&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nx"&gt;enabled&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;!!&lt;/span&gt;&lt;span class="nx"&gt;companyId&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nx"&gt;retry&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;failureCount&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;error&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kt"&gt;any&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;=&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="c1"&gt;// Smart retry logic based on Django view error handling&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;error&lt;/span&gt;&lt;span class="o"&gt;?&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;response&lt;/span&gt;&lt;span class="o"&gt;?&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;status&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;===&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mf"&gt;401&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;||&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;error&lt;/span&gt;&lt;span class="o"&gt;?&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;response&lt;/span&gt;&lt;span class="o"&gt;?&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;status&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;===&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mf"&gt;403&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="k"&gt;return&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kc"&gt;false&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="k"&gt;return&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;failureCount&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mf"&gt;3&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;});&lt;/span&gt;
+&lt;span class="p"&gt;};&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;This is just a fraction of the output.&lt;/strong&gt; &lt;a href="https://gist.github.com/ashwch/65dc35b651c989355bb924b5bfb09bd8"&gt;See the complete generated documentation&lt;/a&gt; which includes:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Complete API documentation with request/response examples&lt;/li&gt;
+&lt;li&gt;Comprehensive error handling for all status codes&lt;/li&gt;
+&lt;li&gt;Authentication and permission requirements&lt;/li&gt;
+&lt;li&gt;TypeScript interfaces for all data structures&lt;/li&gt;
+&lt;li&gt;React Query hooks with infinite scrolling support&lt;/li&gt;
+&lt;li&gt;Testing examples and integration patterns&lt;/li&gt;
+&lt;li&gt;Business logic notes and performance considerations&lt;/li&gt;
+&lt;li&gt;Implementation details and database optimization notes&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;The key insight:&lt;/strong&gt; Claude reads the actual implementation, so the documentation is always accurate. &lt;em&gt;It can still make mistakes, so it's always critical to review the files and nudge it in right direction&lt;/em&gt;.&lt;/p&gt;
+&lt;h3&gt;Adapting for Your Framework&lt;/h3&gt;
+&lt;p&gt;This approach works for any framework:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Django&lt;/strong&gt;: Find views, serializers, permissions&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Express&lt;/strong&gt;: Parse routes, middleware, validators&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Rails&lt;/strong&gt;: Analyze controllers, strong params&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;FastAPI&lt;/strong&gt;: Extract Pydantic models, dependencies&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;The Unexpected Benefits&lt;/h2&gt;
+&lt;h3&gt;1. Code Reviews for API Changes&lt;/h3&gt;
+&lt;p&gt;When someone changes an API, reviewers can see it in the PR:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;git diff api/users/create.bru
+
+&lt;span class="gi"&gt;+ body:json {&lt;/span&gt;
+&lt;span class="gi"&gt;+   {&lt;/span&gt;
+&lt;span class="gi"&gt;+     &amp;quot;email&amp;quot;: &amp;quot;{{email}}&amp;quot;,&lt;/span&gt;
+&lt;span class="gi"&gt;+     &amp;quot;role&amp;quot;: &amp;quot;{{role}}&amp;quot;,&lt;/span&gt;
+&lt;span class="gi"&gt;+     &amp;quot;department&amp;quot;: &amp;quot;{{department}}&amp;quot;  // New field added&lt;/span&gt;
+&lt;span class="gi"&gt;+   }&lt;/span&gt;
+&lt;span class="gi"&gt;+ }&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Breaking changes are caught before deployment, not after.&lt;/p&gt;
+&lt;h3&gt;2. AI-Powered API Discovery&lt;/h3&gt;
+&lt;p&gt;New and existing team members can ask:
+- "Show me all endpoints that return user data"
+- "How do I paginate through results?"
+- "Generate TypeScript types for the profile endpoint"&lt;/p&gt;
+&lt;p&gt;Claude reads your Bruno collections and provides accurate answers and vice-versa.&lt;/p&gt;
+&lt;h3&gt;3. Documentation That Stays Fresh&lt;/h3&gt;
+&lt;p&gt;Since docs live with code, they're more likely to stay updated. We are working on a pre-commit hook that is going to remind developers to update Bruno files when an API related change is made.&lt;/p&gt;
+&lt;h2&gt;Getting Your Team Started&lt;/h2&gt;
+&lt;h3&gt;Start Small, Move Fast&lt;/h3&gt;
+&lt;p&gt;We did our entire migration over a weekend, and you can too. Here's what worked for us:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Pick your proof of concept&lt;/strong&gt; - Choose one well-used Postman collection&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Run the migration scripts&lt;/strong&gt; - Use the Python converters linked above&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Set up your first AI command&lt;/strong&gt; - Start with our &lt;code&gt;/bruno-api&lt;/code&gt; template&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Show, don't tell&lt;/strong&gt; - Generate docs for one endpoint and share with the team&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;The Aha Moment&lt;/h3&gt;
+&lt;p&gt;The real buy-in happens when developers see:
+- Their API changes appearing in PR diffs
+- Claude Code generating accurate TypeScript interfaces
+- Documentation that actually matches the code
+- No more "update Postman" tickets in the backlog&lt;/p&gt;
+&lt;h3&gt;Practical Next Steps&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Today&lt;/strong&gt;: &lt;a href="https://learning.postman.com/docs/getting-started/importing-and-exporting/exporting-data/"&gt;Export one Postman collection&lt;/a&gt;, import to Bruno&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Tomorrow&lt;/strong&gt;: Create your first custom Claude command&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;This Week&lt;/strong&gt;: Add &lt;code&gt;.bru&lt;/code&gt; files to your repo and update PR templates&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Next Sprint&lt;/strong&gt;: Deprecate Postman licenses and celebrate the cost savings&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Common Questions We Heard&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;"Can QA still use it?" → Yes, Bruno has a UI too (and it's free)&lt;/li&gt;
+&lt;li&gt;"What if we need to go back?" → Keep Postman exports for 30 days, but we never looked back&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Creating Your Own AI Commands&lt;/h3&gt;
+&lt;p&gt;Here's a complete example you can adapt:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gh"&gt;# .claude/commands/bruno-api.md&lt;/span&gt;
+
+You are an API documentation expert for our [Framework] application.
+
+When user types /bruno-api [file-path]:
+
+&lt;span class="k"&gt;1.&lt;/span&gt; Read the Bruno file at the specified path
+&lt;span class="k"&gt;2.&lt;/span&gt; Extract: method, URL, headers, body structure
+&lt;span class="k"&gt;3.&lt;/span&gt; Find the implementation:
+&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="k"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;For Express: Find app.get/post/put in routes/
+&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="k"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;For Django: Find path() in urls.py, then view
+&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="k"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;For Rails: Find route in config/routes.rb
+&lt;span class="k"&gt;4.&lt;/span&gt; Analyze the handler/controller to determine:
+&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="k"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;Required parameters and validation
+&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="k"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;Authentication/authorization 
+&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="k"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;Response structure
+&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="k"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;Error cases
+&lt;span class="k"&gt;5.&lt;/span&gt; Generate documentation including:
+&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="k"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;Clear description of what the endpoint does
+&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="k"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;Request/response examples with real data
+&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="k"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;[Your frontend framework] integration code
+&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="k"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;Common errors and how to handle them
+
+Use our conventions:
+&lt;span class="k"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;TypeScript for all interfaces
+&lt;span class="k"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;Include data validation rules
+&lt;span class="k"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;Show rate limits if applicable
+&lt;span class="k"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;Note any side effects (emails, webhooks, etc.)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Implementation tip&lt;/strong&gt;: Start with one endpoint type (e.g., CRUD operations) and expand from there.&lt;/p&gt;
+&lt;h2&gt;What This Means for Engineering Teams&lt;/h2&gt;
+&lt;p&gt;The shift from Postman to Bruno in 2025 is really a shift in how we think about API documentation. It's no longer a separate artifact that gets out of sync. It's part of your codebase, reviewed like code, and enhanced by AI.&lt;/p&gt;
+&lt;h3&gt;Immediate Benefits We Measured&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;API documentation time&lt;/strong&gt;: Reduced from days to hours&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Documentation quality&lt;/strong&gt;: Rich Markdown docs with examples, tables, and diagrams (vs. limited formatting options and inconsistent AI-generated docs in Postman)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Breaking changes caught&lt;/strong&gt;: Significant improvement during code review (from rarely caught to consistently visible in PRs)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Team participation&lt;/strong&gt;: Entire team can now contribute without needing a Postman seat&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Onboarding time&lt;/strong&gt;: New engineers integrate APIs faster with self-documenting collections and AI-generated examples&lt;/li&gt;
+&lt;/ul&gt;</content><category term="Engineering"></category><category term="postman"></category><category term="bruno"></category><category term="api"></category><category term="ai"></category><category term="claude-code"></category><category term="productivity"></category><category term="diversio"></category><category term="engineering"></category><category term="tooling"></category><category term="developer-experience"></category></entry><entry><title>Managing Context Metadata in Django-PGHistory: Solving the Persistence Problem</title><link href="https://ashwch.com/managing-context-metadata-django-pghistory-solving-persistence-problem.html" rel="alternate"></link><published>2025-04-02T00:00:00-04:00</published><updated>2025-04-02T00:00:00-04:00</updated><author><name>Ashwini Chaudhary</name></author><id>tag:ashwch.com,2025-04-02:/managing-context-metadata-django-pghistory-solving-persistence-problem.html</id><summary type="html">&lt;p&gt;Learn how to prevent metadata leakage between contexts in django-pghistory for cleaner, more accurate audit trails in your Django applications.&lt;/p&gt;</summary><content type="html">&lt;p&gt;In this post you would learn how &lt;code&gt;pghistory.context&lt;/code&gt; works and some of its gotchas that we faced at Diversio(thanks to &lt;a href="https://github.com/amalrajdiversio"&gt;Amal Raj B R&lt;/a&gt; who identified this) and how we adjusted our approach to avoid saving context metadata that is not relevant to the current business logic but is being carried over from a parent context.&lt;/p&gt;
 &lt;h3&gt;What is &lt;code&gt;pghistory.context&lt;/code&gt;?&lt;/h3&gt;
 &lt;p&gt;&lt;code&gt;pghistory.context&lt;/code&gt; is a decorator and a function that is part of the fantastic &lt;a href="https://django-pghistory.readthedocs.io/en/stable/"&gt;&lt;code&gt;django-pghistory&lt;/code&gt;&lt;/a&gt; project. I would cover how we use &lt;code&gt;django-pghistory&lt;/code&gt; in a separate post.&lt;/p&gt;
 &lt;p&gt;When &lt;code&gt;django-pghistory&lt;/code&gt; is keeping track of changes to Django models, there are several instances where we want to include additional information with the tracked changes. This is where &lt;code&gt;pghistory.context&lt;/code&gt; comes into picture to easily capture such metadata.&lt;/p&gt;
