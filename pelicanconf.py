@@ -33,6 +33,7 @@ INSTAGRAM_USERNAME = "suicide_chewbacca"
 
 DEFAULT_PAGINATION = 5
 ABOUT_PAGE = "/pages/about.html"
+PROJECTS_PAGE = "/pages/projects.html"
 SHOW_ARCHIVES = True
 
 # Uncomment following line if you want document-relative URLs when developing
