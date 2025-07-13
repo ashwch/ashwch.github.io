@@ -642,6 +642,7 @@ code,
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav ms-auto">
                                 <li class="nav-item"><a class="nav-link" href="/pages/about.html" title="About">About</a></li>
+                                <li class="nav-item"><a class="nav-link" href="/pages/projects.html" title="Projects">Projects</a></li>
                                 <li class="nav-item"><a class="nav-link" href="/archives.html" title="Archive">Archive</a></li>
                                 <li class="nav-item"><a class="nav-link icon-rss" href="/feeds/all.atom.xml" title="Ashwini's blog RSS feed" rel="me"></a></li>
                             <li class="nav-item">
@@ -674,10 +675,7 @@ code,
             </div>
             
             <div class="card-text">
-              <p>In this post you would learn how <code>pghistory.context</code> works and some of its gotchas that we faced at Diversio(thanks to <a href="https://github.com/amalrajdiversio">Amal Raj B R</a> who identified this) and how we adjusted our approach to avoid saving context metadata that is not relevant to the current business logic but is being carried over from a parent context.</p>
-<h3>What is <code>pghistory.context</code>?</h3>
-<p><code>pghistory.context</code> is a decorator and a function that is part of the fantastic <a href="https://django-pghistory.readthedocs.io/en/stable/"><code>django-pghistory</code></a> project. I would cover how we use <code>django-pghistory</code> in a separate post.</p>
-<p>When <code>django-pghistory</code> is keeping track of changes to Django models, there are several instances where we want to include additional information with the tracked changes. This is where <code>pghistory.context</code> comes into picture to easily capture such metadata &#8230;<a class="read-more" href="/managing-context-metadata-django-pghistory-solving-persistence-problem.html"><span></span></a></p>
+              <p>Learn how to prevent metadata leakage between contexts in django-pghistory for cleaner, more accurate audit trails in your Django applications.</p>
             </div>
             
             <div class="mt-4">

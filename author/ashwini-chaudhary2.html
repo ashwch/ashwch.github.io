@@ -642,6 +642,7 @@ code,
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav ms-auto">
                                 <li class="nav-item"><a class="nav-link" href="/pages/about.html" title="About">About</a></li>
+                                <li class="nav-item"><a class="nav-link" href="/pages/projects.html" title="Projects">Projects</a></li>
                                 <li class="nav-item"><a class="nav-link" href="/archives.html" title="Archive">Archive</a></li>
                                 <li class="nav-item"><a class="nav-link icon-rss" href="/feeds/all.atom.xml" title="Ashwini's blog RSS feed" rel="me"></a></li>
                             <li class="nav-item">
@@ -674,17 +675,7 @@ code,
             </div>
             
             <div class="card-text">
-              <h1>Introduction &amp; Evolution at Diversio</h1>
-<p>At Diversio, our hiring process has evolved significantly over the years. In our early days, we relied heavily on detailed resume screenings and take-home exercises. Today, we&#8217;ve adapted to a new landscape where remote hiring, AI-assisted filtering, and a streamlined interview process help us manage the increased applicant volume while ensuring we find the best long-term fits.</p>
-<p><strong>Key Changes at a Glance:</strong></p>
-<ul>
-<li>Transition from take-home exercises to real-time, remote interviews.</li>
-<li>Adoption of AI tools (like our custom GPT) to efficiently filter resumes.</li>
-<li>Increased focus on cultural fit and long-term alignment.</li>
-<li>Emphasis on transparent, remote hiring practices.</li>
-</ul>
-<h1>How We Used to Do It (Pre-ChatGPT)</h1>
-<p>We were very lucky in terms of hiring at Diversio until 2023&#8212;we had an excellent attrition rate and &#8230;<a class="read-more" href="/evolving-engineering-recruitment-at-diversio-in-the-age-of-ai.html"><span></span></a></p>
+              <p>What we have learned hiring at Diversio</p>
             </div>
             
             <div class="mt-4">
@@ -718,24 +709,7 @@ code,
             </div>
             
             <div class="card-text">
-              <h1>ZSH installation</h1>
-<p>Starting with Catalina the default shell was changed to zsh. You can verify your current shell using:</p>
-<div class="highlight"><pre><span></span><code>&#10140;<span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="nv">$SHELL</span>
-/bin/zsh
-</code></pre></div>
-
-<p>If it's not <code>zsh</code> for you, you can install it using <a href="https://brew.sh/">Homebrew</a></p>
-<div class="highlight"><pre><span></span><code>brew<span class="w"> </span>install<span class="w"> </span>zsh
-</code></pre></div>
-
-<p>Once installed we need to make <code>zsh</code> the default shell using:</p>
-<div class="highlight"><pre><span></span><code>chsh<span class="w"> </span>-s<span class="w"> </span>/bin/zsh
-</code></pre></div>
-
-<h1>Prezto installation</h1>
-<p><a href="https://github.com/sorin-ionescu/prezto">Prezto</a> is a configuration framework for <code>zsh</code>. Another well known alternative is <a href="https://ohmyz.sh/">Oh My Zsh</a>.</p>
-<p>I was using Oh My Zsh previously but it had performance issues and switching to Prezto has helped with the performance issues. Oh My Zsh has a much bigger community and receives regular updates and is bit more beginner friendly.</p>
-<p>Before installing make sure to make a back of your <code>.zshrc</code> file if you had one already &#8230;<a class="read-more" href="/terminal-setup-using-zsh-prezto-starship.md.html"><span></span></a></p>
+              <p>Terminal setup using ZSH, Prezto and Starship on MacOS</p>
             </div>
             
             <div class="mt-4">
@@ -768,21 +742,7 @@ code,
             </div>
             
             <div class="card-text">
-              <p>This is an explanatory article related to my talk at <a href="https://www.pypals.org/mupy">MUPy</a> &#8202;-- <a href="http://slides.com/ashwch/pdb-mupy#/">&#8202;Become a pdb power-user</a>.</p>
-<p>This article was originally published on <a href="https://medium.com/instamojo-matters/become-a-pdb-power-user-e3fc4e2774b2">Medium</a></p>
-<h2>What's pdb?</h2>
-<p><code>pdb</code> is a module from Python's standard library that allows us to do things like:</p>
-<ul>
-<li>Stepping through source code</li>
-<li>Setting conditional breakpoints</li>
-<li>Inspecting stack trace</li>
-<li>Viewing source code</li>
-<li>Running Python code in a context</li>
-<li>Post-mortem debugging</li>
-</ul>
-<h2>Why pdb?</h2>
-<p>It is not necessary to use <code>pdb</code> all the time, sometimes we can get away with simple <code>print</code> statements or logging.</p>
-<p>But these other approaches are most of the time not good enough and don't give us enough control while debugging. Plus after debugging we also have to take care of removing the `print`` statements that we had added to our program just for debugging &#8230;<a class="read-more" href="/become-a-pdb-power-user.html"><span></span></a></p>
+              <p>Become a pdb power-user</p>
             </div>
             
             <div class="mt-4">
@@ -815,24 +775,7 @@ code,
             </div>
             
             <div class="card-text">
-              <p><code>str.format_map</code> was introduced in Python 3.2, it allows users to a pass a dictionary instead of individual keyword arguments. This can be very useful in case some of the format arguments are missing from the dictionary, take this example from docs:</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Default</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__missing__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">key</span>
-
-<span class="nb">print</span> <span class="p">(</span><span class="s1">'</span><span class="si">{name}</span><span class="s1"> was born in </span><span class="si">{country}</span><span class="s1">'</span><span class="o">.</span><span class="n">format_map</span><span class="p">(</span><span class="n">Default</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'Guido'</span><span class="p">)))</span> 
-<span class="c1"># Guido was born in country</span>
-</code></pre></div>
-
-<p>But this fails:</p>
-<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="nb">print</span> <span class="p">(</span><span class="s1">'</span><span class="si">{name}</span><span class="s1"> was born in </span><span class="si">{country.state}</span><span class="s1">'</span><span class="o">.</span><span class="n">format_map</span><span class="p">(</span><span class="n">Default</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'Guido'</span><span class="p">)))</span>
-<span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
-  <span class="n">File</span> <span class="s2">"&lt;ipython-input-324-1012aa68ba8d&gt;"</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-    <span class="nb">print</span> <span class="p">(</span><span class="s1">'</span><span class="si">{name}</span><span class="s1"> was born in </span><span class="si">{country.state}</span><span class="s1">'</span><span class="o">.</span><span class="n">format_map</span><span class="p">(</span><span class="n">Default</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'Guido'</span><span class="p">)))</span>
-<span class="ne">AttributeError</span><span class="p">:</span> <span class="s1">'str'</span> <span class="nb">object</span> <span class="n">has</span> <span class="n">no</span> <span class="n">attribute</span> <span class="s1">'state'</span>
-</code></pre></div>
-
-<p>That is obvious because we are returning a string from <code>__missing__</code> and that string doesn't have any &#8230;<a class="read-more" href="/handling-missing-keys-in-str-format-map.html"><span></span></a></p>
+              <p>Handling missing keys in <code>str.format_map</code> properly</p>
             </div>
             
             <div class="mt-4">
