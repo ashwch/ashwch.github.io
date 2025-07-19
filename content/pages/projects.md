@@ -3,6 +3,14 @@ slug: projects
 
 ## Open Source Tools
 
+### [Microverse](https://microverse.ashwch.com/)
+A macOS system monitoring application that provides elegant desktop widgets and comprehensive system performance tracking. Transform your Mac into a comprehensive system intelligence hub with minimal resource impact.
+
+- **Tech**: Swift, SwiftUI, IOKit, macOS 11.0+
+- **Features**: Battery monitoring, CPU tracking, Memory analysis, 6 widget styles, Light/dark theme support
+- **Performance**: Less than 1% CPU usage, Under 50MB memory footprint
+- [Website](https://microverse.ashwch.com/) | [GitHub](https://github.com/ashwch/microverse)
+
 ### [Auto UV Environment](https://auto-uv-env.ashwch.com/)
 A tool that automatically detects and activates Python virtual environments based on directory context. Makes working with multiple Python projects seamless by eliminating the need to manually activate environments.
 
