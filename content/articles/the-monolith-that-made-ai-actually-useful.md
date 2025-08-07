@@ -6,22 +6,30 @@ Slug: the-monolith-that-made-ai-actually-useful
 Authors: Ashwini Chaudhary
 Summary: How we solved context switching across multiple repositories by building a monolith using git submodules, making both humans and AI 10x more effective with our codebase.
 
-Picture this: You're debugging an issue that spans your React frontend, Django backend, and Terraform infrastructure. Three terminal windows. Three different repos. Three different contexts. By the time you trace the bug from UI to API to database, you've lost half your morning just to context switching.
+> Picture this: You're debugging an issue that spans your React frontend, Django backend, and Terraform infrastructure. Three terminal windows. Three different repos. Three different contexts. By the time you trace the bug from UI to API to database, you've lost half your morning just to context switching.
 
 We solved this at Diversio. The solution made both humans and AI 10x more effective with our codebase.
 
-**What You'll Learn:**
-
-- How to structure a monolith repository with git submodules for maximum efficiency
-- Why git worktrees are game-changing for parallel development  
-- How to automate worktree creation with our Python scripts
-- The business impact of reducing context switching
-- How AI tools become 10x more effective with complete codebase context
-- Practical tips for implementing this in your own projects
+---
 
 ## Table of Contents
 
 [TOC]
+
+---
+
+## What you'll learn
+
+- **Structure a monolith** repository with git submodules for maximum efficiency
+- **Master git worktrees** for parallel development without context switching  
+- **Automate worktree creation** with our Python scripts (links included!)
+- **Reduce context switching** by 90% and watch productivity soar
+- **Supercharge AI tools** with complete codebase context—making them actually useful
+- **Implement immediately** with practical tips and working code
+
+If you're tired of juggling multiple repos and losing context between features, this guide shows you exactly how we solved it. If you're already using git submodules, you'll learn how to level up with worktrees and automation.
+
+---
 
 ## The Problem We Were Facing
 
