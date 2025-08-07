@@ -52,7 +52,7 @@
 
 &lt;p&gt;Each directory is its own git repository. But they all live in one workspace. One clone gets you everything.&lt;/p&gt;
 &lt;h3 id="from-hours-to-minutes"&gt;&lt;a class="toclink" href="#from-hours-to-minutes"&gt;From Hours to Minutes&lt;/a&gt;&lt;/h3&gt;
-&lt;p&gt;Our product manager &lt;a href="https://www.linkedin.com/in/samuel-bonin/"&gt;Sam&lt;/a&gt; now redesigns features in minutes, not hours. He pulls the latest code, runs migrations, and has AI analyze our Bruno API collections. Remember when we &lt;a href="https://ashwch.com/from-postman-to-bruno-how-ai-changed-our-api-workflow.html"&gt;migrated from Postman to Bruno&lt;/a&gt;? That decision pays huge dividends in a monolith.&lt;/p&gt;
+&lt;p&gt;Our product manager &lt;a href="https://www.linkedin.com/in/samuel-bonin/"&gt;Sam&lt;/a&gt; now redesigns features in hours, not days. He pulls the latest code, runs migrations, and has AI analyze our Bruno API collections. Remember when we &lt;a href="https://ashwch.com/from-postman-to-bruno-how-ai-changed-our-api-workflow.html"&gt;migrated from Postman to Bruno&lt;/a&gt;? That decision pays huge dividends in a monolith.&lt;/p&gt;
 &lt;p&gt;The workflow looks like this:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;Pull latest commits across all services&lt;/li&gt;
