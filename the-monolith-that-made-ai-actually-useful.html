@@ -668,21 +668,16 @@ code,
         </header>
 
         <div class="article-content">
-          <p>Picture this: You're debugging an issue that spans your React frontend, Django backend, and Terraform infrastructure. Three terminal windows. Three different repos. Three different contexts. By the time you trace the bug from UI to API to database, you've lost half your morning just to context switching.</p>
+          <blockquote>
+<p>Picture this: You're debugging an issue that spans your React frontend, Django backend, and Terraform infrastructure. Three terminal windows. Three different repos. Three different contexts. By the time you trace the bug from UI to API to database, you've lost half your morning just to context switching.</p>
+</blockquote>
 <p>We solved this at Diversio. The solution made both humans and AI 10x more effective with our codebase.</p>
-<p><strong>What You'll Learn:</strong></p>
-<ul>
-<li>How to structure a monolith repository with git submodules for maximum efficiency</li>
-<li>Why git worktrees are game-changing for parallel development  </li>
-<li>How to automate worktree creation with our Python scripts</li>
-<li>The business impact of reducing context switching</li>
-<li>How AI tools become 10x more effective with complete codebase context</li>
-<li>Practical tips for implementing this in your own projects</li>
-</ul>
+<hr>
 <h2 id="table-of-contents"><a class="toclink" href="#table-of-contents">Table of Contents</a></h2>
 <div class="toc">
 <ul>
 <li><a href="#table-of-contents">Table of Contents</a></li>
+<li><a href="#what-youll-learn">What you'll learn</a></li>
 <li><a href="#the-problem-we-were-facing">The Problem We Were Facing</a></li>
 <li><a href="#our-solution-git-submodules-done-right">Our Solution: Git Submodules Done Right</a></li>
 <li><a href="#from-hours-to-minutes">From Hours to Minutes</a></li>
@@ -697,6 +692,18 @@ code,
 <li><a href="#the-bottom-line">The Bottom Line</a></li>
 </ul>
 </div>
+<hr>
+<h2 id="what-youll-learn"><a class="toclink" href="#what-youll-learn">What you'll learn</a></h2>
+<ul>
+<li><strong>Structure a monolith</strong> repository with git submodules for maximum efficiency</li>
+<li><strong>Master git worktrees</strong> for parallel development without context switching  </li>
+<li><strong>Automate worktree creation</strong> with our Python scripts (links included!)</li>
+<li><strong>Reduce context switching</strong> by 90% and watch productivity soar</li>
+<li><strong>Supercharge AI tools</strong> with complete codebase context—making them actually useful</li>
+<li><strong>Implement immediately</strong> with practical tips and working code</li>
+</ul>
+<p>If you're tired of juggling multiple repos and losing context between features, this guide shows you exactly how we solved it. If you're already using git submodules, you'll learn how to level up with worktrees and automation.</p>
+<hr>
 <h2 id="the-problem-we-were-facing"><a class="toclink" href="#the-problem-we-were-facing">The Problem We Were Facing</a></h2>
 <p>Every feature we built touched multiple repositories:</p>
 <ul>
