@@ -9,15 +9,11 @@
 &lt;li&gt;&lt;a href="#what-youll-learn"&gt;What you'll learn&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#the-problem-we-were-facing"&gt;The Problem We Were Facing&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#our-solution-git-submodules-done-right"&gt;Our Solution: Git Submodules Done Right&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="#from-hours-to-minutes"&gt;From Hours to Minutes&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#the-ai-advantage"&gt;The AI Advantage&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="#git-worktrees-the-secret-sauce"&gt;Git Worktrees: The Secret Sauce&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="#custom-ai-agents-specialized-tools-for-every-task"&gt;Custom AI Agents: Specialized Tools for Every Task&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="#mcp-integration-supercharging-ai-tools"&gt;MCP Integration: Supercharging AI Tools&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="#benefits-across-the-team"&gt;Benefits Across the Team&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#advanced-implementation"&gt;Advanced Implementation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#mcp-integration-and-team-benefits"&gt;MCP Integration and Team Benefits&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#the-technical-details"&gt;The Technical Details&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="#why-this-matters-now"&gt;Why This Matters Now&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="#getting-started"&gt;Getting Started&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#implementation-strategy"&gt;Implementation Strategy&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#the-bottom-line"&gt;The Bottom Line&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;hr&gt;
@@ -55,8 +51,8 @@
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Each directory is its own git repository. But they all live in one workspace. One clone gets you everything.&lt;/p&gt;
-&lt;h2 id="from-hours-to-minutes"&gt;&lt;a class="toclink" href="#from-hours-to-minutes"&gt;From Hours to Minutes&lt;/a&gt;&lt;/h2&gt;
-&lt;p&gt;Our product managers now redesign features in minutes, not hours. They pull the latest code, run migrations, and have AI analyze our Bruno API collections. Remember when we &lt;a href="https://ashwch.com/from-postman-to-bruno-how-ai-changed-our-api-workflow.html"&gt;migrated from Postman to Bruno&lt;/a&gt;? That decision pays huge dividends in a monolith.&lt;/p&gt;
+&lt;h3 id="from-hours-to-minutes"&gt;&lt;a class="toclink" href="#from-hours-to-minutes"&gt;From Hours to Minutes&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Our product manager &lt;a href="https://www.linkedin.com/in/samuel-bonin/"&gt;Sam&lt;/a&gt; now redesigns features in minutes, not hours. He pulls the latest code, runs migrations, and has AI analyze our Bruno API collections. Remember when we &lt;a href="https://ashwch.com/from-postman-to-bruno-how-ai-changed-our-api-workflow.html"&gt;migrated from Postman to Bruno&lt;/a&gt;? That decision pays huge dividends in a monolith.&lt;/p&gt;
 &lt;p&gt;The workflow looks like this:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;Pull latest commits across all services&lt;/li&gt;
@@ -75,7 +71,8 @@
 &lt;li&gt;&lt;strong&gt;Smarter refactoring&lt;/strong&gt;: Changes account for all dependencies&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;The AI isn't guessing anymore. It knows.&lt;/p&gt;
-&lt;h2 id="git-worktrees-the-secret-sauce"&gt;&lt;a class="toclink" href="#git-worktrees-the-secret-sauce"&gt;Git Worktrees: The Secret Sauce&lt;/a&gt;&lt;/h2&gt;
+&lt;h2 id="advanced-implementation"&gt;&lt;a class="toclink" href="#advanced-implementation"&gt;Advanced Implementation&lt;/a&gt;&lt;/h2&gt;
+&lt;h3 id="git-worktrees-the-secret-sauce"&gt;&lt;a class="toclink" href="#git-worktrees-the-secret-sauce"&gt;Git Worktrees: The Secret Sauce&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;The real magic happens with git worktrees. Instead of switching branches and losing context, we work on multiple features simultaneously:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# Create a new worktree for a feature&lt;/span&gt;
 uv&lt;span class="w"&gt; &lt;/span&gt;run&lt;span class="w"&gt; &lt;/span&gt;scripts/create_worktree.py
@@ -95,7 +92,7 @@ uv&lt;span class="w"&gt; &lt;/span&gt;run&lt;span class="w"&gt; &lt;/span&gt;scr
 &lt;li&gt;&lt;a href="https://gist.github.com/ashwch/909ea473250e8c8a937a8a4aa4a4dc72"&gt;&lt;strong&gt;update_submodules.py&lt;/strong&gt;&lt;/a&gt; - Automated submodule updater with branch configuration&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Each developer can have multiple features in progress, each in its own directory, with full system context preserved.&lt;/p&gt;
-&lt;h2 id="custom-ai-agents-specialized-tools-for-every-task"&gt;&lt;a class="toclink" href="#custom-ai-agents-specialized-tools-for-every-task"&gt;Custom AI Agents: Specialized Tools for Every Task&lt;/a&gt;&lt;/h2&gt;
+&lt;h3 id="custom-ai-agents-specialized-tools-for-every-task"&gt;&lt;a class="toclink" href="#custom-ai-agents-specialized-tools-for-every-task"&gt;Custom AI Agents: Specialized Tools for Every Task&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;We built specialized Claude Code agents that understand our codebase deeply:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;Frontend PR Specialist&lt;/strong&gt;: Analyzes React/TypeScript changes with component architecture visualizations&lt;/li&gt;
@@ -113,7 +110,7 @@ uv&lt;span class="w"&gt; &lt;/span&gt;run&lt;span class="w"&gt; &lt;/span&gt;scr
 &lt;/ul&gt;
 &lt;p&gt;These meta agents save hours when adding or updating agents. No more manual agent configuration. The AI helps manage the AI.&lt;/p&gt;
 &lt;p&gt;The best part? These agents are shared across the entire team through the monolith. When one engineer creates an agent, everyone benefits immediately.&lt;/p&gt;
-&lt;h2 id="mcp-integration-supercharging-ai-tools"&gt;&lt;a class="toclink" href="#mcp-integration-supercharging-ai-tools"&gt;MCP Integration: Supercharging AI Tools&lt;/a&gt;&lt;/h2&gt;
+&lt;h2 id="mcp-integration-and-team-benefits"&gt;&lt;a class="toclink" href="#mcp-integration-and-team-benefits"&gt;MCP Integration and Team Benefits&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;We integrated Model Context Protocol (MCP) servers that give Claude Code direct access to:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;CircleCI&lt;/strong&gt;: Build status, test results, deployment logs&lt;/li&gt;
@@ -122,7 +119,7 @@ uv&lt;span class="w"&gt; &lt;/span&gt;run&lt;span class="w"&gt; &lt;/span&gt;scr
 &lt;li&gt;&lt;strong&gt;Playwright&lt;/strong&gt;: Browser automation for testing&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;These integrations work seamlessly across the entire monolith, giving AI unprecedented visibility into our development pipeline.&lt;/p&gt;
-&lt;h2 id="benefits-across-the-team"&gt;&lt;a class="toclink" href="#benefits-across-the-team"&gt;Benefits Across the Team&lt;/a&gt;&lt;/h2&gt;
+&lt;h3 id="benefits-across-the-team"&gt;&lt;a class="toclink" href="#benefits-across-the-team"&gt;Benefits Across the Team&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;&lt;strong&gt;Product Managers&lt;/strong&gt; get complete system visibility for rapid prototyping. API documentation and database schemas always accessible.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;New Engineers&lt;/strong&gt; get a single command setup. Clone one repo, get everything with working examples.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Senior Engineers&lt;/strong&gt; can do system-wide refactoring. Make changes across repos with full context.&lt;/p&gt;
@@ -133,11 +130,10 @@ uv&lt;span class="w"&gt; &lt;/span&gt;run&lt;span class="w"&gt; &lt;/span&gt;scr
 &lt;p&gt;&lt;strong&gt;Branch Independence&lt;/strong&gt;: Work on different branches in each submodule simultaneously. Perfect for features that need coordinated changes. And crucially, pull requests still go to individual repositories, maintaining our existing review processes and CI/CD pipelines.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Automated Tooling&lt;/strong&gt;: Our Python scripts handle branch management, worktree creation, and submodule updates. No manual coordination needed.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;API Documentation as Code&lt;/strong&gt;: Bruno's file-based approach means API collections live with the code they test. They're discoverable, version-controlled, and immediately accessible to both humans and AI. The AI can read, understand, and even suggest API changes based on the actual implementation.&lt;/p&gt;
-&lt;h2 id="why-this-matters-now"&gt;&lt;a class="toclink" href="#why-this-matters-now"&gt;Why This Matters Now&lt;/a&gt;&lt;/h2&gt;
-&lt;p&gt;AI tools are becoming primary development partners. But these tools are only as good as the context you give them. &lt;/p&gt;
-&lt;p&gt;By structuring our codebase for maximum AI comprehension, we created an environment where both humans and AI work at their full potential.&lt;/p&gt;
+&lt;h2 id="implementation-strategy"&gt;&lt;a class="toclink" href="#implementation-strategy"&gt;Implementation Strategy&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;AI tools are becoming primary development partners. But these tools are only as good as the context you give them. By structuring our codebase for maximum AI comprehension, we created an environment where both humans and AI work at their full potential.&lt;/p&gt;
 &lt;p&gt;The results: 10x faster feature development, 90% fewer integration bugs, and architectural decisions that consider the full system impact.&lt;/p&gt;
-&lt;h2 id="getting-started"&gt;&lt;a class="toclink" href="#getting-started"&gt;Getting Started&lt;/a&gt;&lt;/h2&gt;
+&lt;h3 id="getting-started"&gt;&lt;a class="toclink" href="#getting-started"&gt;Getting Started&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;If you're working with multiple related repositories, you can implement this:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;Create a monolith repository&lt;/li&gt;

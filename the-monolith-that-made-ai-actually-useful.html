@@ -678,15 +678,11 @@ code,
 <li><a href="#what-youll-learn">What you'll learn</a></li>
 <li><a href="#the-problem-we-were-facing">The Problem We Were Facing</a></li>
 <li><a href="#our-solution-git-submodules-done-right">Our Solution: Git Submodules Done Right</a></li>
-<li><a href="#from-hours-to-minutes">From Hours to Minutes</a></li>
 <li><a href="#the-ai-advantage">The AI Advantage</a></li>
-<li><a href="#git-worktrees-the-secret-sauce">Git Worktrees: The Secret Sauce</a></li>
-<li><a href="#custom-ai-agents-specialized-tools-for-every-task">Custom AI Agents: Specialized Tools for Every Task</a></li>
-<li><a href="#mcp-integration-supercharging-ai-tools">MCP Integration: Supercharging AI Tools</a></li>
-<li><a href="#benefits-across-the-team">Benefits Across the Team</a></li>
+<li><a href="#advanced-implementation">Advanced Implementation</a></li>
+<li><a href="#mcp-integration-and-team-benefits">MCP Integration and Team Benefits</a></li>
 <li><a href="#the-technical-details">The Technical Details</a></li>
-<li><a href="#why-this-matters-now">Why This Matters Now</a></li>
-<li><a href="#getting-started">Getting Started</a></li>
+<li><a href="#implementation-strategy">Implementation Strategy</a></li>
 <li><a href="#the-bottom-line">The Bottom Line</a></li>
 </ol>
 <hr>
@@ -724,8 +720,8 @@ code,
 </code></pre></div>
 
 <p>Each directory is its own git repository. But they all live in one workspace. One clone gets you everything.</p>
-<h2 id="from-hours-to-minutes"><a class="toclink" href="#from-hours-to-minutes">From Hours to Minutes</a></h2>
-<p>Our product managers now redesign features in minutes, not hours. They pull the latest code, run migrations, and have AI analyze our Bruno API collections. Remember when we <a href="https://ashwch.com/from-postman-to-bruno-how-ai-changed-our-api-workflow.html">migrated from Postman to Bruno</a>? That decision pays huge dividends in a monolith.</p>
+<h3 id="from-hours-to-minutes"><a class="toclink" href="#from-hours-to-minutes">From Hours to Minutes</a></h3>
+<p>Our product manager <a href="https://www.linkedin.com/in/samuel-bonin/">Sam</a> now redesigns features in minutes, not hours. He pulls the latest code, runs migrations, and has AI analyze our Bruno API collections. Remember when we <a href="https://ashwch.com/from-postman-to-bruno-how-ai-changed-our-api-workflow.html">migrated from Postman to Bruno</a>? That decision pays huge dividends in a monolith.</p>
 <p>The workflow looks like this:</p>
 <ol>
 <li>Pull latest commits across all services</li>
@@ -744,7 +740,8 @@ code,
 <li><strong>Smarter refactoring</strong>: Changes account for all dependencies</li>
 </ul>
 <p>The AI isn't guessing anymore. It knows.</p>
-<h2 id="git-worktrees-the-secret-sauce"><a class="toclink" href="#git-worktrees-the-secret-sauce">Git Worktrees: The Secret Sauce</a></h2>
+<h2 id="advanced-implementation"><a class="toclink" href="#advanced-implementation">Advanced Implementation</a></h2>
+<h3 id="git-worktrees-the-secret-sauce"><a class="toclink" href="#git-worktrees-the-secret-sauce">Git Worktrees: The Secret Sauce</a></h3>
 <p>The real magic happens with git worktrees. Instead of switching branches and losing context, we work on multiple features simultaneously:</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Create a new worktree for a feature</span>
 uv<span class="w"> </span>run<span class="w"> </span>scripts/create_worktree.py
@@ -764,7 +761,7 @@ uv<span class="w"> </span>run<span class="w"> </span>scripts/create_worktree.py
 <li><a href="https://gist.github.com/ashwch/909ea473250e8c8a937a8a4aa4a4dc72"><strong>update_submodules.py</strong></a> - Automated submodule updater with branch configuration</li>
 </ul>
 <p>Each developer can have multiple features in progress, each in its own directory, with full system context preserved.</p>
-<h2 id="custom-ai-agents-specialized-tools-for-every-task"><a class="toclink" href="#custom-ai-agents-specialized-tools-for-every-task">Custom AI Agents: Specialized Tools for Every Task</a></h2>
+<h3 id="custom-ai-agents-specialized-tools-for-every-task"><a class="toclink" href="#custom-ai-agents-specialized-tools-for-every-task">Custom AI Agents: Specialized Tools for Every Task</a></h3>
 <p>We built specialized Claude Code agents that understand our codebase deeply:</p>
 <ul>
 <li><strong>Frontend PR Specialist</strong>: Analyzes React/TypeScript changes with component architecture visualizations</li>
@@ -782,7 +779,7 @@ uv<span class="w"> </span>run<span class="w"> </span>scripts/create_worktree.py
 </ul>
 <p>These meta agents save hours when adding or updating agents. No more manual agent configuration. The AI helps manage the AI.</p>
 <p>The best part? These agents are shared across the entire team through the monolith. When one engineer creates an agent, everyone benefits immediately.</p>
-<h2 id="mcp-integration-supercharging-ai-tools"><a class="toclink" href="#mcp-integration-supercharging-ai-tools">MCP Integration: Supercharging AI Tools</a></h2>
+<h2 id="mcp-integration-and-team-benefits"><a class="toclink" href="#mcp-integration-and-team-benefits">MCP Integration and Team Benefits</a></h2>
 <p>We integrated Model Context Protocol (MCP) servers that give Claude Code direct access to:</p>
 <ul>
 <li><strong>CircleCI</strong>: Build status, test results, deployment logs</li>
@@ -791,7 +788,7 @@ uv<span class="w"> </span>run<span class="w"> </span>scripts/create_worktree.py
 <li><strong>Playwright</strong>: Browser automation for testing</li>
 </ul>
 <p>These integrations work seamlessly across the entire monolith, giving AI unprecedented visibility into our development pipeline.</p>
-<h2 id="benefits-across-the-team"><a class="toclink" href="#benefits-across-the-team">Benefits Across the Team</a></h2>
+<h3 id="benefits-across-the-team"><a class="toclink" href="#benefits-across-the-team">Benefits Across the Team</a></h3>
 <p><strong>Product Managers</strong> get complete system visibility for rapid prototyping. API documentation and database schemas always accessible.</p>
 <p><strong>New Engineers</strong> get a single command setup. Clone one repo, get everything with working examples.</p>
 <p><strong>Senior Engineers</strong> can do system-wide refactoring. Make changes across repos with full context.</p>
@@ -802,11 +799,10 @@ uv<span class="w"> </span>run<span class="w"> </span>scripts/create_worktree.py
 <p><strong>Branch Independence</strong>: Work on different branches in each submodule simultaneously. Perfect for features that need coordinated changes. And crucially, pull requests still go to individual repositories, maintaining our existing review processes and CI/CD pipelines.</p>
 <p><strong>Automated Tooling</strong>: Our Python scripts handle branch management, worktree creation, and submodule updates. No manual coordination needed.</p>
 <p><strong>API Documentation as Code</strong>: Bruno's file-based approach means API collections live with the code they test. They're discoverable, version-controlled, and immediately accessible to both humans and AI. The AI can read, understand, and even suggest API changes based on the actual implementation.</p>
-<h2 id="why-this-matters-now"><a class="toclink" href="#why-this-matters-now">Why This Matters Now</a></h2>
-<p>AI tools are becoming primary development partners. But these tools are only as good as the context you give them. </p>
-<p>By structuring our codebase for maximum AI comprehension, we created an environment where both humans and AI work at their full potential.</p>
+<h2 id="implementation-strategy"><a class="toclink" href="#implementation-strategy">Implementation Strategy</a></h2>
+<p>AI tools are becoming primary development partners. But these tools are only as good as the context you give them. By structuring our codebase for maximum AI comprehension, we created an environment where both humans and AI work at their full potential.</p>
 <p>The results: 10x faster feature development, 90% fewer integration bugs, and architectural decisions that consider the full system impact.</p>
-<h2 id="getting-started"><a class="toclink" href="#getting-started">Getting Started</a></h2>
+<h3 id="getting-started"><a class="toclink" href="#getting-started">Getting Started</a></h3>
 <p>If you're working with multiple related repositories, you can implement this:</p>
 <ol>
 <li>Create a monolith repository</li>
