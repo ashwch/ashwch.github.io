@@ -81,6 +81,10 @@ Our automation handles everything:
 - Proper conflict resolution
 - Copies .env files (because git worktrees don't do this by default, and nobody wants to debug missing environment variables)
 
+Check out our automation scripts:
+- [**create_worktree.py**](https://gist.github.com/ashwch/79177b4af7f2ea482418d6e9934d4787) - Interactive worktree creator with submodule support
+- [**update_submodules.py**](https://gist.github.com/ashwch/909ea473250e8c8a937a8a4aa4a4dc72) - Automated submodule updater with branch configuration
+
 Each developer can have multiple features in progress, each in its own directory, with full system context preserved.
 
 ## Custom AI Agents: Specialized Tools for Every Task
