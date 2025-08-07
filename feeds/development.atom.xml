@@ -58,6 +58,9 @@ uv&lt;span class="w"&gt; &lt;/span&gt;run&lt;span class="w"&gt; &lt;/span&gt;scr
 &lt;li&gt;Proper conflict resolution&lt;/li&gt;
 &lt;li&gt;Copies .env files (because git worktrees don't do this by default, and nobody wants to debug missing environment variables)&lt;/li&gt;
 &lt;/ul&gt;
+&lt;p&gt;Check out our automation scripts:
+- &lt;a href="https://gist.github.com/ashwch/79177b4af7f2ea482418d6e9934d4787"&gt;&lt;strong&gt;create_worktree.py&lt;/strong&gt;&lt;/a&gt; - Interactive worktree creator with submodule support
+- &lt;a href="https://gist.github.com/ashwch/909ea473250e8c8a937a8a4aa4a4dc72"&gt;&lt;strong&gt;update_submodules.py&lt;/strong&gt;&lt;/a&gt; - Automated submodule updater with branch configuration&lt;/p&gt;
 &lt;p&gt;Each developer can have multiple features in progress, each in its own directory, with full system context preserved.&lt;/p&gt;
 &lt;h2 id="custom-ai-agents-specialized-tools-for-every-task"&gt;&lt;a class="toclink" href="#custom-ai-agents-specialized-tools-for-every-task"&gt;Custom AI Agents: Specialized Tools for Every Task&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;We built specialized Claude Code agents that understand our codebase deeply:&lt;/p&gt;
