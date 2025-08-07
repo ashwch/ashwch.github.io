@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom"><title>Ashwini's blog</title><link href="https://ashwch.com/" rel="alternate"></link><link href="https://ashwch.com/feeds/all.atom.xml" rel="self"></link><id>https://ashwch.com/</id><updated>2025-08-07T00:00:00-04:00</updated><entry><title>The Monolith That Made AI Actually Useful</title><link href="https://ashwch.com/the-monolith-that-made-ai-actually-useful.html" rel="alternate"></link><published>2025-08-07T00:00:00-04:00</published><updated>2025-08-07T00:00:00-04:00</updated><author><name>Ashwini Chaudhary</name></author><id>tag:ashwch.com,2025-08-07:/the-monolith-that-made-ai-actually-useful.html</id><summary type="html">&lt;p&gt;How we solved context switching across multiple repositories by building a monolith using git submodules, making both humans and AI 10x more effective with our codebase.&lt;/p&gt;</summary><content type="html">&lt;p&gt;Picture this: You're debugging an issue that spans your React frontend, Django backend, and Terraform infrastructure. Three terminal windows. Three different repos. Three different contexts. By the time you trace the bug from UI to API to database, you've lost half your morning just to context switching.&lt;/p&gt;
 &lt;p&gt;We solved this at Diversio. The solution made both humans and AI 10x more effective with our codebase.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;What You'll Learn:&lt;/strong&gt;
-- How to structure a monolith repository with git submodules for maximum efficiency
-- Why git worktrees are game-changing for parallel development&lt;br&gt;
-- How to automate worktree creation with our Python scripts
-- The business impact of reducing context switching
-- How AI tools become 10x more effective with complete codebase context
-- Practical tips for implementing this in your own projects&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;What You'll Learn:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;How to structure a monolith repository with git submodules for maximum efficiency&lt;/li&gt;
+&lt;li&gt;Why git worktrees are game-changing for parallel development  &lt;/li&gt;
+&lt;li&gt;How to automate worktree creation with our Python scripts&lt;/li&gt;
+&lt;li&gt;The business impact of reducing context switching&lt;/li&gt;
+&lt;li&gt;How AI tools become 10x more effective with complete codebase context&lt;/li&gt;
+&lt;li&gt;Practical tips for implementing this in your own projects&lt;/li&gt;
+&lt;/ul&gt;
 &lt;h2 id="table-of-contents"&gt;&lt;a class="toclink" href="#table-of-contents"&gt;Table of Contents&lt;/a&gt;&lt;/h2&gt;
 &lt;div class="toc"&gt;
 &lt;ul&gt;
