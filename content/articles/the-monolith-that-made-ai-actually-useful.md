@@ -10,14 +10,15 @@ Picture this: You're debugging an issue that spans your React frontend, Django b
 
 We solved this at Diversio. The solution made both humans and AI 10x more effective with our codebase.
 
-## What You'll Learn
-
+**What You'll Learn:**
 - How to structure a monolith repository with git submodules for maximum efficiency
-- Why git worktrees are game-changing for parallel development
+- Why git worktrees are game-changing for parallel development  
 - How to automate worktree creation with our Python scripts
 - The business impact of reducing context switching
 - How AI tools become 10x more effective with complete codebase context
 - Practical tips for implementing this in your own projects
+
+## Table of Contents
 
 [TOC]
 
