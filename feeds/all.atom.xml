@@ -1,5 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Ashwini's blog</title><link href="https://ashwch.com/" rel="alternate"></link><link href="https://ashwch.com/feeds/all.atom.xml" rel="self"></link><id>https://ashwch.com/</id><updated>2025-07-13T00:00:00-04:00</updated><entry><title>Postman to Bruno: A Weekend Migration That Transformed Our API Workflow</title><link href="https://ashwch.com/from-postman-to-bruno-how-ai-changed-our-api-workflow.html" rel="alternate"></link><published>2025-07-13T00:00:00-04:00</published><updated>2025-07-13T00:00:00-04:00</updated><author><name>Ashwini Chaudhary</name></author><id>tag:ashwch.com,2025-07-13:/from-postman-to-bruno-how-ai-changed-our-api-workflow.html</id><summary type="html">&lt;p&gt;We migrated our entire Postman collection to Bruno over a weekend and leveraged Claude Code to automate API documentation, reducing documentation time by 90% and catching breaking changes at review time.&lt;/p&gt;</summary><content type="html">&lt;blockquote&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Ashwini's blog</title><link href="https://ashwch.com/" rel="alternate"></link><link href="https://ashwch.com/feeds/all.atom.xml" rel="self"></link><id>https://ashwch.com/</id><updated>2025-08-07T00:00:00-04:00</updated><entry><title>The Monolith That Made AI Actually Useful</title><link href="https://ashwch.com/the-monolith-that-made-ai-actually-useful.html" rel="alternate"></link><published>2025-08-07T00:00:00-04:00</published><updated>2025-08-07T00:00:00-04:00</updated><author><name>Ashwini Chaudhary</name></author><id>tag:ashwch.com,2025-08-07:/the-monolith-that-made-ai-actually-useful.html</id><summary type="html">&lt;p&gt;How we solved context switching across multiple repositories by building a monolith using git submodules, making both humans and AI 10x more effective with our codebase.&lt;/p&gt;</summary><content type="html">&lt;p&gt;Picture this: You're debugging an issue that spans your React frontend, Django backend, and Terraform infrastructure. Three terminal windows. Three different repos. Three different contexts. By the time you trace the bug from UI to API to database, you've lost half your morning just to context switching.&lt;/p&gt;
+&lt;p&gt;We solved this at Diversio. The solution made both humans and AI 10x more effective with our codebase.&lt;/p&gt;
+&lt;h2 id="the-problem-we-were-facing"&gt;&lt;a class="toclink" href="#the-problem-we-were-facing"&gt;The Problem We Were Facing&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Every feature we built touched multiple repositories:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Clone three separate repos&lt;/li&gt;
+&lt;li&gt;Keep versions in sync&lt;/li&gt;
+&lt;li&gt;Jump between directories constantly  &lt;/li&gt;
+&lt;li&gt;Lose context when debugging cross-service issues&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;But here's the real kicker. AI tools like Claude Code couldn't see our full system. They'd suggest fixes that made sense for one service but broke two others. They had fragments, not the full picture.&lt;/p&gt;
+&lt;h2 id="our-solution-git-submodules-done-right"&gt;&lt;a class="toclink" href="#our-solution-git-submodules-done-right"&gt;Our Solution: Git Submodules Done Right&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;We built a monolith using git submodules that gives us the best of both worlds:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;diversio-monolith/
+├── frontend/              # React application
+├── backend/               # Django API
+├── design-system/         # Shared UI components
+├── optimo-frontend/       # Optimo product app
+├── diversio-serverless/   # AWS Lambda functions
+├── infrastructure/        # Terraform definitions
+├── terraform-modules/     # Reusable infrastructure
+└── scripts/               # Development automation
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Each directory is its own git repository. But they all live in one workspace. One clone gets you everything.&lt;/p&gt;
+&lt;h2 id="from-hours-to-minutes"&gt;&lt;a class="toclink" href="#from-hours-to-minutes"&gt;From Hours to Minutes&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Our product managers now redesign features in minutes, not hours. They pull the latest code, run migrations, and have AI analyze our Bruno API collections. Remember when we &lt;a href="https://ashwch.com/from-postman-to-bruno-how-ai-changed-our-api-workflow.html"&gt;migrated from Postman to Bruno&lt;/a&gt;? That decision pays huge dividends in a monolith.&lt;/p&gt;
+&lt;p&gt;The workflow looks like this:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Pull latest commits across all services&lt;/li&gt;
+&lt;li&gt;Run migrations with full database context&lt;/li&gt;
+&lt;li&gt;AI reads organized API documentation&lt;/li&gt;
+&lt;li&gt;Create comprehensive designs with complete system understanding&lt;/li&gt;
+&lt;li&gt;Implement changes knowing exactly what will be affected&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;What used to take hours of repository hopping now happens in a single flow.&lt;/p&gt;
+&lt;h2 id="the-ai-advantage"&gt;&lt;a class="toclink" href="#the-ai-advantage"&gt;The AI Advantage&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Here's where it gets interesting. By giving AI tools complete system context, we unlocked capabilities that were impossible before:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Cross-repository analysis&lt;/strong&gt;: Claude Code traces API calls from frontend to backend to infrastructure&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Better architectural decisions&lt;/strong&gt;: Suggestions consider the entire stack&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;System-wide debugging&lt;/strong&gt;: Issues that span services become traceable&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Smarter refactoring&lt;/strong&gt;: Changes account for all dependencies&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The AI isn't guessing anymore. It knows.&lt;/p&gt;
+&lt;h2 id="git-worktrees-the-secret-sauce"&gt;&lt;a class="toclink" href="#git-worktrees-the-secret-sauce"&gt;Git Worktrees: The Secret Sauce&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;The real magic happens with git worktrees. Instead of switching branches and losing context, we work on multiple features simultaneously:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# Create a new worktree for a feature&lt;/span&gt;
+uv&lt;span class="w"&gt; &lt;/span&gt;run&lt;span class="w"&gt; &lt;/span&gt;scripts/create_worktree.py
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Our automation handles everything:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Interactive branch selection across all repositories&lt;/li&gt;
+&lt;li&gt;Smart filtering for hundreds of branches&lt;/li&gt;
+&lt;li&gt;Automatic submodule initialization&lt;/li&gt;
+&lt;li&gt;Proper conflict resolution&lt;/li&gt;
+&lt;li&gt;Copies .env files (because git worktrees don't do this by default, and nobody wants to debug missing environment variables)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Each developer can have multiple features in progress, each in its own directory, with full system context preserved.&lt;/p&gt;
+&lt;h2 id="custom-ai-agents-specialized-tools-for-every-task"&gt;&lt;a class="toclink" href="#custom-ai-agents-specialized-tools-for-every-task"&gt;Custom AI Agents: Specialized Tools for Every Task&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;We built specialized Claude Code agents that understand our codebase deeply:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Frontend PR Specialist&lt;/strong&gt;: Analyzes React/TypeScript changes with component architecture visualizations&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Backend PR Specialist&lt;/strong&gt;: Reviews Django changes with database schema analysis&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Infrastructure PR Specialist&lt;/strong&gt;: Validates Terraform changes with cost and security impact assessments  &lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Integration Specialist&lt;/strong&gt;: Traces data flows across frontend, backend, and infrastructure&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Data Migration Specialist&lt;/strong&gt;: Handles complex data transformations and migrations&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Testing Automation Specialist&lt;/strong&gt;: Writes comprehensive test suites following our patterns&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Each agent has deep knowledge of its domain. They don't just suggest generic fixes. They understand our specific patterns, our conventions, our tech stack.&lt;/p&gt;
+&lt;p&gt;We even built meta agents that manage other agents:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Subagent Creator&lt;/strong&gt;: Designs new focused agents with clear boundaries&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Subagent Reviewer&lt;/strong&gt;: Reviews and optimizes agent definitions to prevent overlaps&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;These meta agents save hours when adding or updating agents. No more manual agent configuration. The AI helps manage the AI.&lt;/p&gt;
+&lt;p&gt;The best part? These agents are shared across the entire team through the monolith. When one engineer creates an agent, everyone benefits immediately.&lt;/p&gt;
+&lt;h2 id="mcp-integration-supercharging-ai-tools"&gt;&lt;a class="toclink" href="#mcp-integration-supercharging-ai-tools"&gt;MCP Integration: Supercharging AI Tools&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;We integrated Model Context Protocol (MCP) servers that give Claude Code direct access to:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;CircleCI&lt;/strong&gt;: Build status, test results, deployment logs&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Context7&lt;/strong&gt;: Up-to-date documentation for any library&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Gemini AI&lt;/strong&gt;: Research and code analysis&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Playwright&lt;/strong&gt;: Browser automation for testing&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;These integrations work seamlessly across the entire monolith, giving AI unprecedented visibility into our development pipeline.&lt;/p&gt;
+&lt;h2 id="benefits-across-the-team"&gt;&lt;a class="toclink" href="#benefits-across-the-team"&gt;Benefits Across the Team&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Product Managers&lt;/strong&gt; get complete system visibility for rapid prototyping. API documentation and database schemas always accessible.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;New Engineers&lt;/strong&gt; get a single command setup. Clone one repo, get everything with working examples.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Senior Engineers&lt;/strong&gt; can do system-wide refactoring. Make changes across repos with full context.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;AI Tools&lt;/strong&gt; get complete codebase analysis. Suggestions that actually work.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;DevOps teams&lt;/strong&gt; see infrastructure definitions alongside the code they deploy.&lt;/p&gt;
+&lt;h2 id="the-technical-details"&gt;&lt;a class="toclink" href="#the-technical-details"&gt;The Technical Details&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Submodule Management&lt;/strong&gt;: Each submodule points to a specific commit. Changes need commits in both the submodule and the monolith. This preserves atomicity while enabling coordination.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Branch Independence&lt;/strong&gt;: Work on different branches in each submodule simultaneously. Perfect for features that need coordinated changes. And crucially, pull requests still go to individual repositories, maintaining our existing review processes and CI/CD pipelines.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Automated Tooling&lt;/strong&gt;: Our Python scripts handle branch management, worktree creation, and submodule updates. No manual coordination needed.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;API Documentation as Code&lt;/strong&gt;: Bruno's file-based approach means API collections live with the code they test. They're discoverable, version-controlled, and immediately accessible to both humans and AI. The AI can read, understand, and even suggest API changes based on the actual implementation.&lt;/p&gt;
+&lt;h2 id="why-this-matters-now"&gt;&lt;a class="toclink" href="#why-this-matters-now"&gt;Why This Matters Now&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;AI tools are becoming primary development partners. But these tools are only as good as the context you give them. &lt;/p&gt;
+&lt;p&gt;By structuring our codebase for maximum AI comprehension, we created an environment where both humans and AI work at their full potential.&lt;/p&gt;
+&lt;p&gt;The results: 10x faster feature development, 90% fewer integration bugs, and architectural decisions that consider the full system impact.&lt;/p&gt;
+&lt;h2 id="getting-started"&gt;&lt;a class="toclink" href="#getting-started"&gt;Getting Started&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;If you're working with multiple related repositories, you can implement this:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Create a monolith repository&lt;/li&gt;
+&lt;li&gt;Add existing repos as git submodules&lt;/li&gt;
+&lt;li&gt;Build automation scripts for common workflows&lt;/li&gt;
+&lt;li&gt;Configure MCP servers for your tools&lt;/li&gt;
+&lt;li&gt;Train your team on git worktrees&lt;/li&gt;
+&lt;li&gt;Move API documentation to file-based tools like Bruno&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;The investment pays off immediately. No more context switching, better AI assistance, and a development experience that scales with complexity.&lt;/p&gt;
+&lt;h2 id="the-bottom-line"&gt;&lt;a class="toclink" href="#the-bottom-line"&gt;The Bottom Line&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;This isn't just about tooling. It's about creating an environment where high-quality work happens quickly and naturally.&lt;/p&gt;
+&lt;p&gt;When your product managers can redesign systems confidently, your engineers can refactor safely across services, and your AI tools provide system-aware suggestions, you've built more than a development environment.&lt;/p&gt;
+&lt;p&gt;You've built a competitive advantage.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;Want to dive deeper into Git worktrees? Check out my comprehensive guide: &lt;a href="https://gist.github.com/ashwch/946ad983977c9107db7ee9abafeb95bd"&gt;Git Worktrees: From Zero to Hero&lt;/a&gt;. It covers everything from first principles to advanced workflows with submodules.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Thanks to &lt;a href="https://www.linkedin.com/in/samuel-bonin/"&gt;Samuel Bonin&lt;/a&gt; and &lt;a href="https://www.linkedin.com/in/amalraj-offl/"&gt;Amalraj&lt;/a&gt; for reviewing this post.&lt;/em&gt;&lt;/p&gt;</content><category term="Development"></category><category term="git-worktrees"></category><category term="development-workflow"></category><category term="ai-tools"></category><category term="monorepo"></category><category term="claude-code"></category><category term="mcp"></category><category term="devops"></category><category term="productivity"></category><category term="bruno"></category></entry><entry><title>Postman to Bruno: A Weekend Migration That Transformed Our API Workflow</title><link href="https://ashwch.com/from-postman-to-bruno-how-ai-changed-our-api-workflow.html" rel="alternate"></link><published>2025-07-13T00:00:00-04:00</published><updated>2025-07-13T00:00:00-04:00</updated><author><name>Ashwini Chaudhary</name></author><id>tag:ashwch.com,2025-07-13:/from-postman-to-bruno-how-ai-changed-our-api-workflow.html</id><summary type="html">&lt;p&gt;We migrated our entire Postman collection to Bruno over a weekend and leveraged Claude Code to automate API documentation, reducing documentation time by 90% and catching breaking changes at review time.&lt;/p&gt;</summary><content type="html">&lt;blockquote&gt;
 &lt;p&gt;We moved our entire Postman collection to Bruno over a weekend and let Claude Code chew on the new files by Monday morning. By lunchtime, API docs were writing themselves.&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;hr&gt;

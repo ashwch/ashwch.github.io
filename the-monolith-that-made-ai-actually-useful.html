@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="author" content="Ashwini Chaudhary(Monty)">
         <meta name="description" content="">
-        <title>Ashwini's blog - Authors | Ashwini's blog</title>
+        <title>The Monolith That Made AI Actually Useful | Ashwini's blog</title>
 
         <!-- Favicon -->
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
@@ -658,10 +658,329 @@ code,
         </header>
 
         <main class="site-content my-4">
-    <h2>Authors on Ashwini's blog</h2>
-    <ul>
-            <li><a href="https://ashwch.com/author/ashwini-chaudhary.html">Ashwini Chaudhary</a> (11)</li>
-    </ul>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 mx-auto">
+      <article class="post">
+        <header class="article-header">
+          <h1>The Monolith That Made AI Actually Useful</h1>
+          <time datetime="2025-08-07T00:00:00-04:00" pubdate>Thu 07 August 2025</time>
+        </header>
+
+        <div class="article-content">
+          <p>Picture this: You're debugging an issue that spans your React frontend, Django backend, and Terraform infrastructure. Three terminal windows. Three different repos. Three different contexts. By the time you trace the bug from UI to API to database, you've lost half your morning just to context switching.</p>
+<p>We solved this at Diversio. The solution made both humans and AI 10x more effective with our codebase.</p>
+<h2 id="the-problem-we-were-facing"><a class="toclink" href="#the-problem-we-were-facing">The Problem We Were Facing</a></h2>
+<p>Every feature we built touched multiple repositories:</p>
+<ul>
+<li>Clone three separate repos</li>
+<li>Keep versions in sync</li>
+<li>Jump between directories constantly  </li>
+<li>Lose context when debugging cross-service issues</li>
+</ul>
+<p>But here's the real kicker. AI tools like Claude Code couldn't see our full system. They'd suggest fixes that made sense for one service but broke two others. They had fragments, not the full picture.</p>
+<h2 id="our-solution-git-submodules-done-right"><a class="toclink" href="#our-solution-git-submodules-done-right">Our Solution: Git Submodules Done Right</a></h2>
+<p>We built a monolith using git submodules that gives us the best of both worlds:</p>
+<div class="highlight"><pre><span></span><code>diversio-monolith/
+├── frontend/              # React application
+├── backend/               # Django API
+├── design-system/         # Shared UI components
+├── optimo-frontend/       # Optimo product app
+├── diversio-serverless/   # AWS Lambda functions
+├── infrastructure/        # Terraform definitions
+├── terraform-modules/     # Reusable infrastructure
+└── scripts/               # Development automation
+</code></pre></div>
+
+<p>Each directory is its own git repository. But they all live in one workspace. One clone gets you everything.</p>
+<h2 id="from-hours-to-minutes"><a class="toclink" href="#from-hours-to-minutes">From Hours to Minutes</a></h2>
+<p>Our product managers now redesign features in minutes, not hours. They pull the latest code, run migrations, and have AI analyze our Bruno API collections. Remember when we <a href="https://ashwch.com/from-postman-to-bruno-how-ai-changed-our-api-workflow.html">migrated from Postman to Bruno</a>? That decision pays huge dividends in a monolith.</p>
+<p>The workflow looks like this:</p>
+<ol>
+<li>Pull latest commits across all services</li>
+<li>Run migrations with full database context</li>
+<li>AI reads organized API documentation</li>
+<li>Create comprehensive designs with complete system understanding</li>
+<li>Implement changes knowing exactly what will be affected</li>
+</ol>
+<p>What used to take hours of repository hopping now happens in a single flow.</p>
+<h2 id="the-ai-advantage"><a class="toclink" href="#the-ai-advantage">The AI Advantage</a></h2>
+<p>Here's where it gets interesting. By giving AI tools complete system context, we unlocked capabilities that were impossible before:</p>
+<ul>
+<li><strong>Cross-repository analysis</strong>: Claude Code traces API calls from frontend to backend to infrastructure</li>
+<li><strong>Better architectural decisions</strong>: Suggestions consider the entire stack</li>
+<li><strong>System-wide debugging</strong>: Issues that span services become traceable</li>
+<li><strong>Smarter refactoring</strong>: Changes account for all dependencies</li>
+</ul>
+<p>The AI isn't guessing anymore. It knows.</p>
+<h2 id="git-worktrees-the-secret-sauce"><a class="toclink" href="#git-worktrees-the-secret-sauce">Git Worktrees: The Secret Sauce</a></h2>
+<p>The real magic happens with git worktrees. Instead of switching branches and losing context, we work on multiple features simultaneously:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Create a new worktree for a feature</span>
+uv<span class="w"> </span>run<span class="w"> </span>scripts/create_worktree.py
+</code></pre></div>
+
+<p>Our automation handles everything:</p>
+<ul>
+<li>Interactive branch selection across all repositories</li>
+<li>Smart filtering for hundreds of branches</li>
+<li>Automatic submodule initialization</li>
+<li>Proper conflict resolution</li>
+<li>Copies .env files (because git worktrees don't do this by default, and nobody wants to debug missing environment variables)</li>
+</ul>
+<p>Each developer can have multiple features in progress, each in its own directory, with full system context preserved.</p>
+<h2 id="custom-ai-agents-specialized-tools-for-every-task"><a class="toclink" href="#custom-ai-agents-specialized-tools-for-every-task">Custom AI Agents: Specialized Tools for Every Task</a></h2>
+<p>We built specialized Claude Code agents that understand our codebase deeply:</p>
+<ul>
+<li><strong>Frontend PR Specialist</strong>: Analyzes React/TypeScript changes with component architecture visualizations</li>
+<li><strong>Backend PR Specialist</strong>: Reviews Django changes with database schema analysis</li>
+<li><strong>Infrastructure PR Specialist</strong>: Validates Terraform changes with cost and security impact assessments  </li>
+<li><strong>Integration Specialist</strong>: Traces data flows across frontend, backend, and infrastructure</li>
+<li><strong>Data Migration Specialist</strong>: Handles complex data transformations and migrations</li>
+<li><strong>Testing Automation Specialist</strong>: Writes comprehensive test suites following our patterns</li>
+</ul>
+<p>Each agent has deep knowledge of its domain. They don't just suggest generic fixes. They understand our specific patterns, our conventions, our tech stack.</p>
+<p>We even built meta agents that manage other agents:</p>
+<ul>
+<li><strong>Subagent Creator</strong>: Designs new focused agents with clear boundaries</li>
+<li><strong>Subagent Reviewer</strong>: Reviews and optimizes agent definitions to prevent overlaps</li>
+</ul>
+<p>These meta agents save hours when adding or updating agents. No more manual agent configuration. The AI helps manage the AI.</p>
+<p>The best part? These agents are shared across the entire team through the monolith. When one engineer creates an agent, everyone benefits immediately.</p>
+<h2 id="mcp-integration-supercharging-ai-tools"><a class="toclink" href="#mcp-integration-supercharging-ai-tools">MCP Integration: Supercharging AI Tools</a></h2>
+<p>We integrated Model Context Protocol (MCP) servers that give Claude Code direct access to:</p>
+<ul>
+<li><strong>CircleCI</strong>: Build status, test results, deployment logs</li>
+<li><strong>Context7</strong>: Up-to-date documentation for any library</li>
+<li><strong>Gemini AI</strong>: Research and code analysis</li>
+<li><strong>Playwright</strong>: Browser automation for testing</li>
+</ul>
+<p>These integrations work seamlessly across the entire monolith, giving AI unprecedented visibility into our development pipeline.</p>
+<h2 id="benefits-across-the-team"><a class="toclink" href="#benefits-across-the-team">Benefits Across the Team</a></h2>
+<p><strong>Product Managers</strong> get complete system visibility for rapid prototyping. API documentation and database schemas always accessible.</p>
+<p><strong>New Engineers</strong> get a single command setup. Clone one repo, get everything with working examples.</p>
+<p><strong>Senior Engineers</strong> can do system-wide refactoring. Make changes across repos with full context.</p>
+<p><strong>AI Tools</strong> get complete codebase analysis. Suggestions that actually work.</p>
+<p><strong>DevOps teams</strong> see infrastructure definitions alongside the code they deploy.</p>
+<h2 id="the-technical-details"><a class="toclink" href="#the-technical-details">The Technical Details</a></h2>
+<p><strong>Submodule Management</strong>: Each submodule points to a specific commit. Changes need commits in both the submodule and the monolith. This preserves atomicity while enabling coordination.</p>
+<p><strong>Branch Independence</strong>: Work on different branches in each submodule simultaneously. Perfect for features that need coordinated changes. And crucially, pull requests still go to individual repositories, maintaining our existing review processes and CI/CD pipelines.</p>
+<p><strong>Automated Tooling</strong>: Our Python scripts handle branch management, worktree creation, and submodule updates. No manual coordination needed.</p>
+<p><strong>API Documentation as Code</strong>: Bruno's file-based approach means API collections live with the code they test. They're discoverable, version-controlled, and immediately accessible to both humans and AI. The AI can read, understand, and even suggest API changes based on the actual implementation.</p>
+<h2 id="why-this-matters-now"><a class="toclink" href="#why-this-matters-now">Why This Matters Now</a></h2>
+<p>AI tools are becoming primary development partners. But these tools are only as good as the context you give them. </p>
+<p>By structuring our codebase for maximum AI comprehension, we created an environment where both humans and AI work at their full potential.</p>
+<p>The results: 10x faster feature development, 90% fewer integration bugs, and architectural decisions that consider the full system impact.</p>
+<h2 id="getting-started"><a class="toclink" href="#getting-started">Getting Started</a></h2>
+<p>If you're working with multiple related repositories, you can implement this:</p>
+<ol>
+<li>Create a monolith repository</li>
+<li>Add existing repos as git submodules</li>
+<li>Build automation scripts for common workflows</li>
+<li>Configure MCP servers for your tools</li>
+<li>Train your team on git worktrees</li>
+<li>Move API documentation to file-based tools like Bruno</li>
+</ol>
+<p>The investment pays off immediately. No more context switching, better AI assistance, and a development experience that scales with complexity.</p>
+<h2 id="the-bottom-line"><a class="toclink" href="#the-bottom-line">The Bottom Line</a></h2>
+<p>This isn't just about tooling. It's about creating an environment where high-quality work happens quickly and naturally.</p>
+<p>When your product managers can redesign systems confidently, your engineers can refactor safely across services, and your AI tools provide system-aware suggestions, you've built more than a development environment.</p>
+<p>You've built a competitive advantage.</p>
+<hr>
+<p>Want to dive deeper into Git worktrees? Check out my comprehensive guide: <a href="https://gist.github.com/ashwch/946ad983977c9107db7ee9abafeb95bd">Git Worktrees: From Zero to Hero</a>. It covers everything from first principles to advanced workflows with submodules.</p>
+<p><em>Thanks to <a href="https://www.linkedin.com/in/samuel-bonin/">Samuel Bonin</a> and <a href="https://www.linkedin.com/in/amalraj-offl/">Amalraj</a> for reviewing this post.</em></p>
+        </div>
+
+        <div class="article-meta">
+            <div class="tags-section">
+              <h5>Tags:</h5>
+              <div class="tags-container">
+                  <a href="https://ashwch.com/tag/git-worktrees.html" class="tag">git-worktrees</a>
+                  <a href="https://ashwch.com/tag/development-workflow.html" class="tag">development-workflow</a>
+                  <a href="https://ashwch.com/tag/ai-tools.html" class="tag">ai-tools</a>
+                  <a href="https://ashwch.com/tag/monorepo.html" class="tag">monorepo</a>
+                  <a href="https://ashwch.com/tag/claude-code.html" class="tag">claude-code</a>
+                  <a href="https://ashwch.com/tag/mcp.html" class="tag">mcp</a>
+                  <a href="https://ashwch.com/tag/devops.html" class="tag">devops</a>
+                  <a href="https://ashwch.com/tag/productivity.html" class="tag">productivity</a>
+                  <a href="https://ashwch.com/tag/bruno.html" class="tag">bruno</a>
+              </div>
+            </div>
+          
+          <div class="back-button-container">
+            <a href="https://ashwch.com" class="back-to-posts">
+              <i class="fas fa-arrow-left"></i> Back to Posts
+            </a>
+          </div>
+        </div>
+      </article>
+
+<section class="comments mt-5">
+  <div class="card">
+    <div class="card-header">
+      <h3 class="mb-0">Comments</h3>
+    </div>
+    <div class="card-body">
+      <div id="disqus_thread" aria-live="polite">
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+      <script type="text/javascript">
+        var disqus_shortname = 'ashwch';
+        var disqus_identifier = '/the-monolith-that-made-ai-actually-useful.html';
+        var disqus_url = 'https://ashwch.com/the-monolith-that-made-ai-actually-useful.html';
+        var disqus_title = 'The Monolith That Made AI Actually Useful';
+        (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = "//" + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+    </div>
+  </div>
+</section>
+    </div>
+  </div>
+</div>
+
+<style type="text/css">
+/* Jupyter notebook styling */
+.jp-Cell {
+  max-width: 100%;
+  margin-bottom: 1.5rem;
+}
+
+.jp-Cell-inputWrapper,
+.jp-Cell-outputWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.jp-InputPrompt, 
+.jp-OutputPrompt {
+  font-family: monospace;
+  font-size: 0.9rem;
+  color: #888;
+  width: 4.5rem;
+  padding-right: 0.5rem;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.jp-CodeCell .jp-Cell-inputArea {
+  display: flex;
+  background-color: #f6f8fa;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+}
+
+.jp-CodeCell .jp-Cell-outputArea {
+  display: flex;
+  margin-top: 0.5rem;
+}
+
+.jp-CodeMirror {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  padding: 0.5rem;
+  width: 100%;
+}
+
+.jp-OutputArea-output {
+  padding: 0.5rem;
+  width: 100%;
+  overflow-x: auto;
+}
+
+.jp-RenderedMarkdown {
+  margin: 0;
+}
+
+/* Pandas DataFrames */
+table.dataframe {
+  border-collapse: collapse;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin: 1rem 0;
+  width: 100%;
+}
+
+.dataframe thead th {
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  padding: 0.5rem;
+  text-align: left;
+}
+
+.dataframe tbody td {
+  border: 1px solid #ddd;
+  padding: 0.5rem;
+  text-align: left;
+}
+
+.dataframe tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Matplotlib figures */
+.jp-RenderedImage img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1rem auto;
+}
+
+/* Hide cell execution counts */
+.prompt {
+  display: none;
+}
+
+/* Cell borders */
+div.cell {
+  border: none;
+  margin-bottom: 1.5rem;
+}
+
+div.text_cell_render {
+  padding: 0;
+}
+
+/* Code highlighting */
+pre code {
+  background-color: inherit;
+  padding: 0;
+}
+
+/* Jupyter code blocks */
+div.input_area {
+  background-color: #f6f8fa;
+  border-radius: 6px;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+/* Mobile optimization */
+@media (max-width: 768px) {
+  .jp-InputPrompt, 
+  .jp-OutputPrompt {
+    width: 3rem;
+    font-size: 0.8rem;
+  }
+  
+  .jp-CodeMirror,
+  .jp-OutputArea-output {
+    font-size: 0.8rem;
+  }
+  
+  table.dataframe {
+    font-size: 0.8rem;
+  }
+  
+  .dataframe thead th,
+  .dataframe tbody td {
+    padding: 0.3rem;
+  }
+}</style>
         </main>
 
         <footer class="site-footer mt-5 py-4 bg-light">
