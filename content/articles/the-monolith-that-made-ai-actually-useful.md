@@ -12,9 +12,17 @@ We solved this at Diversio. The solution made both humans and AI 10x more effect
 
 ---
 
-**Table of Contents**
+## Table of Contents
 
-[TOC]
+1. [What you'll learn](#what-youll-learn)
+2. [The Problem We Were Facing](#the-problem-we-were-facing)
+3. [Our Solution: Git Submodules Done Right](#our-solution-git-submodules-done-right)
+4. [The AI Advantage](#the-ai-advantage)
+5. [Advanced Implementation](#advanced-implementation)
+6. [MCP Integration and Team Benefits](#mcp-integration-and-team-benefits)
+7. [The Technical Details](#the-technical-details)
+8. [Implementation Strategy](#implementation-strategy)
+9. [The Bottom Line](#the-bottom-line)
 
 ---
 
@@ -60,9 +68,9 @@ diversio-monolith/
 
 Each directory is its own git repository. But they all live in one workspace. One clone gets you everything.
 
-## From Hours to Minutes
+### From Days to Hours
 
-Our product managers now redesign features in minutes, not hours. They pull the latest code, run migrations, and have AI analyze our Bruno API collections. Remember when we [migrated from Postman to Bruno]({filename}/articles/from-postman-to-bruno-how-ai-changed-our-api-workflow.md)? That decision pays huge dividends in a monolith.
+Our product manager [Sam](https://www.linkedin.com/in/samuel-bonin/) now redesigns features in hours, not days. He pulls the latest code, runs migrations, and has AI analyze our Bruno API collections. Remember when we [migrated from Postman to Bruno]({filename}/articles/from-postman-to-bruno-how-ai-changed-our-api-workflow.md)? That decision pays huge dividends in a monolith.
 
 The workflow looks like this:
 
@@ -85,7 +93,9 @@ Here's where it gets interesting. By giving AI tools complete system context, we
 
 The AI isn't guessing anymore. It knows.
 
-## Git Worktrees: The Secret Sauce
+## Advanced Implementation
+
+### Git Worktrees: The Secret Sauce
 
 The real magic happens with git worktrees. Instead of switching branches and losing context, we work on multiple features simultaneously:
 
@@ -109,7 +119,7 @@ Check out our automation scripts:
 
 Each developer can have multiple features in progress, each in its own directory, with full system context preserved.
 
-## Custom AI Agents: Specialized Tools for Every Task
+### Custom AI Agents: Specialized Tools for Every Task
 
 We built specialized Claude Code agents that understand our codebase deeply:
 
@@ -131,7 +141,7 @@ These meta agents save hours when adding or updating agents. No more manual agen
 
 The best part? These agents are shared across the entire team through the monolith. When one engineer creates an agent, everyone benefits immediately.
 
-## MCP Integration: Supercharging AI Tools
+## MCP Integration and Team Benefits
 
 We integrated Model Context Protocol (MCP) servers that give Claude Code direct access to:
 
@@ -142,7 +152,7 @@ We integrated Model Context Protocol (MCP) servers that give Claude Code direct 
 
 These integrations work seamlessly across the entire monolith, giving AI unprecedented visibility into our development pipeline.
 
-## Benefits Across the Team
+### Benefits Across the Team
 
 **Product Managers** get complete system visibility for rapid prototyping. API documentation and database schemas always accessible.
 
@@ -164,15 +174,13 @@ These integrations work seamlessly across the entire monolith, giving AI unprece
 
 **API Documentation as Code**: Bruno's file-based approach means API collections live with the code they test. They're discoverable, version-controlled, and immediately accessible to both humans and AI. The AI can read, understand, and even suggest API changes based on the actual implementation.
 
-## Why This Matters Now
+## Implementation Strategy
 
-AI tools are becoming primary development partners. But these tools are only as good as the context you give them. 
-
-By structuring our codebase for maximum AI comprehension, we created an environment where both humans and AI work at their full potential.
+AI tools are becoming primary development partners. But these tools are only as good as the context you give them. By structuring our codebase for maximum AI comprehension, we created an environment where both humans and AI work at their full potential.
 
 The results: 10x faster feature development, 90% fewer integration bugs, and architectural decisions that consider the full system impact.
 
-## Getting Started
+### Getting Started
 
 If you're working with multiple related repositories, you can implement this:
 
