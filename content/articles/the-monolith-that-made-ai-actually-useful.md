@@ -12,7 +12,7 @@ We solved this at Diversio. The solution made both humans and AI 10x more effect
 
 ---
 
-**Table of Contents**
+## Table of Contents
 
 [TOC]
 
