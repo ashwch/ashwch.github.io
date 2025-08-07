@@ -4,10 +4,8 @@
 &lt;/blockquote&gt;
 &lt;p&gt;We solved this at Diversio. The solution made both humans and AI 10x more effective with our codebase.&lt;/p&gt;
 &lt;hr&gt;
-&lt;h2 id="table-of-contents"&gt;&lt;a class="toclink" href="#table-of-contents"&gt;Table of Contents&lt;/a&gt;&lt;/h2&gt;
 &lt;div class="toc"&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href="#table-of-contents"&gt;Table of Contents&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#what-youll-learn"&gt;What you'll learn&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#the-problem-we-were-facing"&gt;The Problem We Were Facing&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#our-solution-git-submodules-done-right"&gt;Our Solution: Git Submodules Done Right&lt;/a&gt;&lt;/li&gt;
