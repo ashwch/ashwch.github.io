@@ -43,7 +43,7 @@
 
 /* Typography Variables */
 :root {
-  --font-heading: 'Playfair Display', 'Georgia', serif;
+  --font-heading: 'Poppins', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-body: 'Source Sans 3', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', 'SF Mono', 'Monaco', 'Inconsolata', monospace;
 }

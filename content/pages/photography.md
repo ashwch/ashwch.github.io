@@ -331,7 +331,7 @@ In the background, a solitary figure walks by, adding a dynamic element to the o
     font-size: 3rem;
     font-weight: 700;
     margin-bottom: 1rem;
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-heading);
 }
 
 .hero-subtitle {
@@ -498,7 +498,7 @@ In the background, a solitary figure walks by, adding a dynamic element to the o
     line-height: 1.2;
     color: #ffffff;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
-    font-family: 'Source Sans 3', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: var(--font-heading);
 }
 
 .photo-overlay p {
@@ -608,7 +608,7 @@ In the background, a solitary figure walks by, adding a dynamic element to the o
     font-size: 1.6rem;
     font-weight: 600;
     color: #ffffff;
-    font-family: 'Playfair Display', Georgia, serif;
+    font-family: var(--font-heading);
     letter-spacing: -0.01em;
 }
 
@@ -617,7 +617,7 @@ In the background, a solitary figure walks by, adding a dynamic element to the o
     line-height: 1.7;
     color: rgba(255, 255, 255, 0.95);
     font-size: 1rem;
-    font-family: 'Source Sans 3', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: var(--font-body);
 }
 
 .lightbox-exif {
