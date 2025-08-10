@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="author" content="Ashwini Chaudhary(Monty)">
         <meta name="description" content="">
-        <title>Ashwini's blog - Tags | Ashwini's blog</title>
+        <title>Tag:  | Ashwini's blog</title>
 
         <!-- Favicon -->
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
@@ -17,7 +17,7 @@
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
         
         <!-- Bootstrap 5 -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -135,8 +135,16 @@
   --blockquote-bg: #111827;
 }
 
+/* Typography Variables */
+:root {
+  --font-heading: 'Playfair Display', 'Georgia', serif;
+  --font-body: 'Source Sans 3', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', 'Monaco', 'Inconsolata', monospace;
+}
+
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: var(--font-body);
+  font-weight: 400;
   line-height: 1.7;
   color: var(--text-color);
   background-color: var(--background-color);
@@ -144,12 +152,16 @@ body {
   flex-direction: column;
   min-height: 100vh;
   transition: color 0.3s ease, background-color 0.3s ease;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
   font-weight: 700;
   line-height: 1.3;
   margin-bottom: 1rem;
+  letter-spacing: -0.02em;
 }
 
 a {
@@ -241,9 +253,11 @@ a:hover {
 }
 
 .article-card .card-title {
+  font-family: var(--font-heading);
   font-size: 1.5rem;
   font-weight: 700;
   margin-bottom: 0.75rem;
+  letter-spacing: -0.01em;
 }
 
 .article-card .card-title a {
@@ -363,31 +377,44 @@ a:hover {
 }
 
 .article-content {
-  font-family: 'Merriweather', Georgia, serif;
-  line-height: 1.8;
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+  line-height: 1.85;
+  font-weight: 400;
+  color: var(--text-color);
 }
 
 .article-content p {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.75rem;
+  text-align: justify;
+  text-justify: inter-word;
 }
 
 .article-content h2 {
-  font-size: 1.8rem;
-  margin-top: 2.5rem;
-  margin-bottom: 1rem;
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 700;
+  margin-top: 3rem;
+  margin-bottom: 1.25rem;
   color: var(--text-color);
+  letter-spacing: -0.02em;
 }
 
 .article-content h3 {
-  font-size: 1.5rem;
-  margin-top: 2rem;
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-top: 2.5rem;
   margin-bottom: 1rem;
   color: var(--text-color);
+  letter-spacing: -0.01em;
 }
 
 .article-content h4 {
-  font-size: 1.25rem;
-  margin-top: 1.5rem;
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-top: 2rem;
   margin-bottom: 1rem;
   color: var(--text-color);
 }
@@ -428,8 +455,9 @@ a:hover {
 }
 
 .article-content code {
-  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
-  font-size: 0.9em;
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  font-weight: 500;
   padding: 0.2em 0.4em;
   border-radius: 0.25rem;
   background-color: var(--code-bg);
@@ -643,6 +671,7 @@ code,
                         <ul class="navbar-nav ms-auto">
                                 <li class="nav-item"><a class="nav-link" href="/pages/about.html" title="About">About</a></li>
                                 <li class="nav-item"><a class="nav-link" href="/pages/projects.html" title="Projects">Projects</a></li>
+                                <li class="nav-item"><a class="nav-link" href="/pages/photography.html" title="Photography">Photography</a></li>
                                 <li class="nav-item"><a class="nav-link" href="/archives.html" title="Archive">Archive</a></li>
                                 <li class="nav-item"><a class="nav-link icon-rss" href="/feeds/all.atom.xml" title="Ashwini's blog RSS feed" rel="me"></a></li>
                             <li class="nav-item">
@@ -658,100 +687,171 @@ code,
         </header>
 
         <main class="site-content my-4">
-    <h2>Tags for Ashwini's blog</h2>
-    <ul>
-            <li><a href="https://ashwch.com/tag/90dayplan.html">90dayplan</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/ai.html">ai</a> (2)</li>
-            <li><a href="https://ashwch.com/tag/ai-revolution.html">ai-revolution</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/ai-tools.html">ai-tools</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/amazon.html">amazon</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/api.html">api</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/audit-trails.html">audit-trails</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/benjamin-franklin.html">benjamin-franklin</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/best-practices.html">best-practices</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/bezos-quotes.html">bezos-quotes</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/blue-origin.html">blue-origin</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/bruno.html">bruno</a> (2)</li>
-            <li><a href="https://ashwch.com/tag/business-strategy.html">business-strategy</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/charlie-munger.html">charlie-munger</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/claude-code.html">claude-code</a> (2)</li>
-            <li><a href="https://ashwch.com/tag/code-patterns.html">code-patterns</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/community.html">community</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/company-building.html">company-building</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/context-management.html">context-management</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/curiosity.html">curiosity</a> (2)</li>
-            <li><a href="https://ashwch.com/tag/database-tracking.html">database-tracking</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/debugging.html">debugging</a> (2)</li>
-            <li><a href="https://ashwch.com/tag/decision-making.html">decision-making</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/developer-experience.html">developer-experience</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/development-workflow.html">development-workflow</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/devops.html">devops</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/diversio.html">diversio</a> (4)</li>
-            <li><a href="https://ashwch.com/tag/django.html">django</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/django-middleware.html">django-middleware</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/django-models.html">django-models</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/django-orm.html">django-orm</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/django-pghistory.html">django-pghistory</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/engineering.html">engineering</a> (2)</li>
-            <li><a href="https://ashwch.com/tag/engineering-hires.html">engineering-hires</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/entrepreneurship.html">entrepreneurship</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/founders-podcast.html">founders-podcast</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/future-thinking.html">future-thinking</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/git-worktrees.html">git-worktrees</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/github.html">github</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/github-copilot.html">github-copilot</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/habits.html">habits</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/hiring.html">hiring</a> (2)</li>
-            <li><a href="https://ashwch.com/tag/hiring-success.html">hiring-success</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/history.html">history</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/humor.html">humor</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/innovation.html">innovation</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/interviewing.html">interviewing</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/invention.html">invention</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/ipdb.html">ipdb</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/jeff-bezos.html">jeff-bezos</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/leadership.html">leadership</a> (2)</li>
-            <li><a href="https://ashwch.com/tag/learning.html">learning</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/lessons-learned.html">lessons-learned</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/life-lessons.html">life-lessons</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/long-term-thinking.html">long-term-thinking</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/management.html">management</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/mcp.html">mcp</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/meetings.html">meetings</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/mentorship.html">mentorship</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/monorepo.html">monorepo</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/new-hire.html">new-hire</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/onboarding.html">onboarding</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/opportunity-cost.html">opportunity-cost</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/optimism.html">optimism</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/packaging.html">packaging</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/pdb.html">pdb</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/pep-723.html">pep-723</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/personal-growth.html">personal-growth</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/podcast.html">podcast</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/postgresql.html">postgresql</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/postman.html">postman</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/prezto.html">prezto</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/productivity.html">productivity</a> (3)</li>
-            <li><a href="https://ashwch.com/tag/programming.html">programming</a> (3)</li>
-            <li><a href="https://ashwch.com/tag/python.html">python</a> (4)</li>
-            <li><a href="https://ashwch.com/tag/python-contextvars.html">python-contextvars</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/python-pep.html">python-pep</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/risk-taking.html">risk-taking</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/self-improvement.html">self-improvement</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/setup.html">setup</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/starship.html">starship</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/systems-thinking.html">systems-thinking</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/technology.html">technology</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/terminal.html">terminal</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/til.html">til</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/tooling.html">tooling</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/uv.html">uv</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/uv-internals.html">uv-internals</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/warren-buffett.html">warren-buffett</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/wealth-creation.html">wealth-creation</a> (1)</li>
-            <li><a href="https://ashwch.com/tag/zsh.html">zsh</a> (1)</li>
-    </ul>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 mx-auto">
+      <article class="tag-page">
+        <header class="mb-5">
+          <h1>Tag: <span class="tag-highlight"></span></h1>
+        </header>
+
+        <!-- Tags Section with clear separation -->
+        <div class="tags-section">
+          <h5>All Tags:</h5>
+          <div class="tags-container">
+              <a href="https://ashwch.com/tag/git-worktrees.html" class="tag ">git-worktrees</a>
+              <a href="https://ashwch.com/tag/development-workflow.html" class="tag ">development-workflow</a>
+              <a href="https://ashwch.com/tag/ai-tools.html" class="tag ">ai-tools</a>
+              <a href="https://ashwch.com/tag/monorepo.html" class="tag ">monorepo</a>
+              <a href="https://ashwch.com/tag/claude-code.html" class="tag ">claude-code</a>
+              <a href="https://ashwch.com/tag/mcp.html" class="tag ">mcp</a>
+              <a href="https://ashwch.com/tag/devops.html" class="tag ">devops</a>
+              <a href="https://ashwch.com/tag/productivity.html" class="tag ">productivity</a>
+              <a href="https://ashwch.com/tag/bruno.html" class="tag ">bruno</a>
+              <a href="https://ashwch.com/tag/postman.html" class="tag ">postman</a>
+              <a href="https://ashwch.com/tag/api.html" class="tag ">api</a>
+              <a href="https://ashwch.com/tag/ai.html" class="tag ">ai</a>
+              <a href="https://ashwch.com/tag/diversio.html" class="tag ">diversio</a>
+              <a href="https://ashwch.com/tag/engineering.html" class="tag ">engineering</a>
+              <a href="https://ashwch.com/tag/tooling.html" class="tag ">tooling</a>
+              <a href="https://ashwch.com/tag/developer-experience.html" class="tag ">developer-experience</a>
+              <a href="https://ashwch.com/tag/django.html" class="tag ">django</a>
+              <a href="https://ashwch.com/tag/programming.html" class="tag ">programming</a>
+              <a href="https://ashwch.com/tag/python.html" class="tag ">python</a>
+              <a href="https://ashwch.com/tag/django-pghistory.html" class="tag ">django-pghistory</a>
+              <a href="https://ashwch.com/tag/audit-trails.html" class="tag ">audit-trails</a>
+              <a href="https://ashwch.com/tag/context-management.html" class="tag ">context-management</a>
+              <a href="https://ashwch.com/tag/django-middleware.html" class="tag ">django-middleware</a>
+              <a href="https://ashwch.com/tag/python-contextvars.html" class="tag ">python-contextvars</a>
+              <a href="https://ashwch.com/tag/database-tracking.html" class="tag ">database-tracking</a>
+              <a href="https://ashwch.com/tag/django-models.html" class="tag ">django-models</a>
+              <a href="https://ashwch.com/tag/code-patterns.html" class="tag ">code-patterns</a>
+              <a href="https://ashwch.com/tag/postgresql.html" class="tag ">postgresql</a>
+              <a href="https://ashwch.com/tag/django-orm.html" class="tag ">django-orm</a>
+              <a href="https://ashwch.com/tag/debugging.html" class="tag ">debugging</a>
+              <a href="https://ashwch.com/tag/benjamin-franklin.html" class="tag ">benjamin-franklin</a>
+              <a href="https://ashwch.com/tag/self-improvement.html" class="tag ">self-improvement</a>
+              <a href="https://ashwch.com/tag/habits.html" class="tag ">habits</a>
+              <a href="https://ashwch.com/tag/personal-growth.html" class="tag ">personal-growth</a>
+              <a href="https://ashwch.com/tag/humor.html" class="tag ">humor</a>
+              <a href="https://ashwch.com/tag/life-lessons.html" class="tag ">life-lessons</a>
+              <a href="https://ashwch.com/tag/systems-thinking.html" class="tag ">systems-thinking</a>
+              <a href="https://ashwch.com/tag/history.html" class="tag ">history</a>
+              <a href="https://ashwch.com/tag/learning.html" class="tag ">learning</a>
+              <a href="https://ashwch.com/tag/community.html" class="tag ">community</a>
+              <a href="https://ashwch.com/tag/curiosity.html" class="tag ">curiosity</a>
+              <a href="https://ashwch.com/tag/jeff-bezos.html" class="tag ">jeff-bezos</a>
+              <a href="https://ashwch.com/tag/entrepreneurship.html" class="tag ">entrepreneurship</a>
+              <a href="https://ashwch.com/tag/long-term-thinking.html" class="tag ">long-term-thinking</a>
+              <a href="https://ashwch.com/tag/company-building.html" class="tag ">company-building</a>
+              <a href="https://ashwch.com/tag/ai-revolution.html" class="tag ">ai-revolution</a>
+              <a href="https://ashwch.com/tag/innovation.html" class="tag ">innovation</a>
+              <a href="https://ashwch.com/tag/optimism.html" class="tag ">optimism</a>
+              <a href="https://ashwch.com/tag/opportunity-cost.html" class="tag ">opportunity-cost</a>
+              <a href="https://ashwch.com/tag/blue-origin.html" class="tag ">blue-origin</a>
+              <a href="https://ashwch.com/tag/amazon.html" class="tag ">amazon</a>
+              <a href="https://ashwch.com/tag/leadership.html" class="tag ">leadership</a>
+              <a href="https://ashwch.com/tag/decision-making.html" class="tag ">decision-making</a>
+              <a href="https://ashwch.com/tag/business-strategy.html" class="tag ">business-strategy</a>
+              <a href="https://ashwch.com/tag/meetings.html" class="tag ">meetings</a>
+              <a href="https://ashwch.com/tag/bezos-quotes.html" class="tag ">bezos-quotes</a>
+              <a href="https://ashwch.com/tag/charlie-munger.html" class="tag ">charlie-munger</a>
+              <a href="https://ashwch.com/tag/warren-buffett.html" class="tag ">warren-buffett</a>
+              <a href="https://ashwch.com/tag/technology.html" class="tag ">technology</a>
+              <a href="https://ashwch.com/tag/invention.html" class="tag ">invention</a>
+              <a href="https://ashwch.com/tag/future-thinking.html" class="tag ">future-thinking</a>
+              <a href="https://ashwch.com/tag/risk-taking.html" class="tag ">risk-taking</a>
+              <a href="https://ashwch.com/tag/wealth-creation.html" class="tag ">wealth-creation</a>
+              <a href="https://ashwch.com/tag/podcast.html" class="tag ">podcast</a>
+              <a href="https://ashwch.com/tag/founders-podcast.html" class="tag ">founders-podcast</a>
+              <a href="https://ashwch.com/tag/hiring.html" class="tag ">hiring</a>
+              <a href="https://ashwch.com/tag/management.html" class="tag ">management</a>
+              <a href="https://ashwch.com/tag/new-hire.html" class="tag ">new-hire</a>
+              <a href="https://ashwch.com/tag/engineering-hires.html" class="tag ">engineering-hires</a>
+              <a href="https://ashwch.com/tag/onboarding.html" class="tag ">onboarding</a>
+              <a href="https://ashwch.com/tag/mentorship.html" class="tag ">mentorship</a>
+              <a href="https://ashwch.com/tag/90dayplan.html" class="tag ">90dayplan</a>
+              <a href="https://ashwch.com/tag/hiring-success.html" class="tag ">hiring-success</a>
+              <a href="https://ashwch.com/tag/uv.html" class="tag ">uv</a>
+              <a href="https://ashwch.com/tag/packaging.html" class="tag ">packaging</a>
+              <a href="https://ashwch.com/tag/uv-internals.html" class="tag ">uv-internals</a>
+              <a href="https://ashwch.com/tag/til.html" class="tag ">til</a>
+              <a href="https://ashwch.com/tag/python-pep.html" class="tag ">python-pep</a>
+              <a href="https://ashwch.com/tag/pep-723.html" class="tag ">pep-723</a>
+              <a href="https://ashwch.com/tag/github.html" class="tag ">github</a>
+              <a href="https://ashwch.com/tag/github-copilot.html" class="tag ">github-copilot</a>
+              <a href="https://ashwch.com/tag/interviewing.html" class="tag ">interviewing</a>
+              <a href="https://ashwch.com/tag/lessons-learned.html" class="tag ">lessons-learned</a>
+              <a href="https://ashwch.com/tag/best-practices.html" class="tag ">best-practices</a>
+              <a href="https://ashwch.com/tag/terminal.html" class="tag ">terminal</a>
+              <a href="https://ashwch.com/tag/setup.html" class="tag ">setup</a>
+              <a href="https://ashwch.com/tag/prezto.html" class="tag ">prezto</a>
+              <a href="https://ashwch.com/tag/starship.html" class="tag ">starship</a>
+              <a href="https://ashwch.com/tag/zsh.html" class="tag ">zsh</a>
+              <a href="https://ashwch.com/tag/pdb.html" class="tag ">pdb</a>
+              <a href="https://ashwch.com/tag/ipdb.html" class="tag ">ipdb</a>
+          </div>
+        </div>
+        
+        <!-- Clearly separated back button -->
+        <div class="back-button-container">
+          <a href="https://ashwch.com" class="back-to-posts">
+            <i class="fas fa-arrow-left"></i> Back to Posts
+          </a>
+        </div>
+
+        <div class="tag-content">
+          <ul class="archives-list">
+              <li class="d-flex justify-content-between align-items-center">
+                <h3><a href="https://ashwch.com/the-monolith-that-made-ai-actually-useful.html">The Monolith That Made AI Actually Useful</a></h3>
+                <time>07.08.2025</time>
+              </li>
+              <li class="d-flex justify-content-between align-items-center">
+                <h3><a href="https://ashwch.com/from-postman-to-bruno-how-ai-changed-our-api-workflow.html">Postman to Bruno: A Weekend Migration That Transformed Our API Workflow</a></h3>
+                <time>13.07.2025</time>
+              </li>
+              <li class="d-flex justify-content-between align-items-center">
+                <h3><a href="https://ashwch.com/managing-context-metadata-django-pghistory-solving-persistence-problem.html">Managing Context Metadata in Django-PGHistory: Solving the Persistence Problem</a></h3>
+                <time>02.04.2025</time>
+              </li>
+              <li class="d-flex justify-content-between align-items-center">
+                <h3><a href="https://ashwch.com/life-lessons-benjamin-franklin.html">Designing a Life: Lessons from Benjamin Franklin</a></h3>
+                <time>26.03.2025</time>
+              </li>
+              <li class="d-flex justify-content-between align-items-center">
+                <h3><a href="https://ashwch.com/actionable-insights-jeff-bezos-dealbook-summit.html">Actionable Insights from Jeff Bezos' Interview at the DealBook Summit</a></h3>
+                <time>10.03.2025</time>
+              </li>
+              <li class="d-flex justify-content-between align-items-center">
+                <h3><a href="https://ashwch.com/30-60-90-set-up-your-engineering-hires-for-success.html">30-60-90 — Set Up Your Engineering Hires for Success</a></h3>
+                <time>08.03.2025</time>
+              </li>
+              <li class="d-flex justify-content-between align-items-center">
+                <h3><a href="https://ashwch.com/uv-and-pep-723.html">uv and PEP 723</a></h3>
+                <time>05.03.2025</time>
+              </li>
+              <li class="d-flex justify-content-between align-items-center">
+                <h3><a href="https://ashwch.com/evolving-engineering-recruitment-at-diversio-in-the-age-of-ai.html">Evolving Engineering Recruitment at Diversio in the Age of AI</a></h3>
+                <time>23.02.2025</time>
+              </li>
+              <li class="d-flex justify-content-between align-items-center">
+                <h3><a href="https://ashwch.com/terminal-setup-using-zsh-prezto-starship.md.html">Terminal setup using ZSH, Prezto and Starship on MacOS</a></h3>
+                <time>23.12.2023</time>
+              </li>
+              <li class="d-flex justify-content-between align-items-center">
+                <h3><a href="https://ashwch.com/become-a-pdb-power-user.html">Become a pdb power-user</a></h3>
+                <time>08.11.2016</time>
+              </li>
+              <li class="d-flex justify-content-between align-items-center">
+                <h3><a href="https://ashwch.com/handling-missing-keys-in-str-format-map.html">Handling missing keys in str.format_map properly</a></h3>
+                <time>03.12.2010</time>
+              </li>
+          </ul>
+        </div>
+      </article>
+    </div>
+  </div>
+</div>
         </main>
 
         <footer class="site-footer mt-5 py-4 bg-light">

@@ -1,0 +1,1883 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="author" content="Ashwini Chaudhary(Monty)">
+        <meta name="description" content="">
+        <title>Photography | Ashwini's blog</title>
+
+        <!-- Favicon -->
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/favicon.ico" type="image/x-icon">
+        
+        <!-- RSS Feed -->
+        <link rel="alternate" type="application/atom+xml" title="Ashwini's blog blog atom feed" href="/feeds/all.atom.xml" />
+        
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+        
+        <!-- Bootstrap 5 -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        
+        <!-- Font Awesome for icons -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        
+        <!-- Icons CSS -->
+        <link rel="stylesheet" type="text/css" href="/theme/css/icons.css"/>
+        
+        <!-- Code highlighting -->
+        <style>.highlight .hll { background-color: #ffffcc }
+.highlight .c { color: #60a0b0; font-style: italic } /* Comment */
+.highlight .err { border: 1px solid #FF0000 } /* Error */
+.highlight .k { color: #007020; font-weight: bold } /* Keyword */
+.highlight .o { color: #666666 } /* Operator */
+.highlight .cm { color: #60a0b0; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #007020 } /* Comment.Preproc */
+.highlight .c1 { color: #60a0b0; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #60a0b0; background-color: #fff0f0 } /* Comment.Special */
+.highlight .gd { color: #A00000 } /* Generic.Deleted */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #FF0000 } /* Generic.Error */
+.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #00A000 } /* Generic.Inserted */
+.highlight .go { color: #808080 } /* Generic.Output */
+.highlight .gp { color: #c65d09; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight .gt { color: #0040D0 } /* Generic.Traceback */
+.highlight .kc { color: #007020; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #007020; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #007020; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #007020 } /* Keyword.Pseudo */
+.highlight .kr { color: #007020; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #902000 } /* Keyword.Type */
+.highlight .m { color: #40a070 } /* Literal.Number */
+.highlight .s { color: #4070a0 } /* Literal.String */
+.highlight .na { color: #4070a0 } /* Name.Attribute */
+.highlight .nb { color: #007020 } /* Name.Builtin */
+.highlight .nc { color: #0e84b5; font-weight: bold } /* Name.Class */
+.highlight .no { color: #60add5 } /* Name.Constant */
+.highlight .nd { color: #555555; font-weight: bold } /* Name.Decorator */
+.highlight .ni { color: #d55537; font-weight: bold } /* Name.Entity */
+.highlight .ne { color: #007020 } /* Name.Exception */
+.highlight .nf { color: #06287e } /* Name.Function */
+.highlight .nl { color: #002070; font-weight: bold } /* Name.Label */
+.highlight .nn { color: #0e84b5; font-weight: bold } /* Name.Namespace */
+.highlight .nt { color: #062873; font-weight: bold } /* Name.Tag */
+.highlight .nv { color: #bb60d5 } /* Name.Variable */
+.highlight .ow { color: #007020; font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mf { color: #40a070 } /* Literal.Number.Float */
+.highlight .mh { color: #40a070 } /* Literal.Number.Hex */
+.highlight .mi { color: #40a070 } /* Literal.Number.Integer */
+.highlight .mo { color: #40a070 } /* Literal.Number.Oct */
+.highlight .sb { color: #4070a0 } /* Literal.String.Backtick */
+.highlight .sc { color: #4070a0 } /* Literal.String.Char */
+.highlight .sd { color: #4070a0; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #4070a0 } /* Literal.String.Double */
+.highlight .se { color: #4070a0; font-weight: bold } /* Literal.String.Escape */
+.highlight .sh { color: #4070a0 } /* Literal.String.Heredoc */
+.highlight .si { color: #70a0d0; font-style: italic } /* Literal.String.Interpol */
+.highlight .sx { color: #c65d09 } /* Literal.String.Other */
+.highlight .sr { color: #235388 } /* Literal.String.Regex */
+.highlight .s1 { color: #4070a0 } /* Literal.String.Single */
+.highlight .ss { color: #517918 } /* Literal.String.Symbol */
+.highlight .bp { color: #007020 } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #bb60d5 } /* Name.Variable.Class */
+.highlight .vg { color: #bb60d5 } /* Name.Variable.Global */
+.highlight .vi { color: #bb60d5 } /* Name.Variable.Instance */
+.highlight .il { color: #40a070 } /* Literal.Number.Integer.Long */</style>
+        
+        <!-- Main CSS -->
+        <style>/* Base styles */
+:root {
+  /* Light theme (default) */
+  --primary-color: #3b82f6;
+  --primary-dark: #2563eb;
+  --secondary-color: #6366f1;
+  --text-color: #1f2937;
+  --text-light: #4b5563;
+  --background-color: #ffffff;
+  --background-alt: #f9fafb;
+  --border-color: #e5e7eb;
+  --code-bg: #f3f4f6;
+  --link-hover: #1d4ed8;
+  --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --navbar-bg: #ffffff;
+  --navbar-color: #4b5563;
+  --footer-bg: #f8f9fa;
+  --footer-color: #6c757d;
+  --card-bg: #ffffff;
+  --blockquote-bg: #f9fafb;
+}
+
+/* Dark theme */
+[data-theme="dark"] {
+  --primary-color: #60a5fa;
+  --primary-dark: #3b82f6;
+  --secondary-color: #818cf8;
+  --text-color: #f3f4f6;
+  --text-light: #d1d5db;
+  --background-color: #111827;
+  --background-alt: #1f2937;
+  --border-color: #374151;
+  --code-bg: #282c34;
+  --link-hover: #93c5fd;
+  --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+  --navbar-bg: #111827;
+  --navbar-color: #d1d5db;
+  --footer-bg: #1f2937;
+  --footer-color: #9ca3af;
+  --card-bg: #1f2937;
+  --blockquote-bg: #111827;
+}
+
+/* Typography Variables */
+:root {
+  --font-heading: 'Playfair Display', 'Georgia', serif;
+  --font-body: 'Source Sans 3', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', 'Monaco', 'Inconsolata', monospace;
+}
+
+body {
+  font-family: var(--font-body);
+  font-weight: 400;
+  line-height: 1.7;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  transition: color 0.3s ease, background-color 0.3s ease;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+a:hover {
+  color: var(--link-hover);
+  text-decoration: underline;
+}
+
+/* Layout */
+.site-content {
+  flex: 1 0 auto;
+}
+
+.container {
+  max-width: 1200px;
+  padding: 0 1.5rem;
+}
+
+/* Header */
+.site-header {
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--navbar-bg);
+  transition: background-color 0.3s ease;
+}
+
+.navbar-brand {
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--text-color);
+  transition: color 0.3s ease;
+}
+
+.navbar-light .navbar-nav .nav-link {
+  color: var(--navbar-color);
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  transition: color 0.3s ease;
+}
+
+.navbar-light .navbar-nav .nav-link:hover {
+  color: var(--primary-color);
+}
+
+/* Theme toggle button styling */
+#theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid var(--border-color);
+  background-color: var(--background-alt);
+  color: var(--text-color);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#theme-toggle:hover {
+  transform: rotate(15deg);
+  background-color: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+/* Article Cards */
+.article-card {
+  background: var(--card-bg);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  margin-bottom: 2.5rem;
+  box-shadow: var(--card-shadow);
+  transition: transform 0.2s, box-shadow 0.2s, background-color 0.3s ease;
+}
+
+.article-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.article-card .card-body {
+  padding: 1.5rem;
+}
+
+.article-card .card-title {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.01em;
+}
+
+.article-card .card-title a {
+  color: var(--text-color);
+  transition: color 0.2s;
+}
+
+.article-card .card-title a:hover {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+.article-card .card-text {
+  color: var(--text-light);
+  margin-bottom: 1rem;
+}
+
+.article-card .card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.875rem;
+  color: var(--text-light);
+}
+
+.article-card .card-date {
+  color: var(--text-light);
+}
+
+/* Tags container styling */
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Tag styling */
+.tag {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  background: var(--background-alt);
+  color: var(--text-light);
+  border-radius: 9999px;
+  transition: all 0.2s;
+}
+
+.tag:hover {
+  background: var(--primary-color);
+  color: white;
+  text-decoration: none;
+}
+
+/* Tag with active state */
+.tag.active {
+  background: var(--primary-color);
+  color: white;
+}
+
+/* Back to Posts button styling */
+.back-to-posts {
+  display: inline-block;
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 0.5rem 1rem;
+  color: var(--primary-color);
+  background-color: transparent;
+  border: 1px solid var(--primary-color);
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.back-to-posts:hover {
+  background-color: var(--primary-color);
+  color: white;
+  text-decoration: none;
+}
+
+/* Icon for back button */
+.back-to-posts i {
+  margin-right: 0.25rem;
+}
+
+/* Clear separation between tags and back button */
+.tags-section {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* Container for back button */
+.back-button-container {
+  margin-bottom: 2rem;
+}
+
+/* Article page */
+.article-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.article-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-color);
+}
+
+.article-header time {
+  color: var(--text-light);
+  font-size: 0.9rem;
+}
+
+.article-content {
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+  line-height: 1.85;
+  font-weight: 400;
+  color: var(--text-color);
+}
+
+.article-content p {
+  margin-bottom: 1.75rem;
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+.article-content h2 {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 700;
+  margin-top: 3rem;
+  margin-bottom: 1.25rem;
+  color: var(--text-color);
+  letter-spacing: -0.02em;
+}
+
+.article-content h3 {
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+  letter-spacing: -0.01em;
+}
+
+.article-content h4 {
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+}
+
+.article-content ul, 
+.article-content ol {
+  margin-bottom: 1.5rem;
+  padding-left: 1.5rem;
+}
+
+.article-content li {
+  margin-bottom: 0.5rem;
+}
+
+.article-content blockquote {
+  margin: 2rem 0;
+  padding: 1rem 1.5rem;
+  border-left: 4px solid var(--primary-color);
+  background-color: var(--blockquote-bg);
+  font-style: italic;
+  transition: background-color 0.3s ease;
+}
+
+.article-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  margin: 1.5rem 0;
+}
+
+.article-content pre {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background-color: var(--code-bg);
+  overflow-x: auto;
+  font-size: 0.9rem;
+}
+
+.article-content code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  font-weight: 500;
+  padding: 0.2em 0.4em;
+  border-radius: 0.25rem;
+  background-color: var(--code-bg);
+}
+
+.article-content pre code {
+  padding: 0;
+  background-color: transparent;
+}
+
+/* Article Meta */
+.article-meta {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.read-more-link {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: var(--primary-color);
+  color: white;
+  font-weight: 500;
+  border-radius: 0.25rem;
+  transition: background-color 0.2s;
+}
+
+.read-more-link:hover {
+  background-color: var(--primary-dark);
+  text-decoration: none;
+  color: white;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  margin: 3rem 0;
+}
+
+.pagination-prev,
+.pagination-next {
+  flex: 0 0 auto;
+}
+
+.pagination a {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--primary-color);
+  border-radius: 0.25rem;
+  color: var(--primary-color);
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.pagination a:hover {
+  background-color: var(--primary-color);
+  color: white;
+  text-decoration: none;
+}
+
+/* Archives & Tags */
+.archives-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.archives-list li {
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.archives-list li:last-child {
+  border-bottom: none;
+}
+
+.archives-list h3 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.archives-list time {
+  color: var(--text-light);
+  font-size: 0.875rem;
+}
+
+/* About page */
+.about-header {
+  margin-bottom: 2rem;
+}
+
+.social-links ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 0;
+  margin: 1rem 0;
+  list-style: none;
+}
+
+.social-links a {
+  color: var(--text-light);
+  transition: color 0.2s;
+}
+
+.social-links a:hover {
+  color: var(--primary-color);
+}
+
+/* Footer */
+.site-footer {
+  border-top: 1px solid var(--border-color);
+  font-size: 0.9rem;
+  background-color: var(--footer-bg);
+  color: var(--footer-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.site-footer a {
+  color: var(--text-color);
+  transition: color 0.3s ease;
+}
+
+.site-footer a:hover {
+  color: var(--primary-color);
+}
+
+/* Theme Transition Effects */
+.article-header, 
+.article-content,
+.article-meta,
+.card-body,
+.card-title a,
+.card-text,
+.card-meta,
+.tag,
+pre,
+code,
+.read-more-link,
+.pagination a {
+  transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Style adjustments for the dark theme */
+[data-theme="dark"] .navbar-light {
+  background-color: var(--navbar-bg) !important;
+}
+
+[data-theme="dark"] .navbar-light .navbar-nav .nav-link,
+[data-theme="dark"] .navbar-brand {
+  color: var(--text-color);
+}
+
+[data-theme="dark"] .navbar-light .navbar-toggler-icon {
+  filter: invert(1);
+}
+
+[data-theme="dark"] .bg-light {
+  background-color: var(--background-alt) !important;
+}
+
+[data-theme="dark"] .bg-white {
+  background-color: var(--background-color) !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .article-header h1 {
+    font-size: 2rem;
+  }
+  
+  .article-content h2 {
+    font-size: 1.5rem;
+  }
+  
+  .article-content h3 {
+    font-size: 1.3rem;
+  }
+  
+  .article-card .card-title {
+    font-size: 1.3rem;
+  }
+  
+  .social-links ul {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .pagination {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+  }
+}</style>
+
+
+    </head>
+
+    <body>
+        <header class="site-header shadow-sm">
+            <nav class="navbar navbar-expand-lg navbar-light bg-white">
+                <div class="container">
+                    <a class="navbar-brand fw-bold" href="/">Ashwini's blog</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav ms-auto">
+                                <li class="nav-item"><a class="nav-link" href="/pages/about.html" title="About">About</a></li>
+                                <li class="nav-item"><a class="nav-link" href="/pages/projects.html" title="Projects">Projects</a></li>
+                                <li class="nav-item"><a class="nav-link" href="/pages/photography.html" title="Photography">Photography</a></li>
+                                <li class="nav-item"><a class="nav-link" href="/archives.html" title="Archive">Archive</a></li>
+                                <li class="nav-item"><a class="nav-link icon-rss" href="/feeds/all.atom.xml" title="Ashwini's blog RSS feed" rel="me"></a></li>
+                            <li class="nav-item">
+                                <button id="theme-toggle" class="btn btn-sm btn-outline-secondary ms-2" aria-label="Toggle theme">
+                                    <span id="theme-toggle-light" class="d-none">☀️</span>
+                                    <span id="theme-toggle-dark" class="d-none">🌙</span>
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <main class="site-content my-4">
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 mx-auto">
+      <article class="page">
+        <header class="page-header mb-4">
+          <h1>Photography</h1>
+        </header>
+
+        <div class="article-content">
+          <div class="photography-hero">
+    <h1 class="hero-title">Visual Stories</h1>
+    <p class="hero-subtitle">From celestial wonders to urban adventures, each photograph tells a story crafted with AI-powered insights and creative vision</p>
+    <div class="hero-stats">
+        <div class="stat-item">
+            <span class="stat-number">23</span>
+            <span class="stat-label">Photos</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number">6</span>
+            <span class="stat-label">Categories</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number">AI</span>
+            <span class="stat-label">Enhanced</span>
+        </div>
+    </div>
+    <div class="hero-links">
+        <a href="https://unsplash.com/@suicide_chewbacca" target="_blank" class="unsplash-link">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M7.5 6.75V0h9v6.75h-9zm9 3.75H24V24H0V10.5h7.5v6.75h9V10.5z"/>
+            </svg>
+            Portfolio on Unsplash
+        </a>
+    </div>
+</div>
+
+<div class="photo-filters">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="architecture">Architecture (2)</button>
+    <button class="filter-btn" data-filter="astronomy">Astronomy (6)</button>
+    <button class="filter-btn" data-filter="beach">Beach (1)</button>
+    <button class="filter-btn" data-filter="nature">Nature (7)</button>
+    <button class="filter-btn" data-filter="portrait">Portrait (3)</button>
+    <button class="filter-btn" data-filter="urban">Urban (4)</button>
+</div>
+</div>
+<div class="photo-masonry" id="photoGallery">
+    <div class="photo-card" data-category="nature" data-full="/images/photography/dji_fly_20241223_230636_633_1735013793485_photo.jpg">
+        <div class="photo-location">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+            </svg>
+            <span>31.5542, 78.2766</span>
+        </div>
+        <img src="/images/photography/thumbnails/dji_fly_20241223_230636_633_1735013793485_photo_small.jpg" 
+             data-medium="/images/photography/thumbnails/dji_fly_20241223_230636_633_1735013793485_photo_large.jpg"
+             alt="Winter'S Path" loading="lazy">
+        <div class="photo-overlay">
+            <h3>Winter'S Path</h3>
+            <p>An aerial image shows a serene, snow-covered landscape. Three black, winding roads cut through the pristine white snow, appearing fresh and untouched. The roads are spaced relatively far apart, meandering gently through the scene. The terrain is mostly flat, with only a few scattered small hills and trees. The area is blanketed in a thick layer of snow, with some darker patches that may be bare ground or patches of grass peeking through. The image is taken from a high vantage point, providing a comprehensive view of the roads, the surrounding landscape, and the patches of darker terrain.</p>
+        </div>
+    </div>
+    <div class="photo-card" data-category="nature" data-full="/images/photography/MON01845.jpg">
+        <img src="/images/photography/thumbnails/MON01845_small.jpg" 
+             data-medium="/images/photography/thumbnails/MON01845_large.jpg"
+             alt="Night Sky Mountain" loading="lazy">
+        <div class="photo-overlay">
+            <h3>Night Sky Mountain</h3>
+            <p>A snow-covered mountain peak reaches towards a night sky filled with countless stars. The mountain's rugged surface is partially obscured by the vast expanse of the starry expanse. The snow appears mostly undisturbed, except for some subtle tracks or patterns created by the weight of snow and possibly animal tracks. The contrast between the dark mountain and the bright night sky creates a striking visual effect. The stars in the sky vary in brightness and size, adding depth and dimension to the image. The overall mood of the image is serene and captivating, with the snow-covered mountain serving as a tranquil backdrop to the starry expanse.</p>
+        </div>
+    </div>
+    <div class="photo-card" data-category="nature" data-full="/images/photography/MON01910.jpg">
+        <img src="/images/photography/thumbnails/MON01910_small.jpg" 
+             data-medium="/images/photography/thumbnails/MON01910_large.jpg"
+             alt="Sunrise Serenity" loading="lazy">
+        <div class="photo-overlay">
+            <h3>Sunrise Serenity</h3>
+            <p>A brown dog lies peacefully on a rocky, snow-dusted surface, its eyes gently closed as it basks in the serene beauty around it. The dog is nestled between the rugged, snow-covered mountains that stretch out into the distance, creating a breathtaking backdrop. The sky above is a clear, vibrant blue, adding to the overall tranquility of the scene. The dog's relaxed posture and peaceful demeanor evoke a sense of peace and contentment, perfectly capturing the essence of nature's gentle touch.</p>
+        </div>
+    </div>
+    <div class="photo-card" data-category="portrait" data-full="/images/photography/MON01938 2.jpg">
+        <img src="/images/photography/thumbnails/MON01938 2_small.jpg" 
+             data-medium="/images/photography/thumbnails/MON01938 2_large.jpg"
+             alt="Woman'S Thoughts" loading="lazy">
+        <div class="photo-overlay">
+            <h3>Woman'S Thoughts</h3>
+            <p>A solitary woman sits on a woven mat, engrossed in her knitting. She wears a vest and long sleeves, and her hands are meticulously working with yarn. Her gaze is directed downwards, lost in the rhythm of her craft. The room around her is dimly lit, emphasizing her solitary presence. The room features a wooden door in the background, a small table with a lamp to the left, and a patterned rug beneath her feet. The black and white photograph captures the woman's quiet concentration as she works on her project.</p>
+        </div>
+    </div>
+    <div class="photo-card" data-category="nature" data-full="/images/photography/MON02014 1.jpg">
+        <img src="/images/photography/thumbnails/MON02014 1_small.jpg" 
+             data-medium="/images/photography/thumbnails/MON02014 1_large.jpg"
+             alt="Snow-Covered Mountains And Valley" loading="lazy">
+        <div class="photo-overlay">
+            <h3>Snow-Covered Mountains And Valley</h3>
+            <p>A breathtaking view of a snow-covered mountain range stretches across the horizon under a clear, pale blue sky. The mountains, bathed in a pristine white of snow, rise majestically in varying shades of white and gray, their peaks reaching towards the sky. The valley below is a stark contrast, with its ground covered in a blanket of snow and scattered patches of dark gray, possibly bare rock or dirt. The image is taken from a high vantage point, offering a panoramic view of the valley and the majestic mountains in the distance. The sun appears to be setting, casting a warm, golden glow over the mountains and the valley. The photograph showcases the natural beauty of this snowy mountain landscape.</p>
+        </div>
+    </div>
+    <div class="photo-card" data-category="nature" data-full="/images/photography/MON02022 1.jpg">
+        <img src="/images/photography/thumbnails/MON02022 1_small.jpg" 
+             data-medium="/images/photography/thumbnails/MON02022 1_large.jpg"
+             alt="Snow-Covered Mountain Valley" loading="lazy">
+        <div class="photo-overlay">
+            <h3>Snow-Covered Mountain Valley</h3>
+            <p>A breathtaking snowy mountain range stretches across the horizon under a clear, pale blue sky. The mountains, blanketed in a pristine layer of snow, rise majestically in varying shades of white and gray, their peaks gleaming under the sunlight. The sun appears to be positioned slightly to the right, casting a warm glow that contrasts beautifully with the cool tones of the snow. In the mid-ground, a dried-up riverbed or valley reveals signs of erosion and barrenness. A dark, possibly rocky, outcropping is visible on the right side of the image, adding depth and contrast to the scene. The image is taken from a high vantage point, providing a panoramic view of the stunning natural landscape.</p>
+        </div>
+    </div>
+    <div class="photo-card" data-category="astronomy" data-full="/images/photography/MON02051 1.jpg">
+        <img src="/images/photography/thumbnails/MON02051 1_small.jpg" 
+             data-medium="/images/photography/thumbnails/MON02051 1_large.jpg"
+             alt="Mountain Night Sky" loading="lazy">
+        <div class="photo-overlay">
+            <h3>Mountain Night Sky</h3>
+            <p>A breathtaking night sky is captured in a mountainous landscape, filled with a multitude of stars. The Milky Way galaxy stretches across the upper portion of the image, its faint glow contrasting with the deep blackness of space. The sky is predominantly dark blue and black, with only a few scattered white stars. A shooting star is visible in the top left corner, adding a sense of movement and wonder to the scene. The silhouette of mountains and trees cuts across the lower portion of the image, framing the vast expanse of the night sky. The mountains appear to be dark brown or black in color, and the trees are mostly obscured by the darkness.</p>
+        </div>
+    </div>
+    <div class="photo-card" data-category="urban" data-full="/images/photography/MON03547 1.jpg">
+        <img src="/images/photography/thumbnails/MON03547 1_small.jpg" 
+             data-medium="/images/photography/thumbnails/MON03547 1_large.jpg"
+             alt="London'S Grand Central Station" loading="lazy">
+        <div class="photo-overlay">
+            <h3>London'S Grand Central Station</h3>
+            <p>A large, ornate white building with a dome and clock tower dominates the scene, set against a clear blue sky. Several Union Jack flags are displayed on the building's facade. People can be seen walking on the sidewalks and crossing the street in front of the building, which is situated near a busy intersection with a traffic light. Several street lamps line the street. In the foreground, a colorful food stand or kiosk adds a vibrant touch to the urban landscape. The image captures the bustling atmosphere of the location, showcasing the architectural beauty and lively street scene.</p>
+        </div>
+    </div>
+    <div class="photo-card" data-category="portrait" data-full="/images/photography/MON03587 1.jpg">
+        <img src="/images/photography/thumbnails/MON03587 1_small.jpg" 
+             data-medium="/images/photography/thumbnails/MON03587 1_large.jpg"
+             alt="Classical Architecture" loading="lazy">
+        <div class="photo-overlay">
+            <h3>Classical Architecture</h3>
+            <p>A solitary figure, dressed in white, strides purposefully along the sidewalk, their head bowed in concentration. They appear to be engrossed in their phone, as if lost in thought or conversation. The sidewalk stretches out in front of them, leading towards a grand, white building that stands tall and imposing. The building is adorned with several windows, a central entrance framed by sturdy columns, and ornate decorations above the windows, adding to its majestic appearance. A statue is perched atop the building, overlooking the scene. The overall atmosphere of the image is serene and contemplative, with the person as the focal point of the composition.</p>
+        </div>
+    </div>
+    <div class="photo-card" data-category="urban" data-full="/images/photography/MON03648 1.jpg">
+        <img src="/images/photography/thumbnails/MON03648 1_small.jpg" 
+             data-medium="/images/photography/thumbnails/MON03648 1_large.jpg"
+             alt="Protestor In Black And White" loading="lazy">
+        <div class="photo-overlay">
+            <h3>Protestor In Black And White</h3>
+            <p>A diverse crowd gathers in a city street, their colorful attire and signs creating a vibrant tapestry of protest and solidarity. The scene is captured from a slightly elevated perspective, offering a comprehensive view of this gathering. The crowd is diverse, with people of various ages and ethnicities present. Many are wearing high-visibility vests, symbolizing their vigilance and determination to stand out amidst the urban backdrop. 
+
+In the center of the image, a woman stands out with her hand extended, seemingly reaching out to connect with others or convey a powerful message. She is dressed in a black and white patterned shawl and carries a white bag adorned with a green logo. Her presence adds a touch of color and dynamism to the otherwise monochrome scene.
+
+The street itself is lined with buildings, further emphasizing the city setting of the protest. Various signs and banners are visible, conveying messages of unity and opposition to the perceived injustice. Some signs are written in languages other than English, reflecting the global nature of the event. 
+
+The overall atmosphere of the image is one of collective action and collective purpose, reflecting the spirit of a protest or demonstration.</p>
+        </div>
+    </div>
+    <div class="photo-card" data-category="nature" data-full="/images/photography/MON03693.jpg">
+        <img src="/images/photography/thumbnails/MON03693_small.jpg" 
+             data-medium="/images/photography/thumbnails/MON03693_large.jpg"
+             alt="Sherlock Holmes Pub" loading="lazy">
+        <div class="photo-overlay">
+            <h3>Sherlock Holmes Pub</h3>
+            <p>A charming Sherlock Holmes pub, nestled in the heart of London, exudes an air of mystery and intrigue. The building's exterior is adorned with hanging lanterns, casting a warm glow that illuminates the bustling outdoor seating area. Patrons are enjoying their time, seated at tables adorned with vibrant green umbrellas, creating a cozy and inviting atmosphere.
+
+The interior of the pub is visible through the large windows, showcasing a dimly lit interior with wooden furniture and decorative elements. The ambiance is further enhanced by the presence of potted plants and hanging baskets, adding a touch of nature and elegance to the establishment.
+
+In the background, a solitary figure walks by, adding a dynamic element to the otherwise static scene. The overall composition of the image is harmonious, capturing the essence of a classic British pub while also inviting the viewer to imagine themselves there.</p>
+        </div>
+    </div>
+    <div class="photo-card" data-category="urban" data-full="/images/photography/MON03841.jpg">
+        <img src="/images/photography/thumbnails/MON03841_small.jpg" 
+             data-medium="/images/photography/thumbnails/MON03841_large.jpg"
+             alt="Shard Silhouette" loading="lazy">
+        <div class="photo-overlay">
+            <h3>Shard Silhouette</h3>
+            <p>In the heart of the city, a towering skyscraper stands resplendent under the vast, cloudy sky. Its glass facade gleams like diamonds scattered across the sky, reflecting the surrounding scenery. The building is nestled amidst a grove of trees, their dark silhouettes contrasting sharply with the lighter hues of the skyscraper. The trees appear lush and verdant, adding a touch of nature's serenity to the urban landscape. The building's pointed top reaches towards the sky, symbolizing ambition and progress. Beside it, a body of water stretches out, mirroring the sky above and creating a harmonious balance between the man-made structure and the natural environment. The water also reflects some of the city lights, adding a subtle glow to the scene.</p>
+        </div>
+    </div>
+    <div class="photo-card" data-category="urban" data-full="/images/photography/MON04024 1.jpg">
+        <img src="/images/photography/thumbnails/MON04024 1_small.jpg" 
+             data-medium="/images/photography/thumbnails/MON04024 1_large.jpg"
+             alt="Edinburgh Cathedral" loading="lazy">
+        <div class="photo-overlay">
+            <h3>Edinburgh Cathedral</h3>
+            <p>The mood or atmosphere of this photo is serene and contemplative. The image features a city street with tall, old buildings and a church in the background, creating a sense of history and tranquility. The church, with its tall spire, stands out prominently in the scene, emphasizing the architectural beauty and grandeur of the area. The combination of the church, the old buildings, and the urban setting evokes a peaceful and contemplative mood.</p>
+        </div>
+    </div>
+    <div class="photo-card" data-category="architecture" data-full="/images/photography/MON04063 1.jpg">
+        <img src="/images/photography/thumbnails/MON04063 1_small.jpg" 
+             data-medium="/images/photography/thumbnails/MON04063 1_large.jpg"
+             alt="Gothic Statue Of William" loading="lazy">
+        <div class="photo-overlay">
+            <h3>Gothic Statue Of William</h3>
+            <p>A majestic statue of a man dressed in a robe and hat stands tall against a backdrop of a cloudy sky. The man appears to be holding something in his left hand. The statue, which has a dark, possibly bronze or metal, finish, sits atop an intricately carved stone pedestal. The pedestal boasts ornate carvings and features a relief of several figures, including what look like horses and possibly other people. In the distance, parts of the buildings surrounding the statue are visible, showing some architectural details. The overall color palette of the image is dominated by shades of gray and blue.</p>
+        </div>
+    </div>
+    <div class="photo-card" data-category="beach" data-full="/images/photography/IMG_3197.JPG">
+        <div class="photo-location">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+            </svg>
+            <span>43.9504, -77.3420</span>
+        </div>
+        <img src="/images/photography/thumbnails/IMG_3197_small.jpg" 
+             data-medium="/images/photography/thumbnails/IMG_3197_large.jpg"
+             alt="Ocean'S Edge" loading="lazy">
+        <div class="photo-overlay">
+            <h3>Ocean'S Edge</h3>
+            <p>A weathered piece of driftwood rests on a light gray, pebble-strewn beach, positioned near the center of the image. The driftwood is oriented horizontally and shows signs of exposure to the elements. Its rough texture contrasts with the smooth surface of the surrounding sand. The beach extends to a light blue body of water, which stretches out towards the horizon. The water appears calm, with subtle ripples or waves visible on its surface. The sky above is a light blue color, dotted with fluffy white clouds.</p>
+        </div>
+    </div>
+    <div class="photo-card" data-category="nature" data-full="/images/photography/IMG_3760.JPG">
+        <div class="photo-location">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+            </svg>
+            <span>50.1188, -122.9552</span>
+        </div>
+        <img src="/images/photography/thumbnails/IMG_3760_small.jpg" 
+             data-medium="/images/photography/thumbnails/IMG_3760_large.jpg"
+             alt="Skyward View" loading="lazy">
+        <div class="photo-overlay">
+            <h3>Skyward View</h3>
+            <p>Under a vast, azure sky, a serene scene unfolds. A towering, majestic cloud, resplendent with white and fluffy, stretches towards the horizon, its presence commanding attention. In the distance, a quaint cluster of buildings, crafted from wood and stone, stands proudly, their brown hues blending harmoniously with the natural backdrop. The buildings appear small from the perspective of the image, yet they exude a sense of tranquility and harmony with their surroundings. Trees, lush and verdant, flank the buildings, adding a touch of green to the scene. A street lamp, positioned centrally, punctuates the landscape, casting a soft glow that enhances the overall serenity of this picturesque setting.</p>
+        </div>
+    </div>
+    <div class="photo-card" data-category="architecture" data-full="/images/photography/carved-wooden-door.jpg">
+        <img src="/images/photography/thumbnails/carved-wooden-door_small.jpg" 
+             data-medium="/images/photography/thumbnails/carved-wooden-door_large.jpg"
+             alt="Ornate Wooden Window" loading="lazy">
+        <div class="photo-overlay">
+            <h3>Ornate Wooden Window</h3>
+            <p>A small, ornate window is set into a stone wall, framed by two detailed, carved stone columns that extend outward and upward. The window is divided into multiple panes, each secured with dark metal hardware. The wooden window frame and surrounding stonework are adorned with intricate carvings, adding a touch of antiquity and grandeur to the scene. The stone wall surrounding the window is a light tan or beige color, and the window itself is a dark brown or reddish-brown wood. The image is taken from a slightly angled perspective, giving the viewer a sense of the window's size and grandeur.</p>
+        </div>
+    </div>
+    <div class="photo-card" data-category="astronomy" data-full="/images/photography/lunar-eclipse-phases.jpg">
+        <img src="/images/photography/thumbnails/lunar-eclipse-phases_small.jpg" 
+             data-medium="/images/photography/thumbnails/lunar-eclipse-phases_large.jpg"
+             alt="Moon'S Journey" loading="lazy">
+        <div class="photo-overlay">
+            <h3>Moon'S Journey</h3>
+            <p>A captivating celestial spectacle unfolds in a mesmerizing circle, resembling a captivating moonlit night. The moon, bathed in a rich, deep reddish-brown hue, takes on a celestial dance, moving from left to right across the vast expanse of the black void. The moon's journey is marked by subtle variations in color and intensity, hinting at the intricate workings of celestial mechanics and the passage of time. The image captures the moon's transformation, evoking a sense of wonder and awe in the observer.</p>
+        </div>
+    </div>
+    <div class="photo-card" data-category="astronomy" data-full="/images/photography/lunar-eclipse-shadow.jpg">
+        <img src="/images/photography/thumbnails/lunar-eclipse-shadow_small.jpg" 
+             data-medium="/images/photography/thumbnails/lunar-eclipse-shadow_large.jpg"
+             alt="Moon'S Silhouette" loading="lazy">
+        <div class="photo-overlay">
+            <h3>Moon'S Silhouette</h3>
+            <p>A solitary, full moon dominates the center of the image, its surface a tranquil gray glow that contrasts sharply with the surrounding blackness. The moon is positioned directly in the center of the frame, drawing the viewer's attention directly to it. The perspective is from ground level, providing a clear and direct view of the moon's contours. The black background serves to highlight the moon, making it the sole focus of the image. There are no discernible texts, countable objects, or actions in the image. The moon appears to be a natural spectacle, without any visible objects or signs of human activity.</p>
+        </div>
+    </div>
+    <div class="photo-card" data-category="astronomy" data-full="/images/photography/moon-1.jpg">
+        <img src="/images/photography/thumbnails/moon-1_small.jpg" 
+             data-medium="/images/photography/thumbnails/moon-1_large.jpg"
+             alt="Full Moon In Black" loading="lazy">
+        <div class="photo-overlay">
+            <h3>Full Moon In Black</h3>
+            <p>The mood or atmosphere of this photo is serene and captivating. The image features a large, full moon against a black sky, creating a striking contrast that emphasizes the moon's size and presence. The moon's position in the sky also adds a sense of depth and perspective, drawing the viewer's attention to its size and the vastness of the night sky. This captivating scene evokes feelings of wonder, tranquility, and awe, inviting the viewer to appreciate the beauty and mystery of the celestial bodies.</p>
+        </div>
+    </div>
+    <div class="photo-card" data-category="astronomy" data-full="/images/photography/night-sky-mountain.jpg">
+        <img src="/images/photography/thumbnails/night-sky-mountain_small.jpg" 
+             data-medium="/images/photography/thumbnails/night-sky-mountain_large.jpg"
+             alt="Night Sky With Stars" loading="lazy">
+        <div class="photo-overlay">
+            <h3>Night Sky With Stars</h3>
+            <p>A breathtaking night sky is captured in a mountainous region. The sky is filled with a multitude of stars, their twinkling lights contrasting beautifully against the dark backdrop. The mountains, silhouetted against the night sky, add a sense of depth and grandeur to the scene. The perspective of the photo is from a low angle, which enhances the grandeur of the mountains and gives a sense of looking up at the celestial bodies above. The colors in the image are predominantly dark, with shades of purple and gray punctuated by brighter white and yellow stars. The darkness of the sky indicates the absence of artificial light sources, allowing the viewer to fully appreciate the beauty and tranquility of the night sky.</p>
+        </div>
+    </div>
+    <div class="photo-card" data-category="astronomy" data-full="/images/photography/photography-backup-blood-moon-1.jpg">
+        <img src="/images/photography/thumbnails/photography-backup-blood-moon-1_small.jpg" 
+             data-medium="/images/photography/thumbnails/photography-backup-blood-moon-1_large.jpg"
+             alt="Full Moon In Black" loading="lazy">
+        <div class="photo-overlay">
+            <h3>Full Moon In Black</h3>
+            <p>The mood or atmosphere of this photo is serene and peaceful. The image features a large, full moon against a black sky, creating a striking contrast that emphasizes the moon's presence and beauty. The moon's position in the sky also adds a sense of depth and perspective, enhancing the overall visual appeal of the image. The combination of the moon's light and the dark background creates a striking contrast that invites the viewer to appreciate the beauty and tranquility of the night sky.</p>
+        </div>
+    </div>
+    <div class="photo-card" data-category="portrait" data-full="/images/photography/portrait-pink-hat.jpg">
+        <img src="/images/photography/thumbnails/portrait-pink-hat_small.jpg" 
+             data-medium="/images/photography/thumbnails/portrait-pink-hat_large.jpg"
+             alt="Pink And Tropical, Urban Exploration" loading="lazy">
+        <div class="photo-overlay">
+            <h3>Pink And Tropical, Urban Exploration</h3>
+            <p>A young woman stands near an ornate, tan-colored building, possibly in Jaipur, India. She wears a pink baseball cap, a vibrant top with a tropical print in shades of pink, purple, and blue, and a patterned skirt. She also carries a brown purse over her shoulder and wears glasses and a bracelet on her left wrist. Her dark hair is pulled back in a ponytail, and her right hand is near her mouth with a finger to her nose. The building in the background features intricate carvings and designs, contributing to its architectural charm.</p>
+        </div>
+    </div>
+</div>
+</div>
+<!-- Lightbox Modal -->
+<div class="lightbox" id="lightbox">
+    <button class="lightbox-close" aria-label="Close">&times;</button>
+    <button class="lightbox-prev" aria-label="Previous">&#8249;</button>
+    <button class="lightbox-next" aria-label="Next">&#8250;</button>
+    <div class="lightbox-content">
+        <img id="lightbox-img" src="" alt="Gallery photo">
+        <div class="lightbox-info">
+            <h3 id="lightbox-title"></h3>
+            <p id="lightbox-description"></p>
+            <div class="lightbox-exif" id="lightbox-exif">
+                <span class="exif-item" id="exif-camera"></span>
+                <span class="exif-item" id="exif-settings"></span>
+                <span class="exif-item" id="exif-location"></span>
+            </div>
+            <div class="lightbox-actions">
+                <a href="#" id="download-btn" class="download-button" download>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    Download Original
+                </a>
+                <div class="license-info">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
+                    </svg>
+                    <span>CC BY 4.0 - Attribution Required</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="lightbox-loader">
+        <div class="spinner"></div>
+    </div>
+</div>
+
+<style>
+/* Photography Hero Section */
+.photography-hero {
+    text-align: center;
+    padding: 4rem 1rem;
+    margin-bottom: 3rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    color: white;
+}
+
+.hero-title {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    font-family: 'Inter', sans-serif;
+}
+
+.hero-subtitle {
+    font-size: 1.2rem;
+    opacity: 0.95;
+    max-width: 700px;
+    margin: 0 auto 2rem;
+}
+
+.hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin: 2rem 0;
+    flex-wrap: wrap;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-number {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: white;
+    line-height: 1;
+    margin-bottom: 0.25rem;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.hero-links {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.unsplash-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.unsplash-link:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+/* Filter Buttons */
+.photo-filters {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 0.5rem 1.25rem;
+    border: 2px solid var(--border-color);
+    background: transparent;
+    color: var(--text-color);
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.filter-btn:hover {
+    border-color: #667eea;
+    color: #667eea;
+}
+
+.filter-btn.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-color: transparent;
+}
+
+/* Clean Masonry Grid */
+.photo-masonry {
+    columns: 1;
+    column-gap: 1rem;
+    padding: 1rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+@media (min-width: 640px) {
+    .photo-masonry {
+        columns: 2;
+        column-gap: 1.25rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .photo-masonry {
+        columns: 3;
+        column-gap: 1.25rem;
+    }
+}
+
+.photo-card {
+    break-inside: avoid;
+    margin-bottom: 1.25rem;
+    position: relative;
+    cursor: pointer;
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--bg-secondary);
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.photo-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.photo-card img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Minimal Text Overlay - Only on Hover */
+.photo-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, 
+        rgba(0, 0, 0, 0.7) 0%, 
+        rgba(0, 0, 0, 0.3) 40%, 
+        transparent 70%);
+    color: white;
+    padding: 0.75rem;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.photo-card:hover .photo-overlay {
+    opacity: 1;
+}
+
+.photo-overlay h3 {
+    font-size: 0.9rem;
+    margin: 0;
+    font-weight: 500;
+    line-height: 1.2;
+    color: #ffffff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+    font-family: 'Source Sans 3', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.photo-overlay p {
+    display: none; /* Hide descriptions in gallery view */
+}
+
+/* Location Badge - Hidden by default */
+.photo-location {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    padding: 0.2rem 0.4rem;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+    border-radius: 20px;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.65rem;
+    font-weight: 400;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.photo-card:hover .photo-location {
+    opacity: 1;
+}
+
+.photo-location svg {
+    width: 10px;
+    height: 10px;
+}
+
+/* Lightbox */
+.lightbox {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 10000;
+    animation: fadeIn 0.3s ease;
+}
+
+.lightbox.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lightbox-content {
+    max-width: 95vw;
+    max-height: 90vh;
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    position: relative;
+}
+
+@media (max-width: 968px) {
+    .lightbox-content {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
+
+.lightbox-content img {
+    max-width: 65%;
+    max-height: 85vh;
+    object-fit: contain;
+    display: block;
+    border-radius: 8px;
+}
+
+@media (max-width: 968px) {
+    .lightbox-content img {
+        max-width: 100%;
+        max-height: 60vh;
+    }
+}
+
+.lightbox-info {
+    flex: 1;
+    min-width: 250px;
+    max-width: 450px;
+    color: white;
+    padding: 2rem;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 12px;
+    backdrop-filter: blur(20px);
+    max-height: 85vh;
+    overflow-y: auto;
+}
+
+@media (max-width: 968px) {
+    .lightbox-info {
+        max-width: 100%;
+        padding: 1.5rem;
+    }
+}
+
+.lightbox-info h3 {
+    margin: 0 0 1rem;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #ffffff;
+    font-family: 'Playfair Display', Georgia, serif;
+    letter-spacing: -0.01em;
+}
+
+.lightbox-info p {
+    margin: 0 0 1.5rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 1rem;
+    font-family: 'Source Sans 3', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.lightbox-exif {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.85);
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.exif-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.25rem 0.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    backdrop-filter: blur(10px);
+}
+
+.exif-item:empty {
+    display: none;
+}
+
+.exif-item:before {
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    opacity: 0.7;
+}
+
+#exif-camera:before {
+    content: '\f030';
+}
+
+#exif-settings:before {
+    content: '\f013';
+}
+
+#exif-location:before {
+    content: '\f3c5';
+}
+
+.lightbox-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.download-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.download-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+    color: white;
+    text-decoration: none;
+}
+
+.license-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.8);
+    padding: 0.5rem 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    backdrop-filter: blur(10px);
+}
+
+.license-info svg {
+    opacity: 0.8;
+}
+
+@media (max-width: 768px) {
+    .lightbox-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .download-button {
+        justify-content: center;
+    }
+
+    .license-info {
+        justify-content: center;
+    }
+}
+
+.lightbox-close,
+.lightbox-prev,
+.lightbox-next {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10001;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    line-height: 1;
+    padding: 0;
+}
+
+.lightbox-close {
+    top: 30px;
+    right: 30px;
+    font-size: 1.25rem;
+}
+
+.lightbox-prev,
+.lightbox-next {
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.5rem;
+}
+
+.lightbox-prev {
+    left: 30px;
+}
+
+.lightbox-next {
+    right: 30px;
+}
+
+.lightbox-close:hover,
+.lightbox-prev:hover,
+.lightbox-next:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+}
+
+.lightbox-prev:hover,
+.lightbox-next:hover {
+    transform: translateY(-50%) scale(1.1);
+}
+
+/* Loader */
+.lightbox-loader {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.lightbox.loading .lightbox-loader {
+    display: block;
+}
+
+.lightbox.loading .lightbox-content {
+    opacity: 0;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Dark mode adjustments */
+[data-theme="dark"] .photo-card {
+    background: #1a1a1a;
+}
+
+[data-theme="dark"] .filter-btn {
+    border-color: #444;
+}
+
+[data-theme="dark"] .filter-btn:hover {
+    border-color: #667eea;
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+
+    .photo-filters {
+        padding: 0 1rem;
+    }
+
+    .filter-btn {
+        font-size: 0.9rem;
+        padding: 0.4rem 1rem;
+    }
+
+    .hero-stats {
+        gap: 2rem;
+    }
+
+    .stat-number {
+        font-size: 2rem;
+    }
+
+    .lightbox-prev,
+    .lightbox-next {
+        width: 45px;
+        height: 45px;
+        font-size: 2rem;
+    }
+}
+
+/* Hide elements during loading */
+.photo-card.hidden {
+    display: none;
+}
+
+/* Smooth transitions for filtering */
+.photo-masonry.filtering .photo-card {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.photo-masonry.filtering .photo-card.hidden {
+    opacity: 0;
+    transform: scale(0.8);
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const gallery = document.getElementById('photoGallery');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxTitle = document.getElementById('lightbox-title');
+    const lightboxDescription = document.getElementById('lightbox-description');
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const photoCards = document.querySelectorAll('.photo-card');
+
+    let currentPhotoIndex = 0;
+    let visiblePhotos = [];
+
+    // Filter functionality
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const filter = this.dataset.filter;
+
+            // Update active button
+            filterBtns.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+
+            // Add filtering class for smooth transition
+            gallery.classList.add('filtering');
+
+            // Filter photos
+            photoCards.forEach(card => {
+                if (filter === 'all' || card.dataset.category === filter) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+
+            // Remove filtering class after transition
+            setTimeout(() => {
+                gallery.classList.remove('filtering');
+            }, 300);
+
+            // Update visible photos array
+            updateVisiblePhotos();
+        });
+    });
+
+    // Update visible photos array
+    function updateVisiblePhotos() {
+        visiblePhotos = Array.from(photoCards).filter(card => !card.classList.contains('hidden'));
+    }
+
+    // Initialize visible photos
+    updateVisiblePhotos();
+
+    // Open lightbox
+    photoCards.forEach((card, index) => {
+        card.addEventListener('click', function() {
+            const fullImage = this.dataset.full;
+            const mediumImage = this.querySelector('img').dataset.medium;
+            const title = this.querySelector('h3').textContent;
+            const description = this.querySelector('p').textContent;
+
+            // Find index in visible photos
+            currentPhotoIndex = visiblePhotos.indexOf(this);
+
+            openLightbox(fullImage, mediumImage, title, description);
+        });
+    });
+
+    // Load metadata when page loads
+    let photoMetadata = {};
+    fetch('/images/photography/gallery_metadata.json')
+        .then(response => response.json())
+        .then(data => {
+            photoMetadata = data;
+        })
+        .catch(err => console.log('Could not load metadata:', err));
+
+    function openLightbox(fullImage, mediumImage, title, description) {
+        lightbox.classList.add('active', 'loading');
+
+        // Update download button
+        const downloadBtn = document.getElementById('download-btn');
+        downloadBtn.href = fullImage;
+        const filename = fullImage.split('/').pop();
+        downloadBtn.download = filename;
+
+        // Add attribution text to download
+        downloadBtn.onclick = function(e) {
+            // Create attribution text
+            const attribution = `Photo by Ashwini Chaudhary (https://ashwch.com) - CC BY 4.0`;
+            console.log('Downloaded:', filename);
+            console.log('Attribution required:', attribution);
+
+            // Let the default download happen
+            return true;
+        };
+
+        // Update EXIF data if available
+        const metadata = photoMetadata[filename];
+        if (metadata && metadata.exif) {
+            const exif = metadata.exif;
+
+            // Camera info
+            const cameraEl = document.getElementById('exif-camera');
+            if (exif.camera && (exif.camera.make || exif.camera.model)) {
+                const camera = `${exif.camera.make || ''} ${exif.camera.model || ''}`.trim();
+                cameraEl.textContent = camera;
+                cameraEl.style.display = 'inline-flex';
+            } else {
+                cameraEl.style.display = 'none';
+            }
+
+            // Settings info
+            const settingsEl = document.getElementById('exif-settings');
+            const settings = [];
+            if (exif.settings) {
+                if (exif.settings.aperture) settings.push(exif.settings.aperture);
+                if (exif.settings.shutter) settings.push(exif.settings.shutter);
+                if (exif.settings.iso) settings.push(exif.settings.iso);
+                if (exif.settings.focal_length) settings.push(exif.settings.focal_length);
+            }
+            if (settings.length > 0) {
+                settingsEl.textContent = settings.join(' • ');
+                settingsEl.style.display = 'inline-flex';
+            } else {
+                settingsEl.style.display = 'none';
+            }
+
+            // Location info
+            const locationEl = document.getElementById('exif-location');
+            if (exif.gps && exif.gps.coordinates) {
+                locationEl.textContent = exif.gps.location || exif.gps.coordinates;
+                locationEl.style.display = 'inline-flex';
+            } else {
+                locationEl.style.display = 'none';
+            }
+        } else {
+            // Hide all EXIF elements if no metadata
+            document.getElementById('exif-camera').style.display = 'none';
+            document.getElementById('exif-settings').style.display = 'none';
+            document.getElementById('exif-location').style.display = 'none';
+        }
+
+        // Load medium quality first for faster display
+        const mediumImg = new Image();
+        mediumImg.onload = function() {
+            lightboxImg.src = mediumImage;
+            lightboxTitle.textContent = title;
+            lightboxDescription.textContent = description;
+            lightbox.classList.remove('loading');
+
+            // Then load full quality in background
+            const fullImg = new Image();
+            fullImg.onload = function() {
+                lightboxImg.src = fullImage;
+            };
+            fullImg.src = fullImage;
+        };
+        mediumImg.src = mediumImage;
+    }
+
+    // Close lightbox
+    document.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
+
+    lightbox.addEventListener('click', function(e) {
+        if (e.target === lightbox) {
+            closeLightbox();
+        }
+    });
+
+    function closeLightbox() {
+        lightbox.classList.remove('active');
+        lightboxImg.src = '';
+    }
+
+    // Navigation
+    document.querySelector('.lightbox-prev').addEventListener('click', function() {
+        navigateLightbox(-1);
+    });
+
+    document.querySelector('.lightbox-next').addEventListener('click', function() {
+        navigateLightbox(1);
+    });
+
+    function navigateLightbox(direction) {
+        currentPhotoIndex = (currentPhotoIndex + direction + visiblePhotos.length) % visiblePhotos.length;
+        const card = visiblePhotos[currentPhotoIndex];
+        const fullImage = card.dataset.full;
+        const mediumImage = card.querySelector('img').dataset.medium;
+        const title = card.querySelector('h3').textContent;
+        const description = card.querySelector('p').textContent;
+
+        openLightbox(fullImage, mediumImage, title, description);
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', function(e) {
+        if (!lightbox.classList.contains('active')) return;
+
+        if (e.key === 'Escape') {
+            closeLightbox();
+        } else if (e.key === 'ArrowLeft') {
+            navigateLightbox(-1);
+        } else if (e.key === 'ArrowRight') {
+            navigateLightbox(1);
+        }
+    });
+
+    // Lazy loading with Intersection Observer
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                // Image src is already set with loading="lazy", browser handles it
+                observer.unobserve(img);
+            }
+        });
+    }, {
+        rootMargin: '50px'
+    });
+
+    document.querySelectorAll('.photo-card img').forEach(img => {
+        imageObserver.observe(img);
+    });
+});
+</script>
+        </div>
+      </article>
+    </div>
+  </div>
+</div>
+        </main>
+
+        <footer class="site-footer mt-5 py-4 bg-light">
+            <div class="container text-center">
+                <p class="mb-0">
+                    © 2025 Ashwini Chaudhary(Monty), license <a href="https://github.com/ashwch/ashwch.github.io/blob/master/LICENSE">MIT</a>
+                    unless otherwise noted.
+                </p>
+                <p class="mb-0 small text-muted">
+                    Generated by <a href="http://docs.getpelican.com/">Pelican</a>
+                </p>
+            </div>
+        </footer>
+
+        <!-- Bootstrap JS Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        
+        <!-- Theme Switching Script -->
+        <script>
+            // Theme switching functionality
+            (function() {
+                const themeToggle = document.getElementById('theme-toggle');
+                const lightIcon = document.getElementById('theme-toggle-light');
+                const darkIcon = document.getElementById('theme-toggle-dark');
+                const htmlElement = document.documentElement;
+                
+                // Function to set theme
+                function setTheme(theme) {
+                    if (theme === 'dark') {
+                        htmlElement.setAttribute('data-theme', 'dark');
+                        localStorage.setItem('theme', 'dark');
+                        lightIcon.classList.add('d-none');
+                        darkIcon.classList.remove('d-none');
+                    } else {
+                        htmlElement.setAttribute('data-theme', 'light');
+                        localStorage.setItem('theme', 'light');
+                        darkIcon.classList.add('d-none');
+                        lightIcon.classList.remove('d-none');
+                    }
+                }
+                
+                // Check for saved user preference, system preference, or default to light
+                const savedTheme = localStorage.getItem('theme');
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                
+                if (savedTheme === 'dark') {
+                    setTheme('dark');
+                } else if (savedTheme === 'light') {
+                    setTheme('light');
+                } else if (prefersDark) {
+                    setTheme('dark');
+                } else {
+                    setTheme('light');
+                }
+                
+                // Toggle theme on button click
+                themeToggle.addEventListener('click', () => {
+                    const currentTheme = htmlElement.getAttribute('data-theme');
+                    if (currentTheme === 'dark') {
+                        setTheme('light');
+                    } else {
+                        setTheme('dark');
+                    }
+                });
+            })();
+        </script>
+
+<!-- Google Analytics (GA4) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8G7DZ59108"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-8G7DZ59108');
+</script>
+    </body>
+</html>
