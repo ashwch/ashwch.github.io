@@ -143,6 +143,168 @@ clean() {
     fi
 }
 
+# Photography management functions
+photos_update() {
+    print_header "Updating Photo Gallery..."
+    check_venv
+    
+    # Ensure photo directory exists
+    mkdir -p content/images/photography
+    
+    # Run the photo manager
+    if [ -f "scripts/photo_manager.py" ]; then
+        echo "🤖 Processing photos (works with any filename)..."
+        chmod +x scripts/photo_manager.py
+        python3 scripts/photo_manager.py
+    else
+        echo -e "${RED}✗ Photo manager script not found!${NC}"
+        echo "Please ensure scripts/photo_manager.py exists"
+        exit 1
+    fi
+    
+    # Rebuild the site
+    echo ""
+    echo "🔨 Rebuilding site with updated gallery..."
+    build
+    echo -e "${GREEN}✓ Photo gallery updated successfully!${NC}"
+}
+
+photos_regenerate() {
+    print_header "Regenerating All Thumbnails..."
+    check_venv
+    
+    # Remove cache to force regeneration
+    if [ -f "content/images/photography/thumbnails/.cache.json" ]; then
+        rm -f content/images/photography/thumbnails/.cache.json
+        echo "🗑️  Cleared thumbnail cache"
+    fi
+    
+    if [ -f "content/images/photography/gallery_metadata.json" ]; then
+        rm -f content/images/photography/gallery_metadata.json
+        echo "🗑️  Cleared metadata cache"
+    fi
+    
+    # Run update which will now regenerate everything
+    photos_update
+}
+
+photos_stats() {
+    print_header "Photography Gallery Statistics"
+    
+    PHOTO_DIR="content/images/photography"
+    THUMB_DIR="$PHOTO_DIR/thumbnails"
+    
+    if [ ! -d "$PHOTO_DIR" ]; then
+        echo -e "${RED}No photography directory found!${NC}"
+        exit 1
+    fi
+    
+    # Count files
+    ORIG_COUNT=$(find "$PHOTO_DIR" -maxdepth 1 -type f \( -name "*.jpg" -o -name "*.jpeg" -o -name "*.png" \) 2>/dev/null | wc -l | tr -d ' ')
+    THUMB_COUNT=$(find "$THUMB_DIR" -type f -name "*.jpg" 2>/dev/null | wc -l | tr -d ' ')
+    
+    # Calculate sizes
+    ORIG_SIZE=$(du -sh "$PHOTO_DIR" 2>/dev/null | cut -f1)
+    THUMB_SIZE=$(du -sh "$THUMB_DIR" 2>/dev/null | cut -f1)
+    
+    echo -e "${BLUE}📊 Gallery Statistics:${NC}"
+    echo "  Original photos: $ORIG_COUNT"
+    echo "  Thumbnails: $THUMB_COUNT"
+    echo "  Original size: $ORIG_SIZE"
+    echo "  Thumbnail size: $THUMB_SIZE"
+    
+    # Show categories if metadata exists
+    if [ -f "$PHOTO_DIR/gallery_metadata.json" ]; then
+        echo ""
+        echo -e "${BLUE}📷 Categories:${NC}"
+        python3 -c "
+import json
+with open('$PHOTO_DIR/gallery_metadata.json') as f:
+    data = json.load(f)
+    cats = {}
+    for photo in data.values():
+        cat = photo.get('category', 'uncategorized')
+        cats[cat] = cats.get(cat, 0) + 1
+    for cat, count in sorted(cats.items()):
+        print(f'  {cat}: {count} photos')
+        "
+    fi
+    
+    echo -e "${GREEN}✓ Statistics generated${NC}"
+}
+
+photos_order() {
+    print_header "Set Photo Gallery Order"
+    
+    if [ ! -f "scripts/set_photo_order.py" ]; then
+        echo -e "${RED}scripts/set_photo_order.py not found!${NC}"
+        exit 1
+    fi
+    
+    python3 scripts/set_photo_order.py
+}
+
+photos_clean() {
+    print_header "Cleaning Orphaned Thumbnails..."
+    
+    PHOTO_DIR="content/images/photography"
+    THUMB_DIR="$PHOTO_DIR/thumbnails"
+    
+    if [ ! -d "$THUMB_DIR" ]; then
+        echo -e "${YELLOW}No thumbnails directory found${NC}"
+        exit 0
+    fi
+    
+    echo "🔍 Checking for orphaned thumbnails..."
+    
+    # Find and remove orphaned thumbnails
+    CLEANED=0
+    for thumb in "$THUMB_DIR"/*_*.jpg; do
+        if [ -f "$thumb" ]; then
+            # Extract base name without size suffix
+            base=$(basename "$thumb" | sed -E 's/_(small|medium|large)\.jpg$//')
+            
+            # Check if original exists
+            if [ ! -f "$PHOTO_DIR/${base}.jpg" ] && [ ! -f "$PHOTO_DIR/${base}.jpeg" ] && [ ! -f "$PHOTO_DIR/${base}.png" ]; then
+                echo "  Removing orphaned: $(basename $thumb)"
+                rm "$thumb"
+                ((CLEANED++))
+            fi
+        fi
+    done
+    
+    if [ $CLEANED -gt 0 ]; then
+        echo -e "${GREEN}✓ Cleaned $CLEANED orphaned thumbnails${NC}"
+    else
+        echo -e "${GREEN}✓ No orphaned thumbnails found${NC}"
+    fi
+}
+
+photos() {
+    case "$1" in
+        update)
+            photos_update
+            ;;
+        regenerate)
+            photos_regenerate
+            ;;
+        stats)
+            photos_stats
+            ;;
+        clean)
+            photos_clean
+            ;;
+        order)
+            photos_order
+            ;;
+        *)
+            echo -e "${RED}Unknown photos command: $1${NC}"
+            echo "Available commands: update, regenerate, stats, clean, order"
+            exit 1
+            ;;
+    esac
+}
+
 # Serve the blog locally
 serve() {
     print_header "Serving blog locally..."
@@ -228,6 +390,14 @@ show_help() {
     echo "  build production   - Build the blog for production"
     echo "  deploy             - Deploy to GitHub Pages"
     echo "  clean              - Clean output directory"
+    echo ""
+    echo -e "${BLUE}Photography Commands:${NC}"
+    echo "  photos update      - Process new photos and update gallery"
+    echo "  photos regenerate  - Force regenerate all thumbnails"
+    echo "  photos stats       - Show gallery statistics"
+    echo "  photos clean       - Remove orphaned thumbnails"
+    echo "  photos order       - Set manual ordering for photos"
+    echo ""
     echo "  help               - Show this help message"
 }
 
@@ -250,6 +420,9 @@ case "$1" in
         ;;
     clean)
         clean
+        ;;
+    photos)
+        photos "$2"
         ;;
     help|*)
         show_help

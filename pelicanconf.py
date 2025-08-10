@@ -34,6 +34,7 @@ INSTAGRAM_USERNAME = "suicide_chewbacca"
 DEFAULT_PAGINATION = 5
 ABOUT_PAGE = "/pages/about.html"
 PROJECTS_PAGE = "/pages/projects.html"
+PHOTOGRAPHY_PAGE = "/pages/photography.html"
 SHOW_ARCHIVES = True
 
 # Uncomment following line if you want document-relative URLs when developing
@@ -56,7 +57,7 @@ LICENSE_NAME = "MIT"
 CURRENT_YEAR = datetime.datetime.now().year
 
 # Static files configuration
-STATIC_PATHS = ['images', 'extra/CNAME']
+STATIC_PATHS = ['images', 'images/photography/thumbnails', 'extra/CNAME']
 EXTRA_PATH_METADATA = {'extra/CNAME': {'path': 'CNAME'}}
 
 # Markdown extensions for anchor links

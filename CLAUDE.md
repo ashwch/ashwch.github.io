@@ -4,7 +4,29 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a personal blog built with Pelican (Python static site generator) and hosted on GitHub Pages at https://ashwch.com. The blog features a custom responsive theme with dark/light mode support.
+This is a personal blog built with Pelican (Python static site generator) and hosted on GitHub Pages at https://ashwch.com. The blog features a custom responsive theme with dark/light mode support and an AI-powered photography gallery.
+
+## Project Structure
+
+```
+.
+├── blog.sh                 # Main build/management script
+├── content/               # Blog content
+│   ├── articles/         # Blog posts
+│   ├── pages/           # Static pages
+│   └── images/          # Images including photography/
+├── docs/                  # Documentation
+│   └── workflows/        # Workflow guides
+├── scripts/              # Utility scripts
+│   ├── photo_manager.py  # AI-powered photo processor
+│   └── set_photo_order.py # Photo ordering tool
+├── theme/                # Custom Pelican theme
+│   ├── static/          # CSS, JS, fonts
+│   └── templates/       # Jinja2 templates
+├── output/              # Generated site (git-ignored)
+├── pelicanconf.py       # Development settings
+└── publishconf.py       # Production settings
+```
 
 ## Development Commands
 
@@ -74,10 +96,23 @@ Key configuration patterns:
 
 ## Development Workflow
 
+### Content Workflow
 1. Create/edit content in `content/articles/`
 2. Use `./blog.sh livereload` for development
 3. Theme changes in `theme/` directory auto-refresh
 4. Deploy with `./blog.sh deploy` when ready
+
+### Photography Workflow
+1. Drop photos in `content/images/photography/`
+2. Run `./blog.sh photos update` to process
+3. Gallery auto-updates with thumbnails and EXIF data
+4. Use `./blog.sh photos stats` to view statistics
+
+Photography commands:
+- `./blog.sh photos update` - Process new photos
+- `./blog.sh photos regenerate` - Force regenerate all
+- `./blog.sh photos stats` - Show gallery statistics
+- `./blog.sh photos clean` - Remove orphaned files
 
 ## Key Technical Details
 
