@@ -385,7 +385,8 @@ a:hover {
 }
 
 .article-content p {
-  margin-bottom: 1.75rem;
+  margin-top: 0;
+  margin-bottom: 1.25rem;
   text-align: justify;
   text-justify: inter-word;
 }
@@ -430,12 +431,22 @@ a:hover {
 }
 
 .article-content blockquote {
-  margin: 2rem 0;
+  margin-top: 0.75rem !important;
+  margin-bottom: 0.75rem !important;
   padding: 1rem 1.5rem;
   border-left: 4px solid var(--primary-color);
   background-color: var(--blockquote-bg);
   font-style: italic;
   transition: background-color 0.3s ease;
+}
+
+/* Override any Bootstrap blockquote styles */
+.article-content blockquote p {
+  margin-bottom: 0 !important;
+}
+
+.article-content blockquote p:last-child {
+  margin-bottom: 0 !important;
 }
 
 .article-content img {
@@ -699,6 +710,12 @@ code,
         <div class="tags-section">
           <h5>All Tags:</h5>
           <div class="tags-container">
+              <a href="https://ashwch.com/tag/system-design.html" class="tag ">system-design</a>
+              <a href="https://ashwch.com/tag/software-architecture.html" class="tag ">software-architecture</a>
+              <a href="https://ashwch.com/tag/database-design.html" class="tag ">database-design</a>
+              <a href="https://ashwch.com/tag/state-management.html" class="tag ">state-management</a>
+              <a href="https://ashwch.com/tag/performance.html" class="tag ">performance</a>
+              <a href="https://ashwch.com/tag/best-practices.html" class="tag ">best-practices</a>
               <a href="https://ashwch.com/tag/git-worktrees.html" class="tag ">git-worktrees</a>
               <a href="https://ashwch.com/tag/development-workflow.html" class="tag ">development-workflow</a>
               <a href="https://ashwch.com/tag/ai-tools.html" class="tag ">ai-tools</a>
@@ -782,7 +799,6 @@ code,
               <a href="https://ashwch.com/tag/github-copilot.html" class="tag ">github-copilot</a>
               <a href="https://ashwch.com/tag/interviewing.html" class="tag ">interviewing</a>
               <a href="https://ashwch.com/tag/lessons-learned.html" class="tag ">lessons-learned</a>
-              <a href="https://ashwch.com/tag/best-practices.html" class="tag ">best-practices</a>
               <a href="https://ashwch.com/tag/terminal.html" class="tag ">terminal</a>
               <a href="https://ashwch.com/tag/setup.html" class="tag ">setup</a>
               <a href="https://ashwch.com/tag/prezto.html" class="tag ">prezto</a>
@@ -802,6 +818,10 @@ code,
 
         <div class="tag-content">
           <ul class="archives-list">
+              <li class="d-flex justify-content-between align-items-center">
+                <h3><a href="https://ashwch.com/insights-from-everything-i-know-about-good-system-design.html">Insights from "Everything I Know About Good System Design"</a></h3>
+                <time>17.08.2025</time>
+              </li>
               <li class="d-flex justify-content-between align-items-center">
                 <h3><a href="https://ashwch.com/the-monolith-that-made-ai-actually-useful.html">The Monolith That Made AI Actually Useful</a></h3>
                 <time>07.08.2025</time>

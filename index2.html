@@ -385,7 +385,8 @@ a:hover {
 }
 
 .article-content p {
-  margin-bottom: 1.75rem;
+  margin-top: 0;
+  margin-bottom: 1.25rem;
   text-align: justify;
   text-justify: inter-word;
 }
@@ -430,12 +431,22 @@ a:hover {
 }
 
 .article-content blockquote {
-  margin: 2rem 0;
+  margin-top: 0.75rem !important;
+  margin-bottom: 0.75rem !important;
   padding: 1rem 1.5rem;
   border-left: 4px solid var(--primary-color);
   background-color: var(--blockquote-bg);
   font-style: italic;
   transition: background-color 0.3s ease;
+}
+
+/* Override any Bootstrap blockquote styles */
+.article-content blockquote p {
+  margin-bottom: 0 !important;
+}
+
+.article-content blockquote p:last-child {
+  margin-bottom: 0 !important;
 }
 
 .article-content img {
@@ -694,6 +705,59 @@ code,
         <article class="article-card">
           <div class="card-body">
             <h2 class="card-title">
+              <a href="https://ashwch.com/actionable-insights-jeff-bezos-dealbook-summit.html">Actionable Insights from Jeff Bezos' Interview at the DealBook Summit</a>
+            </h2>
+            
+            <div class="card-meta mb-3">
+              <time datetime="2025-03-10T00:00:00-04:00" class="card-date">
+                Mon 10 March 2025
+              </time>
+            </div>
+            
+            <div class="card-text">
+              <p>Actionable Insights from Jeff Bezos' Interview at the DealBook Summit.</p>
+            </div>
+            
+            <div class="mt-4">
+              <!-- Tags section -->
+              <div class="card-tags mb-3">
+                  <a href="https://ashwch.com/tag/jeff-bezos.html" class="tag">jeff-bezos</a>
+                  <a href="https://ashwch.com/tag/entrepreneurship.html" class="tag">entrepreneurship</a>
+                  <a href="https://ashwch.com/tag/long-term-thinking.html" class="tag">long-term-thinking</a>
+                  <a href="https://ashwch.com/tag/company-building.html" class="tag">company-building</a>
+                  <a href="https://ashwch.com/tag/ai-revolution.html" class="tag">ai-revolution</a>
+                  <a href="https://ashwch.com/tag/innovation.html" class="tag">innovation</a>
+                  <a href="https://ashwch.com/tag/curiosity.html" class="tag">curiosity</a>
+                  <a href="https://ashwch.com/tag/optimism.html" class="tag">optimism</a>
+                  <a href="https://ashwch.com/tag/opportunity-cost.html" class="tag">opportunity-cost</a>
+                  <a href="https://ashwch.com/tag/blue-origin.html" class="tag">blue-origin</a>
+                  <a href="https://ashwch.com/tag/amazon.html" class="tag">amazon</a>
+                  <a href="https://ashwch.com/tag/leadership.html" class="tag">leadership</a>
+                  <a href="https://ashwch.com/tag/decision-making.html" class="tag">decision-making</a>
+                  <a href="https://ashwch.com/tag/business-strategy.html" class="tag">business-strategy</a>
+                  <a href="https://ashwch.com/tag/meetings.html" class="tag">meetings</a>
+                  <a href="https://ashwch.com/tag/bezos-quotes.html" class="tag">bezos-quotes</a>
+                  <a href="https://ashwch.com/tag/charlie-munger.html" class="tag">charlie-munger</a>
+                  <a href="https://ashwch.com/tag/warren-buffett.html" class="tag">warren-buffett</a>
+                  <a href="https://ashwch.com/tag/technology.html" class="tag">technology</a>
+                  <a href="https://ashwch.com/tag/invention.html" class="tag">invention</a>
+                  <a href="https://ashwch.com/tag/future-thinking.html" class="tag">future-thinking</a>
+                  <a href="https://ashwch.com/tag/risk-taking.html" class="tag">risk-taking</a>
+                  <a href="https://ashwch.com/tag/wealth-creation.html" class="tag">wealth-creation</a>
+                  <a href="https://ashwch.com/tag/podcast.html" class="tag">podcast</a>
+                  <a href="https://ashwch.com/tag/founders-podcast.html" class="tag">founders-podcast</a>
+              </div>
+              
+              <!-- Read more button -->
+              <div>
+                <a href="https://ashwch.com/actionable-insights-jeff-bezos-dealbook-summit.html" class="read-more-link">Read more</a>
+              </div>
+            </div>
+          </div>
+        </article>
+        <article class="article-card">
+          <div class="card-body">
+            <h2 class="card-title">
               <a href="https://ashwch.com/30-60-90-set-up-your-engineering-hires-for-success.html">30-60-90 — Set Up Your Engineering Hires for Success</a>
             </h2>
             
@@ -830,39 +894,6 @@ code,
               <!-- Read more button -->
               <div>
                 <a href="https://ashwch.com/terminal-setup-using-zsh-prezto-starship.md.html" class="read-more-link">Read more</a>
-              </div>
-            </div>
-          </div>
-        </article>
-        <article class="article-card">
-          <div class="card-body">
-            <h2 class="card-title">
-              <a href="https://ashwch.com/become-a-pdb-power-user.html">Become a pdb power-user</a>
-            </h2>
-            
-            <div class="card-meta mb-3">
-              <time datetime="2016-11-08T00:00:00-05:00" class="card-date">
-                Tue 08 November 2016
-              </time>
-            </div>
-            
-            <div class="card-text">
-              <p>Become a pdb power-user</p>
-            </div>
-            
-            <div class="mt-4">
-              <!-- Tags section -->
-              <div class="card-tags mb-3">
-                  <a href="https://ashwch.com/tag/python.html" class="tag">python</a>
-                  <a href="https://ashwch.com/tag/programming.html" class="tag">programming</a>
-                  <a href="https://ashwch.com/tag/debugging.html" class="tag">debugging</a>
-                  <a href="https://ashwch.com/tag/pdb.html" class="tag">pdb</a>
-                  <a href="https://ashwch.com/tag/ipdb.html" class="tag">ipdb</a>
-              </div>
-              
-              <!-- Read more button -->
-              <div>
-                <a href="https://ashwch.com/become-a-pdb-power-user.html" class="read-more-link">Read more</a>
               </div>
             </div>
           </div>

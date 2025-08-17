@@ -385,7 +385,8 @@ a:hover {
 }
 
 .article-content p {
-  margin-bottom: 1.75rem;
+  margin-top: 0;
+  margin-bottom: 1.25rem;
   text-align: justify;
   text-justify: inter-word;
 }
@@ -430,12 +431,22 @@ a:hover {
 }
 
 .article-content blockquote {
-  margin: 2rem 0;
+  margin-top: 0.75rem !important;
+  margin-bottom: 0.75rem !important;
   padding: 1rem 1.5rem;
   border-left: 4px solid var(--primary-color);
   background-color: var(--blockquote-bg);
   font-style: italic;
   transition: background-color 0.3s ease;
+}
+
+/* Override any Bootstrap blockquote styles */
+.article-content blockquote p {
+  margin-bottom: 0 !important;
+}
+
+.article-content blockquote p:last-child {
+  margin-bottom: 0 !important;
 }
 
 .article-content img {
@@ -691,6 +702,40 @@ code,
   <div class="row">
     <div class="col-lg-8 mx-auto">
       <div class="index">
+        <article class="article-card">
+          <div class="card-body">
+            <h2 class="card-title">
+              <a href="https://ashwch.com/insights-from-everything-i-know-about-good-system-design.html">Insights from "Everything I Know About Good System Design"</a>
+            </h2>
+            
+            <div class="card-meta mb-3">
+              <time datetime="2025-08-17T00:00:00-04:00" class="card-date">
+                Sun 17 August 2025
+              </time>
+            </div>
+            
+            <div class="card-text">
+              <p>My thoughts and practical experiences applying Sean Goedecke's system design principles - from state management to database schemas, with real-world lessons learned over 10+ years.</p>
+            </div>
+            
+            <div class="mt-4">
+              <!-- Tags section -->
+              <div class="card-tags mb-3">
+                  <a href="https://ashwch.com/tag/system-design.html" class="tag">system-design</a>
+                  <a href="https://ashwch.com/tag/software-architecture.html" class="tag">software-architecture</a>
+                  <a href="https://ashwch.com/tag/database-design.html" class="tag">database-design</a>
+                  <a href="https://ashwch.com/tag/state-management.html" class="tag">state-management</a>
+                  <a href="https://ashwch.com/tag/performance.html" class="tag">performance</a>
+                  <a href="https://ashwch.com/tag/best-practices.html" class="tag">best-practices</a>
+              </div>
+              
+              <!-- Read more button -->
+              <div>
+                <a href="https://ashwch.com/insights-from-everything-i-know-about-good-system-design.html" class="read-more-link">Read more</a>
+              </div>
+            </div>
+          </div>
+        </article>
         <article class="article-card">
           <div class="card-body">
             <h2 class="card-title">

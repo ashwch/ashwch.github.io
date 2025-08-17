@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="author" content="Ashwini Chaudhary(Monty)">
         <meta name="description" content="">
-        <title>Tag: code-patterns | Ashwini's blog</title>
+        <title>Insights from "Everything I Know About Good System Design" | Ashwini's blog</title>
 
         <!-- Favicon -->
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
@@ -701,27 +701,280 @@ code,
 <div class="container">
   <div class="row">
     <div class="col-lg-8 mx-auto">
-      <article class="tag-page">
-        <header class="mb-5">
-          <h1>Tag: <span class="tag-highlight">code-patterns</span></h1>
+      <article class="post">
+        <header class="article-header">
+          <h1>Insights from "Everything I Know About Good System Design"</h1>
+          <time datetime="2025-08-17T00:00:00-04:00" pubdate>Sun 17 August 2025</time>
         </header>
 
-        <div class="tag-content">
-          <ul class="archives-list">
-              <li class="d-flex justify-content-between align-items-center">
-                <h3><a href="https://ashwch.com/managing-context-metadata-django-pghistory-solving-persistence-problem.html">Managing Context Metadata in Django-PGHistory: Solving the Persistence Problem</a></h3>
-                <time>02.04.2025</time>
-              </li>
-          </ul>
+        <div class="article-content">
+          <blockquote>
+<p>The hard part about software design is state. If you're storing any kind of information for any amount of time, you have a lot of tricky decisions to make about how you save, store and serve it.</p>
+</blockquote>
+<p>I recently read Sean Goedecke's excellent piece on <a href="https://www.seangoedecke.com/good-system-design/">system design principles</a>, and it crystallized many lessons I've learned over 10+ years of building systems. Here are my key takeaways and how they've played out in practice.</p>
+<hr>
+<h2 id="table-of-contents"><a class="toclink" href="#table-of-contents">Table of Contents</a></h2>
+<ol>
+<li><a href="#state-the-root-of-all-complexity">State: The Root of All Complexity</a></li>
+<li><a href="#database-design-get-the-schema-right">Database Design: Get the Schema Right</a></li>
+<li><a href="#query-efficiency-let-the-database-work">Query Efficiency: Let the Database Work</a></li>
+<li><a href="#background-processing-fast-vs-slow-operations">Background Processing: Fast vs. Slow Operations</a></li>
+<li><a href="#caching-choose-carefully">Caching: Choose Carefully</a></li>
+<li><a href="#hot-paths-zero-margin-for-error">Hot Paths: Zero Margin for Error</a></li>
+<li><a href="#logging-and-error-handling">Logging and Error Handling</a></li>
+<li><a href="#graceful-failure-the-hardest-problem">Graceful Failure: The Hardest Problem</a></li>
+<li><a href="#the-pattern-recognition">The Pattern Recognition</a></li>
+</ol>
+<hr>
+<h2 id="state-the-root-of-all-complexity"><a class="toclink" href="#state-the-root-of-all-complexity">State: The Root of All Complexity</a></h2>
+<p>State makes everything tricky. The more state we have, the harder it becomes to reason about our systems and keep track of responsibilities.</p>
+<p>On the flip side, statelessness relieves us of worrying about systems getting "stuck" or needing complex guardrails to prevent corruption.</p>
+<blockquote>
+<p>You should try and minimize the amount of stateful components in any system.</p>
+<p>What this means in practice is having one service that knows about the state - i.e. it talks to a database - and other services that do stateless things. Avoid having five different services all write to the same table.</p>
+</blockquote>
+<p>I'll admit this isn't something I actively think about - I might be doing it unconsciously in some cases and missing it entirely in others. But I want to keep an eye on this pattern in future projects.</p>
+<h2 id="database-design-get-the-schema-right"><a class="toclink" href="#database-design-get-the-schema-right">Database Design: Get the Schema Right</a></h2>
+<blockquote>
+<p>Schema design should be flexible, because once you have thousands or millions of records, it can be an enormous pain to change the schema.
+However, if you make it too flexible (e.g. by sticking everything in a "value" JSON column, or using "keys" and "values" tables to track arbitrary data) you load a ton of complexity into the application code (and likely buy some very awkward performance constraints).</p>
+</blockquote>
+<p>I've always spent significant time on database design when building new systems, and it's consistently paid off. The JSON trap is real - while convenient initially, JSON fields create several problems:</p>
+<ul>
+<li>Hard to query effectively</li>
+<li>Difficult to enforce schemas</li>
+<li>Serialization/deserialization overhead</li>
+<li>Network transfer costs for large payloads</li>
+<li>Additional validation complexity</li>
+</ul>
+<p>That said, I've found JSON fields useful for storing external API payloads and validation errors - places where the structure truly varies.</p>
+<h3 id="index-strategy"><a class="toclink" href="#index-strategy">Index Strategy</a></h3>
+<blockquote>
+<p>If you expect your table to ever be more than a few rows, you should put indexes on it.</p>
+</blockquote>
+<p>I think the author didn't intend it, but <strong>index as you go</strong>. If your table isn't showing slow queries yet, don't index prematurely. You can always add indices later and optimize them based on actual query patterns.</p>
+<p>I'm a big fan of PostgreSQL's <code>explain analyze</code> - and with AI tools, analyzing query plans has become even more accessible.</p>
+<h2 id="query-efficiency-let-the-database-work"><a class="toclink" href="#query-efficiency-let-the-database-work">Query Efficiency: Let the Database Work</a></h2>
+<blockquote>
+<p>When querying the database, <em>query the database</em>. It's almost always more efficient to get the database to do the work than to do it yourself. For instance, if you need data from multiple tables, <code>JOIN</code> them instead of making separate queries and stitching them together in-memory. Particularly if you're using an ORM, beware accidentally making queries in an inner loop. That's an easy way to turn a <code>select id, name from table</code> to a <code>select id from table</code> and a hundred <code>select name from table where id = ?</code>.</p>
+</blockquote>
+<p>As a longtime Django user who's been reviewing Django code for 10+ years, I've seen the N+1 query problem countless times. It's crucial to educate your team on ORM fundamentals and maintain documentation of good vs. bad practices.</p>
+<p>Having a central document helps during code reviews - it's hard to repeatedly explain the "why" with the same depth. A shared resource makes linking to best practices much easier.</p>
+<h2 id="background-processing-fast-vs-slow-operations"><a class="toclink" href="#background-processing-fast-vs-slow-operations">Background Processing: Fast vs. Slow Operations</a></h2>
+<p>The goal is a fast request-response cycle for the best user experience. Operations that can't be completed quickly should move to background processing, with users notified when complete.</p>
+<p>This seems obvious, but determining what belongs in the background requires careful consideration of user expectations and system constraints.</p>
+<h2 id="caching-choose-carefully"><a class="toclink" href="#caching-choose-carefully">Caching: Choose Carefully</a></h2>
+<p>Be selective about what and when to cache. Otherwise, you'll face the much harder problem of cache invalidation. The best solution is reducing the number of places using cache.</p>
+<p>Cache invalidation remains one of the hardest problems in computer science for good reason.</p>
+<h2 id="hot-paths-zero-margin-for-error"><a class="toclink" href="#hot-paths-zero-margin-for-error">Hot Paths: Zero Margin for Error</a></h2>
+<p>I define hot paths as system components where downtime significantly affects our SLA - critical numbers, authentication, or features that directly impact business and users.</p>
+<p>These systems require extra care:
+- World-class unit tests and coverage
+- Attention to unhappy paths
+- More conservative change management</p>
+<p>Take Instagram: it's more important for signed-in users to see their feed than for signup to work perfectly.</p>
+<h2 id="logging-and-error-handling"><a class="toclink" href="#logging-and-error-handling">Logging and Error Handling</a></h2>
+<p>Beyond traditional logging, we utilize logs in unit tests to ensure they're not removed carelessly during updates. This makes log changes visible during code review.</p>
+<p>We also return custom error codes with responses - they help identify issues without log diving and assist both customers and developers debugging problems.</p>
+<p>For critical errors sent to monitoring tools like Sentry, we use custom exception names to quickly spot issue locations based on error messages.</p>
+<h2 id="graceful-failure-the-hardest-problem"><a class="toclink" href="#graceful-failure-the-hardest-problem">Graceful Failure: The Hardest Problem</a></h2>
+<p>This ties back to state management. Building resilient state machines requires balancing when to fail, retry frequency, state resets, and maintaining manageable state complexity.</p>
+<p>It's one of the trickiest aspects of system design - fighting between reliability and simplicity.</p>
+<h2 id="the-pattern-recognition"><a class="toclink" href="#the-pattern-recognition">The Pattern Recognition</a></h2>
+<p>After years of building systems, these principles become pattern recognition. The key is being intentional about applying them rather than hoping they happen by accident.</p>
+<p>Sean's post does an excellent job distilling complex system design into actionable principles. The challenge is remembering to apply them when you're deep in implementation details.</p>
+<hr>
+<p>What patterns have you noticed in your own system design work? I'd love to hear about principles that have served you well over time.</p>
+        </div>
+
+        <div class="article-meta">
+            <div class="tags-section">
+              <h5>Tags:</h5>
+              <div class="tags-container">
+                  <a href="https://ashwch.com/tag/system-design.html" class="tag">system-design</a>
+                  <a href="https://ashwch.com/tag/software-architecture.html" class="tag">software-architecture</a>
+                  <a href="https://ashwch.com/tag/database-design.html" class="tag">database-design</a>
+                  <a href="https://ashwch.com/tag/state-management.html" class="tag">state-management</a>
+                  <a href="https://ashwch.com/tag/performance.html" class="tag">performance</a>
+                  <a href="https://ashwch.com/tag/best-practices.html" class="tag">best-practices</a>
+              </div>
+            </div>
           
-          <div class="mt-5">
-            <a href="https://ashwch.com/archives.html" class="btn btn-outline-primary">Back to Archives</a>
+          <div class="back-button-container">
+            <a href="https://ashwch.com" class="back-to-posts">
+              <i class="fas fa-arrow-left"></i> Back to Posts
+            </a>
           </div>
         </div>
       </article>
+
+<section class="comments mt-5">
+  <div class="card">
+    <div class="card-header">
+      <h3 class="mb-0">Comments</h3>
+    </div>
+    <div class="card-body">
+      <div id="disqus_thread" aria-live="polite">
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+      <script type="text/javascript">
+        var disqus_shortname = 'ashwch';
+        var disqus_identifier = '/insights-from-everything-i-know-about-good-system-design.html';
+        var disqus_url = 'https://ashwch.com/insights-from-everything-i-know-about-good-system-design.html';
+        var disqus_title = 'Insights from "Everything I Know About Good System Design"';
+        (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = "//" + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+    </div>
+  </div>
+</section>
     </div>
   </div>
 </div>
+
+<style type="text/css">
+/* Jupyter notebook styling */
+.jp-Cell {
+  max-width: 100%;
+  margin-bottom: 1.5rem;
+}
+
+.jp-Cell-inputWrapper,
+.jp-Cell-outputWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.jp-InputPrompt, 
+.jp-OutputPrompt {
+  font-family: monospace;
+  font-size: 0.9rem;
+  color: #888;
+  width: 4.5rem;
+  padding-right: 0.5rem;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.jp-CodeCell .jp-Cell-inputArea {
+  display: flex;
+  background-color: #f6f8fa;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+}
+
+.jp-CodeCell .jp-Cell-outputArea {
+  display: flex;
+  margin-top: 0.5rem;
+}
+
+.jp-CodeMirror {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  padding: 0.5rem;
+  width: 100%;
+}
+
+.jp-OutputArea-output {
+  padding: 0.5rem;
+  width: 100%;
+  overflow-x: auto;
+}
+
+.jp-RenderedMarkdown {
+  margin: 0;
+}
+
+/* Pandas DataFrames */
+table.dataframe {
+  border-collapse: collapse;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin: 1rem 0;
+  width: 100%;
+}
+
+.dataframe thead th {
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  padding: 0.5rem;
+  text-align: left;
+}
+
+.dataframe tbody td {
+  border: 1px solid #ddd;
+  padding: 0.5rem;
+  text-align: left;
+}
+
+.dataframe tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Matplotlib figures */
+.jp-RenderedImage img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1rem auto;
+}
+
+/* Hide cell execution counts */
+.prompt {
+  display: none;
+}
+
+/* Cell borders */
+div.cell {
+  border: none;
+  margin-bottom: 1.5rem;
+}
+
+div.text_cell_render {
+  padding: 0;
+}
+
+/* Code highlighting */
+pre code {
+  background-color: inherit;
+  padding: 0;
+}
+
+/* Jupyter code blocks */
+div.input_area {
+  background-color: #f6f8fa;
+  border-radius: 6px;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+/* Mobile optimization */
+@media (max-width: 768px) {
+  .jp-InputPrompt, 
+  .jp-OutputPrompt {
+    width: 3rem;
+    font-size: 0.8rem;
+  }
+  
+  .jp-CodeMirror,
+  .jp-OutputArea-output {
+    font-size: 0.8rem;
+  }
+  
+  table.dataframe {
+    font-size: 0.8rem;
+  }
+  
+  .dataframe thead th,
+  .dataframe tbody td {
+    padding: 0.3rem;
+  }
+}</style>
         </main>
 
         <footer class="site-footer mt-5 py-4 bg-light">
