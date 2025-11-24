@@ -751,6 +751,8 @@ code,
 <li>It exercises almost every feature in Optimo, often before customers see it.</li>
 <li>It is the easiest tenant for us to accidentally treat as "less important", because we are so close to it.</li>
 </ul>
+<p>This pattern is not unique to us. GitHub runs on GitHub, Slack lives inside Slack, Stripe engineers debug payments using Stripe. Claude Code is another good example: a lot of what makes it feel sharp comes from Anthropic dogfooding it heavily, and we lean on it in our own repos too. Using your own tools at full blast is one of the fastest ways to find sharp edges before customers do.</p>
+<p>Optimo is the same. Our own org is where we try new workflows, push edge cases and shortcut a lot of “demo tenant” friction. That is great for product quality, but it also means the easiest tenant for us to poke at is the one tenant we should be most careful with.</p>
 <p>We wanted to set a very simple rule:</p>
 <blockquote>
 <p>If a control is good enough for a sensitive customer, it should apply to Diversio too.</p>
@@ -1052,7 +1054,7 @@ open_ecs_exec_shell<span class="w"> </span><span class="s2">&quot;</span><span c
 <p>These are good problems to have. They are the kind of problems you get to think about only after you have built the basics.</p>
 <hr>
 <h2 id="the-bottom-line"><a class="toclink" href="#the-bottom-line">The bottom line</a></h2>
-<p>Letting your own company be a tenant in your own product is a great dogfooding story and a serious security challenge.</p>
+<p>Letting your own company be a tenant in your own product is a great dogfooding story: your own team runs real workflows through the product every day. It is also a serious security challenge.</p>
 <p>Our approach at Diversio has been to:</p>
 <ul>
 <li>Treat the Diversio org as the most demanding customer we have.</li>

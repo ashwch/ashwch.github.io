@@ -42,6 +42,8 @@
 &lt;li&gt;It exercises almost every feature in Optimo, often before customers see it.&lt;/li&gt;
 &lt;li&gt;It is the easiest tenant for us to accidentally treat as "less important", because we are so close to it.&lt;/li&gt;
 &lt;/ul&gt;
+&lt;p&gt;This pattern is not unique to us. GitHub runs on GitHub, Slack lives inside Slack, Stripe engineers debug payments using Stripe. Claude Code is another good example: a lot of what makes it feel sharp comes from Anthropic dogfooding it heavily, and we lean on it in our own repos too. Using your own tools at full blast is one of the fastest ways to find sharp edges before customers do.&lt;/p&gt;
+&lt;p&gt;Optimo is the same. Our own org is where we try new workflows, push edge cases and shortcut a lot of “demo tenant” friction. That is great for product quality, but it also means the easiest tenant for us to poke at is the one tenant we should be most careful with.&lt;/p&gt;
 &lt;p&gt;We wanted to set a very simple rule:&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;If a control is good enough for a sensitive customer, it should apply to Diversio too.&lt;/p&gt;
@@ -343,7 +345,7 @@ open_ecs_exec_shell&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&a
 &lt;p&gt;These are good problems to have. They are the kind of problems you get to think about only after you have built the basics.&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2 id="the-bottom-line"&gt;&lt;a class="toclink" href="#the-bottom-line"&gt;The bottom line&lt;/a&gt;&lt;/h2&gt;
-&lt;p&gt;Letting your own company be a tenant in your own product is a great dogfooding story and a serious security challenge.&lt;/p&gt;
+&lt;p&gt;Letting your own company be a tenant in your own product is a great dogfooding story: your own team runs real workflows through the product every day. It is also a serious security challenge.&lt;/p&gt;
 &lt;p&gt;Our approach at Diversio has been to:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Treat the Diversio org as the most demanding customer we have.&lt;/li&gt;
