@@ -1,0 +1,1345 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="author" content="Ashwini Chaudhary(Monty)">
+        <meta name="description" content="">
+        <title>Protecting Our Own Tenant in a Multi-Tenant SaaS | Ashwini's blog</title>
+
+        <!-- Favicon -->
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/favicon.ico" type="image/x-icon">
+        
+        <!-- RSS Feed -->
+        <link rel="alternate" type="application/atom+xml" title="Ashwini's blog blog atom feed" href="/feeds/all.atom.xml" />
+        
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+        
+        <!-- Bootstrap 5 -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        
+        <!-- Font Awesome for icons -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        
+        <!-- Icons CSS -->
+        <link rel="stylesheet" type="text/css" href="/theme/css/icons.css"/>
+        
+        <!-- Code highlighting -->
+        <style>.highlight .hll { background-color: #ffffcc }
+.highlight .c { color: #60a0b0; font-style: italic } /* Comment */
+.highlight .err { border: 1px solid #FF0000 } /* Error */
+.highlight .k { color: #007020; font-weight: bold } /* Keyword */
+.highlight .o { color: #666666 } /* Operator */
+.highlight .cm { color: #60a0b0; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #007020 } /* Comment.Preproc */
+.highlight .c1 { color: #60a0b0; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #60a0b0; background-color: #fff0f0 } /* Comment.Special */
+.highlight .gd { color: #A00000 } /* Generic.Deleted */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #FF0000 } /* Generic.Error */
+.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #00A000 } /* Generic.Inserted */
+.highlight .go { color: #808080 } /* Generic.Output */
+.highlight .gp { color: #c65d09; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight .gt { color: #0040D0 } /* Generic.Traceback */
+.highlight .kc { color: #007020; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #007020; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #007020; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #007020 } /* Keyword.Pseudo */
+.highlight .kr { color: #007020; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #902000 } /* Keyword.Type */
+.highlight .m { color: #40a070 } /* Literal.Number */
+.highlight .s { color: #4070a0 } /* Literal.String */
+.highlight .na { color: #4070a0 } /* Name.Attribute */
+.highlight .nb { color: #007020 } /* Name.Builtin */
+.highlight .nc { color: #0e84b5; font-weight: bold } /* Name.Class */
+.highlight .no { color: #60add5 } /* Name.Constant */
+.highlight .nd { color: #555555; font-weight: bold } /* Name.Decorator */
+.highlight .ni { color: #d55537; font-weight: bold } /* Name.Entity */
+.highlight .ne { color: #007020 } /* Name.Exception */
+.highlight .nf { color: #06287e } /* Name.Function */
+.highlight .nl { color: #002070; font-weight: bold } /* Name.Label */
+.highlight .nn { color: #0e84b5; font-weight: bold } /* Name.Namespace */
+.highlight .nt { color: #062873; font-weight: bold } /* Name.Tag */
+.highlight .nv { color: #bb60d5 } /* Name.Variable */
+.highlight .ow { color: #007020; font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mf { color: #40a070 } /* Literal.Number.Float */
+.highlight .mh { color: #40a070 } /* Literal.Number.Hex */
+.highlight .mi { color: #40a070 } /* Literal.Number.Integer */
+.highlight .mo { color: #40a070 } /* Literal.Number.Oct */
+.highlight .sb { color: #4070a0 } /* Literal.String.Backtick */
+.highlight .sc { color: #4070a0 } /* Literal.String.Char */
+.highlight .sd { color: #4070a0; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #4070a0 } /* Literal.String.Double */
+.highlight .se { color: #4070a0; font-weight: bold } /* Literal.String.Escape */
+.highlight .sh { color: #4070a0 } /* Literal.String.Heredoc */
+.highlight .si { color: #70a0d0; font-style: italic } /* Literal.String.Interpol */
+.highlight .sx { color: #c65d09 } /* Literal.String.Other */
+.highlight .sr { color: #235388 } /* Literal.String.Regex */
+.highlight .s1 { color: #4070a0 } /* Literal.String.Single */
+.highlight .ss { color: #517918 } /* Literal.String.Symbol */
+.highlight .bp { color: #007020 } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #bb60d5 } /* Name.Variable.Class */
+.highlight .vg { color: #bb60d5 } /* Name.Variable.Global */
+.highlight .vi { color: #bb60d5 } /* Name.Variable.Instance */
+.highlight .il { color: #40a070 } /* Literal.Number.Integer.Long */</style>
+        
+        <!-- Main CSS -->
+        <style>/* Base styles */
+:root {
+  /* Light theme (default) */
+  --primary-color: #3b82f6;
+  --primary-dark: #2563eb;
+  --secondary-color: #6366f1;
+  --text-color: #1f2937;
+  --text-light: #4b5563;
+  --background-color: #ffffff;
+  --background-alt: #f9fafb;
+  --border-color: #e5e7eb;
+  --code-bg: #f3f4f6;
+  --link-hover: #1d4ed8;
+  --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --navbar-bg: #ffffff;
+  --navbar-color: #4b5563;
+  --footer-bg: #f8f9fa;
+  --footer-color: #6c757d;
+  --card-bg: #ffffff;
+  --blockquote-bg: #f9fafb;
+}
+
+/* Dark theme */
+[data-theme="dark"] {
+  --primary-color: #60a5fa;
+  --primary-dark: #3b82f6;
+  --secondary-color: #818cf8;
+  --text-color: #f3f4f6;
+  --text-light: #d1d5db;
+  --background-color: #111827;
+  --background-alt: #1f2937;
+  --border-color: #374151;
+  --code-bg: #282c34;
+  --link-hover: #93c5fd;
+  --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+  --navbar-bg: #111827;
+  --navbar-color: #d1d5db;
+  --footer-bg: #1f2937;
+  --footer-color: #9ca3af;
+  --card-bg: #1f2937;
+  --blockquote-bg: #111827;
+}
+
+/* Typography Variables */
+:root {
+  --font-heading: 'Poppins', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-body: 'Source Sans 3', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', 'Monaco', 'Inconsolata', monospace;
+}
+
+body {
+  font-family: var(--font-body);
+  font-weight: 400;
+  line-height: 1.7;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  transition: color 0.3s ease, background-color 0.3s ease;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+a:hover {
+  color: var(--link-hover);
+  text-decoration: underline;
+}
+
+/* Layout */
+.site-content {
+  flex: 1 0 auto;
+}
+
+.container {
+  max-width: 1200px;
+  padding: 0 1.5rem;
+}
+
+/* Header */
+.site-header {
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--navbar-bg);
+  transition: background-color 0.3s ease;
+}
+
+.navbar-brand {
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--text-color);
+  transition: color 0.3s ease;
+}
+
+.navbar-light .navbar-nav .nav-link {
+  color: var(--navbar-color);
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  transition: color 0.3s ease;
+}
+
+.navbar-light .navbar-nav .nav-link:hover {
+  color: var(--primary-color);
+}
+
+/* Theme toggle button styling */
+#theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid var(--border-color);
+  background-color: var(--background-alt);
+  color: var(--text-color);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#theme-toggle:hover {
+  transform: rotate(15deg);
+  background-color: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+/* Article Cards */
+.article-card {
+  background: var(--card-bg);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  margin-bottom: 2.5rem;
+  box-shadow: var(--card-shadow);
+  transition: transform 0.2s, box-shadow 0.2s, background-color 0.3s ease;
+}
+
+.article-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.article-card .card-body {
+  padding: 1.5rem;
+}
+
+.article-card .card-title {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.01em;
+}
+
+.article-card .card-title a {
+  color: var(--text-color);
+  transition: color 0.2s;
+}
+
+.article-card .card-title a:hover {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+.article-card .card-text {
+  color: var(--text-light);
+  margin-bottom: 1rem;
+}
+
+.article-card .card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.875rem;
+  color: var(--text-light);
+}
+
+.article-card .card-date {
+  color: var(--text-light);
+}
+
+/* Tags container styling */
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Tag styling */
+.tag {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  background: var(--background-alt);
+  color: var(--text-light);
+  border-radius: 9999px;
+  transition: all 0.2s;
+}
+
+.tag:hover {
+  background: var(--primary-color);
+  color: white;
+  text-decoration: none;
+}
+
+/* Tag with active state */
+.tag.active {
+  background: var(--primary-color);
+  color: white;
+}
+
+/* Back to Posts button styling */
+.back-to-posts {
+  display: inline-block;
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 0.5rem 1rem;
+  color: var(--primary-color);
+  background-color: transparent;
+  border: 1px solid var(--primary-color);
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.back-to-posts:hover {
+  background-color: var(--primary-color);
+  color: white;
+  text-decoration: none;
+}
+
+/* Icon for back button */
+.back-to-posts i {
+  margin-right: 0.25rem;
+}
+
+/* Clear separation between tags and back button */
+.tags-section {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* Container for back button */
+.back-button-container {
+  margin-bottom: 2rem;
+}
+
+/* Article page */
+.article-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.article-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-color);
+}
+
+.article-header time {
+  color: var(--text-light);
+  font-size: 0.9rem;
+}
+
+.article-content {
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+  line-height: 1.85;
+  font-weight: 400;
+  color: var(--text-color);
+}
+
+.article-content p {
+  margin-top: 0;
+  margin-bottom: 1.25rem;
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+.article-content h2 {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 700;
+  margin-top: 3rem;
+  margin-bottom: 1.25rem;
+  color: var(--text-color);
+  letter-spacing: -0.02em;
+}
+
+.article-content h3 {
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+  letter-spacing: -0.01em;
+}
+
+.article-content h4 {
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+}
+
+.article-content ul, 
+.article-content ol {
+  margin-bottom: 1.5rem;
+  padding-left: 1.5rem;
+}
+
+.article-content li {
+  margin-bottom: 0.5rem;
+}
+
+.article-content blockquote {
+  margin-top: 0.75rem !important;
+  margin-bottom: 0.75rem !important;
+  padding: 1rem 1.5rem;
+  border-left: 4px solid var(--primary-color);
+  background-color: var(--blockquote-bg);
+  font-style: italic;
+  transition: background-color 0.3s ease;
+}
+
+/* Override any Bootstrap blockquote styles */
+.article-content blockquote p {
+  margin-bottom: 0 !important;
+}
+
+.article-content blockquote p:last-child {
+  margin-bottom: 0 !important;
+}
+
+.article-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  margin: 1.5rem 0;
+}
+
+.article-content pre {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background-color: var(--code-bg);
+  overflow-x: auto;
+  font-size: 0.9rem;
+}
+
+.article-content code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  font-weight: 500;
+  padding: 0.2em 0.4em;
+  border-radius: 0.25rem;
+  background-color: var(--code-bg);
+}
+
+.article-content pre code {
+  padding: 0;
+  background-color: transparent;
+}
+
+/* Article Meta */
+.article-meta {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.read-more-link {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: var(--primary-color);
+  color: white;
+  font-weight: 500;
+  border-radius: 0.25rem;
+  transition: background-color 0.2s;
+}
+
+.read-more-link:hover {
+  background-color: var(--primary-dark);
+  text-decoration: none;
+  color: white;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  margin: 3rem 0;
+}
+
+.pagination-prev,
+.pagination-next {
+  flex: 0 0 auto;
+}
+
+.pagination a {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--primary-color);
+  border-radius: 0.25rem;
+  color: var(--primary-color);
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.pagination a:hover {
+  background-color: var(--primary-color);
+  color: white;
+  text-decoration: none;
+}
+
+/* Archives & Tags */
+.archives-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.archives-list li {
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.archives-list li:last-child {
+  border-bottom: none;
+}
+
+.archives-list h3 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.archives-list time {
+  color: var(--text-light);
+  font-size: 0.875rem;
+}
+
+/* About page */
+.about-header {
+  margin-bottom: 2rem;
+}
+
+.social-links ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 0;
+  margin: 1rem 0;
+  list-style: none;
+}
+
+.social-links a {
+  color: var(--text-light);
+  transition: color 0.2s;
+}
+
+.social-links a:hover {
+  color: var(--primary-color);
+}
+
+/* Footer */
+.site-footer {
+  border-top: 1px solid var(--border-color);
+  font-size: 0.9rem;
+  background-color: var(--footer-bg);
+  color: var(--footer-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.site-footer a {
+  color: var(--text-color);
+  transition: color 0.3s ease;
+}
+
+.site-footer a:hover {
+  color: var(--primary-color);
+}
+
+/* Theme Transition Effects */
+.article-header, 
+.article-content,
+.article-meta,
+.card-body,
+.card-title a,
+.card-text,
+.card-meta,
+.tag,
+pre,
+code,
+.read-more-link,
+.pagination a {
+  transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Style adjustments for the dark theme */
+[data-theme="dark"] .navbar-light {
+  background-color: var(--navbar-bg) !important;
+}
+
+[data-theme="dark"] .navbar-light .navbar-nav .nav-link,
+[data-theme="dark"] .navbar-brand {
+  color: var(--text-color);
+}
+
+[data-theme="dark"] .navbar-light .navbar-toggler-icon {
+  filter: invert(1);
+}
+
+[data-theme="dark"] .bg-light {
+  background-color: var(--background-alt) !important;
+}
+
+[data-theme="dark"] .bg-white {
+  background-color: var(--background-color) !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .article-header h1 {
+    font-size: 2rem;
+  }
+  
+  .article-content h2 {
+    font-size: 1.5rem;
+  }
+  
+  .article-content h3 {
+    font-size: 1.3rem;
+  }
+  
+  .article-card .card-title {
+    font-size: 1.3rem;
+  }
+  
+  .social-links ul {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .pagination {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+  }
+}</style>
+
+
+    </head>
+
+    <body>
+        <header class="site-header shadow-sm">
+            <nav class="navbar navbar-expand-lg navbar-light bg-white">
+                <div class="container">
+                    <a class="navbar-brand fw-bold" href="/">Ashwini's blog</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav ms-auto">
+                                <li class="nav-item"><a class="nav-link" href="/pages/about.html" title="About">About</a></li>
+                                <li class="nav-item"><a class="nav-link" href="/pages/projects.html" title="Projects">Projects</a></li>
+                                <li class="nav-item"><a class="nav-link" href="/pages/photography.html" title="Photography">Photography</a></li>
+                                <li class="nav-item"><a class="nav-link" href="/archives.html" title="Archive">Archive</a></li>
+                                <li class="nav-item"><a class="nav-link icon-rss" href="/feeds/all.atom.xml" title="Ashwini's blog RSS feed" rel="me"></a></li>
+                            <li class="nav-item">
+                                <button id="theme-toggle" class="btn btn-sm btn-outline-secondary ms-2" aria-label="Toggle theme">
+                                    <span id="theme-toggle-light" class="d-none">☀️</span>
+                                    <span id="theme-toggle-dark" class="d-none">🌙</span>
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <main class="site-content my-4">
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 mx-auto">
+      <article class="post">
+        <header class="article-header">
+          <h1>Protecting Our Own Tenant in a Multi-Tenant SaaS</h1>
+          <time datetime="2025-11-24T00:00:00-05:00" pubdate>Mon 24 November 2025</time>
+        </header>
+
+        <div class="article-content">
+          <blockquote>
+<p>If your own company is a tenant in your own product, it should be the hardest one to access, not the easiest.</p>
+</blockquote>
+<p>At Diversio, one of the products we build is <a href="https://optimoteams.com">Optimo</a>, a multi-tenant SaaS that helps HR and people teams work with sensitive employee and organizational data.</p>
+<p>Most Optimo organizations belong to customers.</p>
+<p>One belongs to us.</p>
+<p>That internal Diversio org inside Optimo holds our own employee and company data. It lives in the same production cluster as customer tenants, and our engineers and Client Success team use the same tools to support both.</p>
+<p>If we were not careful, those tools would give engineers a kind of permanent "god mode" over our own tenant. We did not want that. We wanted everyone at Diversio to be comfortable with how their data is handled, while still letting a very small engineering team move quickly for customers.</p>
+<p>This post walks through how we got there.</p>
+<hr>
+<h2 id="table-of-contents"><a class="toclink" href="#table-of-contents">Table of Contents</a></h2>
+<ol>
+<li><a href="#what-youll-learn">What you'll learn</a></li>
+<li><a href="#why-our-own-org-is-special">Why our own org is special</a></li>
+<li><a href="#layer-1-an-org-scoped-admin-mixin">Layer 1: An org-scoped admin mixin</a></li>
+<li><a href="#layer-2-a-totp-gated-workflow-for-sensitive-access">Layer 2: A TOTP-gated workflow for sensitive access</a></li>
+<li><a href="#layer-3-postgres-rls-and-the-sensitive-flag">Layer 3: Postgres RLS and the sensitive flag</a></li>
+<li><a href="#layer-4-iam-and-support-shells">Layer 4: IAM and support shells</a></li>
+<li><a href="#automation-and-a-five-person-team">Automation and a five-person team</a></li>
+<li><a href="#gaps-and-future-work">Gaps and future work</a></li>
+<li><a href="#the-bottom-line">The bottom line</a></li>
+</ol>
+<hr>
+<h2 id="what-youll-learn"><a class="toclink" href="#what-youll-learn">What you'll learn</a></h2>
+<p>By the end of this post, you will see how to:</p>
+<ul>
+<li>Treat your own company's tenant as the hardest one to reach in a multi-tenant SaaS.</li>
+<li>Use an org-scoped admin mixin to get "row-level security" at the application layer.</li>
+<li>Wrap sensitive access behind a small TOTP-gated workflow instead of ad-hoc toggles.</li>
+<li>Lean on Postgres Row-Level Security (RLS) and a single support-shell role to protect production data.</li>
+<li>Use CI to keep your RLS and access model from silently drifting.</li>
+<li>Get all of this working with a five-person engineering team without grinding development to a halt.</li>
+</ul>
+<p>If you are building a multi-tenant application and your own company is one of the tenants, this post gives you a concrete set of patterns you can reuse or adapt.</p>
+<hr>
+<h2 id="why-our-own-org-is-special"><a class="toclink" href="#why-our-own-org-is-special">Why our own org is special</a></h2>
+<p>When we say "our own org", we mean the internal Diversio organization that lives alongside customer orgs inside Optimo.</p>
+<p>It is special for a few reasons:</p>
+<ul>
+<li>It includes our own employee data and internal company information.</li>
+<li>It exercises almost every feature in Optimo, often before customers see it.</li>
+<li>It is the easiest tenant for us to accidentally treat as "less important", because we are so close to it.</li>
+</ul>
+<p>We wanted to set a very simple rule:</p>
+<blockquote>
+<p>If a control is good enough for a sensitive customer, it should apply to Diversio too.</p>
+</blockquote>
+<p>At the same time, we did not want a giant "break everything" toggle in one admin screen that quietly bypassed all of this for engineers on call.</p>
+<p>The result is a layered design:</p>
+<ol>
+<li>A clear notion of which organizations each admin may see at the application layer.</li>
+<li>A small, TOTP-gated workflow to grant and remove sensitive access.</li>
+<li>Postgres RLS that treats sensitive orgs as a first-class concept.</li>
+<li>IAM and support shells that default engineers into safe roles.</li>
+<li>Automation that keeps all of these in sync as the system changes.</li>
+</ol>
+<p>The rest of this post goes layer by layer.</p>
+<hr>
+<h2 id="layer-1-an-org-scoped-admin-mixin"><a class="toclink" href="#layer-1-an-org-scoped-admin-mixin">Layer 1: An org-scoped admin mixin</a></h2>
+<p>Most internal users at Diversio interact with data through Django admin and a handful of internal consoles. That is where we started.</p>
+<p>We already had the usual multi-tenant pieces:</p>
+<ul>
+<li>An <code>Organization</code> model.</li>
+<li>Internal staff users who can act on behalf of organizations.</li>
+<li>A boolean flag that means "this organization is sensitive".</li>
+</ul>
+<p>The problem was that each Django admin class had to remember to do the right thing. It is easy to get one view right, then forget the filter on another.</p>
+<p>So we pulled the logic into a reusable organization-scoped admin mixin (internally, <code>OptimoOrgScopedAdminMixin</code>).</p>
+<p>At a high level, every staff user has:</p>
+<ul>
+<li>A global profile (are they active staff, what kind of staff).</li>
+<li>Per-org assignments (which customers or regions they are responsible for).</li>
+<li>A flag indicating whether they are allowed to see any sensitive orgs at all.</li>
+</ul>
+<p>A central helper answers a single question:</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_allowed_org_ids</span><span class="p">(</span><span class="n">user</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">set</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+    <span class="c1"># Look at profile, per-org permissions and the sensitive flag.</span>
+    <span class="c1"># Return the set of organization IDs this user may see.</span>
+    <span class="o">...</span>
+</code></pre></div>
+
+<p>The admin mixin uses this helper to:</p>
+<ul>
+<li>Filter list views down to the organizations you are allowed to see.</li>
+<li>Enforce object-level permissions ("can I view, change or delete this row").</li>
+<li>Narrow foreign keys and dropdowns so you cannot accidentally link records to orgs you do not have access to.</li>
+</ul>
+<p>A simplified version looks like this:</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">OrgScopedAdmin</span><span class="p">(</span><span class="n">ModelAdmin</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">get_queryset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="n">qs</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_queryset</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+        <span class="n">allowed</span> <span class="o">=</span> <span class="n">get_allowed_org_ids</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">qs</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">organization_id__in</span><span class="o">=</span><span class="n">allowed</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">has_view_permission</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">obj</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">base</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">has_view_permission</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">base</span> <span class="ow">or</span> <span class="n">obj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">base</span>
+        <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">organization_id</span> <span class="ow">in</span> <span class="n">get_allowed_org_ids</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Two important choices here:</p>
+<ul>
+<li>Sensitive orgs (including Diversio) are excluded by default, even for superusers.</li>
+<li>Admin views opt in to the mixin and get the same behaviour, instead of reinventing access rules one screen at a time.</li>
+</ul>
+<p>For an engineer with strong customer-facing permissions:</p>
+<ul>
+<li>Django admin is still powerful for the customer orgs they are assigned to.</li>
+<li>The Diversio org simply does not show up unless a separate process has granted that level of access.</li>
+</ul>
+<p>This is our first layer of "row-level security": an application-level filter baked into admin, not an afterthought in each view.</p>
+<hr>
+<h2 id="layer-2-a-totp-gated-workflow-for-sensitive-access"><a class="toclink" href="#layer-2-a-totp-gated-workflow-for-sensitive-access">Layer 2: A TOTP-gated workflow for sensitive access</a></h2>
+<p>The admin mixin enforces "what you can see" for a given profile.</p>
+<p>The next question is: how does someone get a profile that is allowed to see the Diversio org at all?</p>
+<p>We knew what we did not want:</p>
+<ul>
+<li>A checkbox in Django admin that anyone with enough permissions could toggle.</li>
+<li>A permanent "god mode" role that people forget they are still holding.</li>
+</ul>
+<p>Instead, we built a small, TOTP-gated workflow.</p>
+<p>Each staff profile has a boolean that means:</p>
+<blockquote>
+<p>This person may see sensitive orgs like Diversio, in addition to their normal org assignments.</p>
+</blockquote>
+<p>That boolean is visible in admin, but it is read-only. The only way to change it is a CLI command that:</p>
+<ul>
+<li>Takes a target user.</li>
+<li>Takes a TOTP code from an approver (CEO, CTO or a small set of delegates).</li>
+<li>Logs who did what and when.</li>
+</ul>
+<p>In pseudocode:</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">require_sensitive_approval</span><span class="p">(</span><span class="n">code</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">verify_totp</span><span class="p">(</span><span class="n">code</span><span class="p">):</span>  <span class="c1"># shared helper wired to env secrets</span>
+        <span class="k">raise</span> <span class="n">ApprovalError</span><span class="p">(</span><span class="s2">&quot;Invalid TOTP code&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">enable_sensitive_access</span><span class="p">(</span><span class="n">staff_user</span><span class="p">,</span> <span class="n">code</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">require_sensitive_approval</span><span class="p">(</span><span class="n">code</span><span class="p">)</span>
+    <span class="n">staff_user</span><span class="o">.</span><span class="n">can_see_sensitive_orgs</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">staff_user</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">update_fields</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;can_see_sensitive_orgs&quot;</span><span class="p">])</span>
+</code></pre></div>
+
+<p>The outcome looks like this in practice:</p>
+<ul>
+<li>Sensitive access is rare and is usually time-boxed to a specific investigation.</li>
+<li>It is deliberate: someone with real authority has to approve it with a physical device.</li>
+<li>It is auditable: we can answer "who could see the Diversio org in April" without guessing.</li>
+</ul>
+<p>This is the human-side guardrail that complements the org-scoped admin mixin.</p>
+<hr>
+<h2 id="layer-3-postgres-rls-and-the-sensitive-flag"><a class="toclink" href="#layer-3-postgres-rls-and-the-sensitive-flag">Layer 3: Postgres RLS and the sensitive flag</a></h2>
+<p>Application-level scoping and TOTP workflows are necessary, but not sufficient. Engineers also work close to the database: SQL shells, diagnostics, ad-hoc queries and migrations.</p>
+<p>We wanted Postgres itself to agree that the Diversio org is special.</p>
+<p>We do two things here.</p>
+<h3 id="31-guard-the-sensitive-flag-itself"><a class="toclink" href="#31-guard-the-sensitive-flag-itself">3.1 Guard the sensitive flag itself</a></h3>
+<p>First, we treat the "this org is sensitive" flag as something you do not get to flip casually.</p>
+<ul>
+<li>Normal application roles and ad-hoc DB connections cannot change it.</li>
+<li>Only a narrow path, tied to the TOTP-gated CLI, can set or clear it.</li>
+<li>The database checks the current role and a session variable before allowing updates to that column.</li>
+</ul>
+<p>The goal is simple:</p>
+<ul>
+<li>Nobody "experimenting" in a production shell can quietly downgrade the Diversio org from <code>is_sensitive = TRUE</code> to <code>FALSE</code>.</li>
+<li>Even if a bug slips through at the app layer, the database is still able to say "no" on the one write that really matters.</li>
+</ul>
+<h3 id="32-postgres-rls-for-support-shells"><a class="toclink" href="#32-postgres-rls-for-support-shells">3.2 Postgres RLS for support shells</a></h3>
+<p>The second piece is Postgres Row-Level Security (RLS), which we apply to a dedicated support database role, the role engineers use in our production support shells.</p>
+<p>For that support role, RLS policies enforce:</p>
+<ul>
+<li>On org-scoped tables, queries only see rows where the organization is not sensitive.</li>
+<li>Rows belonging to sensitive orgs (including Diversio) are filtered out by the database itself.</li>
+<li>These rules apply to both reads and writes.</li>
+</ul>
+<p>In simplified SQL:</p>
+<div class="highlight"><pre><span></span><code><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">org_events</span><span class="w"> </span><span class="n">ENABLE</span><span class="w"> </span><span class="k">ROW</span><span class="w"> </span><span class="k">LEVEL</span><span class="w"> </span><span class="k">SECURITY</span><span class="p">;</span>
+
+<span class="k">CREATE</span><span class="w"> </span><span class="n">POLICY</span><span class="w"> </span><span class="n">support_only_non_sensitive</span>
+<span class="w">  </span><span class="k">ON</span><span class="w"> </span><span class="n">org_events</span>
+<span class="w">  </span><span class="k">FOR</span><span class="w"> </span><span class="k">ALL</span>
+<span class="w">  </span><span class="k">TO</span><span class="w"> </span><span class="n">support_shell_role</span>
+<span class="w">  </span><span class="k">USING</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">organization_id</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span>
+<span class="w">      </span><span class="k">SELECT</span><span class="w"> </span><span class="n">id</span>
+<span class="w">      </span><span class="k">FROM</span><span class="w"> </span><span class="n">organizations</span>
+<span class="w">      </span><span class="k">WHERE</span><span class="w"> </span><span class="n">is_sensitive</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">FALSE</span>
+<span class="w">    </span><span class="p">)</span>
+<span class="w">  </span><span class="p">);</span>
+</code></pre></div>
+
+<p>If you connect to production using the support shell and run:</p>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">org_events</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">organization_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span>
+<span class="w">  </span><span class="k">SELECT</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">organizations</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Diversio&#39;</span>
+<span class="p">);</span>
+</code></pre></div>
+
+<p>Postgres itself refuses to show those rows to the <code>support_shell_role</code>, regardless of what the application code might have done.</p>
+<h3 id="33-an-rls-registry-and-ci-checks"><a class="toclink" href="#33-an-rls-registry-and-ci-checks">3.3 An RLS registry and CI checks</a></h3>
+<p>We have a lot of org-scoped tables in Optimo:</p>
+<ul>
+<li>Some with a direct <code>organization_id</code> column.</li>
+<li>Some where the org needs to be derived via a join (through a user, an employee, a workspace and so on).</li>
+</ul>
+<p>Managing RLS for all of them by hand is a great way to make mistakes.</p>
+<p>So we maintain a small Python "registry" that lists:</p>
+<ul>
+<li>Which tables are org-scoped.</li>
+<li>How to determine the organization for each table.</li>
+<li>Which tables are intentionally excluded.</li>
+</ul>
+<p>On top of that registry, we have a management command that:</p>
+<ul>
+<li>Enables RLS on those tables.</li>
+<li>Ensures policies exist for the support role.</li>
+<li>Creates a helper function like <code>org_is_not_sensitive(org_id uuid)</code> for <code>USING</code> and <code>WITH CHECK</code> clauses.</li>
+<li>Scans the schema for any new org-scoped tables that are not in the registry yet.</li>
+<li>Fails loudly if it finds gaps.</li>
+</ul>
+<p>We run this command automatically in CircleCI:</p>
+<ul>
+<li>Apply migrations to a fresh database.</li>
+<li>Run the RLS command in "apply plus verify" mode.</li>
+<li>If someone adds an org-scoped table and forgets to update the registry, the build fails.</li>
+</ul>
+<p>Conceptually, the CI step looks like this:</p>
+<div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">run</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Validate support-shell RLS</span>
+<span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">      </span><span class="no">python manage.py migrate --noinput</span>
+<span class="w">      </span><span class="no">python manage.py check_support_shell_rls --apply --verbosity 2</span>
+</code></pre></div>
+
+<p>RLS becomes an executable spec, not a fragile manual checklist.</p>
+<hr>
+<h2 id="layer-4-iam-and-support-shells-that-default-to-safe"><a class="toclink" href="#layer-4-iam-and-support-shells-that-default-to-safe">Layer 4: IAM and support shells that default to safe</a></h2>
+<p>The final layer is how we actually connect to production.</p>
+<p>Like many teams, we used to have engineers with:</p>
+<ul>
+<li>Broad AWS permissions.</li>
+<li>The ability to run <code>ecs exec</code> into production containers.</li>
+<li>Access to secrets wired to powerful database roles.</li>
+</ul>
+<p>That is convenient, but it does not align with "the Diversio org should be the hardest tenant to reach".</p>
+<p>We reshaped things so that sensitive power is separated and explicit.</p>
+<h3 id="41-sensitive-secrets-are-separated"><a class="toclink" href="#41-sensitive-secrets-are-separated">4.1 Sensitive secrets are separated</a></h3>
+<p>Anything that directly powers sensitive workflows, for example:</p>
+<ul>
+<li>Special database URLs.</li>
+<li>TOTP secrets.</li>
+<li>Break-glass admin credentials.</li>
+</ul>
+<p>lives in its own secret, encrypted under a dedicated KMS key. Only specific permission sets and automation roles can read it.</p>
+<h3 id="42-permission-sets-map-to-real-personas"><a class="toclink" href="#42-permission-sets-map-to-real-personas">4.2 Permission sets map to real personas</a></h3>
+<p>We distinguish a normal "production engineer" persona from a "break-glass administrator".</p>
+<p>The normal production role:</p>
+<ul>
+<li>Cannot talk directly to the main database role.</li>
+<li>Cannot read master database secrets.</li>
+<li>Cannot read sensitive secrets.</li>
+<li>Can still manage non-sensitive app configuration and run diagnostics.</li>
+</ul>
+<h3 id="43-support-shells-are-the-default"><a class="toclink" href="#43-support-shells-are-the-default">4.3 Support shells are the default</a></h3>
+<p>Engineers connect to production via a dedicated support-shell service that:</p>
+<ul>
+<li>Runs the same Optimo container image as the main app.</li>
+<li>Uses the restricted support database role by default.</li>
+<li>Is wired so that a normal production engineer always lands in a support shell, not on a fully privileged backend container.</li>
+</ul>
+<p>A small wrapper script ties it together:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">permission_set</span><span class="o">=</span><span class="k">$(</span>detect_aws_permission_set<span class="k">)</span>
+
+<span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$permission_set</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;ProdEngineer&quot;</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">  </span><span class="nv">target_service</span><span class="o">=</span><span class="s2">&quot;support-shell&quot;</span>
+<span class="k">else</span>
+<span class="w">  </span><span class="nv">target_service</span><span class="o">=</span><span class="s2">&quot;backend&quot;</span><span class="w">  </span><span class="c1"># break-glass roles only</span>
+<span class="k">fi</span>
+
+open_ecs_exec_shell<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$target_service</span><span class="s2">&quot;</span>
+</code></pre></div>
+
+<p>If the support-shell configuration is missing or broken, the script refuses to open a shell instead of silently falling back to something more powerful.</p>
+<p>Combined with RLS, this gives us:</p>
+<ul>
+<li>A realistic production shell for debugging customer issues.</li>
+<li>A database that still hides rows for the Diversio org from the support role.</li>
+<li>A clear, auditable path to more power when it is genuinely needed.</li>
+</ul>
+<hr>
+<h2 id="automation-and-a-five-person-team"><a class="toclink" href="#automation-and-a-five-person-team">Automation and a five-person team</a></h2>
+<p>At this point, it is fair to ask:</p>
+<blockquote>
+<p>Is this too much machinery for a five-person engineering team?</p>
+</blockquote>
+<p>It would be, if it were all manual.</p>
+<p>What makes it work is that the moving parts share a few patterns:</p>
+<ul>
+<li>One admin mixin for org scoping, reused everywhere.</li>
+<li>One TOTP-gated path for sensitive access, instead of scattered toggles.</li>
+<li>One RLS registry and command that define what the database should enforce.</li>
+<li>One CI step that runs migrations, bootstraps RLS and fails when something drifts.</li>
+</ul>
+<p>The extra work happens once, up front. After that:</p>
+<ul>
+<li>New admin views inherit the mixin and automatically respect org scoping.</li>
+<li>New engineers follow the same shell story and get the same protections.</li>
+<li>New org-scoped tables are caught by the RLS command if we forget to register them.</li>
+</ul>
+<p>The system enforces the policy for us, instead of us trying to remember every rule in our heads.</p>
+<hr>
+<h2 id="gaps-and-future-work"><a class="toclink" href="#gaps-and-future-work">Gaps and future work</a></h2>
+<p>We are happy with the direction, but this is not "done".</p>
+<p>Some gaps we have deliberately left open for future iterations:</p>
+<ul>
+<li>
+<p><strong>RLS mostly protects the support role today.</strong><br>
+  We would like to extend RLS to more roles and tables where it makes sense, without tanking performance or complicating migrations.</p>
+</li>
+<li>
+<p><strong>Many read paths still lean on application logic.</strong><br>
+  The admin mixin does a lot, and the database does a lot for support shells, but other read paths still rely on Django-level scoping. We would like more database-side guardrails around the most sensitive slices of the Diversio org.</p>
+</li>
+<li>
+<p><strong>Sensitive access observability is basic.</strong><br>
+  We log the right events and can reconstruct them, but we would like:</p>
+</li>
+<li>A small dashboard that graphs sensitive access over time.</li>
+<li>
+<p>Simple alerts when approvals spike or come from unexpected places.</p>
+</li>
+<li>
+<p><strong>Approvals are very CLI-shaped.</strong><br>
+  The TOTP flow is fine for engineers, less so for non-engineers. A small internal UI for approvers ("who is asking to see Diversio, why, and for how long") would make this much more approachable.</p>
+</li>
+<li>
+<p><strong>We do not "game day" this enough.</strong><br>
+  We test the pieces individually. We would like regular drills where we intentionally try to break assumptions about the Diversio org in a safe environment and see how the system responds.</p>
+</li>
+</ul>
+<p>These are good problems to have. They are the kind of problems you get to think about only after you have built the basics.</p>
+<hr>
+<h2 id="the-bottom-line"><a class="toclink" href="#the-bottom-line">The bottom line</a></h2>
+<p>Letting your own company be a tenant in your own product is a great dogfooding story and a serious security challenge.</p>
+<p>Our approach at Diversio has been to:</p>
+<ul>
+<li>Treat the Diversio org as the most demanding customer we have.</li>
+<li>Give the application a clear notion of which orgs each admin may see, via an org-scoped mixin.</li>
+<li>Give the database a clear notion of which rows each role may see, via RLS and a registry.</li>
+<li>Let CI and automation keep those contracts honest as Optimo evolves.</li>
+<li>Build human workflows (approvals, TOTP) into the design from the start.</li>
+</ul>
+<p>The key point is not that we use Django or Postgres or AWS specifically. The key point is that we use layers:</p>
+<ul>
+<li>UI and admin behaviour.</li>
+<li>Approval workflows.</li>
+<li>Database policies.</li>
+<li>Cloud IAM and shell tooling.</li>
+<li>Automation to glue it together.</li>
+</ul>
+<p>Together, these give us something stronger than "trust us, we will be careful" and they do it in a way that a small, focused team can maintain while still shipping features.</p>
+        </div>
+
+        <div class="article-meta">
+            <div class="tags-section">
+              <h5>Tags:</h5>
+              <div class="tags-container">
+                  <a href="https://ashwch.com/tag/security.html" class="tag">security</a>
+                  <a href="https://ashwch.com/tag/django.html" class="tag">django</a>
+                  <a href="https://ashwch.com/tag/postgres.html" class="tag">postgres</a>
+                  <a href="https://ashwch.com/tag/rls.html" class="tag">rls</a>
+                  <a href="https://ashwch.com/tag/aws.html" class="tag">aws</a>
+                  <a href="https://ashwch.com/tag/multi-tenant.html" class="tag">multi-tenant</a>
+                  <a href="https://ashwch.com/tag/saas.html" class="tag">saas</a>
+                  <a href="https://ashwch.com/tag/optimo.html" class="tag">optimo</a>
+                  <a href="https://ashwch.com/tag/diversio.html" class="tag">diversio</a>
+                  <a href="https://ashwch.com/tag/permissions.html" class="tag">permissions</a>
+                  <a href="https://ashwch.com/tag/production.html" class="tag">production</a>
+                  <a href="https://ashwch.com/tag/iam.html" class="tag">iam</a>
+              </div>
+            </div>
+          
+          <div class="back-button-container">
+            <a href="https://ashwch.com" class="back-to-posts">
+              <i class="fas fa-arrow-left"></i> Back to Posts
+            </a>
+          </div>
+        </div>
+      </article>
+
+<section class="comments mt-5">
+  <div class="card">
+    <div class="card-header">
+      <h3 class="mb-0">Comments</h3>
+    </div>
+    <div class="card-body">
+      <div id="disqus_thread" aria-live="polite">
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+      <script type="text/javascript">
+        var disqus_shortname = 'ashwch';
+        var disqus_identifier = '/protecting-our-own-tenant-in-a-multi-tenant-saas.html';
+        var disqus_url = 'https://ashwch.com/protecting-our-own-tenant-in-a-multi-tenant-saas.html';
+        var disqus_title = 'Protecting Our Own Tenant in a Multi-Tenant SaaS';
+        (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = "//" + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+    </div>
+  </div>
+</section>
+    </div>
+  </div>
+</div>
+
+<style type="text/css">
+/* Jupyter notebook styling */
+.jp-Cell {
+  max-width: 100%;
+  margin-bottom: 1.5rem;
+}
+
+.jp-Cell-inputWrapper,
+.jp-Cell-outputWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.jp-InputPrompt, 
+.jp-OutputPrompt {
+  font-family: monospace;
+  font-size: 0.9rem;
+  color: #888;
+  width: 4.5rem;
+  padding-right: 0.5rem;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.jp-CodeCell .jp-Cell-inputArea {
+  display: flex;
+  background-color: #f6f8fa;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+}
+
+.jp-CodeCell .jp-Cell-outputArea {
+  display: flex;
+  margin-top: 0.5rem;
+}
+
+.jp-CodeMirror {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  padding: 0.5rem;
+  width: 100%;
+}
+
+.jp-OutputArea-output {
+  padding: 0.5rem;
+  width: 100%;
+  overflow-x: auto;
+}
+
+.jp-RenderedMarkdown {
+  margin: 0;
+}
+
+/* Pandas DataFrames */
+table.dataframe {
+  border-collapse: collapse;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin: 1rem 0;
+  width: 100%;
+}
+
+.dataframe thead th {
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  padding: 0.5rem;
+  text-align: left;
+}
+
+.dataframe tbody td {
+  border: 1px solid #ddd;
+  padding: 0.5rem;
+  text-align: left;
+}
+
+.dataframe tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Matplotlib figures */
+.jp-RenderedImage img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1rem auto;
+}
+
+/* Hide cell execution counts */
+.prompt {
+  display: none;
+}
+
+/* Cell borders */
+div.cell {
+  border: none;
+  margin-bottom: 1.5rem;
+}
+
+div.text_cell_render {
+  padding: 0;
+}
+
+/* Code highlighting */
+pre code {
+  background-color: inherit;
+  padding: 0;
+}
+
+/* Jupyter code blocks */
+div.input_area {
+  background-color: #f6f8fa;
+  border-radius: 6px;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+/* Mobile optimization */
+@media (max-width: 768px) {
+  .jp-InputPrompt, 
+  .jp-OutputPrompt {
+    width: 3rem;
+    font-size: 0.8rem;
+  }
+  
+  .jp-CodeMirror,
+  .jp-OutputArea-output {
+    font-size: 0.8rem;
+  }
+  
+  table.dataframe {
+    font-size: 0.8rem;
+  }
+  
+  .dataframe thead th,
+  .dataframe tbody td {
+    padding: 0.3rem;
+  }
+}</style>
+        </main>
+
+        <footer class="site-footer mt-5 py-4 bg-light">
+            <div class="container text-center">
+                <p class="mb-0">
+                    © 2025 Ashwini Chaudhary(Monty), license <a href="https://github.com/ashwch/ashwch.github.io/blob/master/LICENSE">MIT</a>
+                    unless otherwise noted.
+                </p>
+                <p class="mb-0 small text-muted">
+                    Generated by <a href="http://docs.getpelican.com/">Pelican</a>
+                </p>
+            </div>
+        </footer>
+
+        <!-- Bootstrap JS Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        
+        <!-- Theme Switching Script -->
+        <script>
+            // Theme switching functionality
+            (function() {
+                const themeToggle = document.getElementById('theme-toggle');
+                const lightIcon = document.getElementById('theme-toggle-light');
+                const darkIcon = document.getElementById('theme-toggle-dark');
+                const htmlElement = document.documentElement;
+                
+                // Function to set theme
+                function setTheme(theme) {
+                    if (theme === 'dark') {
+                        htmlElement.setAttribute('data-theme', 'dark');
+                        localStorage.setItem('theme', 'dark');
+                        lightIcon.classList.add('d-none');
+                        darkIcon.classList.remove('d-none');
+                    } else {
+                        htmlElement.setAttribute('data-theme', 'light');
+                        localStorage.setItem('theme', 'light');
+                        darkIcon.classList.add('d-none');
+                        lightIcon.classList.remove('d-none');
+                    }
+                }
+                
+                // Check for saved user preference, system preference, or default to light
+                const savedTheme = localStorage.getItem('theme');
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                
+                if (savedTheme === 'dark') {
+                    setTheme('dark');
+                } else if (savedTheme === 'light') {
+                    setTheme('light');
+                } else if (prefersDark) {
+                    setTheme('dark');
+                } else {
+                    setTheme('light');
+                }
+                
+                // Toggle theme on button click
+                themeToggle.addEventListener('click', () => {
+                    const currentTheme = htmlElement.getAttribute('data-theme');
+                    if (currentTheme === 'dark') {
+                        setTheme('light');
+                    } else {
+                        setTheme('dark');
+                    }
+                });
+            })();
+        </script>
+
+<!-- Google Analytics (GA4) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8G7DZ59108"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-8G7DZ59108');
+</script>
+    </body>
+</html>
