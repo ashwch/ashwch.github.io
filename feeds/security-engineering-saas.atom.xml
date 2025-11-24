@@ -5,8 +5,9 @@
 &lt;p&gt;At Diversio, one of the products we build is &lt;a href="https://optimoteams.com"&gt;Optimo&lt;/a&gt;, a multi-tenant SaaS that helps HR and people teams work with sensitive employee and organizational data.&lt;/p&gt;
 &lt;p&gt;Most Optimo organizations belong to customers.&lt;/p&gt;
 &lt;p&gt;One belongs to us.&lt;/p&gt;
-&lt;p&gt;That internal Diversio org inside Optimo holds our own employee and company data. It lives in the same production cluster as customer tenants, and our engineers and Client Success team use the same tools to support both.&lt;/p&gt;
-&lt;p&gt;If we were not careful, those tools would give engineers a kind of permanent "god mode" over our own tenant. We did not want that. We wanted everyone at Diversio to be comfortable with how their data is handled, while still letting a very small engineering team move quickly for customers.&lt;/p&gt;
+&lt;p&gt;That internal Diversio org inside Optimo holds our own employee and company data. It lives in the same production cluster as customer tenants, and our engineers and Client Success team use the same product surfaces to support both, always through per-tenant and role-based guardrails.&lt;/p&gt;
+&lt;p&gt;Customer orgs already have their own access boundaries; this post is about holding our own org to an even higher bar so it is the hardest one to reach, not the easiest.&lt;/p&gt;
+&lt;p&gt;If we were not careful, those same tools could give engineers a kind of permanent "god mode" over our own tenant. We did not want that. We wanted everyone at Diversio to be comfortable with how their data is handled, while still letting a very small engineering team move quickly for customers.&lt;/p&gt;
 &lt;p&gt;This post walks through how we got there.&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2 id="table-of-contents"&gt;&lt;a class="toclink" href="#table-of-contents"&gt;Table of Contents&lt;/a&gt;&lt;/h2&gt;
