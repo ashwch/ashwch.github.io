@@ -716,7 +716,7 @@ code,
 <p>One belongs to us.</p>
 <p>That internal Diversio org inside Optimo holds our own employee and company data. It lives in the same production cluster as customer tenants, and our engineers and Client Success team use the same product surfaces to support both, always through per-tenant and role-based guardrails.</p>
 <p>Customer orgs already have their own access boundaries; this post is about holding our own org to an even higher bar so it is the hardest one to reach, not the easiest.</p>
-<p>If we were not careful, those same tools could give engineers a kind of permanent "god mode" over our own tenant. We did not want that. We wanted everyone at Diversio to be comfortable with how their data is handled, while still letting a very small engineering team move quickly for customers.</p>
+<p>Even with those existing guardrails, it is easy for internal tooling to drift toward a de facto "god mode" for your own org if you never make the extra constraints explicit. We wanted to push in the opposite direction. We wanted everyone at Diversio to be comfortable with how their data is handled, while still letting a very small engineering team move quickly for customers.</p>
 <p>This post walks through how we got there.</p>
 <hr>
 <h2 id="table-of-contents"><a class="toclink" href="#table-of-contents">Table of Contents</a></h2>
