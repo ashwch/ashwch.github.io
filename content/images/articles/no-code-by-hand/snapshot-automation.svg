@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 160" width="800" height="160" role="img" aria-label="Database snapshot automation">
+<defs><style>
+text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; }
+.v { font-weight: 700; font-size: 14px; fill: #0f172a; }
+.vl { font-weight: 700; font-size: 14px; fill: #ffffff; }
+.cat { font-weight: 600; font-size: 13px; fill: #334155; }
+.sm { font-weight: 500; font-size: 11px; fill: #64748b; }
+.sm-dark { font-weight: 500; font-size: 11px; fill: #334155; }
+.smb { font-weight: 600; font-size: 11px; fill: #64748b; }
+.ax { stroke: #cbd5e1; stroke-width: 1; }
+.grid { stroke: #e2e8f0; stroke-width: 1; stroke-dasharray: 4 3; }
+.box-label { font-weight: 700; font-size: 12px; fill: #ffffff; }
+.box-sub { font-weight: 500; font-size: 11px; fill: rgba(255,255,255,0.85); }
+.heading { font-weight: 700; font-size: 13px; fill: #334155; }
+.heading-sm { font-weight: 600; font-size: 12px; fill: #64748b; }
+.good { font-weight: 600; font-size: 11px; fill: #059669; }
+.bad { font-weight: 600; font-size: 11px; fill: #dc2626; }
+</style></defs>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="20" y="22" class="bad">Before: 6 manual steps, in order, by memory</text>
+<rect x="20.0" y="32" width="120.0" height="32" rx="4" fill="#f1f5f9" stroke="#fca5a5" stroke-width="1"/>
+<text x="80.0" y="52" text-anchor="middle" class="sm-dark" style="font-size:10px">Dump SQL</text>
+<text x="144.0" y="52" class="sm" style="font-size:10px">→</text>
+<rect x="148.0" y="32" width="120.0" height="32" rx="4" fill="#f1f5f9" stroke="#fca5a5" stroke-width="1"/>
+<text x="208.0" y="52" text-anchor="middle" class="sm-dark" style="font-size:10px">Package</text>
+<text x="272.0" y="52" class="sm" style="font-size:10px">→</text>
+<rect x="276.0" y="32" width="120.0" height="32" rx="4" fill="#f1f5f9" stroke="#fca5a5" stroke-width="1"/>
+<text x="336.0" y="52" text-anchor="middle" class="sm-dark" style="font-size:10px">Upload</text>
+<text x="400.0" y="52" class="sm" style="font-size:10px">→</text>
+<rect x="404.0" y="32" width="120.0" height="32" rx="4" fill="#f1f5f9" stroke="#fca5a5" stroke-width="1"/>
+<text x="464.0" y="52" text-anchor="middle" class="sm-dark" style="font-size:10px">Restore</text>
+<text x="528.0" y="52" class="sm" style="font-size:10px">→</text>
+<rect x="532.0" y="32" width="120.0" height="32" rx="4" fill="#f1f5f9" stroke="#fca5a5" stroke-width="1"/>
+<text x="592.0" y="52" text-anchor="middle" class="sm-dark" style="font-size:10px">Snapshot</text>
+<text x="656.0" y="52" class="sm" style="font-size:10px">→</text>
+<rect x="660.0" y="32" width="120.0" height="32" rx="4" fill="#f1f5f9" stroke="#fca5a5" stroke-width="1"/>
+<text x="720.0" y="52" text-anchor="middle" class="sm-dark" style="font-size:10px">Notify Slack</text>
+<text x="20" y="92" class="good">After: one command, with preflight checks and Slack notification</text>
+<rect x="20" y="102" width="760" height="36" rx="6" fill="#059669"/>
+<text x="400.0" y="124" text-anchor="middle" class="vl" style="font-size:13px">./manage.sh snapshot create — runs full pipeline with error handling</text>
+</svg>

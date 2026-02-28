@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 240" width="800" height="240" role="img" aria-label="Local development before and after isolation">
+<defs><style>
+text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; }
+.v { font-weight: 700; font-size: 14px; fill: #0f172a; }
+.vl { font-weight: 700; font-size: 14px; fill: #ffffff; }
+.cat { font-weight: 600; font-size: 13px; fill: #334155; }
+.sm { font-weight: 500; font-size: 11px; fill: #64748b; }
+.sm-dark { font-weight: 500; font-size: 11px; fill: #334155; }
+.smb { font-weight: 600; font-size: 11px; fill: #64748b; }
+.ax { stroke: #cbd5e1; stroke-width: 1; }
+.grid { stroke: #e2e8f0; stroke-width: 1; stroke-dasharray: 4 3; }
+.box-label { font-weight: 700; font-size: 12px; fill: #ffffff; }
+.box-sub { font-weight: 500; font-size: 11px; fill: rgba(255,255,255,0.85); }
+.heading { font-weight: 700; font-size: 13px; fill: #334155; }
+.heading-sm { font-weight: 600; font-size: 12px; fill: #64748b; }
+.good { font-weight: 600; font-size: 11px; fill: #059669; }
+.bad { font-weight: 600; font-size: 11px; fill: #dc2626; }
+</style></defs>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<rect x="20" y="10" width="372" height="220" rx="8" fill="#f8fafc" stroke="#fca5a5" stroke-width="1.5"/>
+<text x="34" y="34" class="bad">Before: shared defaults</text>
+<rect x="34" y="52" width="176" height="42" rx="4" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="44" y="78" class="sm-dark">Worktree A</text>
+<rect x="220" y="58" width="156" height="30" rx="4" fill="#fef2f2" stroke="#fca5a5" stroke-width="1"/>
+<text x="298" y="78" text-anchor="middle" class="bad">:8000</text>
+<rect x="34" y="108" width="176" height="42" rx="4" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="44" y="134" class="sm-dark">Worktree B</text>
+<rect x="220" y="114" width="156" height="30" rx="4" fill="#fef2f2" stroke="#fca5a5" stroke-width="1"/>
+<text x="298" y="134" text-anchor="middle" class="bad">:8000</text>
+<rect x="34" y="164" width="176" height="42" rx="4" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="44" y="190" class="sm-dark">Worktree C</text>
+<rect x="220" y="170" width="156" height="30" rx="4" fill="#fef2f2" stroke="#fca5a5" stroke-width="1"/>
+<text x="298" y="190" text-anchor="middle" class="bad">:8000</text>
+<rect x="408" y="10" width="372" height="220" rx="8" fill="#f8fafc" stroke="#86efac" stroke-width="1.5"/>
+<text x="422" y="34" class="good">After: deterministic isolation</text>
+<rect x="422" y="52" width="176" height="42" rx="4" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="432" y="78" class="sm-dark">Primary</text>
+<rect x="608" y="58" width="156" height="30" rx="4" fill="#ecfdf5" stroke="#86efac" stroke-width="1"/>
+<text x="686" y="78" text-anchor="middle" class="good">:8000</text>
+<rect x="422" y="108" width="176" height="42" rx="4" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="432" y="134" class="sm-dark">Worktree B</text>
+<rect x="608" y="114" width="156" height="30" rx="4" fill="#ecfdf5" stroke="#86efac" stroke-width="1"/>
+<text x="686" y="134" text-anchor="middle" class="good">:18021</text>
+<rect x="422" y="164" width="176" height="42" rx="4" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="432" y="190" class="sm-dark">Worktree C</text>
+<rect x="608" y="170" width="156" height="30" rx="4" fill="#ecfdf5" stroke="#86efac" stroke-width="1"/>
+<text x="686" y="190" text-anchor="middle" class="good">:18037</text>
+</svg>

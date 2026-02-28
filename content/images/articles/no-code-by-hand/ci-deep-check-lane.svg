@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 260" width="800" height="260" role="img" aria-label="CI job-level improvements after runtime image">
+<defs><style>
+text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; }
+.v { font-weight: 700; font-size: 14px; fill: #0f172a; }
+.vl { font-weight: 700; font-size: 14px; fill: #ffffff; }
+.cat { font-weight: 600; font-size: 13px; fill: #334155; }
+.sm { font-weight: 500; font-size: 11px; fill: #64748b; }
+.sm-dark { font-weight: 500; font-size: 11px; fill: #334155; }
+.smb { font-weight: 600; font-size: 11px; fill: #64748b; }
+.ax { stroke: #cbd5e1; stroke-width: 1; }
+.grid { stroke: #e2e8f0; stroke-width: 1; stroke-dasharray: 4 3; }
+.box-label { font-weight: 700; font-size: 12px; fill: #ffffff; }
+.box-sub { font-weight: 500; font-size: 11px; fill: rgba(255,255,255,0.85); }
+.heading { font-weight: 700; font-size: 13px; fill: #334155; }
+.heading-sm { font-weight: 600; font-size: 12px; fill: #64748b; }
+.good { font-weight: 600; font-size: 11px; fill: #059669; }
+.bad { font-weight: 600; font-size: 11px; fill: #dc2626; }
+</style></defs>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="148" y="40.5" text-anchor="end" class="cat">Overall workflow</text>
+<text x="148" y="56.5" text-anchor="end" class="good" style="font-size:10px">↓28%</text>
+<rect x="160" y="20.5" width="581.0" height="22.0" fill="#e2e8f0" rx="3"/>
+<text x="747.0" y="35.5" class="sm">942s</text>
+<rect x="160" y="46.5" width="416.1" height="22.0" fill="#0d9488" rx="3"/>
+<text x="582.1" y="61.5" class="v" style="font-size:12px">675s</text>
+<text x="148" y="97.5" text-anchor="end" class="cat">Deep DB/RLS checks</text>
+<text x="148" y="113.5" text-anchor="end" class="good" style="font-size:10px">↓71%</text>
+<rect x="160" y="77.5" width="204.6" height="22.0" fill="#e2e8f0" rx="3"/>
+<text x="370.6" y="92.5" class="sm">332s</text>
+<rect x="160" y="103.5" width="58.9" height="22.0" fill="#0d9488" rx="3"/>
+<text x="224.9" y="118.5" class="v" style="font-size:12px">96s</text>
+<text x="148" y="154.5" text-anchor="end" class="cat">Tests (Optimo)</text>
+<text x="148" y="170.5" text-anchor="end" class="good" style="font-size:10px">↓10%</text>
+<rect x="160" y="134.5" width="382.8" height="22.0" fill="#e2e8f0" rx="3"/>
+<text x="548.8" y="149.5" class="sm">621s</text>
+<rect x="160" y="160.5" width="343.6" height="22.0" fill="#0d9488" rx="3"/>
+<text x="509.6" y="175.5" class="v" style="font-size:12px">558s</text>
+<text x="148" y="211.5" text-anchor="end" class="cat">Tests (Diversio)</text>
+<text x="148" y="227.5" text-anchor="end" class="good" style="font-size:10px">↓12%</text>
+<rect x="160" y="191.5" width="360.3" height="22.0" fill="#e2e8f0" rx="3"/>
+<text x="526.3" y="206.5" class="sm">584s</text>
+<rect x="160" y="217.5" width="317.1" height="22.0" fill="#0d9488" rx="3"/>
+<text x="483.1" y="232.5" class="v" style="font-size:12px">514s</text>
+<rect x="160" y="242" width="10" height="10" rx="2" fill="#e2e8f0"/>
+<text x="176" y="250" class="sm">Before</text>
+<rect x="240" y="242" width="10" height="10" rx="2" fill="#0d9488"/>
+<text x="256" y="250" class="sm">After</text>
+</svg>

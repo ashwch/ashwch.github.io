@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 360" width="800" height="360" role="img" aria-label="Non-product changesets by repo type">
+<defs><style>
+text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; }
+.v { font-weight: 700; font-size: 14px; fill: #0f172a; }
+.vl { font-weight: 700; font-size: 14px; fill: #ffffff; }
+.cat { font-weight: 600; font-size: 13px; fill: #334155; }
+.sm { font-weight: 500; font-size: 11px; fill: #64748b; }
+.sm-dark { font-weight: 500; font-size: 11px; fill: #334155; }
+.smb { font-weight: 600; font-size: 11px; fill: #64748b; }
+.ax { stroke: #cbd5e1; stroke-width: 1; }
+.grid { stroke: #e2e8f0; stroke-width: 1; stroke-dasharray: 4 3; }
+.box-label { font-weight: 700; font-size: 12px; fill: #ffffff; }
+.box-sub { font-weight: 500; font-size: 11px; fill: rgba(255,255,255,0.85); }
+.heading { font-weight: 700; font-size: 13px; fill: #334155; }
+.heading-sm { font-weight: 600; font-size: 12px; fill: #64748b; }
+.good { font-weight: 600; font-size: 11px; fill: #059669; }
+.bad { font-weight: 600; font-size: 11px; fill: #dc2626; }
+</style></defs>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<line x1="60" y1="240.0" x2="770" y2="240.0" class="grid"/>
+<text x="52" y="244.0" text-anchor="end" class="sm">0</text>
+<line x1="60" y1="203.3" x2="770" y2="203.3" class="grid"/>
+<text x="52" y="207.3" text-anchor="end" class="sm">5</text>
+<line x1="60" y1="166.7" x2="770" y2="166.7" class="grid"/>
+<text x="52" y="170.7" text-anchor="end" class="sm">10</text>
+<line x1="60" y1="130.0" x2="770" y2="130.0" class="grid"/>
+<text x="52" y="134.0" text-anchor="end" class="sm">15</text>
+<line x1="60" y1="93.3" x2="770" y2="93.3" class="grid"/>
+<text x="52" y="97.3" text-anchor="end" class="sm">20</text>
+<line x1="60" y1="56.7" x2="770" y2="56.7" class="grid"/>
+<text x="52" y="60.7" text-anchor="end" class="sm">25</text>
+<line x1="60" y1="20.0" x2="770" y2="20.0" class="grid"/>
+<text x="52" y="24.0" text-anchor="end" class="sm">30</text>
+<line x1="60" y1="240" x2="770" y2="240" class="ax"/>
+<rect x="130.0" y="42.0" width="90" height="198.0" fill="#1e3a5f" rx="4"/>
+<text x="175.0" y="36.0" text-anchor="middle" class="v">27</text>
+<text x="175.0" y="260" text-anchor="middle" class="cat">Backend</text>
+<rect x="290.0" y="64.0" width="90" height="176.0" fill="#0d9488" rx="4"/>
+<text x="335.0" y="58.0" text-anchor="middle" class="v">24</text>
+<text x="335.0" y="260" text-anchor="middle" class="cat">Frontend</text>
+<rect x="450.0" y="203.3" width="90" height="36.7" fill="#d97706" rx="4"/>
+<text x="495.0" y="197.3" text-anchor="middle" class="v">5</text>
+<text x="495.0" y="260" text-anchor="middle" class="cat">Monolith</text>
+<rect x="610.0" y="232.7" width="90" height="7.3" fill="#be123c" rx="4"/>
+<text x="655.0" y="226.7" text-anchor="middle" class="v">1</text>
+<text x="655.0" y="260" text-anchor="middle" class="cat">Direct</text>
+<text x="400.0" y="324" text-anchor="middle" class="sm">57 changesets  ·  1,303 files  ·  +120,929 / −31,170 lines</text>
+</svg>
