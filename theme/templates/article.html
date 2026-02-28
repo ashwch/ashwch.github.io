@@ -53,4 +53,32 @@
 <style type="text/css">
 {% include 'ipynb.css' %}
 </style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var content = document.querySelector('.article-content');
+  if (!content) return;
+
+  var seen = {};
+  var abbrs = content.querySelectorAll('abbr[title]');
+
+  abbrs.forEach(function (abbr) {
+    var key = abbr.textContent.trim();
+    // Skip abbreviations inside headings
+    if (abbr.closest('h1, h2, h3, h4, h5, h6')) return;
+    if (!seen[key]) {
+      seen[key] = true;
+      abbr.classList.add('abbr-first');
+    }
+  });
+
+  var firstAbbrs = content.querySelectorAll('abbr.abbr-first');
+  firstAbbrs.forEach(function (el) {
+    new bootstrap.Tooltip(el, {
+      delay: { show: 300, hide: 0 },
+      trigger: 'hover focus'
+    });
+  });
+});
+</script>
 {% endblock %}

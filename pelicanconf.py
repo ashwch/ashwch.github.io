@@ -1,4 +1,9 @@
 import datetime
+import os
+import sys
+
+# Make plugins directory importable
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "plugins"))
 
 CURRENT_YEAR = datetime.datetime.now().year
 
@@ -60,6 +65,9 @@ CURRENT_YEAR = datetime.datetime.now().year
 STATIC_PATHS = ['images', 'images/photography/thumbnails', 'extra/CNAME']
 EXTRA_PATH_METADATA = {'extra/CNAME': {'path': 'CNAME'}}
 
+# Path to shared abbreviations file
+_ABBR_FILE = os.path.join(os.path.dirname(__file__), "abbreviations.md")
+
 # Markdown extensions for anchor links
 MARKDOWN = {
     'extension_configs': {
@@ -69,6 +77,9 @@ MARKDOWN = {
         'markdown.extensions.codehilite': {'css_class': 'highlight'},
         'markdown.extensions.extra': {},
         'markdown.extensions.meta': {},
+        'shared_abbreviations:SharedAbbrExtension': {
+            'file': _ABBR_FILE,
+        },
     },
     'output_format': 'html5',
 }
