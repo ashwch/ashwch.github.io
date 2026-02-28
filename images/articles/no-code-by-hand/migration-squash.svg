@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 120" width="800" height="120" role="img" aria-label="Migration topology simplification">
+<defs><style>
+text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; }
+.v { font-weight: 700; font-size: 14px; fill: #0f172a; }
+.vl { font-weight: 700; font-size: 14px; fill: #ffffff; }
+.cat { font-weight: 600; font-size: 13px; fill: #334155; }
+.sm { font-weight: 500; font-size: 11px; fill: #64748b; }
+.sm-dark { font-weight: 500; font-size: 11px; fill: #334155; }
+.smb { font-weight: 600; font-size: 11px; fill: #64748b; }
+.ax { stroke: #cbd5e1; stroke-width: 1; }
+.grid { stroke: #e2e8f0; stroke-width: 1; stroke-dasharray: 4 3; }
+.box-label { font-weight: 700; font-size: 12px; fill: #ffffff; }
+.box-sub { font-weight: 500; font-size: 11px; fill: rgba(255,255,255,0.85); }
+.heading { font-weight: 700; font-size: 13px; fill: #334155; }
+.heading-sm { font-weight: 600; font-size: 12px; fill: #64748b; }
+.good { font-weight: 600; font-size: 11px; fill: #059669; }
+.bad { font-weight: 600; font-size: 11px; fill: #dc2626; }
+</style></defs>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<rect x="20" y="10" width="372" height="100" rx="8" fill="#f8fafc" stroke="#fca5a5" stroke-width="1.5"/>
+<text x="34" y="30" class="bad">Before: tangled migration graph</text>
+<circle cx="50" cy="55" r="8" fill="#cbd5e1"/>
+<circle cx="100" cy="73" r="8" fill="#cbd5e1"/>
+<line x1="58" y1="55" x2="92" y2="73" stroke="#cbd5e1" stroke-width="1"/>
+<circle cx="150" cy="91" r="8" fill="#cbd5e1"/>
+<line x1="108" y1="73" x2="142" y2="91" stroke="#cbd5e1" stroke-width="1"/>
+<line x1="58" y1="55" x2="142" y2="91" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="2 2"/>
+<circle cx="190" cy="55" r="8" fill="#cbd5e1"/>
+<line x1="158" y1="91" x2="182" y2="55" stroke="#cbd5e1" stroke-width="1"/>
+<line x1="108" y1="73" x2="182" y2="55" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="2 2"/>
+<circle cx="240" cy="73" r="8" fill="#cbd5e1"/>
+<line x1="198" y1="55" x2="232" y2="73" stroke="#cbd5e1" stroke-width="1"/>
+<line x1="158" y1="91" x2="232" y2="73" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="2 2"/>
+<circle cx="290" cy="91" r="8" fill="#cbd5e1"/>
+<line x1="248" y1="73" x2="282" y2="91" stroke="#cbd5e1" stroke-width="1"/>
+<line x1="198" y1="55" x2="282" y2="91" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="2 2"/>
+<circle cx="330" cy="55" r="8" fill="#cbd5e1"/>
+<line x1="298" y1="91" x2="322" y2="55" stroke="#cbd5e1" stroke-width="1"/>
+<line x1="248" y1="73" x2="322" y2="55" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="2 2"/>
+<rect x="408" y="10" width="372" height="100" rx="8" fill="#f8fafc" stroke="#86efac" stroke-width="1.5"/>
+<text x="422" y="30" class="good">After: squashed, clean lineage</text>
+<circle cx="468" cy="68" r="10" fill="#0d9488"/>
+<circle cx="548" cy="68" r="10" fill="#0d9488"/>
+<line x1="478" y1="68" x2="538" y2="68" stroke="#0d9488" stroke-width="2"/>
+<circle cx="628" cy="68" r="10" fill="#0d9488"/>
+<line x1="558" y1="68" x2="618" y2="68" stroke="#0d9488" stroke-width="2"/>
+<circle cx="708" cy="68" r="10" fill="#0d9488"/>
+<line x1="638" y1="68" x2="698" y2="68" stroke="#0d9488" stroke-width="2"/>
+</svg>

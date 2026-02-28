@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 430" width="800" height="430" role="img" aria-label="Non-product changesets by workstream">
+<defs><style>
+text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; }
+.v { font-weight: 700; font-size: 14px; fill: #0f172a; }
+.vl { font-weight: 700; font-size: 14px; fill: #ffffff; }
+.cat { font-weight: 600; font-size: 13px; fill: #334155; }
+.sm { font-weight: 500; font-size: 11px; fill: #64748b; }
+.sm-dark { font-weight: 500; font-size: 11px; fill: #334155; }
+.smb { font-weight: 600; font-size: 11px; fill: #64748b; }
+.ax { stroke: #cbd5e1; stroke-width: 1; }
+.grid { stroke: #e2e8f0; stroke-width: 1; stroke-dasharray: 4 3; }
+.box-label { font-weight: 700; font-size: 12px; fill: #ffffff; }
+.box-sub { font-weight: 500; font-size: 11px; fill: rgba(255,255,255,0.85); }
+.heading { font-weight: 700; font-size: 13px; fill: #334155; }
+.heading-sm { font-weight: 600; font-size: 12px; fill: #64748b; }
+.good { font-weight: 600; font-size: 11px; fill: #059669; }
+.bad { font-weight: 600; font-size: 11px; fill: #dc2626; }
+</style></defs>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="168" y="42.1" text-anchor="end" class="cat">Security &amp; dependency</text>
+<rect x="180" y="27.1" width="540" height="22.1" fill="#f1f5f9" rx="4"/>
+<rect x="180" y="27.1" width="540.0" height="22.1" fill="#1e3a5f" rx="4"/>
+<text x="728.0" y="42.1" class="v">12</text>
+<text x="790" y="42.1" text-anchor="end" class="sm">33 files</text>
+<text x="168" y="86.3" text-anchor="end" class="cat">Testing platform</text>
+<rect x="180" y="71.3" width="540" height="22.1" fill="#f1f5f9" rx="4"/>
+<rect x="180" y="71.3" width="495.0" height="22.1" fill="#1e3a5f" rx="4"/>
+<text x="683.0" y="86.3" class="v">11</text>
+<text x="790" y="86.3" text-anchor="end" class="sm">147 files</text>
+<text x="168" y="130.6" text-anchor="end" class="cat">Operations &amp; safety</text>
+<rect x="180" y="115.5" width="540" height="22.1" fill="#f1f5f9" rx="4"/>
+<rect x="180" y="115.5" width="360.0" height="22.1" fill="#1e3a5f" rx="4"/>
+<text x="548.0" y="130.6" class="v">8</text>
+<text x="790" y="130.6" text-anchor="end" class="sm">99 files</text>
+<text x="168" y="174.8" text-anchor="end" class="cat">CI architecture</text>
+<rect x="180" y="159.7" width="540" height="22.1" fill="#f1f5f9" rx="4"/>
+<rect x="180" y="159.7" width="360.0" height="22.1" fill="#1e3a5f" rx="4"/>
+<text x="548.0" y="174.8" class="v">8</text>
+<text x="790" y="174.8" text-anchor="end" class="sm">59 files</text>
+<text x="168" y="219.0" text-anchor="end" class="cat">Debt &amp; migrations</text>
+<rect x="180" y="203.9" width="540" height="22.1" fill="#f1f5f9" rx="4"/>
+<rect x="180" y="203.9" width="270.0" height="22.1" fill="#1e3a5f" rx="4"/>
+<text x="458.0" y="219.0" class="v">6</text>
+<text x="790" y="219.0" text-anchor="end" class="sm">212 files</text>
+<text x="168" y="263.2" text-anchor="end" class="cat">Agent workflow skills</text>
+<rect x="180" y="248.2" width="540" height="22.1" fill="#f1f5f9" rx="4"/>
+<rect x="180" y="248.2" width="180.0" height="22.1" fill="#1e3a5f" rx="4"/>
+<text x="368.0" y="263.2" class="v">4</text>
+<text x="790" y="263.2" text-anchor="end" class="sm">17 files</text>
+<text x="168" y="307.4" text-anchor="end" class="cat">Local dev &amp; worktrees</text>
+<rect x="180" y="292.4" width="540" height="22.1" fill="#f1f5f9" rx="4"/>
+<rect x="180" y="292.4" width="180.0" height="22.1" fill="#1e3a5f" rx="4"/>
+<text x="368.0" y="307.4" class="v">4</text>
+<text x="790" y="307.4" text-anchor="end" class="sm">57 files</text>
+<text x="168" y="351.7" text-anchor="end" class="cat">Typing modernization</text>
+<rect x="180" y="336.6" width="540" height="22.1" fill="#f1f5f9" rx="4"/>
+<rect x="180" y="336.6" width="135.0" height="22.1" fill="#1e3a5f" rx="4"/>
+<text x="323.0" y="351.7" class="v">3</text>
+<text x="790" y="351.7" text-anchor="end" class="sm">659 files</text>
+<text x="168" y="395.9" text-anchor="end" class="cat">Prototype infra</text>
+<rect x="180" y="380.8" width="540" height="22.1" fill="#f1f5f9" rx="4"/>
+<rect x="180" y="380.8" width="45.0" height="22.1" fill="#1e3a5f" rx="4"/>
+<text x="233.0" y="395.9" class="v">1</text>
+<text x="790" y="395.9" text-anchor="end" class="sm">20 files</text>
+</svg>

@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="author" content="Ashwini Chaudhary(Monty)">
+        <meta name="description" content="">
+        <title>Tag: team-learning | Ashwini's blog</title>
+
+        <!-- Favicon -->
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/favicon.ico" type="image/x-icon">
+        
+        <!-- RSS Feed -->
+        <link rel="alternate" type="application/atom+xml" title="Ashwini's blog blog atom feed" href="/feeds/all.atom.xml" />
+        
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+        
+        <!-- Bootstrap 5 -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        
+        <!-- Font Awesome for icons -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        
+        <!-- Icons CSS -->
+        <link rel="stylesheet" type="text/css" href="/theme/css/icons.css"/>
+        
+        <!-- Code highlighting -->
+        <style>.highlight .hll { background-color: #ffffcc }
+.highlight .c { color: #60a0b0; font-style: italic } /* Comment */
+.highlight .err { border: 1px solid #FF0000 } /* Error */
+.highlight .k { color: #007020; font-weight: bold } /* Keyword */
+.highlight .o { color: #666666 } /* Operator */
+.highlight .cm { color: #60a0b0; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #007020 } /* Comment.Preproc */
+.highlight .c1 { color: #60a0b0; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #60a0b0; background-color: #fff0f0 } /* Comment.Special */
+.highlight .gd { color: #A00000 } /* Generic.Deleted */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #FF0000 } /* Generic.Error */
+.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #00A000 } /* Generic.Inserted */
+.highlight .go { color: #808080 } /* Generic.Output */
+.highlight .gp { color: #c65d09; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight .gt { color: #0040D0 } /* Generic.Traceback */
+.highlight .kc { color: #007020; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #007020; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #007020; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #007020 } /* Keyword.Pseudo */
+.highlight .kr { color: #007020; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #902000 } /* Keyword.Type */
+.highlight .m { color: #40a070 } /* Literal.Number */
+.highlight .s { color: #4070a0 } /* Literal.String */
+.highlight .na { color: #4070a0 } /* Name.Attribute */
+.highlight .nb { color: #007020 } /* Name.Builtin */
+.highlight .nc { color: #0e84b5; font-weight: bold } /* Name.Class */
+.highlight .no { color: #60add5 } /* Name.Constant */
+.highlight .nd { color: #555555; font-weight: bold } /* Name.Decorator */
+.highlight .ni { color: #d55537; font-weight: bold } /* Name.Entity */
+.highlight .ne { color: #007020 } /* Name.Exception */
+.highlight .nf { color: #06287e } /* Name.Function */
+.highlight .nl { color: #002070; font-weight: bold } /* Name.Label */
+.highlight .nn { color: #0e84b5; font-weight: bold } /* Name.Namespace */
+.highlight .nt { color: #062873; font-weight: bold } /* Name.Tag */
+.highlight .nv { color: #bb60d5 } /* Name.Variable */
+.highlight .ow { color: #007020; font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mf { color: #40a070 } /* Literal.Number.Float */
+.highlight .mh { color: #40a070 } /* Literal.Number.Hex */
+.highlight .mi { color: #40a070 } /* Literal.Number.Integer */
+.highlight .mo { color: #40a070 } /* Literal.Number.Oct */
+.highlight .sb { color: #4070a0 } /* Literal.String.Backtick */
+.highlight .sc { color: #4070a0 } /* Literal.String.Char */
+.highlight .sd { color: #4070a0; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #4070a0 } /* Literal.String.Double */
+.highlight .se { color: #4070a0; font-weight: bold } /* Literal.String.Escape */
+.highlight .sh { color: #4070a0 } /* Literal.String.Heredoc */
+.highlight .si { color: #70a0d0; font-style: italic } /* Literal.String.Interpol */
+.highlight .sx { color: #c65d09 } /* Literal.String.Other */
+.highlight .sr { color: #235388 } /* Literal.String.Regex */
+.highlight .s1 { color: #4070a0 } /* Literal.String.Single */
+.highlight .ss { color: #517918 } /* Literal.String.Symbol */
+.highlight .bp { color: #007020 } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #bb60d5 } /* Name.Variable.Class */
+.highlight .vg { color: #bb60d5 } /* Name.Variable.Global */
+.highlight .vi { color: #bb60d5 } /* Name.Variable.Instance */
+.highlight .il { color: #40a070 } /* Literal.Number.Integer.Long */</style>
+        
+        <!-- Main CSS -->
+        <style>/* Base styles */
+:root {
+  /* Light theme (default) */
+  --primary-color: #3b82f6;
+  --primary-dark: #2563eb;
+  --secondary-color: #6366f1;
+  --text-color: #1f2937;
+  --text-light: #4b5563;
+  --background-color: #ffffff;
+  --background-alt: #f9fafb;
+  --border-color: #e5e7eb;
+  --code-bg: #f3f4f6;
+  --link-hover: #1d4ed8;
+  --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --navbar-bg: #ffffff;
+  --navbar-color: #4b5563;
+  --footer-bg: #f8f9fa;
+  --footer-color: #6c757d;
+  --card-bg: #ffffff;
+  --blockquote-bg: #f9fafb;
+}
+
+/* Dark theme */
+[data-theme="dark"] {
+  --primary-color: #60a5fa;
+  --primary-dark: #3b82f6;
+  --secondary-color: #818cf8;
+  --text-color: #f3f4f6;
+  --text-light: #d1d5db;
+  --background-color: #111827;
+  --background-alt: #1f2937;
+  --border-color: #374151;
+  --code-bg: #282c34;
+  --link-hover: #93c5fd;
+  --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+  --navbar-bg: #111827;
+  --navbar-color: #d1d5db;
+  --footer-bg: #1f2937;
+  --footer-color: #9ca3af;
+  --card-bg: #1f2937;
+  --blockquote-bg: #111827;
+}
+
+/* Typography Variables */
+:root {
+  --font-heading: 'Poppins', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-body: 'Source Sans 3', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', 'Monaco', 'Inconsolata', monospace;
+}
+
+body {
+  font-family: var(--font-body);
+  font-weight: 400;
+  line-height: 1.7;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  transition: color 0.3s ease, background-color 0.3s ease;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+a:hover {
+  color: var(--link-hover);
+  text-decoration: underline;
+}
+
+/* Layout */
+.site-content {
+  flex: 1 0 auto;
+}
+
+.container {
+  max-width: 1200px;
+  padding: 0 1.5rem;
+}
+
+/* Header */
+.site-header {
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--navbar-bg);
+  transition: background-color 0.3s ease;
+}
+
+.navbar-brand {
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--text-color);
+  transition: color 0.3s ease;
+}
+
+.navbar-light .navbar-nav .nav-link {
+  color: var(--navbar-color);
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  transition: color 0.3s ease;
+}
+
+.navbar-light .navbar-nav .nav-link:hover {
+  color: var(--primary-color);
+}
+
+/* Theme toggle button styling */
+#theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid var(--border-color);
+  background-color: var(--background-alt);
+  color: var(--text-color);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#theme-toggle:hover {
+  transform: rotate(15deg);
+  background-color: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+/* Article Cards */
+.article-card {
+  background: var(--card-bg);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  margin-bottom: 2.5rem;
+  box-shadow: var(--card-shadow);
+  transition: transform 0.2s, box-shadow 0.2s, background-color 0.3s ease;
+}
+
+.article-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.article-card .card-body {
+  padding: 1.5rem;
+}
+
+.article-card .card-title {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.01em;
+}
+
+.article-card .card-title a {
+  color: var(--text-color);
+  transition: color 0.2s;
+}
+
+.article-card .card-title a:hover {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+.article-card .card-text {
+  color: var(--text-light);
+  margin-bottom: 1rem;
+}
+
+.article-card .card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.875rem;
+  color: var(--text-light);
+}
+
+.article-card .card-date {
+  color: var(--text-light);
+}
+
+/* Tags container styling */
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Tag styling */
+.tag {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  background: var(--background-alt);
+  color: var(--text-light);
+  border-radius: 9999px;
+  transition: all 0.2s;
+}
+
+.tag:hover {
+  background: var(--primary-color);
+  color: white;
+  text-decoration: none;
+}
+
+/* Tag with active state */
+.tag.active {
+  background: var(--primary-color);
+  color: white;
+}
+
+/* Back to Posts button styling */
+.back-to-posts {
+  display: inline-block;
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 0.5rem 1rem;
+  color: var(--primary-color);
+  background-color: transparent;
+  border: 1px solid var(--primary-color);
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.back-to-posts:hover {
+  background-color: var(--primary-color);
+  color: white;
+  text-decoration: none;
+}
+
+/* Icon for back button */
+.back-to-posts i {
+  margin-right: 0.25rem;
+}
+
+/* Clear separation between tags and back button */
+.tags-section {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* Container for back button */
+.back-button-container {
+  margin-bottom: 2rem;
+}
+
+/* Article page */
+.article-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.article-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-color);
+}
+
+.article-header time {
+  color: var(--text-light);
+  font-size: 0.9rem;
+}
+
+.article-content {
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+  line-height: 1.85;
+  font-weight: 400;
+  color: var(--text-color);
+}
+
+.article-content p {
+  margin-top: 0;
+  margin-bottom: 1.25rem;
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+.article-content h2 {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 700;
+  margin-top: 3rem;
+  margin-bottom: 1.25rem;
+  color: var(--text-color);
+  letter-spacing: -0.02em;
+}
+
+.article-content h3 {
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+  letter-spacing: -0.01em;
+}
+
+.article-content h4 {
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+}
+
+.article-content ul, 
+.article-content ol {
+  margin-bottom: 1.5rem;
+  padding-left: 1.5rem;
+}
+
+.article-content li {
+  margin-bottom: 0.5rem;
+}
+
+.article-content blockquote {
+  margin-top: 0.75rem !important;
+  margin-bottom: 0.75rem !important;
+  padding: 1rem 1.5rem;
+  border-left: 4px solid var(--primary-color);
+  background-color: var(--blockquote-bg);
+  font-style: italic;
+  transition: background-color 0.3s ease;
+}
+
+/* Override any Bootstrap blockquote styles */
+.article-content blockquote p {
+  margin-bottom: 0 !important;
+}
+
+.article-content blockquote p:last-child {
+  margin-bottom: 0 !important;
+}
+
+.article-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  margin: 1.5rem 0;
+}
+
+/* Figure styling for charts and diagrams */
+.article-content figure {
+  margin: 2.5rem 0;
+  padding: 0;
+  text-align: center;
+}
+
+.article-content figure img {
+  display: block;
+  margin: 0 auto 0.75rem;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.article-content figcaption {
+  font-size: 0.875rem;
+  color: var(--text-light);
+  font-style: italic;
+  text-align: center;
+  max-width: 90%;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+/* Dark mode: give SVG images a white background for legibility */
+[data-theme="dark"] .article-content figure img[src$=".svg"] {
+  background: #ffffff;
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+}
+
+/* Callout boxes for key metrics and takeaways */
+.article-content .callout {
+  margin: 1.5rem 0;
+  padding: 1rem 1.25rem;
+  border-radius: 0.5rem;
+  background-color: var(--background-alt);
+  border-left: 4px solid var(--primary-color);
+  transition: background-color 0.3s ease;
+}
+
+.article-content .callout p {
+  margin-bottom: 0.5rem;
+  text-align: left;
+}
+
+.article-content .callout p:last-child {
+  margin-bottom: 0;
+}
+
+/* Key metric highlight */
+.article-content .metric {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.article-content pre {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background-color: var(--code-bg);
+  overflow-x: auto;
+  font-size: 0.9rem;
+}
+
+.article-content code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  font-weight: 500;
+  padding: 0.2em 0.4em;
+  border-radius: 0.25rem;
+  background-color: var(--code-bg);
+}
+
+.article-content pre code {
+  padding: 0;
+  background-color: transparent;
+}
+
+/* Article Meta */
+.article-meta {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.read-more-link {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: var(--primary-color);
+  color: white;
+  font-weight: 500;
+  border-radius: 0.25rem;
+  transition: background-color 0.2s;
+}
+
+.read-more-link:hover {
+  background-color: var(--primary-dark);
+  text-decoration: none;
+  color: white;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  margin: 3rem 0;
+}
+
+.pagination-prev,
+.pagination-next {
+  flex: 0 0 auto;
+}
+
+.pagination a {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--primary-color);
+  border-radius: 0.25rem;
+  color: var(--primary-color);
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.pagination a:hover {
+  background-color: var(--primary-color);
+  color: white;
+  text-decoration: none;
+}
+
+/* Archives & Tags */
+.archives-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.archives-list li {
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.archives-list li:last-child {
+  border-bottom: none;
+}
+
+.archives-list h3 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.archives-list time {
+  color: var(--text-light);
+  font-size: 0.875rem;
+}
+
+/* About page */
+.about-header {
+  margin-bottom: 2rem;
+}
+
+.social-links ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 0;
+  margin: 1rem 0;
+  list-style: none;
+}
+
+.social-links a {
+  color: var(--text-light);
+  transition: color 0.2s;
+}
+
+.social-links a:hover {
+  color: var(--primary-color);
+}
+
+/* Footer */
+.site-footer {
+  border-top: 1px solid var(--border-color);
+  font-size: 0.9rem;
+  background-color: var(--footer-bg);
+  color: var(--footer-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.site-footer a {
+  color: var(--text-color);
+  transition: color 0.3s ease;
+}
+
+.site-footer a:hover {
+  color: var(--primary-color);
+}
+
+/* Theme Transition Effects */
+.article-header, 
+.article-content,
+.article-meta,
+.card-body,
+.card-title a,
+.card-text,
+.card-meta,
+.tag,
+pre,
+code,
+.read-more-link,
+.pagination a {
+  transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Style adjustments for the dark theme */
+[data-theme="dark"] .navbar-light {
+  background-color: var(--navbar-bg) !important;
+}
+
+[data-theme="dark"] .navbar-light .navbar-nav .nav-link,
+[data-theme="dark"] .navbar-brand {
+  color: var(--text-color);
+}
+
+[data-theme="dark"] .navbar-light .navbar-toggler-icon {
+  filter: invert(1);
+}
+
+[data-theme="dark"] .bg-light {
+  background-color: var(--background-alt) !important;
+}
+
+[data-theme="dark"] .bg-white {
+  background-color: var(--background-color) !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .article-header h1 {
+    font-size: 2rem;
+  }
+  
+  .article-content h2 {
+    font-size: 1.5rem;
+  }
+  
+  .article-content h3 {
+    font-size: 1.3rem;
+  }
+  
+  .article-card .card-title {
+    font-size: 1.3rem;
+  }
+  
+  .social-links ul {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .pagination {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+  }
+}</style>
+
+
+    </head>
+
+    <body>
+        <header class="site-header shadow-sm">
+            <nav class="navbar navbar-expand-lg navbar-light bg-white">
+                <div class="container">
+                    <a class="navbar-brand fw-bold" href="/">Ashwini's blog</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav ms-auto">
+                                <li class="nav-item"><a class="nav-link" href="/pages/about.html" title="About">About</a></li>
+                                <li class="nav-item"><a class="nav-link" href="/pages/projects.html" title="Projects">Projects</a></li>
+                                <li class="nav-item"><a class="nav-link" href="/pages/photography.html" title="Photography">Photography</a></li>
+                                <li class="nav-item"><a class="nav-link" href="/archives.html" title="Archive">Archive</a></li>
+                                <li class="nav-item"><a class="nav-link icon-rss" href="/feeds/all.atom.xml" title="Ashwini's blog RSS feed" rel="me"></a></li>
+                            <li class="nav-item">
+                                <button id="theme-toggle" class="btn btn-sm btn-outline-secondary ms-2" aria-label="Toggle theme">
+                                    <span id="theme-toggle-light" class="d-none">☀️</span>
+                                    <span id="theme-toggle-dark" class="d-none">🌙</span>
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <main class="site-content my-4">
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 mx-auto">
+      <article class="tag-page">
+        <header class="mb-5">
+          <h1>Tag: <span class="tag-highlight">team-learning</span></h1>
+        </header>
+
+        <div class="tag-content">
+          <ul class="archives-list">
+              <li class="d-flex justify-content-between align-items-center">
+                <h3><a href="https://ashwch.com/no-code-by-hand-agentic-platform-acceleration.html"><del>No Code</del> by Hand</a></h3>
+                <time>28.02.2026</time>
+              </li>
+          </ul>
+          
+          <div class="mt-5">
+            <a href="https://ashwch.com/archives.html" class="btn btn-outline-primary">Back to Archives</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</div>
+        </main>
+
+        <footer class="site-footer mt-5 py-4 bg-light">
+            <div class="container text-center">
+                <p class="mb-0">
+                    © 2026 Ashwini Chaudhary(Monty), license <a href="https://github.com/ashwch/ashwch.github.io/blob/master/LICENSE">MIT</a>
+                    unless otherwise noted.
+                </p>
+                <p class="mb-0 small text-muted">
+                    Generated by <a href="http://docs.getpelican.com/">Pelican</a>
+                </p>
+            </div>
+        </footer>
+
+        <!-- Bootstrap JS Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        
+        <!-- Theme Switching Script -->
+        <script>
+            // Theme switching functionality
+            (function() {
+                const themeToggle = document.getElementById('theme-toggle');
+                const lightIcon = document.getElementById('theme-toggle-light');
+                const darkIcon = document.getElementById('theme-toggle-dark');
+                const htmlElement = document.documentElement;
+                
+                // Function to set theme
+                function setTheme(theme) {
+                    if (theme === 'dark') {
+                        htmlElement.setAttribute('data-theme', 'dark');
+                        localStorage.setItem('theme', 'dark');
+                        lightIcon.classList.add('d-none');
+                        darkIcon.classList.remove('d-none');
+                    } else {
+                        htmlElement.setAttribute('data-theme', 'light');
+                        localStorage.setItem('theme', 'light');
+                        darkIcon.classList.add('d-none');
+                        lightIcon.classList.remove('d-none');
+                    }
+                }
+                
+                // Check for saved user preference, system preference, or default to light
+                const savedTheme = localStorage.getItem('theme');
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                
+                if (savedTheme === 'dark') {
+                    setTheme('dark');
+                } else if (savedTheme === 'light') {
+                    setTheme('light');
+                } else if (prefersDark) {
+                    setTheme('dark');
+                } else {
+                    setTheme('light');
+                }
+                
+                // Toggle theme on button click
+                themeToggle.addEventListener('click', () => {
+                    const currentTheme = htmlElement.getAttribute('data-theme');
+                    if (currentTheme === 'dark') {
+                        setTheme('light');
+                    } else {
+                        setTheme('dark');
+                    }
+                });
+            })();
+        </script>
+
+<!-- Google Analytics (GA4) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8G7DZ59108"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-8G7DZ59108');
+</script>
+    </body>
+</html>

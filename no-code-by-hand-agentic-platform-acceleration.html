@@ -1,0 +1,1393 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="author" content="Ashwini Chaudhary(Monty)">
+        <meta name="description" content="">
+        <title>No Code by Hand | Ashwini's blog</title>
+
+        <!-- Favicon -->
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/favicon.ico" type="image/x-icon">
+        
+        <!-- RSS Feed -->
+        <link rel="alternate" type="application/atom+xml" title="Ashwini's blog blog atom feed" href="/feeds/all.atom.xml" />
+        
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+        
+        <!-- Bootstrap 5 -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        
+        <!-- Font Awesome for icons -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        
+        <!-- Icons CSS -->
+        <link rel="stylesheet" type="text/css" href="/theme/css/icons.css"/>
+        
+        <!-- Code highlighting -->
+        <style>.highlight .hll { background-color: #ffffcc }
+.highlight .c { color: #60a0b0; font-style: italic } /* Comment */
+.highlight .err { border: 1px solid #FF0000 } /* Error */
+.highlight .k { color: #007020; font-weight: bold } /* Keyword */
+.highlight .o { color: #666666 } /* Operator */
+.highlight .cm { color: #60a0b0; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #007020 } /* Comment.Preproc */
+.highlight .c1 { color: #60a0b0; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #60a0b0; background-color: #fff0f0 } /* Comment.Special */
+.highlight .gd { color: #A00000 } /* Generic.Deleted */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #FF0000 } /* Generic.Error */
+.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #00A000 } /* Generic.Inserted */
+.highlight .go { color: #808080 } /* Generic.Output */
+.highlight .gp { color: #c65d09; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight .gt { color: #0040D0 } /* Generic.Traceback */
+.highlight .kc { color: #007020; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #007020; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #007020; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #007020 } /* Keyword.Pseudo */
+.highlight .kr { color: #007020; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #902000 } /* Keyword.Type */
+.highlight .m { color: #40a070 } /* Literal.Number */
+.highlight .s { color: #4070a0 } /* Literal.String */
+.highlight .na { color: #4070a0 } /* Name.Attribute */
+.highlight .nb { color: #007020 } /* Name.Builtin */
+.highlight .nc { color: #0e84b5; font-weight: bold } /* Name.Class */
+.highlight .no { color: #60add5 } /* Name.Constant */
+.highlight .nd { color: #555555; font-weight: bold } /* Name.Decorator */
+.highlight .ni { color: #d55537; font-weight: bold } /* Name.Entity */
+.highlight .ne { color: #007020 } /* Name.Exception */
+.highlight .nf { color: #06287e } /* Name.Function */
+.highlight .nl { color: #002070; font-weight: bold } /* Name.Label */
+.highlight .nn { color: #0e84b5; font-weight: bold } /* Name.Namespace */
+.highlight .nt { color: #062873; font-weight: bold } /* Name.Tag */
+.highlight .nv { color: #bb60d5 } /* Name.Variable */
+.highlight .ow { color: #007020; font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mf { color: #40a070 } /* Literal.Number.Float */
+.highlight .mh { color: #40a070 } /* Literal.Number.Hex */
+.highlight .mi { color: #40a070 } /* Literal.Number.Integer */
+.highlight .mo { color: #40a070 } /* Literal.Number.Oct */
+.highlight .sb { color: #4070a0 } /* Literal.String.Backtick */
+.highlight .sc { color: #4070a0 } /* Literal.String.Char */
+.highlight .sd { color: #4070a0; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #4070a0 } /* Literal.String.Double */
+.highlight .se { color: #4070a0; font-weight: bold } /* Literal.String.Escape */
+.highlight .sh { color: #4070a0 } /* Literal.String.Heredoc */
+.highlight .si { color: #70a0d0; font-style: italic } /* Literal.String.Interpol */
+.highlight .sx { color: #c65d09 } /* Literal.String.Other */
+.highlight .sr { color: #235388 } /* Literal.String.Regex */
+.highlight .s1 { color: #4070a0 } /* Literal.String.Single */
+.highlight .ss { color: #517918 } /* Literal.String.Symbol */
+.highlight .bp { color: #007020 } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #bb60d5 } /* Name.Variable.Class */
+.highlight .vg { color: #bb60d5 } /* Name.Variable.Global */
+.highlight .vi { color: #bb60d5 } /* Name.Variable.Instance */
+.highlight .il { color: #40a070 } /* Literal.Number.Integer.Long */</style>
+        
+        <!-- Main CSS -->
+        <style>/* Base styles */
+:root {
+  /* Light theme (default) */
+  --primary-color: #3b82f6;
+  --primary-dark: #2563eb;
+  --secondary-color: #6366f1;
+  --text-color: #1f2937;
+  --text-light: #4b5563;
+  --background-color: #ffffff;
+  --background-alt: #f9fafb;
+  --border-color: #e5e7eb;
+  --code-bg: #f3f4f6;
+  --link-hover: #1d4ed8;
+  --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --navbar-bg: #ffffff;
+  --navbar-color: #4b5563;
+  --footer-bg: #f8f9fa;
+  --footer-color: #6c757d;
+  --card-bg: #ffffff;
+  --blockquote-bg: #f9fafb;
+}
+
+/* Dark theme */
+[data-theme="dark"] {
+  --primary-color: #60a5fa;
+  --primary-dark: #3b82f6;
+  --secondary-color: #818cf8;
+  --text-color: #f3f4f6;
+  --text-light: #d1d5db;
+  --background-color: #111827;
+  --background-alt: #1f2937;
+  --border-color: #374151;
+  --code-bg: #282c34;
+  --link-hover: #93c5fd;
+  --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+  --navbar-bg: #111827;
+  --navbar-color: #d1d5db;
+  --footer-bg: #1f2937;
+  --footer-color: #9ca3af;
+  --card-bg: #1f2937;
+  --blockquote-bg: #111827;
+}
+
+/* Typography Variables */
+:root {
+  --font-heading: 'Poppins', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-body: 'Source Sans 3', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', 'Monaco', 'Inconsolata', monospace;
+}
+
+body {
+  font-family: var(--font-body);
+  font-weight: 400;
+  line-height: 1.7;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  transition: color 0.3s ease, background-color 0.3s ease;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+a:hover {
+  color: var(--link-hover);
+  text-decoration: underline;
+}
+
+/* Layout */
+.site-content {
+  flex: 1 0 auto;
+}
+
+.container {
+  max-width: 1200px;
+  padding: 0 1.5rem;
+}
+
+/* Header */
+.site-header {
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--navbar-bg);
+  transition: background-color 0.3s ease;
+}
+
+.navbar-brand {
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--text-color);
+  transition: color 0.3s ease;
+}
+
+.navbar-light .navbar-nav .nav-link {
+  color: var(--navbar-color);
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  transition: color 0.3s ease;
+}
+
+.navbar-light .navbar-nav .nav-link:hover {
+  color: var(--primary-color);
+}
+
+/* Theme toggle button styling */
+#theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid var(--border-color);
+  background-color: var(--background-alt);
+  color: var(--text-color);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#theme-toggle:hover {
+  transform: rotate(15deg);
+  background-color: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+/* Article Cards */
+.article-card {
+  background: var(--card-bg);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  margin-bottom: 2.5rem;
+  box-shadow: var(--card-shadow);
+  transition: transform 0.2s, box-shadow 0.2s, background-color 0.3s ease;
+}
+
+.article-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.article-card .card-body {
+  padding: 1.5rem;
+}
+
+.article-card .card-title {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.01em;
+}
+
+.article-card .card-title a {
+  color: var(--text-color);
+  transition: color 0.2s;
+}
+
+.article-card .card-title a:hover {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+.article-card .card-text {
+  color: var(--text-light);
+  margin-bottom: 1rem;
+}
+
+.article-card .card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.875rem;
+  color: var(--text-light);
+}
+
+.article-card .card-date {
+  color: var(--text-light);
+}
+
+/* Tags container styling */
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Tag styling */
+.tag {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  background: var(--background-alt);
+  color: var(--text-light);
+  border-radius: 9999px;
+  transition: all 0.2s;
+}
+
+.tag:hover {
+  background: var(--primary-color);
+  color: white;
+  text-decoration: none;
+}
+
+/* Tag with active state */
+.tag.active {
+  background: var(--primary-color);
+  color: white;
+}
+
+/* Back to Posts button styling */
+.back-to-posts {
+  display: inline-block;
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 0.5rem 1rem;
+  color: var(--primary-color);
+  background-color: transparent;
+  border: 1px solid var(--primary-color);
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.back-to-posts:hover {
+  background-color: var(--primary-color);
+  color: white;
+  text-decoration: none;
+}
+
+/* Icon for back button */
+.back-to-posts i {
+  margin-right: 0.25rem;
+}
+
+/* Clear separation between tags and back button */
+.tags-section {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* Container for back button */
+.back-button-container {
+  margin-bottom: 2rem;
+}
+
+/* Article page */
+.article-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.article-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-color);
+}
+
+.article-header time {
+  color: var(--text-light);
+  font-size: 0.9rem;
+}
+
+.article-content {
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+  line-height: 1.85;
+  font-weight: 400;
+  color: var(--text-color);
+}
+
+.article-content p {
+  margin-top: 0;
+  margin-bottom: 1.25rem;
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+.article-content h2 {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 700;
+  margin-top: 3rem;
+  margin-bottom: 1.25rem;
+  color: var(--text-color);
+  letter-spacing: -0.02em;
+}
+
+.article-content h3 {
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+  letter-spacing: -0.01em;
+}
+
+.article-content h4 {
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+}
+
+.article-content ul, 
+.article-content ol {
+  margin-bottom: 1.5rem;
+  padding-left: 1.5rem;
+}
+
+.article-content li {
+  margin-bottom: 0.5rem;
+}
+
+.article-content blockquote {
+  margin-top: 0.75rem !important;
+  margin-bottom: 0.75rem !important;
+  padding: 1rem 1.5rem;
+  border-left: 4px solid var(--primary-color);
+  background-color: var(--blockquote-bg);
+  font-style: italic;
+  transition: background-color 0.3s ease;
+}
+
+/* Override any Bootstrap blockquote styles */
+.article-content blockquote p {
+  margin-bottom: 0 !important;
+}
+
+.article-content blockquote p:last-child {
+  margin-bottom: 0 !important;
+}
+
+.article-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  margin: 1.5rem 0;
+}
+
+/* Figure styling for charts and diagrams */
+.article-content figure {
+  margin: 2.5rem 0;
+  padding: 0;
+  text-align: center;
+}
+
+.article-content figure img {
+  display: block;
+  margin: 0 auto 0.75rem;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.article-content figcaption {
+  font-size: 0.875rem;
+  color: var(--text-light);
+  font-style: italic;
+  text-align: center;
+  max-width: 90%;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+/* Dark mode: give SVG images a white background for legibility */
+[data-theme="dark"] .article-content figure img[src$=".svg"] {
+  background: #ffffff;
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+}
+
+/* Callout boxes for key metrics and takeaways */
+.article-content .callout {
+  margin: 1.5rem 0;
+  padding: 1rem 1.25rem;
+  border-radius: 0.5rem;
+  background-color: var(--background-alt);
+  border-left: 4px solid var(--primary-color);
+  transition: background-color 0.3s ease;
+}
+
+.article-content .callout p {
+  margin-bottom: 0.5rem;
+  text-align: left;
+}
+
+.article-content .callout p:last-child {
+  margin-bottom: 0;
+}
+
+/* Key metric highlight */
+.article-content .metric {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.article-content pre {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background-color: var(--code-bg);
+  overflow-x: auto;
+  font-size: 0.9rem;
+}
+
+.article-content code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  font-weight: 500;
+  padding: 0.2em 0.4em;
+  border-radius: 0.25rem;
+  background-color: var(--code-bg);
+}
+
+.article-content pre code {
+  padding: 0;
+  background-color: transparent;
+}
+
+/* Article Meta */
+.article-meta {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.read-more-link {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: var(--primary-color);
+  color: white;
+  font-weight: 500;
+  border-radius: 0.25rem;
+  transition: background-color 0.2s;
+}
+
+.read-more-link:hover {
+  background-color: var(--primary-dark);
+  text-decoration: none;
+  color: white;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  margin: 3rem 0;
+}
+
+.pagination-prev,
+.pagination-next {
+  flex: 0 0 auto;
+}
+
+.pagination a {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--primary-color);
+  border-radius: 0.25rem;
+  color: var(--primary-color);
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.pagination a:hover {
+  background-color: var(--primary-color);
+  color: white;
+  text-decoration: none;
+}
+
+/* Archives & Tags */
+.archives-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.archives-list li {
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.archives-list li:last-child {
+  border-bottom: none;
+}
+
+.archives-list h3 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.archives-list time {
+  color: var(--text-light);
+  font-size: 0.875rem;
+}
+
+/* About page */
+.about-header {
+  margin-bottom: 2rem;
+}
+
+.social-links ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 0;
+  margin: 1rem 0;
+  list-style: none;
+}
+
+.social-links a {
+  color: var(--text-light);
+  transition: color 0.2s;
+}
+
+.social-links a:hover {
+  color: var(--primary-color);
+}
+
+/* Footer */
+.site-footer {
+  border-top: 1px solid var(--border-color);
+  font-size: 0.9rem;
+  background-color: var(--footer-bg);
+  color: var(--footer-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.site-footer a {
+  color: var(--text-color);
+  transition: color 0.3s ease;
+}
+
+.site-footer a:hover {
+  color: var(--primary-color);
+}
+
+/* Theme Transition Effects */
+.article-header, 
+.article-content,
+.article-meta,
+.card-body,
+.card-title a,
+.card-text,
+.card-meta,
+.tag,
+pre,
+code,
+.read-more-link,
+.pagination a {
+  transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Style adjustments for the dark theme */
+[data-theme="dark"] .navbar-light {
+  background-color: var(--navbar-bg) !important;
+}
+
+[data-theme="dark"] .navbar-light .navbar-nav .nav-link,
+[data-theme="dark"] .navbar-brand {
+  color: var(--text-color);
+}
+
+[data-theme="dark"] .navbar-light .navbar-toggler-icon {
+  filter: invert(1);
+}
+
+[data-theme="dark"] .bg-light {
+  background-color: var(--background-alt) !important;
+}
+
+[data-theme="dark"] .bg-white {
+  background-color: var(--background-color) !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .article-header h1 {
+    font-size: 2rem;
+  }
+  
+  .article-content h2 {
+    font-size: 1.5rem;
+  }
+  
+  .article-content h3 {
+    font-size: 1.3rem;
+  }
+  
+  .article-card .card-title {
+    font-size: 1.3rem;
+  }
+  
+  .social-links ul {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .pagination {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+  }
+}</style>
+
+
+    </head>
+
+    <body>
+        <header class="site-header shadow-sm">
+            <nav class="navbar navbar-expand-lg navbar-light bg-white">
+                <div class="container">
+                    <a class="navbar-brand fw-bold" href="/">Ashwini's blog</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav ms-auto">
+                                <li class="nav-item"><a class="nav-link" href="/pages/about.html" title="About">About</a></li>
+                                <li class="nav-item"><a class="nav-link" href="/pages/projects.html" title="Projects">Projects</a></li>
+                                <li class="nav-item"><a class="nav-link" href="/pages/photography.html" title="Photography">Photography</a></li>
+                                <li class="nav-item"><a class="nav-link" href="/archives.html" title="Archive">Archive</a></li>
+                                <li class="nav-item"><a class="nav-link icon-rss" href="/feeds/all.atom.xml" title="Ashwini's blog RSS feed" rel="me"></a></li>
+                            <li class="nav-item">
+                                <button id="theme-toggle" class="btn btn-sm btn-outline-secondary ms-2" aria-label="Toggle theme">
+                                    <span id="theme-toggle-light" class="d-none">☀️</span>
+                                    <span id="theme-toggle-dark" class="d-none">🌙</span>
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <main class="site-content my-4">
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 mx-auto">
+      <article class="post">
+        <header class="article-header">
+          <h1><del>No Code</del> by Hand</h1>
+          <time datetime="2026-02-28T00:00:00-05:00" pubdate>Sat 28 February 2026</time>
+        </header>
+
+        <div class="article-content">
+          <p><em>How agentic coding helped us clear the hidden queue of engineering work, and why the bigger multiplier was team learning.</em></p>
+<hr>
+<h2 id="the-hidden-queue"><a class="toclink" href="#the-hidden-queue">The hidden queue</a></h2>
+<p>Every engineering team has a version of this story.</p>
+<p>Your roadmap looks healthy. Feature velocity looks fine. Sprint retros are tolerable. But your engineers are still losing chunks of every day to things that were never planned: waiting 16 minutes for CI to tell them a typo failed linting. Restarting Docker because two branches grabbed the same port. Rebuilding a test environment because yesterday's <code>.env</code> has stale API keys. Manually running six database commands in exact order because the snapshot process lives in someone's Slack history. Bumping a dependency because Dependabot fired another alert at 3pm on a Friday.</p>
+<p>That is the hidden queue. It is not on your roadmap, it is not in your sprints, and it is costing you more than most feature work.</p>
+<p>Most teams do not ignore this queue on purpose. It just keeps losing in prioritization because each item feels small in isolation. "Fix the flaky test" is never going to beat "Ship the dashboard redesign" in a planning meeting. But those small items compound. A 16-minute CI wait happens 20 times a day across 5 engineers, and that adds up to over 26 hours of dead time per week - time where nobody is building anything or even thinking about the problem, just staring at a spinner.</p>
+<p>Late last year, we changed one rule: <strong>if something keeps burning team time, it is roadmap work</strong>. Not "tech debt we'll get to someday." Actual, prioritized, measured roadmap work.</p>
+<p>In the 90-day window from <strong>December 1, 2025</strong> through <strong>February 28, 2026</strong>, that rule turned into <strong>57 major non-product changesets</strong> across backend, frontend, and monolith tooling repos: <strong>56 major PRs and 1 major direct commit</strong>, touching <strong>1,303 files</strong> with <strong>120,929 additions</strong> and <strong>31,170 deletions</strong>.</p>
+<figure>
+  <img src="https://ashwch.com/images/articles/no-code-by-hand/changeset-mix.svg" alt="Bar chart showing major non-product changesets by repo type: backend, frontend, monolith, and direct commits.">
+  <figcaption>Non-product engineering changesets in the 90-day window, broken down by repo type.</figcaption>
+</figure>
+
+<p>The point of those numbers is that a whole class of work moved from "someday" to "done" - and we did it without pausing product delivery.</p>
+<hr>
+<h2 id="what-we-shipped-this-quarter"><a class="toclink" href="#what-we-shipped-this-quarter">What we shipped this quarter</a></h2>
+<p>Here is the breadth of what moved in those 90 days, all in parallel:</p>
+<ul>
+<li><strong>CI architecture</strong> - Rewired how we decide what checks to run, when, and at what cost</li>
+<li><strong>Testing platform</strong> - Built E2E and integration test coverage in phases, replaced flaky waits with deterministic ones</li>
+<li><strong>Local development</strong> - Made git worktrees reliable so agents and engineers can run multiple branches in parallel without collisions</li>
+<li><strong>Operations safety</strong> - Took processes that lived in people's heads (snapshots, support shells, admin actions) and gave them proper guardrails and audit trails</li>
+<li><strong>Security remediation</strong> - Closed CVEs and Dependabot alerts in planned waves instead of random fire-drills</li>
+<li><strong>Debt retirement</strong> - Squashed tangled migration graphs, removed dead Slack/Teams integrations</li>
+<li><strong>Open-source skills</strong> - Turned repeating engineering patterns into reusable agent skills and open-sourced them</li>
+</ul>
+<figure>
+  <img src="https://ashwch.com/images/articles/no-code-by-hand/workstream-coverage.svg" alt="Horizontal bar chart showing major non-product changesets split across multiple workstreams.">
+  <figcaption>CI was one stream inside a much broader platform quarter.</figcaption>
+</figure>
+
+<p>Most teams can point to one thing they improved. "We made CI faster." "We added more tests." Seven high-friction systems in parallel while keeping review quality, rollback safety, and product delivery intact is a different kind of claim. So the obvious question is: how?</p>
+<hr>
+<h2 id="why-this-was-possible-now-and-not-a-year-ago"><a class="toclink" href="#why-this-was-possible-now-and-not-a-year-ago">Why this was possible now and not a year ago</a></h2>
+<p><a href="https://x.com/karpathy/status/2026731645169185220">Karpathy put it bluntly</a>: coding agents basically did not work before December 2025, and they basically work now. He described giving an agent a full system setup task - SSH keys, vLLM, web dashboard, systemd services - and it came back 30 minutes later with everything working. He did not touch anything.</p>
+<p>That matched what we were seeing. As recently as October 2025, the same tools felt like expensive autocomplete. By December, something had shifted. <a href="https://mitchellh.com/writing/my-ai-adoption-journey">Mitchell Hashimoto</a> went through the same arc - from skeptic to building his entire Ghostty workflow around agents, with the key insight that you have to separate planning from execution and let the agent self-correct. <a href="https://x.com/paulg/status/2022604692178522562">Paul Graham</a> framed the implication: "In the AI age, taste will become even more important. When anyone can make anything, the big differentiator is what you choose to make." <a href="https://simonwillison.net/guides/agentic-engineering-patterns/hoard-things-you-know-how-to-do/">Simon Willison</a> figured out the compounding angle: "Coding agents mean we only ever need to figure out a useful trick once."</p>
+<p>They were all talking about the same shift from different angles, but none of them say loudly enough what actually caused it: <strong>the models got qualitatively better.</strong></p>
+<p>Claude Opus 4.5, Opus 4.6, Codex 5.2, Codex 5.3 - these are not incremental improvements. They can hold entire systems in context, reason about architectural tradeoffs, catch multi-tenant security patterns, and produce code that is reviewable on the first pass. That kind of jump is what made No Code by Hand our default working mode since December.</p>
+<p>Our team learned the differences through daily use, not benchmarks. We got opinionated fast, and our honest assessment does not look like any vendor's marketing page:</p>
+<p><strong>Claude models</strong> (Opus 4.5, Opus 4.6, Sonnet) are our workhorse for execution. They are fast - genuinely fast, even at high thinking levels. They are great at quick fixes, running skills that require less deliberation, verifying and formatting large numbers of files, and chewing through well-scoped tasks at speed. The <a href="https://github.com/anthropics/claude-agent-sdk-python">Claude Agent SDK</a> (available in both Python and TypeScript) is mature and well-designed - it gives you the full agent runtime with tools, subagent orchestration, MCP support, and granular permissions out of the box. If you are building custom workflows, that SDK matters a lot.</p>
+<p>The tradeoff: Claude models can be eager. They will take shortcuts on medium to large features, skip files, and miss critical business logic if you are not watching. They also consume tokens fast - you can burn through a significant budget in a short session. You get results quickly, but you end up verifying more.</p>
+<p><strong>Codex models</strong> (Codex 5.2, Codex 5.3) are where we go for depth. Planning, architectural reasoning, thorough code review, anything where you need the model to actually think through the full problem before writing code. Execution is slower, but the output is more satisfying - it will not skip critical business logic or take shortcuts the way Claude sometimes does. It respects the complexity of what you are asking it to do.</p>
+<p>The tradeoff: Codex is weaker with tool use compared to Claude models. The SDK story is thinner - there is a <a href="https://developers.openai.com/codex/sdk/">Codex SDK</a> (TypeScript only), but it is an orchestration wrapper for controlling a local Codex agent, not a general-purpose agent-building runtime like Claude's. No Python equivalent. Token limits, on the other hand, are very hard to hit - you can run long, deep sessions without worrying about context exhaustion.</p>
+<p><strong>In practice, we mix both.</strong> A lot of our best work comes from running Claude and Codex together, or multiple instances of the same model, each with a clean context scoped to a specific piece of the problem. One model plans while another executes, or one reviews what the other wrote. We split large tasks across separate sessions so no single context gets polluted with too much state.</p>
+<p>With Codex specifically, we use <strong>steer mode</strong> and <strong>queue mode</strong> very tactically depending on the task:</p>
+<ul>
+<li><strong>Steer mode for ambiguous work.</strong> Anything that involves architectural decisions, multi-tenant security logic, or unfamiliar parts of the codebase - we steer. Example: when building the admin safety model (the system that prevents admins from locking themselves out), we started Codex in steer mode, pointed it at the permission hierarchy, course-corrected twice when it tried to flatten the role graph, and guided it through the edge cases where a superadmin demotes themselves. The final implementation was clean because we were in the loop at every decision point instead of reviewing a finished mess.</li>
+<li><strong>Queue mode for well-scoped, parallelizable work.</strong> When the task is clear and the scope is bounded, queue mode lets us fire off multiple Codex tasks and review them as they land. Example: during the CI migration, we queued separate tasks for each workflow file rewrite - linting pipeline, test matrix, deployment gates - each with its own clean context. Five tasks running in parallel, each one scoped tightly enough that the model did not need steering.</li>
+<li><strong>The tactical switch.</strong> We start most sessions in steer mode. If the first few interactions show the model understands the problem and the scope is narrowing, we switch to queue mode and let it run. If it starts drifting, we pull it back to steer. This is not a setting you pick once - it is a judgment call you make every few minutes.</li>
+</ul>
+<p>Picking the right model for the right task - and knowing when to combine them - is itself a skill that takes time to develop, and teams that treat all models as interchangeable are missing most of the value.</p>
+<p><strong>The biggest shift is how these models want to be used.</strong> Earlier generations worked best when you gave them a prompt and left them alone. The current generation is different - they are built for interactive steering. You set direction, check in as it works, course-correct when it drifts, and guide it through the ambiguous parts rather than hoping it guesses right. OpenAI made this explicit with <a href="https://openai.com/index/introducing-gpt-5-3-codex/">Codex 5.3</a>: steer mode - where you interact with the model while it works without losing context - shipped as a <a href="https://github.com/openai/codex/pull/10690">stable feature</a>, enabled by default. Anthropic's <a href="https://www.anthropic.com/news/claude-opus-4-6">Claude Opus 4.6</a> moved in the same direction with adaptive thinking, where the model adjusts its reasoning depth based on what you are asking and responds to mid-turn guidance.</p>
+<p>This matters more than it sounds. <a href="https://ampcode.com/news/gpt-5.3-codex">AmpCode put it well</a>: "the agent is no longer the bottleneck. Our ability to tell it what to do is." A year ago the workflow was write a prompt, wait, review what comes back. Now it is closer to pair programming - you stay in the loop, steer the model toward the right answer as it works, and course-correct in real time rather than filtering through wrong answers afterward. Teams that still treat agents as black boxes they throw tasks at are working against how these models are actually designed.</p>
+<p>Our team has taken this to its logical conclusion: we have pretty much ditched our IDEs entirely. We work strictly in terminals - Claude Code, Codex CLI, git, and shell scripts. The models are better at navigating codebases than any file tree sidebar ever was, and the terminal is where steering actually happens - no GUI layer sitting between you and the agent. <a href="https://the-decoder.com/andrej-karpathy-says-programming-is-unrecognizable-now-that-ai-agents-actually-work/">Karpathy put it bluntly</a>: "You're not typing computer code into an editor like the way things were since computers were invented. That era is over." What replaced it is spinning up agents, giving them tasks in English, and managing their work in parallel - but with what he calls "high-level direction, judgement, taste, oversight, iteration, and hints and ideas." That is steering, not autopilot.</p>
+<p>None of this means the models write perfect code or replace engineering judgment. What changed is how cheap it became to try something, evaluate it, and try again. When a rewrite takes 20 minutes instead of a day, you can try three approaches and pick the best one. You can afford to be thorough instead of cutting corners because iteration itself got cheap.</p>
+<p>That context matters for everything that follows. The hidden queue did not shrink because we worked harder - it shrank because the cost of going after each item dropped by an order of magnitude. So we started with the one system where we could prove it.</p>
+<hr>
+<h2 id="ci-the-system-we-could-actually-measure"><a class="toclink" href="#ci-the-system-we-could-actually-measure">CI: the system we could actually measure</a></h2>
+<p>We started with CI because it was the one system where we had clean telemetry and clear before/after boundaries. You can argue about whether a refactor "improved code quality." You cannot argue about whether a workflow went from 942 seconds to 675 seconds. The numbers are right there.</p>
+<h3 id="the-real-problem-was-architectural"><a class="toclink" href="#the-real-problem-was-architectural">The real problem was architectural</a></h3>
+<p>Before the redesign, our CI pipeline had a fundamental coupling problem. One heavy workflow path tried to answer two completely different questions at the same time:</p>
+<ol>
+<li><em>Should expensive checks even run on this change?</em> (A typo in a README does not need database-level integration tests.)</li>
+<li><em>Is this change safe to ship?</em> (A migration change absolutely does.)</li>
+</ol>
+<p>When those two questions are coupled, you get the worst of both worlds. Low-risk changes overpay - a CSS fix waits 16 minutes for checks it does not need. High-risk changes wait behind noise - a database migration sits in the same queue as a copy change.</p>
+<h3 id="what-we-actually-changed"><a class="toclink" href="#what-we-actually-changed">What we actually changed</a></h3>
+<p>The fix was separating qualification from execution - figuring out which checks should run before actually running them:</p>
+<ul>
+<li><strong>Fast checks moved earlier.</strong> Linting, type checking, import validation, and test placement checks all moved into a GitHub Actions workflow that runs in under 45 seconds. If these fail, nothing downstream even starts.</li>
+<li><strong>Scope classification.</strong> A file-change classifier now evaluates every PR: does this change touch backend code? Database schemas? Frontend only? Docs only? Changes that are irrelevant to deep checks skip them entirely.</li>
+<li><strong>Content-aware caching.</strong> Instead of time-based cache invalidation, caches are now keyed on actual content hashes. Same code = same cache, regardless of when you last ran.</li>
+<li><strong>Runtime image optimization.</strong> The CircleCI runtime image was rebuilt to eliminate bootstrap overhead - the time between "job starts" and "your code actually runs."</li>
+</ul>
+<h3 id="the-numbers"><a class="toclink" href="#the-numbers">The numbers</a></h3>
+<p>On the heavy path (CircleCI test-and-check workflow), the broad pre/post window around the runtime-image milestone gave the strongest signal:</p>
+<ul>
+<li><strong>Median workflow wall time</strong>: 942.5s → 675.0s, a <strong>28.4% reduction</strong> (<code>n=218</code> before, <code>n=149</code> after)</li>
+<li><strong>Deepest check lane</strong> (Deep DB/RLS checks): 332.0s → 95.5s, a <strong>71.2% reduction</strong></li>
+</ul>
+<figure>
+  <img src="https://ashwch.com/images/articles/no-code-by-hand/ci-heavy-lane-pre-post.svg" alt="Bar chart comparing heavy CI workflow median runtime before and after the runtime image shift.">
+  <figcaption>Heavy validation median runtime: 942.5s → 675.0s, a 28.4% reduction.</figcaption>
+</figure>
+
+<p>Those are the headline numbers, but they are only half the story - because the first win came with an uncomfortable tradeoff.</p>
+<hr>
+<h2 id="why-we-kept-going-after-the-first-win"><a class="toclink" href="#why-we-kept-going-after-the-first-win">Why we kept going after the first win</a></h2>
+<p>After the first round of CI improvements, we had an intermediate phase where runtime improved but credit consumption actually got <em>worse</em>. We were running more things in parallel, which made the wall clock faster, but the total compute bill went up.</p>
+<p>Most blog posts would stop here, post the runtime chart, and declare victory. We did not, and honestly this next part matters more than the numbers above.</p>
+<p>We kept running the loop: <strong>hypothesis → implementation → measurement → tradeoff review → tune or rollback → standardize</strong>. That loop is where cheap correction cycles made the real difference. When rewriting a CI configuration takes 20 minutes instead of a day, you can afford to try three approaches and pick the best one.</p>
+<h3 id="three-phases-of-tradeoff"><a class="toclink" href="#three-phases-of-tradeoff">Three phases of tradeoff</a></h3>
+<p>The three-phase view shows the full path, including the uncomfortable middle:</p>
+<ul>
+<li><strong>Baseline</strong>: 37.91 min critical path, 359 mean credits per paired run</li>
+<li><strong>Parallel phase</strong>: 10.63 min critical path (great!), 456 credits (worse - more parallel jobs)</li>
+<li><strong>Current phase</strong>: 9.08 min critical path, 232 credits (both better than baseline)</li>
+</ul>
+<p>Relative to baseline, the current mode is <strong>76% faster</strong> and <strong>35% cheaper</strong>. The current sample in this phase comparison is still early (<code>n=6</code>), so we treat it as directional and use the larger pre/post windows for stronger claims.</p>
+<figure>
+  <img src="https://ashwch.com/images/articles/no-code-by-hand/ci-three-phases-runtime-credits.svg" alt="Two-panel chart comparing critical-path runtime and combined credits across baseline, parallel, and current CI phases.">
+  <figcaption>Three CI phases: faster runtime and lower compute cost in the current mode.</figcaption>
+</figure>
+
+<h3 id="modeled-time-savings"><a class="toclink" href="#modeled-time-savings">Modeled time savings</a></h3>
+<p>The waiting-time model across this window estimates <strong>21.39 hours</strong> of developer waiting time recovered, broken into three categories:</p>
+<ul>
+<li><strong>11.07h</strong> from faster heavy lanes (every CI run finishes sooner)</li>
+<li><strong>6.38h</strong> from early-stop on failed fast checks (if linting fails in 30 seconds, you do not wait 15 minutes for full tests to also fail)</li>
+<li><strong>3.94h</strong> from skipping irrelevant deep runs (a docs-only change skips database checks entirely)</li>
+</ul>
+<p>This is a model, not direct causal proof. But 21 hours of waiting time eliminated over a few weeks is a meaningful quality-of-life improvement for a small team.</p>
+<figure>
+  <img src="https://ashwch.com/images/articles/no-code-by-hand/ci-waiting-time-model.svg" alt="Stacked bar chart showing modeled waiting-time reductions from three CI improvements.">
+  <figcaption>Modeled waiting-time reduction: 21.39 hours across three improvement categories.</figcaption>
+</figure>
+
+<hr>
+<h2 id="every-ci-job-not-just-the-workflow"><a class="toclink" href="#every-ci-job-not-just-the-workflow">Every CI job, not just the workflow</a></h2>
+<p>The workflow-level numbers tell one story. The job-level numbers tell a more interesting one.</p>
+<p>The "Deep DB/RLS checks" job - the single most expensive check in our pipeline, the one that spins up a full database and runs row-level security validations - went from <strong>332s to 95.5s</strong>. That is a <strong>71% reduction</strong> on the job that matters most for safety confidence.</p>
+<figure>
+  <img src="https://ashwch.com/images/articles/no-code-by-hand/ci-deep-check-lane.svg" alt="Paired horizontal bars showing before/after runtimes for each CI job.">
+  <figcaption>Job-level improvements after the runtime image shift. The deepest check lane dropped 71%.</figcaption>
+</figure>
+
+<p>That improvement came primarily from the runtime image rebuild. The old image was doing expensive setup work (installing system packages, configuring database connections, bootstrapping test fixtures) on every single run. The new image bakes all of that into the image layer, so the job starts with everything already in place.</p>
+<p>It sounds boring, but it changes daily life. At 5.5 minutes you context-switch to something else and lose focus. At 1.5 minutes you just wait for it and stay in the flow. And then we looked at the trigger configuration and found something we should have caught months ago.</p>
+<hr>
+<h2 id="we-were-running-the-same-checks-twice"><a class="toclink" href="#we-were-running-the-same-checks-twice">We were running the same checks twice</a></h2>
+<p>Here is a problem that is embarrassingly common and embarrassingly wasteful: GitHub fires both a <code>push</code> event and a <code>pull_request</code> event when you push to a branch with an open PR. If your CI triggers on both, you run the same checks twice on the same code.</p>
+<p>Before we fixed this, the ratio was absurd: <strong>399 push-triggered runs</strong> vs <strong>22 PR-triggered runs</strong> on non-deploy branches. An 18:1 ratio of redundant work.</p>
+<p>After dedup (<code>#2713</code>): <strong>9 push runs</strong> vs <strong>36 PR runs</strong>. A 0.25:1 ratio. Only meaningful work runs.</p>
+<figure>
+  <img src="https://ashwch.com/images/articles/no-code-by-hand/ci-dedup-effect.svg" alt="Before and after comparison of push vs PR triggered CI runs showing dramatic reduction in redundant runs.">
+  <figcaption>Before dedup: 18x more push runs than PR runs. After: only meaningful runs execute.</figcaption>
+</figure>
+
+<p>A few hours of investigation, hundreds of compute-hours saved over a quarter. And it is exactly the kind of thing that never gets prioritized because "CI is working fine" - as long as nobody looks at the bill.</p>
+<p>With CI finally fast and honest, we could tackle the thing it depends on most: whether the tests themselves were worth trusting.</p>
+<hr>
+<h2 id="the-test-suite-we-could-not-trust"><a class="toclink" href="#the-test-suite-we-could-not-trust">The test suite we could not trust</a></h2>
+<p>The testing work this quarter was about building a testing <em>system</em> that could be trusted by default and maintained without heroics, not just adding more test files.</p>
+<h3 id="why-phased-rollout-matters"><a class="toclink" href="#why-phased-rollout-matters">Why phased rollout matters</a></h3>
+<p>The most common failure mode for test initiatives is the big-bang rewrite: someone decides "we need 80% coverage," writes hundreds of tests in a week, and three months later half of them are flaky, ignored, or commented out. We did the opposite.</p>
+<figure>
+  <img src="https://ashwch.com/images/articles/no-code-by-hand/testing-platform-phases.svg" alt="Phased testing platform diagram showing progression from infrastructure to deterministic stabilization.">
+  <figcaption>Testing rolled out in phases instead of one risky rewrite.</figcaption>
+</figure>
+
+<p>The sequence:</p>
+<ol>
+<li><strong>Infrastructure first.</strong> Test runner configuration, fixture management, database seeding, environment isolation - the kind of work nobody wants to do but everything else depends on.</li>
+<li><strong>Role-based E2E flows.</strong> We built end-to-end tests organized by user role - HR admin, manager, employee - because that is how our application's permission model works. Testing by role means you catch the bugs that actually happen in production: "this works for admins but breaks for regular users."</li>
+<li><strong>Unit and integration depth.</strong> Once the E2E skeleton was stable, we filled in unit and integration tests underneath. This order matters because the E2E tests act as a safety net while you are adding lower-level coverage.</li>
+<li><strong>CI and sandbox integration.</strong> Tests got wired into CI properly - not as an afterthought bolted onto the end, but as a gate that determines whether deeper checks run.</li>
+<li><strong>Deterministic stabilization.</strong> The final phase was eliminating flakiness. And that brings us to one of the most universally hated problems in software engineering.</li>
+</ol>
+<h3 id="the-sleep2000-problem"><a class="toclink" href="#the-sleep2000-problem">The <code>sleep(2000)</code> problem</a></h3>
+<p>If you have ever maintained E2E tests, you know this pain intimately. The test clicks a button, then waits. How long should it wait?</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// This is a guess</span>
+<span class="k">await</span><span class="w"> </span><span class="nx">page</span><span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="s1">&#39;#submit&#39;</span><span class="p">);</span>
+<span class="k">await</span><span class="w"> </span><span class="nx">sleep</span><span class="p">(</span><span class="mf">2000</span><span class="p">);</span>
+<span class="nx">expect</span><span class="p">(</span><span class="nx">page</span><span class="p">.</span><span class="nx">url</span><span class="p">()).</span><span class="nx">toBe</span><span class="p">(</span><span class="s1">&#39;/dashboard&#39;</span><span class="p">);</span>
+</code></pre></div>
+
+<p>Two seconds works on your laptop. It fails on CI because the server is slower. You bump it to 3 seconds. Now the test passes but the suite takes 40 minutes. Someone adds <code>sleep(5000)</code> "just to be safe." Now it takes an hour. And it still flakes on Mondays when the CI machines are loaded.</p>
+<p>The fix is simple to explain and tedious to actually do: go through every test and replace fixed waits with waits that check whether the thing actually happened.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// This is an assertion about behavior</span>
+<span class="k">await</span><span class="w"> </span><span class="nx">page</span><span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="s1">&#39;#submit&#39;</span><span class="p">);</span>
+<span class="k">await</span><span class="w"> </span><span class="nx">page</span><span class="p">.</span><span class="nx">waitForURL</span><span class="p">(</span><span class="s1">&#39;/dashboard&#39;</span><span class="p">);</span>
+</code></pre></div>
+
+<p>The second version waits exactly as long as needed - 200ms on a fast run, 3 seconds on a slow one - and fails immediately with a clear error if the URL never changes. That one shift improved reliability, review trust, and debugging speed because failures started telling you what actually went wrong instead of "timeout after 5000ms."</p>
+<p>A few of the replaced waits started failing consistently rather than flaking - which turned out to be a gift, because the generous sleeps had been hiding genuine performance issues in the application. Fixing the tests ended up fixing the app.</p>
+<p>None of that would have mattered, though, if the environment running those tests kept colliding with itself.</p>
+<hr>
+<h2 id="why-two-agents-could-not-run-at-the-same-time"><a class="toclink" href="#why-two-agents-could-not-run-at-the-same-time">Why two agents could not run at the same time</a></h2>
+<p>If you are doing agentic coding seriously, worktrees are not optional - they are the foundation that everything else depends on.</p>
+<p>An AI coding agent needs its own isolated checkout to work in. It cannot share your working directory - it would stomp on your files, your running servers, your local state. Git worktrees solve this cleanly: each worktree is a separate working copy of the repo with its own branch, its own file state, and its own index. You can have an agent working on a refactor in one worktree while you are reviewing a PR in another and a second agent is writing tests in a third.</p>
+<p>But worktrees only deliver that promise if your local development setup is worktree-aware. Ours was not. And until we fixed it, every other improvement in this post would have been bottlenecked by a broken local environment.</p>
+<h3 id="what-was-actually-breaking"><a class="toclink" href="#what-was-actually-breaking">What was actually breaking</a></h3>
+<p>Every worktree tries to spin up its own local dev environment. Without isolation, that means:</p>
+<ul>
+<li>Branch A starts Docker with the default port mapping: <code>localhost:8000</code> for the API, <code>localhost:3000</code> for the frontend.</li>
+<li>An agent opens a worktree for Branch B. It also wants <code>localhost:8000</code> and <code>localhost:3000</code>.</li>
+<li>Port collision. One of them fails silently or grabs a random port. The agent's frontend is now talking to your backend running different code. Or your server crashes because the port is taken. Either way, someone wastes 20 minutes debugging a problem that is not a bug - it is a port conflict.</li>
+<li>Meanwhile, Branch A's <code>.env</code> file says <code>API_URL=http://localhost:8000</code>. Branch B's <code>.env</code> says the same thing. The frontend in one worktree makes API calls to a server that is running code from a completely different branch.</li>
+</ul>
+<p>This blocked the entire agentic workflow. If worktrees are unreliable, agents cannot work in parallel, and the speed advantage you are counting on just collapses.</p>
+<figure>
+  <img src="https://ashwch.com/images/articles/no-code-by-hand/local-dev-isolation.svg" alt="Before and after diagram of local development showing worktree port collisions replaced by deterministic port isolation.">
+  <figcaption>Before: shared ports collide across worktrees. After: deterministic isolation per worktree.</figcaption>
+</figure>
+
+<h3 id="the-fix"><a class="toclink" href="#the-fix">The fix</a></h3>
+<p>The primary checkout behaves exactly like before - same ports, same config, no surprises for the human developer. But every non-primary worktree gets <strong>deterministic port isolation</strong>: ports are derived from the worktree path, so they are stable (the same worktree always gets the same ports) and unique (no two worktrees ever collide).</p>
+<p>We added root-level wrappers - <code>just up</code>, <code>just down</code>, <code>just sync-api-env</code> - so that starting, stopping, and syncing environment state became a single predictable command regardless of which worktree you are in. The frontend environment file automatically picks up the correct backend URL for whichever worktree is running. An agent can <code>just up</code> in its worktree and get a fully working, fully isolated local environment without any human intervention.</p>
+<p>This unlocked everything else. Once worktrees were reliable, we could run multiple agents in parallel on different tasks, each with its own branch, its own server, its own test environment. The real speed gain is not one agent working faster - it is three or four agents working at the same time without stepping on each other or on you.</p>
+<p>But that speed advantage hits a wall the first time one of those agents needs to run a database snapshot.</p>
+<hr>
+<h2 id="operations-when-the-process-lives-in-someones-head"><a class="toclink" href="#operations-when-the-process-lives-in-someones-head">Operations: when the process lives in someone's head</a></h2>
+<p>Every engineering team has critical processes that work perfectly as long as the right person is online and remembers the exact sequence of commands - which is really just a single point of failure wearing a human costume.</p>
+<p>This quarter we found three of these in our own stack and rebuilt them.</p>
+<h3 id="database-snapshots"><a class="toclink" href="#database-snapshots">Database snapshots</a></h3>
+<p>Before: creating a database snapshot for a customer or for staging required running six commands in exact order. Dump the SQL. Package it. Upload to the right bucket. Restore on the target. Create the snapshot record. Notify the team in Slack. Miss a step and you get a corrupt snapshot. Run them out of order and you overwrite something. The whole process lived in one engineer's head and a Slack message from eight months ago.</p>
+<figure>
+  <img src="https://ashwch.com/images/articles/no-code-by-hand/snapshot-automation.svg" alt="Before: 6 manual steps in a chain. After: one command with built-in error handling.">
+  <figcaption>Snapshot creation went from 6 manual steps to one command with preflight checks and Slack notification.</figcaption>
+</figure>
+
+<p>After: <code>./manage.sh snapshot create</code>. One command. It runs preflight checks (is the source database accessible? Is there enough disk space?), executes the full pipeline with error handling at every step, and posts a Slack notification when it is done or if it fails. Any engineer can run it. No tribal knowledge required.</p>
+<h3 id="admin-actions"><a class="toclink" href="#admin-actions">Admin actions</a></h3>
+<p>Before: high-impact admin actions (think: merging two user accounts, resetting organization data, modifying subscription state) were one-click operations with no confirmation step. Click the button, the mutation happens immediately, no undo. One accidental click on the wrong row in a moment of pressure = irreversible data loss.</p>
+<figure>
+  <img src="https://ashwch.com/images/articles/no-code-by-hand/admin-safety-model.svg" alt="Before: click and pray. After: plan, confirm, execute with eligibility checks.">
+  <figcaption>Admin actions moved from one-click mutations to a plan → confirm → execute model with eligibility checks.</figcaption>
+</figure>
+
+<p>After: high-impact actions follow a three-step model. First, <strong>review the impact</strong> - the system shows you exactly what will change and who is affected. Second, <strong>confirm the scope</strong> - you explicitly acknowledge what you are about to do. Third, <strong>execute</strong> - only after passing eligibility checks and risk assessment. Going from "click and pray" to "plan, confirm, execute" is how you turn potential incidents into boring Tuesdays.</p>
+<h3 id="support-shell-workflows"><a class="toclink" href="#support-shell-workflows">Support shell workflows</a></h3>
+<p>Support shells - the tools your team uses to diagnose and fix customer issues in production - got a significant upgrade. Instead of an engineer manually running queries and eyeballing results, the shell now surfaces relevant context, suggests likely fixes, and handles the common reconciliation patterns automatically. This does not replace engineering judgment. It reduces the time between "customer reported a problem" and "here is what is actually going on."</p>
+<figure>
+  <img src="https://ashwch.com/images/articles/no-code-by-hand/ops-safety-surfaces.svg" alt="Grid showing operational surfaces moved from person-dependent choreography to guarded control planes.">
+  <figcaption>Operations power paths rebuilt as safer, repeatable, auditable surfaces.</figcaption>
+</figure>
+
+<p>There is no product launch here and nobody is going to tweet about it, but this is the work that keeps incidents smaller, response times tighter, and makes sure the process still works when the person who "knows how snapshots work" is on vacation. It also removed the last excuse for not touching the security backlog.</p>
+<hr>
+<h2 id="security-from-random-interrupts-to-planned-waves"><a class="toclink" href="#security-from-random-interrupts-to-planned-waves">Security: from random interrupts to planned waves</a></h2>
+<p>Here is how security and dependency work usually goes: Dependabot opens an alert. Someone sees it, maybe today, maybe next week. They bump the version, run the tests, fix whatever breaks, open a PR. It gets reviewed between other work. Meanwhile three more alerts have fired. The PRs conflict with each other. Merge churn increases. Review quality drops because everyone is context-switching.</p>
+<p>We replaced that pattern with a <strong>wave-based remediation model</strong>:</p>
+<ul>
+<li><strong>Wave 1</strong>: Patch-level security updates. Django, Pillow, SimpleJWT, pyasn1. Low-risk, high-confidence bumps.</li>
+<li><strong>Wave 2</strong>: Cryptography chain. <code>cryptography</code> and <code>weasyprint</code> updates that cascade through the dependency tree. Medium risk, needs careful testing.</li>
+<li><strong>Wave 3</strong>: Deep transitive dependencies. Refreshing the protobuf chain through Google's dependency graph. Higher complexity, so we isolated it into its own review cycle.</li>
+</ul>
+<figure>
+  <img src="https://ashwch.com/images/articles/no-code-by-hand/security-dependabot-program.svg" alt="Layered security remediation diagram showing staged dependency waves, workflow hardening, and release-integrated closure checks.">
+  <figcaption>Security moved from reactive interrupts to a layered, wave-based remediation program.</figcaption>
+</figure>
+
+<p>But the security work was not just dependency bumping. In the same window, we also:</p>
+<ul>
+<li><strong>Hardened CI input handling.</strong> GitHub Actions workflows can receive untrusted input from PR titles, branch names, and commit messages. If those inputs flow unsanitized into shell commands, that is a command injection vulnerability <em>in your CI pipeline</em>. We audited and hardened those paths.</li>
+<li><strong>Reduced PII exposure in telemetry.</strong> Logging and error tracking payloads were carrying more personally identifiable information than they needed to. We scrubbed those payloads down to what is actually useful for debugging without exposing user data.</li>
+</ul>
+<p>The practical result is that security and dependency work stopped being an interrupt. We close issues faster, in planned batches with proper review scope, and the rest of the team can actually plan their week without random fire-drills derailing it.</p>
+<p>The security waves also forced us to confront what we had been putting off: the migration graph and a pile of dead integration code that had been making every other change harder than it needed to be.</p>
+<hr>
+<h2 id="debt-the-art-of-safe-subtraction"><a class="toclink" href="#debt-the-art-of-safe-subtraction">Debt: the art of safe subtraction</a></h2>
+<p>Deleting code is easy. Deleting the <em>right</em> code without breaking something in production takes a lot more care.</p>
+<h3 id="migration-topology"><a class="toclink" href="#migration-topology">Migration topology</a></h3>
+<p>Our Django migration graph had accumulated cruft over time - the way they always do. Branches, merges, dependencies that used to make sense but now just add confusion. New developers would look at the migration graph and have no idea what was load-bearing and what was historical accident.</p>
+<figure>
+  <img src="https://ashwch.com/images/articles/no-code-by-hand/migration-squash.svg" alt="Before: tangled migration graph with cross-dependencies. After: clean, linear migration chain.">
+  <figcaption>Migration topology simplified from a tangled graph to clean lineage.</figcaption>
+</figure>
+
+<p>We used a two-step squash strategy:</p>
+<ol>
+<li><strong>Introduce replacement lineage.</strong> New squashed migrations replace the old chain, but the old migrations stay around for compatibility. Both paths work.</li>
+<li><strong>Archive and prune.</strong> Once the new lineage is stable and deployed, remove the old chain. The graph is clean.</li>
+</ol>
+<p>This approach respects the reality that migrations are one of the scariest parts of a Django application. You do not yolo a migration squash. You prove the new path works while the old path is still available as a fallback.</p>
+<h3 id="dead-integration-code"><a class="toclink" href="#dead-integration-code">Dead integration code</a></h3>
+<p>We also retired deprecated Slack and Teams integration paths - but only after proving they were genuinely unused or had working replacements. "Dead" integration code is never truly dead. It still shows up in code reviews ("is this still used?"), expands the upgrade surface ("this import broke after the SDK update"), and confuses new contributors ("should I be using this API or the other one?").</p>
+<p>Removing it deliberately - with evidence that nothing was actually using it - means every future engineer who touches that part of the codebase has one less thing to be confused about.</p>
+<p>By this point we had noticed a pattern: the cleanup workflows, the review checklists, the remediation sequences - we kept solving similar problems the same way. Why were we still rebuilding them from scratch each time?</p>
+<hr>
+<h2 id="the-biggest-multiplier-was-not-a-model"><a class="toclink" href="#the-biggest-multiplier-was-not-a-model">The biggest multiplier was not a model</a></h2>
+<p>If I had to pick the single biggest multiplier from this quarter, it would be this section, and it connects directly to why model selection matters.</p>
+<p>Here is what kept happening: an engineer figures out a really effective way to use Opus for a thorough code review, or they discover that Codex handles Dependabot triage perfectly if you give it the right structure. It works great for them. Then it lives in their head, or in a DM, or in a prompt they copy-paste from a notes app. That is useful for one person, but it does not spread.</p>
+<p>We took a different approach: we turned those patterns into reusable agent skills and commands, and open-sourced the whole layer in <a href="https://github.com/DiversioTeam/agent-skills-marketplace">DiversioTeam/agent-skills-marketplace</a>. Right now that repo includes <strong>15 plugins, 17 skills, and 37 commands</strong> covering:</p>
+<ul>
+<li><strong>Code review</strong> - Hyper-pedantic Django review skills that check for multi-tenant safety, migration correctness, and security patterns</li>
+<li><strong>Commit and PR hygiene</strong> - Atomic commit helpers that enforce pre-commit hooks, lint gates, and clean commit messages</li>
+<li><strong>Dependabot remediation</strong> - Wave-based triage and execution workflows for both frontend and backend dependency management</li>
+<li><strong>Release operations</strong> - PR creation, version bumping, merge conflict resolution, and release publishing</li>
+<li><strong>Docs generation</strong> - Repository documentation, API docs from Bruno files, AGENTS.md canonical formats</li>
+<li><strong>Planning loops</strong> - Structured plan directories with task files, checklists, and completion criteria</li>
+<li><strong>Analytics implementation</strong> - Mixpanel event tracking with PII safety checks and schema design review</li>
+</ul>
+<figure>
+  <img src="https://ashwch.com/images/articles/no-code-by-hand/skills-compounding-flywheel.svg" alt="Compounding flywheel diagram for open-source skills: pattern discovery, codification, team reuse, and baseline uplift.">
+  <figcaption>Open-source skills turn individual technique into team-level memory.</figcaption>
+</figure>
+
+<p>This is where <a href="https://simonwillison.net/guides/agentic-engineering-patterns/hoard-things-you-know-how-to-do/">Simon Willison's insight</a> lands hardest: "Coding agents mean we only ever need to figure out a useful trick once." That is exactly what skills do. Someone figures out the best way to run a security audit with Opus. It becomes a skill. Now every engineer on the team runs security audits at that level, automatically.</p>
+<p>Instead of "someone has a strong prompt in a DM," these became shared tools that anyone on the team can run, inspect, and improve. They live in version control with clear entry points, not in someone's clipboard.</p>
+<p>This matters for two reasons:</p>
+<ol>
+<li><strong>Reviews stop depending on who is doing them.</strong> When every code review uses the same skill with the same guardrails, the floor rises. You stop getting thorough reviews from one person and surface-level reviews from another.</li>
+<li><strong>Onboarding gets faster.</strong> New engineers do not need to discover the team's workflow through osmosis. They install the skills and inherit months of accumulated process knowledge on day one.</li>
+</ol>
+<p>This is why I keep saying agentic coding is an execution multiplier, but also a <strong>learning multiplier</strong>. The model's capability matters, but what decides whether gains stick across the team or disappear when one person goes on vacation is whether you have a skill system.</p>
+<p>We are not the only ones who figured this out. The ecosystem is moving fast - <a href="https://github.com/anthropics/claude-code/tree/main/plugins">Anthropic ships official plugins for Claude Code</a>, <a href="https://github.com/vercel-labs/agent-skills/">Vercel published a library of agent skills</a>, and individual developers are releasing genuinely useful tools like <a href="https://github.com/nicobailon/visual-explainer">visual-explainer</a> that solve problems we would have built ourselves. More and more companies and individuals are open-sourcing skills that slot right into existing agent workflows, and our team is actively pulling the best ones into how we work. The value of a skill system goes up the more people contribute to it - not just inside your team, but across the industry.</p>
+<p>We did not see what the skills layer had actually done until we stepped back and looked at the quarter as a whole.</p>
+<hr>
+<h2 id="how-it-all-compounded"><a class="toclink" href="#how-it-all-compounded">How it all compounded</a></h2>
+<p>What makes this quarter more than a list of separate improvements is that the workstreams were not independent. They fed into each other, and each one made the next one easier to pull off.</p>
+<figure>
+  <img src="https://ashwch.com/images/articles/no-code-by-hand/reinforcement-system-map.svg" alt="System map showing how CI, testing, local development, ops safety, security, and skills codification reinforce each other.">
+  <figcaption>Direct and indirect reinforcement loops across the quarter's workstreams.</figcaption>
+</figure>
+
+<p>Here is how the loops worked:</p>
+<ul>
+<li><strong>CI speed → testing velocity.</strong> Faster CI feedback meant testing improvements were cheaper to validate. You could iterate on a test three times in an hour instead of once.</li>
+<li><strong>Testing quality → CI signal.</strong> Better tests with deterministic waits produced cleaner CI signal. Fewer flaky failures meant the CI results were actually trustworthy, which made scope-aware gating and cost optimization possible.</li>
+<li><strong>Worktree isolation → everything.</strong> Reliable worktrees meant agents and engineers could iterate on every other stream in parallel. You could have an agent testing CI changes in one worktree while you reviewed a security patch in another - without either environment breaking the other.</li>
+<li><strong>Ops safety → deployment confidence.</strong> Better rollback mechanisms and guarded admin actions meant we could ship platform changes faster. If something went wrong, recovery was a known path, not an improvised one.</li>
+<li><strong>Security waves → background stability.</strong> Closing dependency risk in planned batches meant other work was not constantly interrupted by urgent security patches.</li>
+<li><strong>Skills codification → all of the above.</strong> Once patterns were encoded into reusable skills, we stopped relearning the same lessons in private. New contributors could inherit the workflow directly.</li>
+</ul>
+<p>We did not just do many things in one quarter - we ended up building a system where the improvements reinforced each other. Better CI feedback made testing more productive, which made CI signal more trustworthy, which made it safe to skip unnecessary checks, which freed up time to codify the patterns, which meant the next improvement started from a higher baseline.</p>
+<p>If you are looking at this and thinking "we have the same hidden queue," here is where to start.</p>
+<hr>
+<h2 id="what-you-can-actually-copy"><a class="toclink" href="#what-you-can-actually-copy">What you can actually copy</a></h2>
+<p>If you want to apply this without copying our stack, copy the mechanics:</p>
+<ol>
+<li>
+<p><strong>Make the hidden queue visible.</strong> Take one week and track every time an engineer waits, context-switches, or does manual repetitive work. Write it down. Add up the hours. That number will be larger than you expect, and it will make the case for you.</p>
+</li>
+<li>
+<p><strong>Separate qualification from execution.</strong> In any expensive system - CI, deployments, data pipelines - cheap checks should decide whether expensive checks run. A 30-second linter should gate a 15-minute integration test, not run alongside it.</p>
+</li>
+<li>
+<p><strong>Ship in phases, not big bangs.</strong> Every improvement in this post was shipped incrementally with explicit boundaries. If Phase 2 breaks, you roll back Phase 2. Phase 1 still works. This keeps learning fast and rollback cheap.</p>
+</li>
+<li>
+<p><strong>Treat security as a scheduled program, not random interrupts.</strong> Group dependency updates into waves by risk level. Review them together. Ship them together. Your merge churn drops, your review quality goes up, and your engineers stop dreading Dependabot.</p>
+</li>
+<li>
+<p><strong>Make worktrees work.</strong> If your team is using AI coding agents, fix your local dev setup first. Deterministic port isolation, environment syncing, single-command startup. Without this, you are bottlenecking every other improvement.</p>
+</li>
+<li>
+<p><strong>Learn the models and mix them.</strong> Do not use the same model for everything. Claude is fast and great for execution but will take shortcuts on complex work. Codex is slower but more thorough and will not skip critical logic. Run them together - one plans, one executes, one reviews. Build that knowledge into your skills so the whole team benefits.</p>
+</li>
+<li>
+<p><strong>Turn prompts into skills.</strong> If someone on your team has figured out a really effective AI-assisted workflow, do not let it stay in their head. Encode it. Version it. Share it. The gap between "one person is fast" and "the whole team is fast" is a skill system.</p>
+</li>
+<li>
+<p><strong>Measure before and after.</strong> Pick one friction loop. Instrument it. Fix it. Measure again. If you cannot measure the loop, you cannot manage the tradeoffs honestly. We started with CI because the telemetry was clean. Start wherever your data is best.</p>
+</li>
+</ol>
+<p>These patterns are general-purpose and work whether you are running a monolith, microservices, or something in between. The models make it cheaper to try things and iterate. The patterns are what make the results last.</p>
+<hr>
+<h2 id="attention-is-still-the-bottleneck"><a class="toclink" href="#attention-is-still-the-bottleneck">Attention is still the bottleneck</a></h2>
+<p>If you take one thing from this post, do not let it be "they wrote less code." We wrote and deleted a lot of code - 120,929 lines added, 31,170 deleted.</p>
+<p>What changed is where we <strong>spent our attention</strong>.</p>
+<p>The repetitive plumbing - CI configuration, test infrastructure, environment wiring, dependency management, snapshot steps - is now cheaper to do. That frees up the team to focus on things that actually need human judgment: where should the system boundaries be, what are the failure modes, how should the control surfaces work, what does good review look like, and how do we make sure the team keeps getting better.</p>
+<p>That is how you end up with both speed and quality at the same time instead of trading one for the other.</p>
+<p>That is what <strong>No Code by Hand</strong> means for me. Not that we stopped writing code, and not that we stopped needing engineers. We built better systems, tighter feedback loops, and started spending our scarcest resource - human attention - on the work that actually deserves it.</p>
+        </div>
+
+        <div class="article-meta">
+            <div class="tags-section">
+              <h5>Tags:</h5>
+              <div class="tags-container">
+                  <a href="https://ashwch.com/tag/ai.html" class="tag">ai</a>
+                  <a href="https://ashwch.com/tag/agentic-engineering.html" class="tag">agentic-engineering</a>
+                  <a href="https://ashwch.com/tag/ci-cd.html" class="tag">ci-cd</a>
+                  <a href="https://ashwch.com/tag/developer-experience.html" class="tag">developer-experience</a>
+                  <a href="https://ashwch.com/tag/platform-engineering.html" class="tag">platform-engineering</a>
+                  <a href="https://ashwch.com/tag/team-learning.html" class="tag">team-learning</a>
+                  <a href="https://ashwch.com/tag/security.html" class="tag">security</a>
+                  <a href="https://ashwch.com/tag/testing.html" class="tag">testing</a>
+                  <a href="https://ashwch.com/tag/workflow.html" class="tag">workflow</a>
+              </div>
+            </div>
+          
+          <div class="back-button-container">
+            <a href="https://ashwch.com" class="back-to-posts">
+              <i class="fas fa-arrow-left"></i> Back to Posts
+            </a>
+          </div>
+        </div>
+      </article>
+
+<section class="comments mt-5">
+  <div class="card">
+    <div class="card-header">
+      <h3 class="mb-0">Comments</h3>
+    </div>
+    <div class="card-body">
+      <div id="disqus_thread" aria-live="polite">
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+      <script type="text/javascript">
+        var disqus_shortname = 'ashwch';
+        var disqus_identifier = '/no-code-by-hand-agentic-platform-acceleration.html';
+        var disqus_url = 'https://ashwch.com/no-code-by-hand-agentic-platform-acceleration.html';
+        var disqus_title = 'No Code by Hand';
+        (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = "//" + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+    </div>
+  </div>
+</section>
+    </div>
+  </div>
+</div>
+
+<style type="text/css">
+/* Jupyter notebook styling */
+.jp-Cell {
+  max-width: 100%;
+  margin-bottom: 1.5rem;
+}
+
+.jp-Cell-inputWrapper,
+.jp-Cell-outputWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.jp-InputPrompt, 
+.jp-OutputPrompt {
+  font-family: monospace;
+  font-size: 0.9rem;
+  color: #888;
+  width: 4.5rem;
+  padding-right: 0.5rem;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.jp-CodeCell .jp-Cell-inputArea {
+  display: flex;
+  background-color: #f6f8fa;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+}
+
+.jp-CodeCell .jp-Cell-outputArea {
+  display: flex;
+  margin-top: 0.5rem;
+}
+
+.jp-CodeMirror {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  padding: 0.5rem;
+  width: 100%;
+}
+
+.jp-OutputArea-output {
+  padding: 0.5rem;
+  width: 100%;
+  overflow-x: auto;
+}
+
+.jp-RenderedMarkdown {
+  margin: 0;
+}
+
+/* Pandas DataFrames */
+table.dataframe {
+  border-collapse: collapse;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin: 1rem 0;
+  width: 100%;
+}
+
+.dataframe thead th {
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  padding: 0.5rem;
+  text-align: left;
+}
+
+.dataframe tbody td {
+  border: 1px solid #ddd;
+  padding: 0.5rem;
+  text-align: left;
+}
+
+.dataframe tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Matplotlib figures */
+.jp-RenderedImage img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1rem auto;
+}
+
+/* Hide cell execution counts */
+.prompt {
+  display: none;
+}
+
+/* Cell borders */
+div.cell {
+  border: none;
+  margin-bottom: 1.5rem;
+}
+
+div.text_cell_render {
+  padding: 0;
+}
+
+/* Code highlighting */
+pre code {
+  background-color: inherit;
+  padding: 0;
+}
+
+/* Jupyter code blocks */
+div.input_area {
+  background-color: #f6f8fa;
+  border-radius: 6px;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+/* Mobile optimization */
+@media (max-width: 768px) {
+  .jp-InputPrompt, 
+  .jp-OutputPrompt {
+    width: 3rem;
+    font-size: 0.8rem;
+  }
+  
+  .jp-CodeMirror,
+  .jp-OutputArea-output {
+    font-size: 0.8rem;
+  }
+  
+  table.dataframe {
+    font-size: 0.8rem;
+  }
+  
+  .dataframe thead th,
+  .dataframe tbody td {
+    padding: 0.3rem;
+  }
+}</style>
+        </main>
+
+        <footer class="site-footer mt-5 py-4 bg-light">
+            <div class="container text-center">
+                <p class="mb-0">
+                    © 2026 Ashwini Chaudhary(Monty), license <a href="https://github.com/ashwch/ashwch.github.io/blob/master/LICENSE">MIT</a>
+                    unless otherwise noted.
+                </p>
+                <p class="mb-0 small text-muted">
+                    Generated by <a href="http://docs.getpelican.com/">Pelican</a>
+                </p>
+            </div>
+        </footer>
+
+        <!-- Bootstrap JS Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        
+        <!-- Theme Switching Script -->
+        <script>
+            // Theme switching functionality
+            (function() {
+                const themeToggle = document.getElementById('theme-toggle');
+                const lightIcon = document.getElementById('theme-toggle-light');
+                const darkIcon = document.getElementById('theme-toggle-dark');
+                const htmlElement = document.documentElement;
+                
+                // Function to set theme
+                function setTheme(theme) {
+                    if (theme === 'dark') {
+                        htmlElement.setAttribute('data-theme', 'dark');
+                        localStorage.setItem('theme', 'dark');
+                        lightIcon.classList.add('d-none');
+                        darkIcon.classList.remove('d-none');
+                    } else {
+                        htmlElement.setAttribute('data-theme', 'light');
+                        localStorage.setItem('theme', 'light');
+                        darkIcon.classList.add('d-none');
+                        lightIcon.classList.remove('d-none');
+                    }
+                }
+                
+                // Check for saved user preference, system preference, or default to light
+                const savedTheme = localStorage.getItem('theme');
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                
+                if (savedTheme === 'dark') {
+                    setTheme('dark');
+                } else if (savedTheme === 'light') {
+                    setTheme('light');
+                } else if (prefersDark) {
+                    setTheme('dark');
+                } else {
+                    setTheme('light');
+                }
+                
+                // Toggle theme on button click
+                themeToggle.addEventListener('click', () => {
+                    const currentTheme = htmlElement.getAttribute('data-theme');
+                    if (currentTheme === 'dark') {
+                        setTheme('light');
+                    } else {
+                        setTheme('dark');
+                    }
+                });
+            })();
+        </script>
+
+<!-- Google Analytics (GA4) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8G7DZ59108"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-8G7DZ59108');
+</script>
+    </body>
+</html>

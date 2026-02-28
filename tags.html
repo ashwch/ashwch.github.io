@@ -456,6 +456,64 @@ a:hover {
   margin: 1.5rem 0;
 }
 
+/* Figure styling for charts and diagrams */
+.article-content figure {
+  margin: 2.5rem 0;
+  padding: 0;
+  text-align: center;
+}
+
+.article-content figure img {
+  display: block;
+  margin: 0 auto 0.75rem;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.article-content figcaption {
+  font-size: 0.875rem;
+  color: var(--text-light);
+  font-style: italic;
+  text-align: center;
+  max-width: 90%;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+/* Dark mode: give SVG images a white background for legibility */
+[data-theme="dark"] .article-content figure img[src$=".svg"] {
+  background: #ffffff;
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+}
+
+/* Callout boxes for key metrics and takeaways */
+.article-content .callout {
+  margin: 1.5rem 0;
+  padding: 1rem 1.25rem;
+  border-radius: 0.5rem;
+  background-color: var(--background-alt);
+  border-left: 4px solid var(--primary-color);
+  transition: background-color 0.3s ease;
+}
+
+.article-content .callout p {
+  margin-bottom: 0.5rem;
+  text-align: left;
+}
+
+.article-content .callout p:last-child {
+  margin-bottom: 0;
+}
+
+/* Key metric highlight */
+.article-content .metric {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
 .article-content pre {
   margin: 1.5rem 0;
   padding: 1rem;
@@ -710,7 +768,15 @@ code,
         <div class="tags-section">
           <h5>All Tags:</h5>
           <div class="tags-container">
+              <a href="https://ashwch.com/tag/ai.html" class="tag ">ai</a>
+              <a href="https://ashwch.com/tag/agentic-engineering.html" class="tag ">agentic-engineering</a>
+              <a href="https://ashwch.com/tag/ci-cd.html" class="tag ">ci-cd</a>
+              <a href="https://ashwch.com/tag/developer-experience.html" class="tag ">developer-experience</a>
+              <a href="https://ashwch.com/tag/platform-engineering.html" class="tag ">platform-engineering</a>
+              <a href="https://ashwch.com/tag/team-learning.html" class="tag ">team-learning</a>
               <a href="https://ashwch.com/tag/security.html" class="tag ">security</a>
+              <a href="https://ashwch.com/tag/testing.html" class="tag ">testing</a>
+              <a href="https://ashwch.com/tag/workflow.html" class="tag ">workflow</a>
               <a href="https://ashwch.com/tag/django.html" class="tag ">django</a>
               <a href="https://ashwch.com/tag/postgres.html" class="tag ">postgres</a>
               <a href="https://ashwch.com/tag/rls.html" class="tag ">rls</a>
@@ -739,10 +805,8 @@ code,
               <a href="https://ashwch.com/tag/bruno.html" class="tag ">bruno</a>
               <a href="https://ashwch.com/tag/postman.html" class="tag ">postman</a>
               <a href="https://ashwch.com/tag/api.html" class="tag ">api</a>
-              <a href="https://ashwch.com/tag/ai.html" class="tag ">ai</a>
               <a href="https://ashwch.com/tag/engineering.html" class="tag ">engineering</a>
               <a href="https://ashwch.com/tag/tooling.html" class="tag ">tooling</a>
-              <a href="https://ashwch.com/tag/developer-experience.html" class="tag ">developer-experience</a>
               <a href="https://ashwch.com/tag/programming.html" class="tag ">programming</a>
               <a href="https://ashwch.com/tag/python.html" class="tag ">python</a>
               <a href="https://ashwch.com/tag/django-pghistory.html" class="tag ">django-pghistory</a>
@@ -829,6 +893,10 @@ code,
         <div class="tag-content">
           <ul class="archives-list">
               <li class="d-flex justify-content-between align-items-center">
+                <h3><a href="https://ashwch.com/no-code-by-hand-agentic-platform-acceleration.html"><del>No Code</del> by Hand</a></h3>
+                <time>28.02.2026</time>
+              </li>
+              <li class="d-flex justify-content-between align-items-center">
                 <h3><a href="https://ashwch.com/protecting-our-own-tenant-in-a-multi-tenant-saas.html">Protecting Our Own Tenant in a Multi-Tenant SaaS</a></h3>
                 <time>24.11.2025</time>
               </li>
@@ -891,7 +959,7 @@ code,
         <footer class="site-footer mt-5 py-4 bg-light">
             <div class="container text-center">
                 <p class="mb-0">
-                    © 2025 Ashwini Chaudhary(Monty), license <a href="https://github.com/ashwch/ashwch.github.io/blob/master/LICENSE">MIT</a>
+                    © 2026 Ashwini Chaudhary(Monty), license <a href="https://github.com/ashwch/ashwch.github.io/blob/master/LICENSE">MIT</a>
                     unless otherwise noted.
                 </p>
                 <p class="mb-0 small text-muted">

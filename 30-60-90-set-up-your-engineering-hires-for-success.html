@@ -456,6 +456,64 @@ a:hover {
   margin: 1.5rem 0;
 }
 
+/* Figure styling for charts and diagrams */
+.article-content figure {
+  margin: 2.5rem 0;
+  padding: 0;
+  text-align: center;
+}
+
+.article-content figure img {
+  display: block;
+  margin: 0 auto 0.75rem;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.article-content figcaption {
+  font-size: 0.875rem;
+  color: var(--text-light);
+  font-style: italic;
+  text-align: center;
+  max-width: 90%;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+/* Dark mode: give SVG images a white background for legibility */
+[data-theme="dark"] .article-content figure img[src$=".svg"] {
+  background: #ffffff;
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+}
+
+/* Callout boxes for key metrics and takeaways */
+.article-content .callout {
+  margin: 1.5rem 0;
+  padding: 1rem 1.25rem;
+  border-radius: 0.5rem;
+  background-color: var(--background-alt);
+  border-left: 4px solid var(--primary-color);
+  transition: background-color 0.3s ease;
+}
+
+.article-content .callout p {
+  margin-bottom: 0.5rem;
+  text-align: left;
+}
+
+.article-content .callout p:last-child {
+  margin-bottom: 0;
+}
+
+/* Key metric highlight */
+.article-content .metric {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
 .article-content pre {
   margin: 1.5rem 0;
   padding: 1rem;
@@ -992,7 +1050,7 @@ div.input_area {
         <footer class="site-footer mt-5 py-4 bg-light">
             <div class="container text-center">
                 <p class="mb-0">
-                    © 2025 Ashwini Chaudhary(Monty), license <a href="https://github.com/ashwch/ashwch.github.io/blob/master/LICENSE">MIT</a>
+                    © 2026 Ashwini Chaudhary(Monty), license <a href="https://github.com/ashwch/ashwch.github.io/blob/master/LICENSE">MIT</a>
                     unless otherwise noted.
                 </p>
                 <p class="mb-0 small text-muted">
