@@ -701,13 +701,13 @@ abbr {
   border-bottom: none;
 }
 
-.article-content abbr.abbr-first {
+.article-content abbr {
   border-bottom: 1px dotted var(--text-light);
   cursor: help;
   transition: border-color 0.2s ease;
 }
 
-.article-content abbr.abbr-first:hover {
+.article-content abbr:hover {
   border-bottom-color: var(--primary-color);
 }
 
@@ -1122,23 +1122,35 @@ document.addEventListener('DOMContentLoaded', function () {
   var content = document.querySelector('.article-content');
   if (!content) return;
 
-  var seen = {};
-  var abbrs = content.querySelectorAll('abbr[title]');
-
-  abbrs.forEach(function (abbr) {
-    var key = abbr.textContent.trim();
-    // Skip abbreviations inside headings
-    if (abbr.closest('h1, h2, h3, h4, h5, h6')) return;
-    if (!seen[key]) {
-      seen[key] = true;
-      abbr.classList.add('abbr-first');
-    }
+  // Build acronym dictionary from existing <abbr> tags
+  var defined = {};
+  content.querySelectorAll('abbr[title]').forEach(function (abbr) {
+    defined[abbr.textContent.trim()] = abbr.getAttribute('title');
   });
 
-  var firstAbbrs = content.querySelectorAll('abbr.abbr-first');
-  firstAbbrs.forEach(function (el) {
+  // Patch figcaptions: Markdown abbr extension skips raw HTML blocks,
+  // so acronyms inside <figure>/<figcaption> need runtime wrapping.
+  var keys = Object.keys(defined);
+  if (keys.length) {
+    var pattern = new RegExp('\\b(' + keys.map(function (k) {
+      return k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }).join('|') + ')\\b', 'g');
+
+    content.querySelectorAll('figcaption').forEach(function (fc) {
+      fc.innerHTML = fc.innerHTML.replace(pattern, function (m) {
+        return '<abbr title="' + defined[m] + '">' + m + '</abbr>';
+      });
+    });
+  }
+
+  // Strip tooltip from headings, init Bootstrap tooltips on everything else
+  content.querySelectorAll('abbr[title]').forEach(function (el) {
+    if (el.closest('h1, h2, h3, h4, h5, h6')) {
+      el.removeAttribute('title');
+      return;
+    }
     new bootstrap.Tooltip(el, {
-      delay: { show: 300, hide: 0 },
+      delay: { show: 200, hide: 0 },
       trigger: 'hover focus'
     });
   });

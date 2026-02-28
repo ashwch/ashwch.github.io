@@ -701,13 +701,13 @@ abbr {
   border-bottom: none;
 }
 
-.article-content abbr.abbr-first {
+.article-content abbr {
   border-bottom: 1px dotted var(--text-light);
   cursor: help;
   transition: border-color 0.2s ease;
 }
 
-.article-content abbr.abbr-first:hover {
+.article-content abbr:hover {
   border-bottom-color: var(--primary-color);
 }
 
@@ -816,7 +816,7 @@ h1 abbr, h2 abbr, h3 abbr, h4 abbr, h5 abbr, h6 abbr {
 <li><strong>Testing platform</strong> - Built <abbr title="End-to-End">E2E</abbr> and integration test coverage in phases, replaced flaky waits with deterministic ones</li>
 <li><strong>Local development</strong> - Made git worktrees reliable so agents and engineers can run multiple branches in parallel without collisions</li>
 <li><strong>Operations safety</strong> - Took processes that lived in people's heads (snapshots, support shells, admin actions) and gave them proper guardrails and audit trails</li>
-<li><strong>Security remediation</strong> - Closed CVEs and Dependabot alerts in planned waves instead of random fire-drills</li>
+<li><strong>Security remediation</strong> - Closed <abbr title="Common Vulnerabilities and Exposures">CVEs</abbr> and Dependabot alerts in planned waves instead of random fire-drills</li>
 <li><strong>Debt retirement</strong> - Squashed tangled migration graphs, removed dead Slack/Teams integrations</li>
 <li><strong>Open-source skills</strong> - Turned repeating engineering patterns into reusable agent skills and open-sourced them</li>
 </ul>
@@ -1336,23 +1336,35 @@ document.addEventListener('DOMContentLoaded', function () {
   var content = document.querySelector('.article-content');
   if (!content) return;
 
-  var seen = {};
-  var abbrs = content.querySelectorAll('abbr[title]');
-
-  abbrs.forEach(function (abbr) {
-    var key = abbr.textContent.trim();
-    // Skip abbreviations inside headings
-    if (abbr.closest('h1, h2, h3, h4, h5, h6')) return;
-    if (!seen[key]) {
-      seen[key] = true;
-      abbr.classList.add('abbr-first');
-    }
+  // Build acronym dictionary from existing <abbr> tags
+  var defined = {};
+  content.querySelectorAll('abbr[title]').forEach(function (abbr) {
+    defined[abbr.textContent.trim()] = abbr.getAttribute('title');
   });
 
-  var firstAbbrs = content.querySelectorAll('abbr.abbr-first');
-  firstAbbrs.forEach(function (el) {
+  // Patch figcaptions: Markdown abbr extension skips raw HTML blocks,
+  // so acronyms inside <figure>/<figcaption> need runtime wrapping.
+  var keys = Object.keys(defined);
+  if (keys.length) {
+    var pattern = new RegExp('\\b(' + keys.map(function (k) {
+      return k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }).join('|') + ')\\b', 'g');
+
+    content.querySelectorAll('figcaption').forEach(function (fc) {
+      fc.innerHTML = fc.innerHTML.replace(pattern, function (m) {
+        return '<abbr title="' + defined[m] + '">' + m + '</abbr>';
+      });
+    });
+  }
+
+  // Strip tooltip from headings, init Bootstrap tooltips on everything else
+  content.querySelectorAll('abbr[title]').forEach(function (el) {
+    if (el.closest('h1, h2, h3, h4, h5, h6')) {
+      el.removeAttribute('title');
+      return;
+    }
     new bootstrap.Tooltip(el, {
-      delay: { show: 300, hide: 0 },
+      delay: { show: 200, hide: 0 },
       trigger: 'hover focus'
     });
   });

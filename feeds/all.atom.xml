@@ -22,7 +22,7 @@
 &lt;li&gt;&lt;strong&gt;Testing platform&lt;/strong&gt; - Built &lt;abbr title="End-to-End"&gt;E2E&lt;/abbr&gt; and integration test coverage in phases, replaced flaky waits with deterministic ones&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Local development&lt;/strong&gt; - Made git worktrees reliable so agents and engineers can run multiple branches in parallel without collisions&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Operations safety&lt;/strong&gt; - Took processes that lived in people's heads (snapshots, support shells, admin actions) and gave them proper guardrails and audit trails&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Security remediation&lt;/strong&gt; - Closed CVEs and Dependabot alerts in planned waves instead of random fire-drills&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Security remediation&lt;/strong&gt; - Closed &lt;abbr title="Common Vulnerabilities and Exposures"&gt;CVEs&lt;/abbr&gt; and Dependabot alerts in planned waves instead of random fire-drills&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Debt retirement&lt;/strong&gt; - Squashed tangled migration graphs, removed dead Slack/Teams integrations&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Open-source skills&lt;/strong&gt; - Turned repeating engineering patterns into reusable agent skills and open-sourced them&lt;/li&gt;
 &lt;/ul&gt;
