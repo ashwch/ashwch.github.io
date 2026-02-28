@@ -6,9 +6,9 @@ Category: Engineering
 Tags: ai, agentic-engineering, ci-cd, developer-experience, platform-engineering, team-learning, security, testing, workflow
 Slug: no-code-by-hand-agentic-platform-acceleration
 Authors: Ashwini Chaudhary
-Summary: How agentic coding helped us clear the hidden queue of engineering work, and why the bigger multiplier was team learning.
+Summary: CI dropped from 37 minutes to 9, at 35% lower cost. What we learned about mixing Claude and Codex, clearing the hidden queue, and where the real multiplier came from.
 
-*How agentic coding helped us clear the hidden queue of engineering work, and why the bigger multiplier was team learning.*
+*CI dropped from 37 minutes to 9, at 35% lower cost. Here is what we learned about the hidden queue, mixing Claude and Codex, and where the real multiplier came from.*
 
 ---
 
@@ -16,7 +16,7 @@ Summary: How agentic coding helped us clear the hidden queue of engineering work
 
 Every engineering team has a version of this story.
 
-Your roadmap looks healthy. Feature velocity looks fine. Sprint retros are tolerable. But your engineers are still losing chunks of every day to things that were never planned: waiting 16 minutes for CI to tell them a typo failed linting. Restarting Docker because two branches grabbed the same port. Rebuilding a test environment because yesterday's `.env` has stale API keys. Manually running six database commands in exact order because the snapshot process lives in someone's Slack history. Bumping a dependency because Dependabot fired another alert at 3pm on a Friday.
+Your roadmap looks healthy. Feature velocity looks fine. Sprint retros are tolerable. But your engineers are still losing chunks of every day to things that were never planned: waiting 16 minutes for CI to tell them a typo failed linting. Manually running six database commands because the snapshot process lives in someone's Slack history. Bumping a dependency because Dependabot fired another alert at 3pm on a Friday.
 
 That is the hidden queue. It is not on your roadmap, it is not in your sprints, and it is costing you more than most feature work.
 
@@ -60,7 +60,7 @@ Most teams can point to one thing they improved. "We made CI faster." "We added 
 
 [Karpathy put it bluntly](https://x.com/karpathy/status/2026731645169185220): coding agents basically did not work before December 2025, and they basically work now. He described giving an agent a full system setup task - SSH keys, vLLM, web dashboard, systemd services - and it came back 30 minutes later with everything working. He did not touch anything.
 
-That matched what we were seeing. As recently as October 2025, the same tools felt like expensive autocomplete. By December, something had shifted. [Mitchell Hashimoto](https://mitchellh.com/writing/my-ai-adoption-journey) went through the same arc - from skeptic to building his entire Ghostty workflow around agents, with the key insight that you have to separate planning from execution and let the agent self-correct. [Paul Graham](https://x.com/paulg/status/2022604692178522562) framed the implication: "In the AI age, taste will become even more important. When anyone can make anything, the big differentiator is what you choose to make." [Simon Willison](https://simonwillison.net/guides/agentic-engineering-patterns/hoard-things-you-know-how-to-do/) figured out the compounding angle: "Coding agents mean we only ever need to figure out a useful trick once."
+That matched what we were seeing. As recently as October 2025, the same tools felt like expensive autocomplete. By December, a new generation of models had shipped and changed that completely. [Mitchell Hashimoto](https://mitchellh.com/writing/my-ai-adoption-journey) went through the same arc - from skeptic to building his entire Ghostty workflow around agents, with the key insight that you have to separate planning from execution and let the agent self-correct. [Paul Graham](https://x.com/paulg/status/2022604692178522562) framed the implication: "In the AI age, taste will become even more important. When anyone can make anything, the big differentiator is what you choose to make." [Simon Willison](https://simonwillison.net/guides/agentic-engineering-patterns/hoard-things-you-know-how-to-do/) figured out the compounding angle: "Coding agents mean we only ever need to figure out a useful trick once."
 
 They were all talking about the same shift from different angles, but none of them say loudly enough what actually caused it: **the models got qualitatively better.**
 
@@ -228,10 +228,9 @@ The most common failure mode for test initiatives is the big-bang rewrite: someo
 The sequence:
 
 1. **Infrastructure first.** Test runner configuration, fixture management, database seeding, environment isolation - the kind of work nobody wants to do but everything else depends on.
-2. **Role-based E2E flows.** We built end-to-end tests organized by user role - HR admin, manager, employee - because that is how our application's permission model works. Testing by role means you catch the bugs that actually happen in production: "this works for admins but breaks for regular users."
-3. **Unit and integration depth.** Once the E2E skeleton was stable, we filled in unit and integration tests underneath. This order matters because the E2E tests act as a safety net while you are adding lower-level coverage.
-4. **CI and sandbox integration.** Tests got wired into CI properly - not as an afterthought bolted onto the end, but as a gate that determines whether deeper checks run.
-5. **Deterministic stabilization.** The final phase was eliminating flakiness. And that brings us to one of the most universally hated problems in software engineering.
+2. **Role-based E2E flows.** Tests organized by user role - HR admin, manager, employee - because that is how our permission model works. Testing by role catches the bugs that actually happen in production: "this works for admins but breaks for regular users."
+3. **Unit and integration depth.** Once the E2E skeleton was stable, we filled in unit and integration tests underneath. The E2E tests act as a safety net while you add lower-level coverage.
+4. **Deterministic stabilization.** The final phase was eliminating flakiness. And that brings us to one of the most universally hated problems in software engineering.
 
 ### The `sleep(2000)` problem
 
@@ -405,11 +404,9 @@ We took a different approach: we turned those patterns into reusable agent skill
 
 - **Code review** - Hyper-pedantic Django review skills that check for multi-tenant safety, migration correctness, and security patterns
 - **Commit and PR hygiene** - Atomic commit helpers that enforce pre-commit hooks, lint gates, and clean commit messages
-- **Dependabot remediation** - Wave-based triage and execution workflows for both frontend and backend dependency management
+- **Dependabot remediation** - Wave-based triage and execution for both frontend and backend dependency management
 - **Release operations** - PR creation, version bumping, merge conflict resolution, and release publishing
 - **Docs generation** - Repository documentation, API docs from Bruno files, AGENTS.md canonical formats
-- **Planning loops** - Structured plan directories with task files, checklists, and completion criteria
-- **Analytics implementation** - Mixpanel event tracking with PII safety checks and schema design review
 
 <figure>
   <img src="{static}/images/articles/no-code-by-hand/skills-compounding-flywheel.svg" alt="Compounding flywheel diagram for open-source skills: pattern discovery, codification, team reuse, and baseline uplift.">
@@ -446,10 +443,8 @@ Here is how the loops worked:
 
 - **CI speed → testing velocity.** Faster CI feedback meant testing improvements were cheaper to validate. You could iterate on a test three times in an hour instead of once.
 - **Testing quality → CI signal.** Better tests with deterministic waits produced cleaner CI signal. Fewer flaky failures meant the CI results were actually trustworthy, which made scope-aware gating and cost optimization possible.
-- **Worktree isolation → everything.** Reliable worktrees meant agents and engineers could iterate on every other stream in parallel. You could have an agent testing CI changes in one worktree while you reviewed a security patch in another - without either environment breaking the other.
-- **Ops safety → deployment confidence.** Better rollback mechanisms and guarded admin actions meant we could ship platform changes faster. If something went wrong, recovery was a known path, not an improvised one.
-- **Security waves → background stability.** Closing dependency risk in planned batches meant other work was not constantly interrupted by urgent security patches.
-- **Skills codification → all of the above.** Once patterns were encoded into reusable skills, we stopped relearning the same lessons in private. New contributors could inherit the workflow directly.
+- **Worktree isolation → everything.** Reliable worktrees meant agents and engineers could iterate on every other stream in parallel without breaking each other's environments.
+- **Skills codification → all of the above.** Once patterns were encoded into reusable skills, we stopped relearning the same lessons. New contributors inherited the workflow directly.
 
 We did not just do many things in one quarter - we ended up building a system where the improvements reinforced each other. Better CI feedback made testing more productive, which made CI signal more trustworthy, which made it safe to skip unnecessary checks, which freed up time to codify the patterns, which meant the next improvement started from a higher baseline.
 
@@ -461,21 +456,17 @@ If you are looking at this and thinking "we have the same hidden queue," here is
 
 If you want to apply this without copying our stack, copy the mechanics:
 
-1. **Make the hidden queue visible.** Take one week and track every time an engineer waits, context-switches, or does manual repetitive work. Write it down. Add up the hours. That number will be larger than you expect, and it will make the case for you.
+1. **Make the hidden queue visible and measure it.** Track every time an engineer waits, context-switches, or does manual repetitive work for one week. Add up the hours. Then pick one loop, instrument it, fix it, and measure the before and after. Start wherever your data is cleanest.
 
 2. **Separate qualification from execution.** In any expensive system - CI, deployments, data pipelines - cheap checks should decide whether expensive checks run. A 30-second linter should gate a 15-minute integration test, not run alongside it.
 
-3. **Ship in phases, not big bangs.** Every improvement in this post was shipped incrementally with explicit boundaries. If Phase 2 breaks, you roll back Phase 2. Phase 1 still works. This keeps learning fast and rollback cheap.
+3. **Ship in phases, not big bangs.** Every improvement in this post was shipped incrementally. If Phase 2 breaks, you roll back Phase 2. Phase 1 still works.
 
-4. **Treat security as a scheduled program, not random interrupts.** Group dependency updates into waves by risk level. Review them together. Ship them together. Your merge churn drops, your review quality goes up, and your engineers stop dreading Dependabot.
+4. **Make worktrees work.** If your team is using AI coding agents, fix your local dev setup first. Deterministic port isolation, environment syncing, single-command startup. Without this, you are bottlenecking every other improvement.
 
-5. **Make worktrees work.** If your team is using AI coding agents, fix your local dev setup first. Deterministic port isolation, environment syncing, single-command startup. Without this, you are bottlenecking every other improvement.
+5. **Learn the models and mix them.** Claude is fast and great for execution but will take shortcuts on complex work. Codex is slower but more thorough. Run them together - one plans, one executes, one reviews.
 
-6. **Learn the models and mix them.** Do not use the same model for everything. Claude is fast and great for execution but will take shortcuts on complex work. Codex is slower but more thorough and will not skip critical logic. Run them together - one plans, one executes, one reviews. Build that knowledge into your skills so the whole team benefits.
-
-7. **Turn prompts into skills.** If someone on your team has figured out a really effective AI-assisted workflow, do not let it stay in their head. Encode it. Version it. Share it. The gap between "one person is fast" and "the whole team is fast" is a skill system.
-
-8. **Measure before and after.** Pick one friction loop. Instrument it. Fix it. Measure again. If you cannot measure the loop, you cannot manage the tradeoffs honestly. We started with CI because the telemetry was clean. Start wherever your data is best.
+6. **Turn prompts into skills.** When someone on your team figures out an effective AI-assisted workflow, do not let it stay in their head. Encode it. Version it. Share it. The gap between "one person is fast" and "the whole team is fast" is a skill system.
 
 These patterns are general-purpose and work whether you are running a monolith, microservices, or something in between. The models make it cheaper to try things and iterate. The patterns are what make the results last.
 
