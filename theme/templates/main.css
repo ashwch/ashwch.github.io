@@ -607,13 +607,13 @@ abbr {
   border-bottom: none;
 }
 
-.article-content abbr.abbr-first {
+.article-content abbr {
   border-bottom: 1px dotted var(--text-light);
   cursor: help;
   transition: border-color 0.2s ease;
 }
 
-.article-content abbr.abbr-first:hover {
+.article-content abbr:hover {
   border-bottom-color: var(--primary-color);
 }
 
