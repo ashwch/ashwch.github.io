@@ -695,6 +695,33 @@ code,
   background-color: var(--background-color) !important;
 }
 
+/* Abbreviation tooltips */
+abbr {
+  text-decoration: none;
+  border-bottom: none;
+}
+
+.article-content abbr.abbr-first {
+  border-bottom: 1px dotted var(--text-light);
+  cursor: help;
+  transition: border-color 0.2s ease;
+}
+
+.article-content abbr.abbr-first:hover {
+  border-bottom-color: var(--primary-color);
+}
+
+h1 abbr, h2 abbr, h3 abbr, h4 abbr, h5 abbr, h6 abbr {
+  border-bottom: none !important;
+  cursor: inherit !important;
+}
+
+.tooltip {
+  --bs-tooltip-bg: var(--text-color);
+  --bs-tooltip-color: var(--background-color);
+  --bs-tooltip-opacity: 0.95;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .article-header h1 {
@@ -769,7 +796,7 @@ code,
           <blockquote>
 <p>If your own company is a tenant in your own product, it should be the hardest one to access, not the easiest.</p>
 </blockquote>
-<p>At <a href="https://diversio.com">Diversio</a>, one of the products we build is <a href="https://optimoteams.com">Optimo</a>, a multi-tenant SaaS that helps HR and people teams work with sensitive employee and organizational data.</p>
+<p>At <a href="https://diversio.com">Diversio</a>, one of the products we build is <a href="https://optimoteams.com">Optimo</a>, a multi-tenant <abbr title="Software as a Service">SaaS</abbr> that helps HR and people teams work with sensitive employee and organizational data.</p>
 <p>Most Optimo organizations belong to customers.</p>
 <p>One belongs to us.</p>
 <p>That internal Diversio org inside Optimo holds our own employee and company data. It lives in the same production cluster as customer tenants, and our engineers and Client Success team use the same product surfaces to support both, always through per-tenant and role-based guardrails.</p>
@@ -782,9 +809,9 @@ code,
 <li><a href="#what-youll-learn">What you'll learn</a></li>
 <li><a href="#why-our-own-org-is-special">Why our own org is special</a></li>
 <li><a href="#layer-1-an-org-scoped-admin-mixin">Layer 1: An org-scoped admin mixin</a></li>
-<li><a href="#layer-2-a-totp-gated-workflow-for-sensitive-access">Layer 2: A TOTP-gated workflow for sensitive access</a></li>
-<li><a href="#layer-3-postgres-rls-and-the-sensitive-flag">Layer 3: Postgres RLS and the sensitive flag</a></li>
-<li><a href="#layer-4-iam-and-support-shells">Layer 4: IAM and support shells</a></li>
+<li><a href="#layer-2-a-totp-gated-workflow-for-sensitive-access">Layer 2: A <abbr title="Time-based One-Time Password">TOTP</abbr>-gated workflow for sensitive access</a></li>
+<li><a href="#layer-3-postgres-rls-and-the-sensitive-flag">Layer 3: Postgres <abbr title="Row-Level Security">RLS</abbr> and the sensitive flag</a></li>
+<li><a href="#layer-4-iam-and-support-shells">Layer 4: <abbr title="Identity and Access Management">IAM</abbr> and support shells</a></li>
 <li><a href="#automation-and-a-five-person-team">Automation and a five-person team</a></li>
 <li><a href="#gaps-and-future-work">Gaps and future work</a></li>
 <li><a href="#the-bottom-line">The bottom line</a></li>
@@ -793,11 +820,11 @@ code,
 <h2 id="what-youll-learn"><a class="toclink" href="#what-youll-learn">What you'll learn</a></h2>
 <p>By the end of this post, you will see how to:</p>
 <ul>
-<li>Treat your own company's tenant as the hardest one to reach in a multi-tenant SaaS.</li>
+<li>Treat your own company's tenant as the hardest one to reach in a multi-tenant <abbr title="Software as a Service">SaaS</abbr>.</li>
 <li>Use an org-scoped admin mixin to get "row-level security" at the application layer.</li>
-<li>Wrap sensitive access behind a small TOTP-gated workflow instead of ad-hoc toggles.</li>
-<li>Lean on Postgres Row-Level Security (RLS) and a single support-shell role to protect production data.</li>
-<li>Use CI to keep your RLS and access model from silently drifting.</li>
+<li>Wrap sensitive access behind a small <abbr title="Time-based One-Time Password">TOTP</abbr>-gated workflow instead of ad-hoc toggles.</li>
+<li>Lean on Postgres Row-Level Security (<abbr title="Row-Level Security">RLS</abbr>) and a single support-shell role to protect production data.</li>
+<li>Use <abbr title="Continuous Integration">CI</abbr> to keep your <abbr title="Row-Level Security">RLS</abbr> and access model from silently drifting.</li>
 <li>Get all of this working with a five-person engineering team without grinding development to a halt.</li>
 </ul>
 <p>If you are building a multi-tenant application and your own company is one of the tenants, this post gives you a concrete set of patterns you can reuse or adapt.</p>
@@ -810,7 +837,7 @@ code,
 <li>It exercises almost every feature in Optimo, often before customers see it.</li>
 <li>It is the easiest tenant for us to accidentally treat as "less important", because we are so close to it.</li>
 </ul>
-<p>This pattern is not unique to us. GitHub runs on GitHub, Slack lives inside Slack, and Stripe’s teams build and operate on top of their own payments APIs and tools. Claude Code is another good example: a lot of what makes it feel sharp comes from Anthropic dogfooding it heavily<sup id="fnref:dogfood"><a class="footnote-ref" href="#fn:dogfood">1</a></sup>, and we lean on it in our own repos too. Using your own tools at full blast is one of the fastest ways to find sharp edges before customers do.</p>
+<p>This pattern is not unique to us. GitHub runs on GitHub, Slack lives inside Slack, and Stripe’s teams build and operate on top of their own payments <abbr title="Application Programming Interfaces">APIs</abbr> and tools. Claude Code is another good example: a lot of what makes it feel sharp comes from Anthropic dogfooding it heavily<sup id="fnref:dogfood"><a class="footnote-ref" href="#fn:dogfood">1</a></sup>, and we lean on it in our own repos too. Using your own tools at full blast is one of the fastest ways to find sharp edges before customers do.</p>
 <p>Optimo is the same. Our own org is where we try new workflows, push edge cases and shortcut a lot of “demo tenant” friction. That is great for product quality, but it also means the easiest tenant for us to poke at is the one tenant we should be most careful with.</p>
 <p>We wanted to set a very simple rule:</p>
 <blockquote>
@@ -820,9 +847,9 @@ code,
 <p>The result is a layered design:</p>
 <ol>
 <li>A clear notion of which organizations each admin may see at the application layer.</li>
-<li>A small, TOTP-gated workflow to grant and remove sensitive access.</li>
-<li>Postgres RLS that treats sensitive orgs as a first-class concept.</li>
-<li>IAM and support shells that default engineers into safe roles.</li>
+<li>A small, <abbr title="Time-based One-Time Password">TOTP</abbr>-gated workflow to grant and remove sensitive access.</li>
+<li>Postgres <abbr title="Row-Level Security">RLS</abbr> that treats sensitive orgs as a first-class concept.</li>
+<li><abbr title="Identity and Access Management">IAM</abbr> and support shells that default engineers into safe roles.</li>
 <li>Automation that keeps all of these in sync as the system changes.</li>
 </ol>
 <p>The rest of this post goes layer by layer.</p>
@@ -882,7 +909,7 @@ code,
 </ul>
 <p>This is our first layer of "row-level security": an application-level filter baked into admin, not an afterthought in each view.</p>
 <hr>
-<h2 id="layer-2-a-totp-gated-workflow-for-sensitive-access"><a class="toclink" href="#layer-2-a-totp-gated-workflow-for-sensitive-access">Layer 2: A TOTP-gated workflow for sensitive access</a></h2>
+<h2 id="layer-2-a-totp-gated-workflow-for-sensitive-access"><a class="toclink" href="#layer-2-a-totp-gated-workflow-for-sensitive-access">Layer 2: A <abbr title="Time-based One-Time Password">TOTP</abbr>-gated workflow for sensitive access</a></h2>
 <p>The admin mixin enforces "what you can see" for a given profile.</p>
 <p>The next question is: how does someone get a profile that is allowed to see the Diversio org at all?</p>
 <p>We knew what we did not want:</p>
@@ -890,15 +917,15 @@ code,
 <li>A checkbox in Django admin that anyone with enough permissions could toggle.</li>
 <li>A permanent "god mode" role that people forget they are still holding.</li>
 </ul>
-<p>Instead, we built a small, TOTP-gated workflow.</p>
+<p>Instead, we built a small, <abbr title="Time-based One-Time Password">TOTP</abbr>-gated workflow.</p>
 <p>Each staff profile has a boolean that means:</p>
 <blockquote>
 <p>This person may see sensitive orgs like Diversio, in addition to their normal org assignments.</p>
 </blockquote>
-<p>That boolean is visible in admin, but it is read-only. The only way to change it is a CLI command that:</p>
+<p>That boolean is visible in admin, but it is read-only. The only way to change it is a <abbr title="Command Line Interface">CLI</abbr> command that:</p>
 <ul>
 <li>Takes a target user.</li>
-<li>Takes a TOTP code from an approver (CEO, CTO or a small set of delegates).</li>
+<li>Takes a <abbr title="Time-based One-Time Password">TOTP</abbr> code from an approver (<abbr title="Chief Executive Officer">CEO</abbr>, <abbr title="Chief Technology Officer">CTO</abbr> or a small set of delegates).</li>
 <li>Logs who did what and when.</li>
 </ul>
 <p>In pseudocode:</p>
@@ -921,15 +948,15 @@ code,
 </ul>
 <p>This is the human-side guardrail that complements the org-scoped admin mixin.</p>
 <hr>
-<h2 id="layer-3-postgres-rls-and-the-sensitive-flag"><a class="toclink" href="#layer-3-postgres-rls-and-the-sensitive-flag">Layer 3: Postgres RLS and the sensitive flag</a></h2>
-<p>Application-level scoping and TOTP workflows are necessary, but not sufficient. Engineers also work close to the database: SQL shells, diagnostics, ad-hoc queries and migrations.</p>
+<h2 id="layer-3-postgres-rls-and-the-sensitive-flag"><a class="toclink" href="#layer-3-postgres-rls-and-the-sensitive-flag">Layer 3: Postgres <abbr title="Row-Level Security">RLS</abbr> and the sensitive flag</a></h2>
+<p>Application-level scoping and <abbr title="Time-based One-Time Password">TOTP</abbr> workflows are necessary, but not sufficient. Engineers also work close to the database: <abbr title="Structured Query Language">SQL</abbr> shells, diagnostics, ad-hoc queries and migrations.</p>
 <p>We wanted Postgres itself to agree that the Diversio org is special.</p>
 <p>We do two things here.</p>
 <h3 id="31-guard-the-sensitive-flag-itself"><a class="toclink" href="#31-guard-the-sensitive-flag-itself">3.1 Guard the sensitive flag itself</a></h3>
 <p>First, we treat the "this org is sensitive" flag as something you do not get to flip casually.</p>
 <ul>
 <li>Normal application roles and ad-hoc DB connections cannot change it.</li>
-<li>Only a narrow path, tied to the TOTP-gated CLI, can set or clear it.</li>
+<li>Only a narrow path, tied to the <abbr title="Time-based One-Time Password">TOTP</abbr>-gated <abbr title="Command Line Interface">CLI</abbr>, can set or clear it.</li>
 <li>The database checks the current role and a session variable before allowing updates to that column.</li>
 </ul>
 <p>The goal is simple:</p>
@@ -937,15 +964,15 @@ code,
 <li>Nobody "experimenting" in a production shell can quietly downgrade the Diversio org from <code>is_sensitive = TRUE</code> to <code>FALSE</code>.</li>
 <li>Even if a bug slips through at the app layer, the database is still able to say "no" on the one write that really matters.</li>
 </ul>
-<h3 id="32-postgres-rls-for-support-shells"><a class="toclink" href="#32-postgres-rls-for-support-shells">3.2 Postgres RLS for support shells</a></h3>
-<p>The second piece is Postgres Row-Level Security (RLS), which we apply to a dedicated support database role, the role engineers use in our production support shells.</p>
-<p>For that support role, RLS policies enforce:</p>
+<h3 id="32-postgres-rls-for-support-shells"><a class="toclink" href="#32-postgres-rls-for-support-shells">3.2 Postgres <abbr title="Row-Level Security">RLS</abbr> for support shells</a></h3>
+<p>The second piece is Postgres Row-Level Security (<abbr title="Row-Level Security">RLS</abbr>), which we apply to a dedicated support database role, the role engineers use in our production support shells.</p>
+<p>For that support role, <abbr title="Row-Level Security">RLS</abbr> policies enforce:</p>
 <ul>
 <li>On org-scoped tables, queries only see rows where the organization is not sensitive.</li>
 <li>Rows belonging to sensitive orgs (including Diversio) are filtered out by the database itself.</li>
 <li>These rules apply to both reads and writes.</li>
 </ul>
-<p>In simplified SQL:</p>
+<p>In simplified <abbr title="Structured Query Language">SQL</abbr>:</p>
 <div class="highlight"><pre><span></span><code><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">org_events</span><span class="w"> </span><span class="n">ENABLE</span><span class="w"> </span><span class="k">ROW</span><span class="w"> </span><span class="k">LEVEL</span><span class="w"> </span><span class="k">SECURITY</span><span class="p">;</span>
 
 <span class="k">CREATE</span><span class="w"> </span><span class="n">POLICY</span><span class="w"> </span><span class="n">support_only_non_sensitive</span>
@@ -969,13 +996,13 @@ code,
 </code></pre></div>
 
 <p>Postgres itself refuses to show those rows to the <code>support_shell_role</code>, regardless of what the application code might have done.</p>
-<h3 id="33-an-rls-registry-and-ci-checks"><a class="toclink" href="#33-an-rls-registry-and-ci-checks">3.3 An RLS registry and CI checks</a></h3>
+<h3 id="33-an-rls-registry-and-ci-checks"><a class="toclink" href="#33-an-rls-registry-and-ci-checks">3.3 An <abbr title="Row-Level Security">RLS</abbr> registry and <abbr title="Continuous Integration">CI</abbr> checks</a></h3>
 <p>We have a lot of org-scoped tables in Optimo:</p>
 <ul>
 <li>Some with a direct <code>organization_id</code> column.</li>
 <li>Some where the org needs to be derived via a join (through a user, an employee, a workspace and so on).</li>
 </ul>
-<p>Managing RLS for all of them by hand is a great way to make mistakes.</p>
+<p>Managing <abbr title="Row-Level Security">RLS</abbr> for all of them by hand is a great way to make mistakes.</p>
 <p>So we maintain a small Python "registry" that lists:</p>
 <ul>
 <li>Which tables are org-scoped.</li>
@@ -984,7 +1011,7 @@ code,
 </ul>
 <p>On top of that registry, we have a management command that:</p>
 <ul>
-<li>Enables RLS on those tables.</li>
+<li>Enables <abbr title="Row-Level Security">RLS</abbr> on those tables.</li>
 <li>Ensures policies exist for the support role.</li>
 <li>Creates a helper function like <code>org_is_not_sensitive(org_id uuid)</code> for <code>USING</code> and <code>WITH CHECK</code> clauses.</li>
 <li>Scans the schema for any new org-scoped tables that are not in the registry yet.</li>
@@ -993,10 +1020,10 @@ code,
 <p>We run this command automatically in CircleCI:</p>
 <ul>
 <li>Apply migrations to a fresh database.</li>
-<li>Run the RLS command in "apply plus verify" mode.</li>
+<li>Run the <abbr title="Row-Level Security">RLS</abbr> command in "apply plus verify" mode.</li>
 <li>If someone adds an org-scoped table and forgets to update the registry, the build fails.</li>
 </ul>
-<p>Conceptually, the CI step looks like this:</p>
+<p>Conceptually, the <abbr title="Continuous Integration">CI</abbr> step looks like this:</p>
 <div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">run</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Validate support-shell RLS</span>
 <span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
@@ -1004,13 +1031,13 @@ code,
 <span class="w">      </span><span class="no">python manage.py check_support_shell_rls --apply --verbosity 2</span>
 </code></pre></div>
 
-<p>RLS becomes an executable spec, not a fragile manual checklist.</p>
+<p><abbr title="Row-Level Security">RLS</abbr> becomes an executable spec, not a fragile manual checklist.</p>
 <hr>
-<h2 id="layer-4-iam-and-support-shells-that-default-to-safe"><a class="toclink" href="#layer-4-iam-and-support-shells-that-default-to-safe">Layer 4: IAM and support shells that default to safe</a></h2>
+<h2 id="layer-4-iam-and-support-shells-that-default-to-safe"><a class="toclink" href="#layer-4-iam-and-support-shells-that-default-to-safe">Layer 4: <abbr title="Identity and Access Management">IAM</abbr> and support shells that default to safe</a></h2>
 <p>The final layer is how we actually connect to production.</p>
 <p>Like many teams, we used to have engineers with:</p>
 <ul>
-<li>Broad AWS permissions.</li>
+<li>Broad <abbr title="Amazon Web Services">AWS</abbr> permissions.</li>
 <li>The ability to run <code>ecs exec</code> into production containers.</li>
 <li>Access to secrets wired to powerful database roles.</li>
 </ul>
@@ -1019,11 +1046,11 @@ code,
 <h3 id="41-sensitive-secrets-are-separated"><a class="toclink" href="#41-sensitive-secrets-are-separated">4.1 Sensitive secrets are separated</a></h3>
 <p>Anything that directly powers sensitive workflows, for example:</p>
 <ul>
-<li>Special database URLs.</li>
-<li>TOTP secrets.</li>
+<li>Special database <abbr title="Uniform Resource Locators">URLs</abbr>.</li>
+<li><abbr title="Time-based One-Time Password">TOTP</abbr> secrets.</li>
 <li>Break-glass admin credentials.</li>
 </ul>
-<p>lives in its own secret, encrypted under a dedicated KMS key. Only specific permission sets and automation roles can read it.</p>
+<p>lives in its own secret, encrypted under a dedicated <abbr title="Key Management Service">KMS</abbr> key. Only specific permission sets and automation roles can read it.</p>
 <h3 id="42-permission-sets-map-to-real-personas"><a class="toclink" href="#42-permission-sets-map-to-real-personas">4.2 Permission sets map to real personas</a></h3>
 <p>We distinguish a normal "production engineer" persona from a "break-glass administrator".</p>
 <p>The normal production role:</p>
@@ -1053,7 +1080,7 @@ open_ecs_exec_shell<span class="w"> </span><span class="s2">&quot;</span><span c
 </code></pre></div>
 
 <p>If the support-shell configuration is missing or broken, the script refuses to open a shell instead of silently falling back to something more powerful.</p>
-<p>Combined with RLS, this gives us:</p>
+<p>Combined with <abbr title="Row-Level Security">RLS</abbr>, this gives us:</p>
 <ul>
 <li>A realistic production shell for debugging customer issues.</li>
 <li>A database that still hides rows for the Diversio org from the support role.</li>
@@ -1069,15 +1096,15 @@ open_ecs_exec_shell<span class="w"> </span><span class="s2">&quot;</span><span c
 <p>What makes it work is that the moving parts share a few patterns:</p>
 <ul>
 <li>One admin mixin for org scoping, reused everywhere.</li>
-<li>One TOTP-gated path for sensitive access, instead of scattered toggles.</li>
-<li>One RLS registry and command that define what the database should enforce.</li>
-<li>One CI step that runs migrations, bootstraps RLS and fails when something drifts.</li>
+<li>One <abbr title="Time-based One-Time Password">TOTP</abbr>-gated path for sensitive access, instead of scattered toggles.</li>
+<li>One <abbr title="Row-Level Security">RLS</abbr> registry and command that define what the database should enforce.</li>
+<li>One <abbr title="Continuous Integration">CI</abbr> step that runs migrations, bootstraps <abbr title="Row-Level Security">RLS</abbr> and fails when something drifts.</li>
 </ul>
 <p>The extra work happens once, up front. After that:</p>
 <ul>
 <li>New admin views inherit the mixin and automatically respect org scoping.</li>
 <li>New engineers follow the same shell story and get the same protections.</li>
-<li>New org-scoped tables are caught by the RLS command if we forget to register them.</li>
+<li>New org-scoped tables are caught by the <abbr title="Row-Level Security">RLS</abbr> command if we forget to register them.</li>
 </ul>
 <p>The system enforces the policy for us, instead of us trying to remember every rule in our heads.</p>
 <hr>
@@ -1086,8 +1113,8 @@ open_ecs_exec_shell<span class="w"> </span><span class="s2">&quot;</span><span c
 <p>Some gaps we have deliberately left open for future iterations:</p>
 <ul>
 <li>
-<p><strong>RLS mostly protects the support role today.</strong><br>
-  We would like to extend RLS to more roles and tables where it makes sense, without tanking performance or complicating migrations.</p>
+<p><strong><abbr title="Row-Level Security">RLS</abbr> mostly protects the support role today.</strong><br>
+  We would like to extend <abbr title="Row-Level Security">RLS</abbr> to more roles and tables where it makes sense, without tanking performance or complicating migrations.</p>
 </li>
 <li>
 <p><strong>Many read paths still lean on application logic.</strong><br>
@@ -1102,8 +1129,8 @@ open_ecs_exec_shell<span class="w"> </span><span class="s2">&quot;</span><span c
 <p>Simple alerts when approvals spike or come from unexpected places.</p>
 </li>
 <li>
-<p><strong>Approvals are very CLI-shaped.</strong><br>
-  The TOTP flow is fine for engineers, less so for non-engineers. A small internal UI for approvers ("who is asking to see Diversio, why, and for how long") would make this much more approachable.</p>
+<p><strong>Approvals are very <abbr title="Command Line Interface">CLI</abbr>-shaped.</strong><br>
+  The <abbr title="Time-based One-Time Password">TOTP</abbr> flow is fine for engineers, less so for non-engineers. A small internal <abbr title="User Interface">UI</abbr> for approvers ("who is asking to see Diversio, why, and for how long") would make this much more approachable.</p>
 </li>
 <li>
 <p><strong>We do not "game day" this enough.</strong><br>
@@ -1118,16 +1145,16 @@ open_ecs_exec_shell<span class="w"> </span><span class="s2">&quot;</span><span c
 <ul>
 <li>Treat the Diversio org as the most demanding customer we have.</li>
 <li>Give the application a clear notion of which orgs each admin may see, via an org-scoped mixin.</li>
-<li>Give the database a clear notion of which rows each role may see, via RLS and a registry.</li>
-<li>Let CI and automation keep those contracts honest as Optimo evolves.</li>
-<li>Build human workflows (approvals, TOTP) into the design from the start.</li>
+<li>Give the database a clear notion of which rows each role may see, via <abbr title="Row-Level Security">RLS</abbr> and a registry.</li>
+<li>Let <abbr title="Continuous Integration">CI</abbr> and automation keep those contracts honest as Optimo evolves.</li>
+<li>Build human workflows (approvals, <abbr title="Time-based One-Time Password">TOTP</abbr>) into the design from the start.</li>
 </ul>
-<p>The key point is not that we use Django or Postgres or AWS specifically. The key point is that we use layers:</p>
+<p>The key point is not that we use Django or Postgres or <abbr title="Amazon Web Services">AWS</abbr> specifically. The key point is that we use layers:</p>
 <ul>
-<li>UI and admin behaviour.</li>
+<li><abbr title="User Interface">UI</abbr> and admin behaviour.</li>
 <li>Approval workflows.</li>
 <li>Database policies.</li>
-<li>Cloud IAM and shell tooling.</li>
+<li>Cloud <abbr title="Identity and Access Management">IAM</abbr> and shell tooling.</li>
 <li>Automation to glue it together.</li>
 </ul>
 <p>Together, these give us something stronger than "trust us, we will be careful" and they do it in a way that a small, focused team can maintain while still shipping features.</p>
@@ -1336,6 +1363,34 @@ div.input_area {
     padding: 0.3rem;
   }
 }</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var content = document.querySelector('.article-content');
+  if (!content) return;
+
+  var seen = {};
+  var abbrs = content.querySelectorAll('abbr[title]');
+
+  abbrs.forEach(function (abbr) {
+    var key = abbr.textContent.trim();
+    // Skip abbreviations inside headings
+    if (abbr.closest('h1, h2, h3, h4, h5, h6')) return;
+    if (!seen[key]) {
+      seen[key] = true;
+      abbr.classList.add('abbr-first');
+    }
+  });
+
+  var firstAbbrs = content.querySelectorAll('abbr.abbr-first');
+  firstAbbrs.forEach(function (el) {
+    new bootstrap.Tooltip(el, {
+      delay: { show: 300, hide: 0 },
+      trigger: 'hover focus'
+    });
+  });
+});
+</script>
         </main>
 
         <footer class="site-footer mt-5 py-4 bg-light">

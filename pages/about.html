@@ -695,6 +695,33 @@ code,
   background-color: var(--background-color) !important;
 }
 
+/* Abbreviation tooltips */
+abbr {
+  text-decoration: none;
+  border-bottom: none;
+}
+
+.article-content abbr.abbr-first {
+  border-bottom: 1px dotted var(--text-light);
+  cursor: help;
+  transition: border-color 0.2s ease;
+}
+
+.article-content abbr.abbr-first:hover {
+  border-bottom-color: var(--primary-color);
+}
+
+h1 abbr, h2 abbr, h3 abbr, h4 abbr, h5 abbr, h6 abbr {
+  border-bottom: none !important;
+  cursor: inherit !important;
+}
+
+.tooltip {
+  --bs-tooltip-bg: var(--text-color);
+  --bs-tooltip-color: var(--background-color);
+  --bs-tooltip-opacity: 0.95;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .article-header h1 {
@@ -805,10 +832,10 @@ code,
         <div class="article-content">
           <p><strong>Ashwini Chaudhary</strong> (Monty)</p>
 <blockquote>
-<p>CTO @ <a href="https://diversio.com/">Diversio</a> | Open-source contributor | Pythonista | Photographer</p>
+<p><abbr title="Chief Technology Officer">CTO</abbr> @ <a href="https://diversio.com/">Diversio</a> | Open-source contributor | Pythonista | Photographer</p>
 </blockquote>
 <hr>
-<p>I'm a software engineer and technology leader passionate about building inclusive, data-driven solutions. Currently serving as CTO at <a href="https://diversio.com/">Diversio</a>, I focus on leveraging AI and LLMs to drive innovation.</p>
+<p>I'm a software engineer and technology leader passionate about building inclusive, data-driven solutions. Currently serving as <abbr title="Chief Technology Officer">CTO</abbr> at <a href="https://diversio.com/">Diversio</a>, I focus on leveraging <abbr title="Artificial Intelligence">AI</abbr> and <abbr title="Large Language Models">LLMs</abbr> to drive innovation.</p>
 <h3 id="what-i-do"><a class="toclink" href="#what-i-do">What I Do</a></h3>
 <ul>
 <li><strong>Lead Engineering Teams</strong> — Technology strategy, architecture, and mentoring</li>

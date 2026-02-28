@@ -695,6 +695,33 @@ code,
   background-color: var(--background-color) !important;
 }
 
+/* Abbreviation tooltips */
+abbr {
+  text-decoration: none;
+  border-bottom: none;
+}
+
+.article-content abbr.abbr-first {
+  border-bottom: 1px dotted var(--text-light);
+  cursor: help;
+  transition: border-color 0.2s ease;
+}
+
+.article-content abbr.abbr-first:hover {
+  border-bottom-color: var(--primary-color);
+}
+
+h1 abbr, h2 abbr, h3 abbr, h4 abbr, h5 abbr, h6 abbr {
+  border-bottom: none !important;
+  cursor: inherit !important;
+}
+
+.tooltip {
+  --bs-tooltip-bg: var(--text-color);
+  --bs-tooltip-color: var(--background-color);
+  --bs-tooltip-opacity: 0.95;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .article-header h1 {
@@ -1561,6 +1588,34 @@ div.input_area {
     padding: 0.3rem;
   }
 }</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var content = document.querySelector('.article-content');
+  if (!content) return;
+
+  var seen = {};
+  var abbrs = content.querySelectorAll('abbr[title]');
+
+  abbrs.forEach(function (abbr) {
+    var key = abbr.textContent.trim();
+    // Skip abbreviations inside headings
+    if (abbr.closest('h1, h2, h3, h4, h5, h6')) return;
+    if (!seen[key]) {
+      seen[key] = true;
+      abbr.classList.add('abbr-first');
+    }
+  });
+
+  var firstAbbrs = content.querySelectorAll('abbr.abbr-first');
+  firstAbbrs.forEach(function (el) {
+    new bootstrap.Tooltip(el, {
+      delay: { show: 300, hide: 0 },
+      trigger: 'hover focus'
+    });
+  });
+});
+</script>
         </main>
 
         <footer class="site-footer mt-5 py-4 bg-light">

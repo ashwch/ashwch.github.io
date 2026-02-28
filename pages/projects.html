@@ -695,6 +695,33 @@ code,
   background-color: var(--background-color) !important;
 }
 
+/* Abbreviation tooltips */
+abbr {
+  text-decoration: none;
+  border-bottom: none;
+}
+
+.article-content abbr.abbr-first {
+  border-bottom: 1px dotted var(--text-light);
+  cursor: help;
+  transition: border-color 0.2s ease;
+}
+
+.article-content abbr.abbr-first:hover {
+  border-bottom-color: var(--primary-color);
+}
+
+h1 abbr, h2 abbr, h3 abbr, h4 abbr, h5 abbr, h6 abbr {
+  border-bottom: none !important;
+  cursor: inherit !important;
+}
+
+.tooltip {
+  --bs-tooltip-bg: var(--text-color);
+  --bs-tooltip-color: var(--background-color);
+  --bs-tooltip-opacity: 0.95;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .article-header h1 {
@@ -781,25 +808,25 @@ code,
 <li><strong>Features</strong>: Auto-detection, Cross-platform support, Multiple venv tools support</li>
 <li><a href="https://github.com/ashwch/auto-uv-env">GitHub</a> | <a href="https://auto-uv-env.ashwch.com/">Documentation</a></li>
 </ul>
-<h3 id="gemini-cli-mcp-server"><a class="toclink" href="#gemini-cli-mcp-server"><a href="https://github.com/DiversioTeam/gemini-cli-mcp">Gemini CLI MCP Server</a></a></h3>
-<p>A Model Context Protocol (MCP) server that wraps the Gemini CLI, allowing AI assistants like Claude to use Gemini for research and analysis tasks.</p>
+<h3 id="gemini-cli-mcp-server"><a class="toclink" href="#gemini-cli-mcp-server"><a href="https://github.com/DiversioTeam/gemini-cli-mcp">Gemini <abbr title="Command Line Interface">CLI</abbr> <abbr title="Model Context Protocol">MCP</abbr> Server</a></a></h3>
+<p>A Model Context Protocol (<abbr title="Model Context Protocol">MCP</abbr>) server that wraps the Gemini <abbr title="Command Line Interface">CLI</abbr>, allowing <abbr title="Artificial Intelligence">AI</abbr> assistants like Claude to use Gemini for research and analysis tasks.</p>
 <ul>
 <li><strong>Tech</strong>: Python (3.10-3.13)</li>
 <li><strong>Features</strong>: Send prompts to Gemini, Research with file context, Code analysis, Content summarization</li>
 <li><a href="https://github.com/DiversioTeam/gemini-cli-mcp">GitHub</a></li>
 </ul>
-<h3 id="clickup-mcp-server"><a class="toclink" href="#clickup-mcp-server"><a href="https://github.com/DiversioTeam/clickup-mcp">ClickUp MCP Server</a></a></h3>
-<p>A Model Context Protocol (MCP) server that enables AI assistants to interact with ClickUp's task management API.</p>
+<h3 id="clickup-mcp-server"><a class="toclink" href="#clickup-mcp-server"><a href="https://github.com/DiversioTeam/clickup-mcp">ClickUp <abbr title="Model Context Protocol">MCP</abbr> Server</a></a></h3>
+<p>A Model Context Protocol (<abbr title="Model Context Protocol">MCP</abbr>) server that enables <abbr title="Artificial Intelligence">AI</abbr> assistants to interact with ClickUp's task management <abbr title="Application Programming Interface">API</abbr>.</p>
 <ul>
 <li><strong>Tech</strong>: Python (3.10+)</li>
-<li><strong>Features</strong>: Task CRUD operations, Search &amp; filtering, Time tracking, Team analytics</li>
+<li><strong>Features</strong>: Task <abbr title="Create, Read, Update, Delete">CRUD</abbr> operations, Search &amp; filtering, Time tracking, Team analytics</li>
 <li><a href="https://github.com/DiversioTeam/clickup-mcp">GitHub</a></li>
 </ul>
 <h3 id="dotfiles"><a class="toclink" href="#dotfiles"><a href="https://github.com/ashwch/dotfiles">Dotfiles</a></a></h3>
 <p>Personal collection of configuration files and development environment setup, optimized for macOS.</p>
 <ul>
 <li><strong>Tech</strong>: ZSH, Shell configuration</li>
-<li><strong>Features</strong>: Performance-optimized shell, Python environment management, Enhanced Git workflow, Modern CLI tools</li>
+<li><strong>Features</strong>: Performance-optimized shell, Python environment management, Enhanced Git workflow, Modern <abbr title="Command Line Interface">CLI</abbr> tools</li>
 <li><a href="https://github.com/ashwch/dotfiles">GitHub</a></li>
 </ul>
 <h2 id="open-source-contributions"><a class="toclink" href="#open-source-contributions">Open Source Contributions</a></h2>

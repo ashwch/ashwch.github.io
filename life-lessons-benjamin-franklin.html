@@ -695,6 +695,33 @@ code,
   background-color: var(--background-color) !important;
 }
 
+/* Abbreviation tooltips */
+abbr {
+  text-decoration: none;
+  border-bottom: none;
+}
+
+.article-content abbr.abbr-first {
+  border-bottom: 1px dotted var(--text-light);
+  cursor: help;
+  transition: border-color 0.2s ease;
+}
+
+.article-content abbr.abbr-first:hover {
+  border-bottom-color: var(--primary-color);
+}
+
+h1 abbr, h2 abbr, h3 abbr, h4 abbr, h5 abbr, h6 abbr {
+  border-bottom: none !important;
+  cursor: inherit !important;
+}
+
+.tooltip {
+  --bs-tooltip-bg: var(--text-color);
+  --bs-tooltip-color: var(--background-color);
+  --bs-tooltip-opacity: 0.95;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .article-header h1 {
@@ -781,7 +808,7 @@ code,
 <p>Franklin taught himself how to write by reading essays in <em>The Spectator</em>. He used to summarize the key arguments, and then he would try to rewrite the entire piece from scratch a few days later. Then he'd compare his version with the original and note where he went wrong.</p>
 <p>This is a simple yet brilliant way to learn. He built muscle memory towards it with this approach.</p>
 <h3 id="curious-playful-and-unafraid-to-experiment"><a class="toclink" href="#curious-playful-and-unafraid-to-experiment">Curious, Playful, and Unafraid to Experiment</a></h3>
-<p>This is my favorite part from the episode. Franklin did what interested him, even if it didn't have any obvious ROI.</p>
+<p>This is my favorite part from the episode. Franklin did what interested him, even if it didn't have any obvious <abbr title="Return on Investment">ROI</abbr>.</p>
 <p>Someone once asked him why he was experimenting with hot air balloons, and he responded:</p>
 <blockquote>
 <p>“What is the use of a newborn baby?”</p>
@@ -813,7 +840,7 @@ And he never let ambition overshadow joy.</p>
     Build your own systems—track habits, design feedback loops, give your goals shape.</li>
 <li><strong>Form communities that push you forward.</strong><br>
     Don’t just network. Find people who challenge, teach, and grow with you.</li>
-<li><strong>Chase ideas without obsessing over immediate ROI.</strong><br>
+<li><strong>Chase ideas without obsessing over immediate <abbr title="Return on Investment">ROI</abbr>.</strong><br>
     Some of the most useful things start as playful experiments.</li>
 <li><strong>Keep improving, even if you’ll never be perfect.</strong><br>
     Progress matters more than perfection. The act of trying changes you.</li>
@@ -1037,6 +1064,34 @@ div.input_area {
     padding: 0.3rem;
   }
 }</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var content = document.querySelector('.article-content');
+  if (!content) return;
+
+  var seen = {};
+  var abbrs = content.querySelectorAll('abbr[title]');
+
+  abbrs.forEach(function (abbr) {
+    var key = abbr.textContent.trim();
+    // Skip abbreviations inside headings
+    if (abbr.closest('h1, h2, h3, h4, h5, h6')) return;
+    if (!seen[key]) {
+      seen[key] = true;
+      abbr.classList.add('abbr-first');
+    }
+  });
+
+  var firstAbbrs = content.querySelectorAll('abbr.abbr-first');
+  firstAbbrs.forEach(function (el) {
+    new bootstrap.Tooltip(el, {
+      delay: { show: 300, hide: 0 },
+      trigger: 'hover focus'
+    });
+  });
+});
+</script>
         </main>
 
         <footer class="site-footer mt-5 py-4 bg-light">

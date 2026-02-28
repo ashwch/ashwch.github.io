@@ -695,6 +695,33 @@ code,
   background-color: var(--background-color) !important;
 }
 
+/* Abbreviation tooltips */
+abbr {
+  text-decoration: none;
+  border-bottom: none;
+}
+
+.article-content abbr.abbr-first {
+  border-bottom: 1px dotted var(--text-light);
+  cursor: help;
+  transition: border-color 0.2s ease;
+}
+
+.article-content abbr.abbr-first:hover {
+  border-bottom-color: var(--primary-color);
+}
+
+h1 abbr, h2 abbr, h3 abbr, h4 abbr, h5 abbr, h6 abbr {
+  border-bottom: none !important;
+  cursor: inherit !important;
+}
+
+.tooltip {
+  --bs-tooltip-bg: var(--text-color);
+  --bs-tooltip-color: var(--background-color);
+  --bs-tooltip-opacity: 0.95;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .article-header h1 {
@@ -947,7 +974,7 @@ code,
             </div>
             
             <div class="card-text">
-              <p>Using uv with PEP 723 simplifies dependency management for standalone Python scripts, making quick scripting with LLM-generated code effortless.</p>
+              <p>Using uv with <abbr title="Python Enhancement Proposal">PEP</abbr> 723 simplifies dependency management for standalone Python scripts, making quick scripting with <abbr title="Large Language Model">LLM</abbr>-generated code effortless.</p>
             </div>
             
             <div class="mt-4">

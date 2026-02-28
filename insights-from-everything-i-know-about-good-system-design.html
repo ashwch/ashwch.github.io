@@ -695,6 +695,33 @@ code,
   background-color: var(--background-color) !important;
 }
 
+/* Abbreviation tooltips */
+abbr {
+  text-decoration: none;
+  border-bottom: none;
+}
+
+.article-content abbr.abbr-first {
+  border-bottom: 1px dotted var(--text-light);
+  cursor: help;
+  transition: border-color 0.2s ease;
+}
+
+.article-content abbr.abbr-first:hover {
+  border-bottom-color: var(--primary-color);
+}
+
+h1 abbr, h2 abbr, h3 abbr, h4 abbr, h5 abbr, h6 abbr {
+  border-bottom: none !important;
+  cursor: inherit !important;
+}
+
+.tooltip {
+  --bs-tooltip-bg: var(--text-color);
+  --bs-tooltip-color: var(--background-color);
+  --bs-tooltip-opacity: 0.95;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .article-header h1 {
@@ -795,9 +822,9 @@ code,
 <h2 id="database-design-get-the-schema-right"><a class="toclink" href="#database-design-get-the-schema-right">Database Design: Get the Schema Right</a></h2>
 <blockquote>
 <p>Schema design should be flexible, because once you have thousands or millions of records, it can be an enormous pain to change the schema.
-However, if you make it too flexible (e.g. by sticking everything in a "value" JSON column, or using "keys" and "values" tables to track arbitrary data) you load a ton of complexity into the application code (and likely buy some very awkward performance constraints).</p>
+However, if you make it too flexible (e.g. by sticking everything in a "value" <abbr title="JavaScript Object Notation">JSON</abbr> column, or using "keys" and "values" tables to track arbitrary data) you load a ton of complexity into the application code (and likely buy some very awkward performance constraints).</p>
 </blockquote>
-<p>I've always spent significant time on database design when building new systems, and it's consistently paid off. The JSON trap is real - while convenient initially, JSON fields create several problems:</p>
+<p>I've always spent significant time on database design when building new systems, and it's consistently paid off. The <abbr title="JavaScript Object Notation">JSON</abbr> trap is real - while convenient initially, <abbr title="JavaScript Object Notation">JSON</abbr> fields create several problems:</p>
 <ul>
 <li>Hard to query effectively</li>
 <li>Difficult to enforce schemas</li>
@@ -805,18 +832,18 @@ However, if you make it too flexible (e.g. by sticking everything in a "value" J
 <li>Network transfer costs for large payloads</li>
 <li>Additional validation complexity</li>
 </ul>
-<p>That said, I've found JSON fields useful for storing external API payloads and validation errors - places where the structure truly varies.</p>
+<p>That said, I've found <abbr title="JavaScript Object Notation">JSON</abbr> fields useful for storing external <abbr title="Application Programming Interface">API</abbr> payloads and validation errors - places where the structure truly varies.</p>
 <h3 id="index-strategy"><a class="toclink" href="#index-strategy">Index Strategy</a></h3>
 <blockquote>
 <p>If you expect your table to ever be more than a few rows, you should put indexes on it.</p>
 </blockquote>
 <p>I think the author didn't intend it, but <strong>index as you go</strong>. If your table isn't showing slow queries yet, don't index prematurely. You can always add indices later and optimize them based on actual query patterns.</p>
-<p>I'm a big fan of PostgreSQL's <code>explain analyze</code> - and with AI tools, analyzing query plans has become even more accessible.</p>
+<p>I'm a big fan of PostgreSQL's <code>explain analyze</code> - and with <abbr title="Artificial Intelligence">AI</abbr> tools, analyzing query plans has become even more accessible.</p>
 <h2 id="query-efficiency-let-the-database-work"><a class="toclink" href="#query-efficiency-let-the-database-work">Query Efficiency: Let the Database Work</a></h2>
 <blockquote>
-<p>When querying the database, <em>query the database</em>. It's almost always more efficient to get the database to do the work than to do it yourself. For instance, if you need data from multiple tables, <code>JOIN</code> them instead of making separate queries and stitching them together in-memory. Particularly if you're using an ORM, beware accidentally making queries in an inner loop. That's an easy way to turn a <code>select id, name from table</code> to a <code>select id from table</code> and a hundred <code>select name from table where id = ?</code>.</p>
+<p>When querying the database, <em>query the database</em>. It's almost always more efficient to get the database to do the work than to do it yourself. For instance, if you need data from multiple tables, <code>JOIN</code> them instead of making separate queries and stitching them together in-memory. Particularly if you're using an <abbr title="Object-Relational Mapping">ORM</abbr>, beware accidentally making queries in an inner loop. That's an easy way to turn a <code>select id, name from table</code> to a <code>select id from table</code> and a hundred <code>select name from table where id = ?</code>.</p>
 </blockquote>
-<p>As a longtime Django user who's been reviewing Django code for 10+ years, I've seen the N+1 query problem countless times. It's crucial to educate your team on ORM fundamentals and maintain documentation of good vs. bad practices.</p>
+<p>As a longtime Django user who's been reviewing Django code for 10+ years, I've seen the N+1 query problem countless times. It's crucial to educate your team on <abbr title="Object-Relational Mapping">ORM</abbr> fundamentals and maintain documentation of good vs. bad practices.</p>
 <p>Having a central document helps during code reviews - it's hard to repeatedly explain the "why" with the same depth. A shared resource makes linking to best practices much easier.</p>
 <h2 id="background-processing-fast-vs-slow-operations"><a class="toclink" href="#background-processing-fast-vs-slow-operations">Background Processing: Fast vs. Slow Operations</a></h2>
 <p>The goal is a fast request-response cycle for the best user experience. Operations that can't be completed quickly should move to background processing, with users notified when complete.</p>
@@ -825,7 +852,7 @@ However, if you make it too flexible (e.g. by sticking everything in a "value" J
 <p>Be selective about what and when to cache. Otherwise, you'll face the much harder problem of cache invalidation. The best solution is reducing the number of places using cache.</p>
 <p>Cache invalidation remains one of the hardest problems in computer science for good reason.</p>
 <h2 id="hot-paths-zero-margin-for-error"><a class="toclink" href="#hot-paths-zero-margin-for-error">Hot Paths: Zero Margin for Error</a></h2>
-<p>I define hot paths as system components where downtime significantly affects our SLA - critical numbers, authentication, or features that directly impact business and users.</p>
+<p>I define hot paths as system components where downtime significantly affects our <abbr title="Service Level Agreement">SLA</abbr> - critical numbers, authentication, or features that directly impact business and users.</p>
 <p>These systems require extra care:
 - World-class unit tests and coverage
 - Attention to unhappy paths
@@ -1033,6 +1060,34 @@ div.input_area {
     padding: 0.3rem;
   }
 }</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var content = document.querySelector('.article-content');
+  if (!content) return;
+
+  var seen = {};
+  var abbrs = content.querySelectorAll('abbr[title]');
+
+  abbrs.forEach(function (abbr) {
+    var key = abbr.textContent.trim();
+    // Skip abbreviations inside headings
+    if (abbr.closest('h1, h2, h3, h4, h5, h6')) return;
+    if (!seen[key]) {
+      seen[key] = true;
+      abbr.classList.add('abbr-first');
+    }
+  });
+
+  var firstAbbrs = content.querySelectorAll('abbr.abbr-first');
+  firstAbbrs.forEach(function (el) {
+    new bootstrap.Tooltip(el, {
+      delay: { show: 300, hide: 0 },
+      trigger: 'hover focus'
+    });
+  });
+});
+</script>
         </main>
 
         <footer class="site-footer mt-5 py-4 bg-light">

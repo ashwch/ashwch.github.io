@@ -695,6 +695,33 @@ code,
   background-color: var(--background-color) !important;
 }
 
+/* Abbreviation tooltips */
+abbr {
+  text-decoration: none;
+  border-bottom: none;
+}
+
+.article-content abbr.abbr-first {
+  border-bottom: 1px dotted var(--text-light);
+  cursor: help;
+  transition: border-color 0.2s ease;
+}
+
+.article-content abbr.abbr-first:hover {
+  border-bottom-color: var(--primary-color);
+}
+
+h1 abbr, h2 abbr, h3 abbr, h4 abbr, h5 abbr, h6 abbr {
+  border-bottom: none !important;
+  cursor: inherit !important;
+}
+
+.tooltip {
+  --bs-tooltip-bg: var(--text-color);
+  --bs-tooltip-color: var(--background-color);
+  --bs-tooltip-opacity: 0.95;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .article-header h1 {
@@ -778,18 +805,18 @@ code,
 <h4 id="follow-your-curiosity"><a class="toclink" href="#follow-your-curiosity">Follow your curiosity</a></h4>
 <p>One of his driving principles is "I wake up and follow my curiosity".  Paul Graham calls curiosity the best guide for doing <em>great</em> work.</p>
 <p>Instead of over-analyzing your next move, follow your curiosity and let that be your compass.</p>
-<h4 id="ai-is-the-new-electricity"><a class="toclink" href="#ai-is-the-new-electricity">AI is the new electricity</a></h4>
-<p>He describes AI as just an horizontal enabling layer, just like electricity. When electricity came out, people only wanted light bulbs; everything else came after. People weren't putting electricity in their homes; they were putting light bulbs in their homes. At that point they weren't even thinking of appliances, switchboard or anything, and there wasn't even a concept of off switch.</p>
-<p>Similarly, AI, like electricity before, will be embedded into everything, transforming industries in unpredictable ways.</p>
+<h4 id="ai-is-the-new-electricity"><a class="toclink" href="#ai-is-the-new-electricity"><abbr title="Artificial Intelligence">AI</abbr> is the new electricity</a></h4>
+<p>He describes <abbr title="Artificial Intelligence">AI</abbr> as just an horizontal enabling layer, just like electricity. When electricity came out, people only wanted light bulbs; everything else came after. People weren't putting electricity in their homes; they were putting light bulbs in their homes. At that point they weren't even thinking of appliances, switchboard or anything, and there wasn't even a concept of off switch.</p>
+<p>Similarly, <abbr title="Artificial Intelligence">AI</abbr>, like electricity before, will be embedded into everything, transforming industries in unpredictable ways.</p>
 <blockquote>
-<p>If AI is an enabling layer, ask: How can AI supercharge my business, my workflows, my products?_ The most valuable companies of the next decade will answer this question well.</p>
+<p>If <abbr title="Artificial Intelligence">AI</abbr> is an enabling layer, ask: How can <abbr title="Artificial Intelligence">AI</abbr> supercharge my business, my workflows, my products?_ The most valuable companies of the next decade will answer this question well.</p>
 </blockquote>
 <p>Link to his 2003 TED talk: <a href="https://www.ted.com/talks/jeff_bezos_the_electricity_metaphor_for_the_web_s_future">link</a></p>
-<h4 id="the-aws-insight-computing-as-a-utility"><a class="toclink" href="#the-aws-insight-computing-as-a-utility">The AWS Insight: Computing as a Utility</a></h4>
-<p>His inspiration for AWS came from a 300 year old Luxembourg brewery that had its own power generator -- because at that time, there were no power grids. Similarly, before AWS companies had their own data center and he realized that it's not going to last.</p>
+<h4 id="the-aws-insight-computing-as-a-utility"><a class="toclink" href="#the-aws-insight-computing-as-a-utility">The <abbr title="Amazon Web Services">AWS</abbr> Insight: Computing as a Utility</a></h4>
+<p>His inspiration for <abbr title="Amazon Web Services">AWS</abbr> came from a 300 year old Luxembourg brewery that had its own power generator -- because at that time, there were no power grids. Similarly, before <abbr title="Amazon Web Services">AWS</abbr> companies had their own data center and he realized that it's not going to last.</p>
 <p>That meant companies had to focus on something that wasn't their core business, true for anything in the past that had to worry about generating their own electricity.</p>
 <h4 id="the-power-of-being-misunderstood"><a class="toclink" href="#the-power-of-being-misunderstood">The Power of Being Misunderstood</a></h4>
-<p>He has long accepted that he will be misunderstood. He prioritizes doing what he believes is right over chasing a good PR. He said, if even your closest loved ones do not fully know you, how can you expect others to understand you?</p>
+<p>He has long accepted that he will be misunderstood. He prioritizes doing what he believes is right over chasing a good <abbr title="Pull Request">PR</abbr>. He said, if even your closest loved ones do not fully know you, how can you expect others to understand you?</p>
 <p>Warren Buffett and Charlie Munger have similar philosophy. They keep an inner scorecard -- measuring success by their own principles, not external validation.</p>
 <blockquote>
 <p>If no one skeptical about what you're doing, you're probably not pushing hard enough.</p>
@@ -1019,6 +1046,34 @@ div.input_area {
     padding: 0.3rem;
   }
 }</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var content = document.querySelector('.article-content');
+  if (!content) return;
+
+  var seen = {};
+  var abbrs = content.querySelectorAll('abbr[title]');
+
+  abbrs.forEach(function (abbr) {
+    var key = abbr.textContent.trim();
+    // Skip abbreviations inside headings
+    if (abbr.closest('h1, h2, h3, h4, h5, h6')) return;
+    if (!seen[key]) {
+      seen[key] = true;
+      abbr.classList.add('abbr-first');
+    }
+  });
+
+  var firstAbbrs = content.querySelectorAll('abbr.abbr-first');
+  firstAbbrs.forEach(function (el) {
+    new bootstrap.Tooltip(el, {
+      delay: { show: 300, hide: 0 },
+      trigger: 'hover focus'
+    });
+  });
+});
+</script>
         </main>
 
         <footer class="site-footer mt-5 py-4 bg-light">

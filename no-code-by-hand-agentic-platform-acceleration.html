@@ -695,6 +695,33 @@ code,
   background-color: var(--background-color) !important;
 }
 
+/* Abbreviation tooltips */
+abbr {
+  text-decoration: none;
+  border-bottom: none;
+}
+
+.article-content abbr.abbr-first {
+  border-bottom: 1px dotted var(--text-light);
+  cursor: help;
+  transition: border-color 0.2s ease;
+}
+
+.article-content abbr.abbr-first:hover {
+  border-bottom-color: var(--primary-color);
+}
+
+h1 abbr, h2 abbr, h3 abbr, h4 abbr, h5 abbr, h6 abbr {
+  border-bottom: none !important;
+  cursor: inherit !important;
+}
+
+.tooltip {
+  --bs-tooltip-bg: var(--text-color);
+  --bs-tooltip-color: var(--background-color);
+  --bs-tooltip-opacity: 0.95;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .article-header h1 {
@@ -766,15 +793,15 @@ code,
         </header>
 
         <div class="article-content">
-          <p><em>CI dropped from 37 minutes to 9, at 35% lower cost. Here is what we learned about the hidden queue, mixing Claude and Codex, and where the real multiplier came from.</em></p>
+          <p><em><abbr title="Continuous Integration">CI</abbr> dropped from 37 minutes to 9, at 35% lower cost. Here is what we learned about the hidden queue, mixing Claude and Codex, and where the real multiplier came from.</em></p>
 <hr>
 <h2 id="the-hidden-queue"><a class="toclink" href="#the-hidden-queue">The hidden queue</a></h2>
 <p>Every engineering team has a version of this story.</p>
-<p>Your roadmap looks healthy. Feature velocity looks fine. Sprint retros are tolerable. But your engineers are still losing chunks of every day to things that were never planned: waiting 16 minutes for CI to tell them a typo failed linting. Manually running six database commands because the snapshot process lives in someone's Slack history. Bumping a dependency because Dependabot fired another alert at 3pm on a Friday.</p>
+<p>Your roadmap looks healthy. Feature velocity looks fine. Sprint retros are tolerable. But your engineers are still losing chunks of every day to things that were never planned: waiting 16 minutes for <abbr title="Continuous Integration">CI</abbr> to tell them a typo failed linting. Manually running six database commands because the snapshot process lives in someone's Slack history. Bumping a dependency because Dependabot fired another alert at 3pm on a Friday.</p>
 <p>That is the hidden queue. It is not on your roadmap, it is not in your sprints, and it is costing you more than most feature work.</p>
-<p>Most teams do not ignore this queue on purpose. It just keeps losing in prioritization because each item feels small in isolation. "Fix the flaky test" is never going to beat "Ship the dashboard redesign" in a planning meeting. But those small items compound. A 16-minute CI wait happens 20 times a day across 5 engineers, and that adds up to over 26 hours of dead time per week - time where nobody is building anything or even thinking about the problem, just staring at a spinner.</p>
+<p>Most teams do not ignore this queue on purpose. It just keeps losing in prioritization because each item feels small in isolation. "Fix the flaky test" is never going to beat "Ship the dashboard redesign" in a planning meeting. But those small items compound. A 16-minute <abbr title="Continuous Integration">CI</abbr> wait happens 20 times a day across 5 engineers, and that adds up to over 26 hours of dead time per week - time where nobody is building anything or even thinking about the problem, just staring at a spinner.</p>
 <p>Late last year, we changed one rule: <strong>if something keeps burning team time, it is roadmap work</strong>. Not "tech debt we'll get to someday." Actual, prioritized, measured roadmap work.</p>
-<p>In the 90-day window from <strong>December 1, 2025</strong> through <strong>February 28, 2026</strong>, that rule turned into <strong>57 major non-product changesets</strong> across backend, frontend, and monolith tooling repos: <strong>56 major PRs and 1 major direct commit</strong>, touching <strong>1,303 files</strong> with <strong>120,929 additions</strong> and <strong>31,170 deletions</strong>.</p>
+<p>In the 90-day window from <strong>December 1, 2025</strong> through <strong>February 28, 2026</strong>, that rule turned into <strong>57 major non-product changesets</strong> across backend, frontend, and monolith tooling repos: <strong>56 major <abbr title="Pull Requests">PRs</abbr> and 1 major direct commit</strong>, touching <strong>1,303 files</strong> with <strong>120,929 additions</strong> and <strong>31,170 deletions</strong>.</p>
 <figure>
   <img src="https://ashwch.com/images/articles/no-code-by-hand/changeset-mix.svg" alt="Bar chart showing major non-product changesets by repo type: backend, frontend, monolith, and direct commits.">
   <figcaption>Non-product engineering changesets in the 90-day window, broken down by repo type.</figcaption>
@@ -785,8 +812,8 @@ code,
 <h2 id="what-we-shipped-this-quarter"><a class="toclink" href="#what-we-shipped-this-quarter">What we shipped this quarter</a></h2>
 <p>Here is the breadth of what moved in those 90 days, all in parallel:</p>
 <ul>
-<li><strong>CI architecture</strong> - Rewired how we decide what checks to run, when, and at what cost</li>
-<li><strong>Testing platform</strong> - Built E2E and integration test coverage in phases, replaced flaky waits with deterministic ones</li>
+<li><strong><abbr title="Continuous Integration">CI</abbr> architecture</strong> - Rewired how we decide what checks to run, when, and at what cost</li>
+<li><strong>Testing platform</strong> - Built <abbr title="End-to-End">E2E</abbr> and integration test coverage in phases, replaced flaky waits with deterministic ones</li>
 <li><strong>Local development</strong> - Made git worktrees reliable so agents and engineers can run multiple branches in parallel without collisions</li>
 <li><strong>Operations safety</strong> - Took processes that lived in people's heads (snapshots, support shells, admin actions) and gave them proper guardrails and audit trails</li>
 <li><strong>Security remediation</strong> - Closed CVEs and Dependabot alerts in planned waves instead of random fire-drills</li>
@@ -798,46 +825,46 @@ code,
   <figcaption>CI was one stream inside a much broader platform quarter.</figcaption>
 </figure>
 
-<p>Most teams can point to one thing they improved. "We made CI faster." "We added more tests." Seven high-friction systems in parallel while keeping review quality, rollback safety, and product delivery intact is a different kind of claim. So the obvious question is: how?</p>
+<p>Most teams can point to one thing they improved. "We made <abbr title="Continuous Integration">CI</abbr> faster." "We added more tests." Seven high-friction systems in parallel while keeping review quality, rollback safety, and product delivery intact is a different kind of claim. So the obvious question is: how?</p>
 <hr>
 <h2 id="why-this-was-possible-now-and-not-a-year-ago"><a class="toclink" href="#why-this-was-possible-now-and-not-a-year-ago">Why this was possible now and not a year ago</a></h2>
-<p><a href="https://x.com/karpathy/status/2026731645169185220">Karpathy put it bluntly</a>: coding agents basically did not work before December 2025, and they basically work now. He described giving an agent a full system setup task - SSH keys, vLLM, web dashboard, systemd services - and it came back 30 minutes later with everything working. He did not touch anything.</p>
-<p>That matched what we were seeing. As recently as October 2025, the same tools felt like expensive autocomplete. By December, a new generation of models had shipped and changed that completely. <a href="https://mitchellh.com/writing/my-ai-adoption-journey">Mitchell Hashimoto</a> went through the same arc - from skeptic to building his entire Ghostty workflow around agents, with the key insight that you have to separate planning from execution and let the agent self-correct. <a href="https://x.com/paulg/status/2022604692178522562">Paul Graham</a> framed the implication: "In the AI age, taste will become even more important. When anyone can make anything, the big differentiator is what you choose to make." <a href="https://simonwillison.net/guides/agentic-engineering-patterns/hoard-things-you-know-how-to-do/">Simon Willison</a> figured out the compounding angle: "Coding agents mean we only ever need to figure out a useful trick once."</p>
+<p><a href="https://x.com/karpathy/status/2026731645169185220">Karpathy put it bluntly</a>: coding agents basically did not work before December 2025, and they basically work now. He described giving an agent a full system setup task - <abbr title="Secure Shell">SSH</abbr> keys, vLLM, web dashboard, systemd services - and it came back 30 minutes later with everything working. He did not touch anything.</p>
+<p>That matched what we were seeing. As recently as October 2025, the same tools felt like expensive autocomplete. By December, a new generation of models had shipped and changed that completely. <a href="https://mitchellh.com/writing/my-ai-adoption-journey">Mitchell Hashimoto</a> went through the same arc - from skeptic to building his entire Ghostty workflow around agents, with the key insight that you have to separate planning from execution and let the agent self-correct. <a href="https://x.com/paulg/status/2022604692178522562">Paul Graham</a> framed the implication: "In the <abbr title="Artificial Intelligence">AI</abbr> age, taste will become even more important. When anyone can make anything, the big differentiator is what you choose to make." <a href="https://simonwillison.net/guides/agentic-engineering-patterns/hoard-things-you-know-how-to-do/">Simon Willison</a> figured out the compounding angle: "Coding agents mean we only ever need to figure out a useful trick once."</p>
 <p>They were all talking about the same shift from different angles, but none of them say loudly enough what actually caused it: <strong>the models got qualitatively better.</strong></p>
 <p>Claude Opus 4.5, Opus 4.6, Codex 5.2, Codex 5.3 - these are not incremental improvements. They can hold entire systems in context, reason about architectural tradeoffs, catch multi-tenant security patterns, and produce code that is reviewable on the first pass. That kind of jump is what made No Code by Hand our default working mode since December.</p>
 <p>Our team learned the differences through daily use, not benchmarks. We got opinionated fast, and our honest assessment does not look like any vendor's marketing page:</p>
-<p><strong>Claude models</strong> (Opus 4.5, Opus 4.6, Sonnet) are our workhorse for execution. They are fast - genuinely fast, even at high thinking levels. They are great at quick fixes, running skills that require less deliberation, verifying and formatting large numbers of files, and chewing through well-scoped tasks at speed. The <a href="https://github.com/anthropics/claude-agent-sdk-python">Claude Agent SDK</a> (available in both Python and TypeScript) is mature and well-designed - it gives you the full agent runtime with tools, subagent orchestration, MCP support, and granular permissions out of the box. If you are building custom workflows, that SDK matters a lot.</p>
+<p><strong>Claude models</strong> (Opus 4.5, Opus 4.6, Sonnet) are our workhorse for execution. They are fast - genuinely fast, even at high thinking levels. They are great at quick fixes, running skills that require less deliberation, verifying and formatting large numbers of files, and chewing through well-scoped tasks at speed. The <a href="https://github.com/anthropics/claude-agent-sdk-python">Claude Agent <abbr title="Software Development Kit">SDK</abbr></a> (available in both Python and TypeScript) is mature and well-designed - it gives you the full agent runtime with tools, subagent orchestration, <abbr title="Model Context Protocol">MCP</abbr> support, and granular permissions out of the box. If you are building custom workflows, that <abbr title="Software Development Kit">SDK</abbr> matters a lot.</p>
 <p>The tradeoff: Claude models can be eager. They will take shortcuts on medium to large features, skip files, and miss critical business logic if you are not watching. They also consume tokens fast - you can burn through a significant budget in a short session. You get results quickly, but you end up verifying more.</p>
 <p><strong>Codex models</strong> (Codex 5.2, Codex 5.3) are where we go for depth. Planning, architectural reasoning, thorough code review, anything where you need the model to actually think through the full problem before writing code. Execution is slower, but the output is more satisfying - it will not skip critical business logic or take shortcuts the way Claude sometimes does. It respects the complexity of what you are asking it to do.</p>
-<p>The tradeoff: Codex is weaker with tool use compared to Claude models. The SDK story is thinner - there is a <a href="https://developers.openai.com/codex/sdk/">Codex SDK</a> (TypeScript only), but it is an orchestration wrapper for controlling a local Codex agent, not a general-purpose agent-building runtime like Claude's. No Python equivalent. Token limits, on the other hand, are very hard to hit - you can run long, deep sessions without worrying about context exhaustion.</p>
+<p>The tradeoff: Codex is weaker with tool use compared to Claude models. The <abbr title="Software Development Kit">SDK</abbr> story is thinner - there is a <a href="https://developers.openai.com/codex/sdk/">Codex <abbr title="Software Development Kit">SDK</abbr></a> (TypeScript only), but it is an orchestration wrapper for controlling a local Codex agent, not a general-purpose agent-building runtime like Claude's. No Python equivalent. Token limits, on the other hand, are very hard to hit - you can run long, deep sessions without worrying about context exhaustion.</p>
 <p><strong>In practice, we mix both.</strong> A lot of our best work comes from running Claude and Codex together, or multiple instances of the same model, each with a clean context scoped to a specific piece of the problem. One model plans while another executes, or one reviews what the other wrote. We split large tasks across separate sessions so no single context gets polluted with too much state.</p>
 <p>With Codex specifically, we use <strong>steer mode</strong> and <strong>queue mode</strong> very tactically depending on the task:</p>
 <ul>
 <li><strong>Steer mode for ambiguous work.</strong> Anything that involves architectural decisions, multi-tenant security logic, or unfamiliar parts of the codebase - we steer. Example: when building the admin safety model (the system that prevents admins from locking themselves out), we started Codex in steer mode, pointed it at the permission hierarchy, course-corrected twice when it tried to flatten the role graph, and guided it through the edge cases where a superadmin demotes themselves. The final implementation was clean because we were in the loop at every decision point instead of reviewing a finished mess.</li>
-<li><strong>Queue mode for well-scoped, parallelizable work.</strong> When the task is clear and the scope is bounded, queue mode lets us fire off multiple Codex tasks and review them as they land. Example: during the CI migration, we queued separate tasks for each workflow file rewrite - linting pipeline, test matrix, deployment gates - each with its own clean context. Five tasks running in parallel, each one scoped tightly enough that the model did not need steering.</li>
+<li><strong>Queue mode for well-scoped, parallelizable work.</strong> When the task is clear and the scope is bounded, queue mode lets us fire off multiple Codex tasks and review them as they land. Example: during the <abbr title="Continuous Integration">CI</abbr> migration, we queued separate tasks for each workflow file rewrite - linting pipeline, test matrix, deployment gates - each with its own clean context. Five tasks running in parallel, each one scoped tightly enough that the model did not need steering.</li>
 <li><strong>The tactical switch.</strong> We start most sessions in steer mode. If the first few interactions show the model understands the problem and the scope is narrowing, we switch to queue mode and let it run. If it starts drifting, we pull it back to steer. This is not a setting you pick once - it is a judgment call you make every few minutes.</li>
 </ul>
 <p>Picking the right model for the right task - and knowing when to combine them - is itself a skill that takes time to develop, and teams that treat all models as interchangeable are missing most of the value.</p>
 <p><strong>The biggest shift is how these models want to be used.</strong> Earlier generations worked best when you gave them a prompt and left them alone. The current generation is different - they are built for interactive steering. You set direction, check in as it works, course-correct when it drifts, and guide it through the ambiguous parts rather than hoping it guesses right. OpenAI made this explicit with <a href="https://openai.com/index/introducing-gpt-5-3-codex/">Codex 5.3</a>: steer mode - where you interact with the model while it works without losing context - shipped as a <a href="https://github.com/openai/codex/pull/10690">stable feature</a>, enabled by default. Anthropic's <a href="https://www.anthropic.com/news/claude-opus-4-6">Claude Opus 4.6</a> moved in the same direction with adaptive thinking, where the model adjusts its reasoning depth based on what you are asking and responds to mid-turn guidance.</p>
 <p>This matters more than it sounds. <a href="https://ampcode.com/news/gpt-5.3-codex">AmpCode put it well</a>: "the agent is no longer the bottleneck. Our ability to tell it what to do is." A year ago the workflow was write a prompt, wait, review what comes back. Now it is closer to pair programming - you stay in the loop, steer the model toward the right answer as it works, and course-correct in real time rather than filtering through wrong answers afterward. Teams that still treat agents as black boxes they throw tasks at are working against how these models are actually designed.</p>
-<p>Our team has taken this to its logical conclusion: we have pretty much ditched our IDEs entirely. We work strictly in terminals - Claude Code, Codex CLI, git, and shell scripts. The models are better at navigating codebases than any file tree sidebar ever was, and the terminal is where steering actually happens - no GUI layer sitting between you and the agent. <a href="https://the-decoder.com/andrej-karpathy-says-programming-is-unrecognizable-now-that-ai-agents-actually-work/">Karpathy put it bluntly</a>: "You're not typing computer code into an editor like the way things were since computers were invented. That era is over." What replaced it is spinning up agents, giving them tasks in English, and managing their work in parallel - but with what he calls "high-level direction, judgement, taste, oversight, iteration, and hints and ideas." That is steering, not autopilot.</p>
+<p>Our team has taken this to its logical conclusion: we have pretty much ditched our <abbr title="Integrated Development Environments">IDEs</abbr> entirely. We work strictly in terminals - Claude Code, Codex <abbr title="Command Line Interface">CLI</abbr>, git, and shell scripts. The models are better at navigating codebases than any file tree sidebar ever was, and the terminal is where steering actually happens - no GUI layer sitting between you and the agent. <a href="https://the-decoder.com/andrej-karpathy-says-programming-is-unrecognizable-now-that-ai-agents-actually-work/">Karpathy put it bluntly</a>: "You're not typing computer code into an editor like the way things were since computers were invented. That era is over." What replaced it is spinning up agents, giving them tasks in English, and managing their work in parallel - but with what he calls "high-level direction, judgement, taste, oversight, iteration, and hints and ideas." That is steering, not autopilot.</p>
 <p>None of this means the models write perfect code or replace engineering judgment. What changed is how cheap it became to try something, evaluate it, and try again. When a rewrite takes 20 minutes instead of a day, you can try three approaches and pick the best one. You can afford to be thorough instead of cutting corners because iteration itself got cheap.</p>
 <p>That context matters for everything that follows. The hidden queue did not shrink because we worked harder - it shrank because the cost of going after each item dropped by an order of magnitude. So we started with the one system where we could prove it.</p>
 <hr>
-<h2 id="ci-the-system-we-could-actually-measure"><a class="toclink" href="#ci-the-system-we-could-actually-measure">CI: the system we could actually measure</a></h2>
-<p>We started with CI because it was the one system where we had clean telemetry and clear before/after boundaries. You can argue about whether a refactor "improved code quality." You cannot argue about whether a workflow went from 942 seconds to 675 seconds. The numbers are right there.</p>
+<h2 id="ci-the-system-we-could-actually-measure"><a class="toclink" href="#ci-the-system-we-could-actually-measure"><abbr title="Continuous Integration">CI</abbr>: the system we could actually measure</a></h2>
+<p>We started with <abbr title="Continuous Integration">CI</abbr> because it was the one system where we had clean telemetry and clear before/after boundaries. You can argue about whether a refactor "improved code quality." You cannot argue about whether a workflow went from 942 seconds to 675 seconds. The numbers are right there.</p>
 <h3 id="the-real-problem-was-architectural"><a class="toclink" href="#the-real-problem-was-architectural">The real problem was architectural</a></h3>
-<p>Before the redesign, our CI pipeline had a fundamental coupling problem. One heavy workflow path tried to answer two completely different questions at the same time:</p>
+<p>Before the redesign, our <abbr title="Continuous Integration">CI</abbr> pipeline had a fundamental coupling problem. One heavy workflow path tried to answer two completely different questions at the same time:</p>
 <ol>
 <li><em>Should expensive checks even run on this change?</em> (A typo in a README does not need database-level integration tests.)</li>
 <li><em>Is this change safe to ship?</em> (A migration change absolutely does.)</li>
 </ol>
-<p>When those two questions are coupled, you get the worst of both worlds. Low-risk changes overpay - a CSS fix waits 16 minutes for checks it does not need. High-risk changes wait behind noise - a database migration sits in the same queue as a copy change.</p>
+<p>When those two questions are coupled, you get the worst of both worlds. Low-risk changes overpay - a <abbr title="Cascading Style Sheets">CSS</abbr> fix waits 16 minutes for checks it does not need. High-risk changes wait behind noise - a database migration sits in the same queue as a copy change.</p>
 <h3 id="what-we-actually-changed"><a class="toclink" href="#what-we-actually-changed">What we actually changed</a></h3>
 <p>The fix was separating qualification from execution - figuring out which checks should run before actually running them:</p>
 <ul>
 <li><strong>Fast checks moved earlier.</strong> Linting, type checking, import validation, and test placement checks all moved into a GitHub Actions workflow that runs in under 45 seconds. If these fail, nothing downstream even starts.</li>
-<li><strong>Scope classification.</strong> A file-change classifier now evaluates every PR: does this change touch backend code? Database schemas? Frontend only? Docs only? Changes that are irrelevant to deep checks skip them entirely.</li>
+<li><strong>Scope classification.</strong> A file-change classifier now evaluates every <abbr title="Pull Request">PR</abbr>: does this change touch backend code? Database schemas? Frontend only? Docs only? Changes that are irrelevant to deep checks skip them entirely.</li>
 <li><strong>Content-aware caching.</strong> Instead of time-based cache invalidation, caches are now keyed on actual content hashes. Same code = same cache, regardless of when you last ran.</li>
 <li><strong>Runtime image optimization.</strong> The CircleCI runtime image was rebuilt to eliminate bootstrap overhead - the time between "job starts" and "your code actually runs."</li>
 </ul>
@@ -845,7 +872,7 @@ code,
 <p>On the heavy path (CircleCI test-and-check workflow), the broad pre/post window around the runtime-image milestone gave the strongest signal:</p>
 <ul>
 <li><strong>Median workflow wall time</strong>: 942.5s → 675.0s, a <strong>28.4% reduction</strong> (<code>n=218</code> before, <code>n=149</code> after)</li>
-<li><strong>Deepest check lane</strong> (Deep DB/RLS checks): 332.0s → 95.5s, a <strong>71.2% reduction</strong></li>
+<li><strong>Deepest check lane</strong> (Deep DB/<abbr title="Row-Level Security">RLS</abbr> checks): 332.0s → 95.5s, a <strong>71.2% reduction</strong></li>
 </ul>
 <figure>
   <img src="https://ashwch.com/images/articles/no-code-by-hand/ci-heavy-lane-pre-post.svg" alt="Bar chart comparing heavy CI workflow median runtime before and after the runtime image shift.">
@@ -855,9 +882,9 @@ code,
 <p>Those are the headline numbers, but they are only half the story - because the first win came with an uncomfortable tradeoff.</p>
 <hr>
 <h2 id="why-we-kept-going-after-the-first-win"><a class="toclink" href="#why-we-kept-going-after-the-first-win">Why we kept going after the first win</a></h2>
-<p>After the first round of CI improvements, we had an intermediate phase where runtime improved but credit consumption actually got <em>worse</em>. We were running more things in parallel, which made the wall clock faster, but the total compute bill went up.</p>
+<p>After the first round of <abbr title="Continuous Integration">CI</abbr> improvements, we had an intermediate phase where runtime improved but credit consumption actually got <em>worse</em>. We were running more things in parallel, which made the wall clock faster, but the total compute bill went up.</p>
 <p>Most blog posts would stop here, post the runtime chart, and declare victory. We did not, and honestly this next part matters more than the numbers above.</p>
-<p>We kept running the loop: <strong>hypothesis → implementation → measurement → tradeoff review → tune or rollback → standardize</strong>. That loop is where cheap correction cycles made the real difference. When rewriting a CI configuration takes 20 minutes instead of a day, you can afford to try three approaches and pick the best one.</p>
+<p>We kept running the loop: <strong>hypothesis → implementation → measurement → tradeoff review → tune or rollback → standardize</strong>. That loop is where cheap correction cycles made the real difference. When rewriting a <abbr title="Continuous Integration">CI</abbr> configuration takes 20 minutes instead of a day, you can afford to try three approaches and pick the best one.</p>
 <h3 id="three-phases-of-tradeoff"><a class="toclink" href="#three-phases-of-tradeoff">Three phases of tradeoff</a></h3>
 <p>The three-phase view shows the full path, including the uncomfortable middle:</p>
 <ul>
@@ -874,7 +901,7 @@ code,
 <h3 id="modeled-time-savings"><a class="toclink" href="#modeled-time-savings">Modeled time savings</a></h3>
 <p>The waiting-time model across this window estimates <strong>21.39 hours</strong> of developer waiting time recovered, broken into three categories:</p>
 <ul>
-<li><strong>11.07h</strong> from faster heavy lanes (every CI run finishes sooner)</li>
+<li><strong>11.07h</strong> from faster heavy lanes (every <abbr title="Continuous Integration">CI</abbr> run finishes sooner)</li>
 <li><strong>6.38h</strong> from early-stop on failed fast checks (if linting fails in 30 seconds, you do not wait 15 minutes for full tests to also fail)</li>
 <li><strong>3.94h</strong> from skipping irrelevant deep runs (a docs-only change skips database checks entirely)</li>
 </ul>
@@ -885,9 +912,9 @@ code,
 </figure>
 
 <hr>
-<h2 id="every-ci-job-not-just-the-workflow"><a class="toclink" href="#every-ci-job-not-just-the-workflow">Every CI job, not just the workflow</a></h2>
+<h2 id="every-ci-job-not-just-the-workflow"><a class="toclink" href="#every-ci-job-not-just-the-workflow">Every <abbr title="Continuous Integration">CI</abbr> job, not just the workflow</a></h2>
 <p>The workflow-level numbers tell one story. The job-level numbers tell a more interesting one.</p>
-<p>The "Deep DB/RLS checks" job - the single most expensive check in our pipeline, the one that spins up a full database and runs row-level security validations - went from <strong>332s to 95.5s</strong>. That is a <strong>71% reduction</strong> on the job that matters most for safety confidence.</p>
+<p>The "Deep DB/<abbr title="Row-Level Security">RLS</abbr> checks" job - the single most expensive check in our pipeline, the one that spins up a full database and runs row-level security validations - went from <strong>332s to 95.5s</strong>. That is a <strong>71% reduction</strong> on the job that matters most for safety confidence.</p>
 <figure>
   <img src="https://ashwch.com/images/articles/no-code-by-hand/ci-deep-check-lane.svg" alt="Paired horizontal bars showing before/after runtimes for each CI job.">
   <figcaption>Job-level improvements after the runtime image shift. The deepest check lane dropped 71%.</figcaption>
@@ -897,16 +924,16 @@ code,
 <p>It sounds boring, but it changes daily life. At 5.5 minutes you context-switch to something else and lose focus. At 1.5 minutes you just wait for it and stay in the flow. And then we looked at the trigger configuration and found something we should have caught months ago.</p>
 <hr>
 <h2 id="we-were-running-the-same-checks-twice"><a class="toclink" href="#we-were-running-the-same-checks-twice">We were running the same checks twice</a></h2>
-<p>Here is a problem that is embarrassingly common and embarrassingly wasteful: GitHub fires both a <code>push</code> event and a <code>pull_request</code> event when you push to a branch with an open PR. If your CI triggers on both, you run the same checks twice on the same code.</p>
-<p>Before we fixed this, the ratio was absurd: <strong>399 push-triggered runs</strong> vs <strong>22 PR-triggered runs</strong> on non-deploy branches. An 18:1 ratio of redundant work.</p>
-<p>After dedup (<code>#2713</code>): <strong>9 push runs</strong> vs <strong>36 PR runs</strong>. A 0.25:1 ratio. Only meaningful work runs.</p>
+<p>Here is a problem that is embarrassingly common and embarrassingly wasteful: GitHub fires both a <code>push</code> event and a <code>pull_request</code> event when you push to a branch with an open <abbr title="Pull Request">PR</abbr>. If your <abbr title="Continuous Integration">CI</abbr> triggers on both, you run the same checks twice on the same code.</p>
+<p>Before we fixed this, the ratio was absurd: <strong>399 push-triggered runs</strong> vs <strong>22 <abbr title="Pull Request">PR</abbr>-triggered runs</strong> on non-deploy branches. An 18:1 ratio of redundant work.</p>
+<p>After dedup (<code>#2713</code>): <strong>9 push runs</strong> vs <strong>36 <abbr title="Pull Request">PR</abbr> runs</strong>. A 0.25:1 ratio. Only meaningful work runs.</p>
 <figure>
   <img src="https://ashwch.com/images/articles/no-code-by-hand/ci-dedup-effect.svg" alt="Before and after comparison of push vs PR triggered CI runs showing dramatic reduction in redundant runs.">
   <figcaption>Before dedup: 18x more push runs than PR runs. After: only meaningful runs execute.</figcaption>
 </figure>
 
-<p>A few hours of investigation, hundreds of compute-hours saved over a quarter. And it is exactly the kind of thing that never gets prioritized because "CI is working fine" - as long as nobody looks at the bill.</p>
-<p>With CI finally fast and honest, we could tackle the thing it depends on most: whether the tests themselves were worth trusting.</p>
+<p>A few hours of investigation, hundreds of compute-hours saved over a quarter. And it is exactly the kind of thing that never gets prioritized because "<abbr title="Continuous Integration">CI</abbr> is working fine" - as long as nobody looks at the bill.</p>
+<p>With <abbr title="Continuous Integration">CI</abbr> finally fast and honest, we could tackle the thing it depends on most: whether the tests themselves were worth trusting.</p>
 <hr>
 <h2 id="the-test-suite-we-could-not-trust"><a class="toclink" href="#the-test-suite-we-could-not-trust">The test suite we could not trust</a></h2>
 <p>The testing work this quarter was about building a testing <em>system</em> that could be trusted by default and maintained without heroics, not just adding more test files.</p>
@@ -920,40 +947,40 @@ code,
 <p>The sequence:</p>
 <ol>
 <li><strong>Infrastructure first.</strong> Test runner configuration, fixture management, database seeding, environment isolation - the kind of work nobody wants to do but everything else depends on.</li>
-<li><strong>Role-based E2E flows.</strong> Tests organized by user role - HR admin, manager, employee - because that is how our permission model works. Testing by role catches the bugs that actually happen in production: "this works for admins but breaks for regular users."</li>
-<li><strong>Unit and integration depth.</strong> Once the E2E skeleton was stable, we filled in unit and integration tests underneath. The E2E tests act as a safety net while you add lower-level coverage.</li>
+<li><strong>Role-based <abbr title="End-to-End">E2E</abbr> flows.</strong> Tests organized by user role - HR admin, manager, employee - because that is how our permission model works. Testing by role catches the bugs that actually happen in production: "this works for admins but breaks for regular users."</li>
+<li><strong>Unit and integration depth.</strong> Once the <abbr title="End-to-End">E2E</abbr> skeleton was stable, we filled in unit and integration tests underneath. The <abbr title="End-to-End">E2E</abbr> tests act as a safety net while you add lower-level coverage.</li>
 <li><strong>Deterministic stabilization.</strong> The final phase was eliminating flakiness. And that brings us to one of the most universally hated problems in software engineering.</li>
 </ol>
 <h3 id="the-sleep2000-problem"><a class="toclink" href="#the-sleep2000-problem">The <code>sleep(2000)</code> problem</a></h3>
-<p>If you have ever maintained E2E tests, you know this pain intimately. The test clicks a button, then waits. How long should it wait?</p>
+<p>If you have ever maintained <abbr title="End-to-End">E2E</abbr> tests, you know this pain intimately. The test clicks a button, then waits. How long should it wait?</p>
 <div class="highlight"><pre><span></span><code><span class="c1">// This is a guess</span>
 <span class="k">await</span><span class="w"> </span><span class="nx">page</span><span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="s1">&#39;#submit&#39;</span><span class="p">);</span>
 <span class="k">await</span><span class="w"> </span><span class="nx">sleep</span><span class="p">(</span><span class="mf">2000</span><span class="p">);</span>
 <span class="nx">expect</span><span class="p">(</span><span class="nx">page</span><span class="p">.</span><span class="nx">url</span><span class="p">()).</span><span class="nx">toBe</span><span class="p">(</span><span class="s1">&#39;/dashboard&#39;</span><span class="p">);</span>
 </code></pre></div>
 
-<p>Two seconds works on your laptop. It fails on CI because the server is slower. You bump it to 3 seconds. Now the test passes but the suite takes 40 minutes. Someone adds <code>sleep(5000)</code> "just to be safe." Now it takes an hour. And it still flakes on Mondays when the CI machines are loaded.</p>
+<p>Two seconds works on your laptop. It fails on <abbr title="Continuous Integration">CI</abbr> because the server is slower. You bump it to 3 seconds. Now the test passes but the suite takes 40 minutes. Someone adds <code>sleep(5000)</code> "just to be safe." Now it takes an hour. And it still flakes on Mondays when the <abbr title="Continuous Integration">CI</abbr> machines are loaded.</p>
 <p>The fix is simple to explain and tedious to actually do: go through every test and replace fixed waits with waits that check whether the thing actually happened.</p>
 <div class="highlight"><pre><span></span><code><span class="c1">// This is an assertion about behavior</span>
 <span class="k">await</span><span class="w"> </span><span class="nx">page</span><span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="s1">&#39;#submit&#39;</span><span class="p">);</span>
 <span class="k">await</span><span class="w"> </span><span class="nx">page</span><span class="p">.</span><span class="nx">waitForURL</span><span class="p">(</span><span class="s1">&#39;/dashboard&#39;</span><span class="p">);</span>
 </code></pre></div>
 
-<p>The second version waits exactly as long as needed - 200ms on a fast run, 3 seconds on a slow one - and fails immediately with a clear error if the URL never changes. That one shift improved reliability, review trust, and debugging speed because failures started telling you what actually went wrong instead of "timeout after 5000ms."</p>
+<p>The second version waits exactly as long as needed - 200ms on a fast run, 3 seconds on a slow one - and fails immediately with a clear error if the <abbr title="Uniform Resource Locator">URL</abbr> never changes. That one shift improved reliability, review trust, and debugging speed because failures started telling you what actually went wrong instead of "timeout after 5000ms."</p>
 <p>A few of the replaced waits started failing consistently rather than flaking - which turned out to be a gift, because the generous sleeps had been hiding genuine performance issues in the application. Fixing the tests ended up fixing the app.</p>
 <p>None of that would have mattered, though, if the environment running those tests kept colliding with itself.</p>
 <hr>
 <h2 id="why-two-agents-could-not-run-at-the-same-time"><a class="toclink" href="#why-two-agents-could-not-run-at-the-same-time">Why two agents could not run at the same time</a></h2>
 <p>If you are doing agentic coding seriously, worktrees are not optional - they are the foundation that everything else depends on.</p>
-<p>An AI coding agent needs its own isolated checkout to work in. It cannot share your working directory - it would stomp on your files, your running servers, your local state. Git worktrees solve this cleanly: each worktree is a separate working copy of the repo with its own branch, its own file state, and its own index. You can have an agent working on a refactor in one worktree while you are reviewing a PR in another and a second agent is writing tests in a third.</p>
+<p>An <abbr title="Artificial Intelligence">AI</abbr> coding agent needs its own isolated checkout to work in. It cannot share your working directory - it would stomp on your files, your running servers, your local state. Git worktrees solve this cleanly: each worktree is a separate working copy of the repo with its own branch, its own file state, and its own index. You can have an agent working on a refactor in one worktree while you are reviewing a <abbr title="Pull Request">PR</abbr> in another and a second agent is writing tests in a third.</p>
 <p>But worktrees only deliver that promise if your local development setup is worktree-aware. Ours was not. And until we fixed it, every other improvement in this post would have been bottlenecked by a broken local environment.</p>
 <h3 id="what-was-actually-breaking"><a class="toclink" href="#what-was-actually-breaking">What was actually breaking</a></h3>
 <p>Every worktree tries to spin up its own local dev environment. Without isolation, that means:</p>
 <ul>
-<li>Branch A starts Docker with the default port mapping: <code>localhost:8000</code> for the API, <code>localhost:3000</code> for the frontend.</li>
+<li>Branch A starts Docker with the default port mapping: <code>localhost:8000</code> for the <abbr title="Application Programming Interface">API</abbr>, <code>localhost:3000</code> for the frontend.</li>
 <li>An agent opens a worktree for Branch B. It also wants <code>localhost:8000</code> and <code>localhost:3000</code>.</li>
 <li>Port collision. One of them fails silently or grabs a random port. The agent's frontend is now talking to your backend running different code. Or your server crashes because the port is taken. Either way, someone wastes 20 minutes debugging a problem that is not a bug - it is a port conflict.</li>
-<li>Meanwhile, Branch A's <code>.env</code> file says <code>API_URL=http://localhost:8000</code>. Branch B's <code>.env</code> says the same thing. The frontend in one worktree makes API calls to a server that is running code from a completely different branch.</li>
+<li>Meanwhile, Branch A's <code>.env</code> file says <code>API_URL=http://localhost:8000</code>. Branch B's <code>.env</code> says the same thing. The frontend in one worktree makes <abbr title="Application Programming Interface">API</abbr> calls to a server that is running code from a completely different branch.</li>
 </ul>
 <p>This blocked the entire agentic workflow. If worktrees are unreliable, agents cannot work in parallel, and the speed advantage you are counting on just collapses.</p>
 <figure>
@@ -963,7 +990,7 @@ code,
 
 <h3 id="the-fix"><a class="toclink" href="#the-fix">The fix</a></h3>
 <p>The primary checkout behaves exactly like before - same ports, same config, no surprises for the human developer. But every non-primary worktree gets <strong>deterministic port isolation</strong>: ports are derived from the worktree path, so they are stable (the same worktree always gets the same ports) and unique (no two worktrees ever collide).</p>
-<p>We added root-level wrappers - <code>just up</code>, <code>just down</code>, <code>just sync-api-env</code> - so that starting, stopping, and syncing environment state became a single predictable command regardless of which worktree you are in. The frontend environment file automatically picks up the correct backend URL for whichever worktree is running. An agent can <code>just up</code> in its worktree and get a fully working, fully isolated local environment without any human intervention.</p>
+<p>We added root-level wrappers - <code>just up</code>, <code>just down</code>, <code>just sync-api-env</code> - so that starting, stopping, and syncing environment state became a single predictable command regardless of which worktree you are in. The frontend environment file automatically picks up the correct backend <abbr title="Uniform Resource Locator">URL</abbr> for whichever worktree is running. An agent can <code>just up</code> in its worktree and get a fully working, fully isolated local environment without any human intervention.</p>
 <p>This unlocked everything else. Once worktrees were reliable, we could run multiple agents in parallel on different tasks, each with its own branch, its own server, its own test environment. The real speed gain is not one agent working faster - it is three or four agents working at the same time without stepping on each other or on you.</p>
 <p>But that speed advantage hits a wall the first time one of those agents needs to run a database snapshot.</p>
 <hr>
@@ -971,7 +998,7 @@ code,
 <p>Every engineering team has critical processes that work perfectly as long as the right person is online and remembers the exact sequence of commands - which is really just a single point of failure wearing a human costume.</p>
 <p>This quarter we found three of these in our own stack and rebuilt them.</p>
 <h3 id="database-snapshots"><a class="toclink" href="#database-snapshots">Database snapshots</a></h3>
-<p>Before: creating a database snapshot for a customer or for staging required running six commands in exact order. Dump the SQL. Package it. Upload to the right bucket. Restore on the target. Create the snapshot record. Notify the team in Slack. Miss a step and you get a corrupt snapshot. Run them out of order and you overwrite something. The whole process lived in one engineer's head and a Slack message from eight months ago.</p>
+<p>Before: creating a database snapshot for a customer or for staging required running six commands in exact order. Dump the <abbr title="Structured Query Language">SQL</abbr>. Package it. Upload to the right bucket. Restore on the target. Create the snapshot record. Notify the team in Slack. Miss a step and you get a corrupt snapshot. Run them out of order and you overwrite something. The whole process lived in one engineer's head and a Slack message from eight months ago.</p>
 <figure>
   <img src="https://ashwch.com/images/articles/no-code-by-hand/snapshot-automation.svg" alt="Before: 6 manual steps in a chain. After: one command with built-in error handling.">
   <figcaption>Snapshot creation went from 6 manual steps to one command with preflight checks and Slack notification.</figcaption>
@@ -996,7 +1023,7 @@ code,
 <p>There is no product launch here and nobody is going to tweet about it, but this is the work that keeps incidents smaller, response times tighter, and makes sure the process still works when the person who "knows how snapshots work" is on vacation. It also removed the last excuse for not touching the security backlog.</p>
 <hr>
 <h2 id="security-from-random-interrupts-to-planned-waves"><a class="toclink" href="#security-from-random-interrupts-to-planned-waves">Security: from random interrupts to planned waves</a></h2>
-<p>Here is how security and dependency work usually goes: Dependabot opens an alert. Someone sees it, maybe today, maybe next week. They bump the version, run the tests, fix whatever breaks, open a PR. It gets reviewed between other work. Meanwhile three more alerts have fired. The PRs conflict with each other. Merge churn increases. Review quality drops because everyone is context-switching.</p>
+<p>Here is how security and dependency work usually goes: Dependabot opens an alert. Someone sees it, maybe today, maybe next week. They bump the version, run the tests, fix whatever breaks, open a <abbr title="Pull Request">PR</abbr>. It gets reviewed between other work. Meanwhile three more alerts have fired. The <abbr title="Pull Requests">PRs</abbr> conflict with each other. Merge churn increases. Review quality drops because everyone is context-switching.</p>
 <p>We replaced that pattern with a <strong>wave-based remediation model</strong>:</p>
 <ul>
 <li><strong>Wave 1</strong>: Patch-level security updates. Django, Pillow, SimpleJWT, pyasn1. Low-risk, high-confidence bumps.</li>
@@ -1010,8 +1037,8 @@ code,
 
 <p>But the security work was not just dependency bumping. In the same window, we also:</p>
 <ul>
-<li><strong>Hardened CI input handling.</strong> GitHub Actions workflows can receive untrusted input from PR titles, branch names, and commit messages. If those inputs flow unsanitized into shell commands, that is a command injection vulnerability <em>in your CI pipeline</em>. We audited and hardened those paths.</li>
-<li><strong>Reduced PII exposure in telemetry.</strong> Logging and error tracking payloads were carrying more personally identifiable information than they needed to. We scrubbed those payloads down to what is actually useful for debugging without exposing user data.</li>
+<li><strong>Hardened <abbr title="Continuous Integration">CI</abbr> input handling.</strong> GitHub Actions workflows can receive untrusted input from <abbr title="Pull Request">PR</abbr> titles, branch names, and commit messages. If those inputs flow unsanitized into shell commands, that is a command injection vulnerability <em>in your <abbr title="Continuous Integration">CI</abbr> pipeline</em>. We audited and hardened those paths.</li>
+<li><strong>Reduced <abbr title="Personally Identifiable Information">PII</abbr> exposure in telemetry.</strong> Logging and error tracking payloads were carrying more personally identifiable information than they needed to. We scrubbed those payloads down to what is actually useful for debugging without exposing user data.</li>
 </ul>
 <p>The practical result is that security and dependency work stopped being an interrupt. We close issues faster, in planned batches with proper review scope, and the rest of the team can actually plan their week without random fire-drills derailing it.</p>
 <p>The security waves also forced us to confront what we had been putting off: the migration graph and a pile of dead integration code that had been making every other change harder than it needed to be.</p>
@@ -1032,20 +1059,20 @@ code,
 </ol>
 <p>This approach respects the reality that migrations are one of the scariest parts of a Django application. You do not yolo a migration squash. You prove the new path works while the old path is still available as a fallback.</p>
 <h3 id="dead-integration-code"><a class="toclink" href="#dead-integration-code">Dead integration code</a></h3>
-<p>We also retired deprecated Slack and Teams integration paths - but only after proving they were genuinely unused or had working replacements. "Dead" integration code is never truly dead. It still shows up in code reviews ("is this still used?"), expands the upgrade surface ("this import broke after the SDK update"), and confuses new contributors ("should I be using this API or the other one?").</p>
+<p>We also retired deprecated Slack and Teams integration paths - but only after proving they were genuinely unused or had working replacements. "Dead" integration code is never truly dead. It still shows up in code reviews ("is this still used?"), expands the upgrade surface ("this import broke after the <abbr title="Software Development Kit">SDK</abbr> update"), and confuses new contributors ("should I be using this <abbr title="Application Programming Interface">API</abbr> or the other one?").</p>
 <p>Removing it deliberately - with evidence that nothing was actually using it - means every future engineer who touches that part of the codebase has one less thing to be confused about.</p>
 <p>By this point we had noticed a pattern: the cleanup workflows, the review checklists, the remediation sequences - we kept solving similar problems the same way. Why were we still rebuilding them from scratch each time?</p>
 <hr>
 <h2 id="the-biggest-multiplier-was-not-a-model"><a class="toclink" href="#the-biggest-multiplier-was-not-a-model">The biggest multiplier was not a model</a></h2>
 <p>If I had to pick the single biggest multiplier from this quarter, it would be this section, and it connects directly to why model selection matters.</p>
-<p>Here is what kept happening: an engineer figures out a really effective way to use Opus for a thorough code review, or they discover that Codex handles Dependabot triage perfectly if you give it the right structure. It works great for them. Then it lives in their head, or in a DM, or in a prompt they copy-paste from a notes app. That is useful for one person, but it does not spread.</p>
+<p>Here is what kept happening: an engineer figures out a really effective way to use Opus for a thorough code review, or they discover that Codex handles Dependabot triage perfectly if you give it the right structure. It works great for them. Then it lives in their head, or in a <abbr title="Direct Message">DM</abbr>, or in a prompt they copy-paste from a notes app. That is useful for one person, but it does not spread.</p>
 <p>We took a different approach: we turned those patterns into reusable agent skills and commands, and open-sourced the whole layer in <a href="https://github.com/DiversioTeam/agent-skills-marketplace">DiversioTeam/agent-skills-marketplace</a>. Right now that repo includes <strong>15 plugins, 17 skills, and 37 commands</strong> covering:</p>
 <ul>
 <li><strong>Code review</strong> - Hyper-pedantic Django review skills that check for multi-tenant safety, migration correctness, and security patterns</li>
-<li><strong>Commit and PR hygiene</strong> - Atomic commit helpers that enforce pre-commit hooks, lint gates, and clean commit messages</li>
+<li><strong>Commit and <abbr title="Pull Request">PR</abbr> hygiene</strong> - Atomic commit helpers that enforce pre-commit hooks, lint gates, and clean commit messages</li>
 <li><strong>Dependabot remediation</strong> - Wave-based triage and execution for both frontend and backend dependency management</li>
-<li><strong>Release operations</strong> - PR creation, version bumping, merge conflict resolution, and release publishing</li>
-<li><strong>Docs generation</strong> - Repository documentation, API docs from Bruno files, AGENTS.md canonical formats</li>
+<li><strong>Release operations</strong> - <abbr title="Pull Request">PR</abbr> creation, version bumping, merge conflict resolution, and release publishing</li>
+<li><strong>Docs generation</strong> - Repository documentation, <abbr title="Application Programming Interface">API</abbr> docs from Bruno files, AGENTS.md canonical formats</li>
 </ul>
 <figure>
   <img src="https://ashwch.com/images/articles/no-code-by-hand/skills-compounding-flywheel.svg" alt="Compounding flywheel diagram for open-source skills: pattern discovery, codification, team reuse, and baseline uplift.">
@@ -1053,7 +1080,7 @@ code,
 </figure>
 
 <p>This is where <a href="https://simonwillison.net/guides/agentic-engineering-patterns/hoard-things-you-know-how-to-do/">Simon Willison's insight</a> lands hardest: "Coding agents mean we only ever need to figure out a useful trick once." That is exactly what skills do. Someone figures out the best way to run a security audit with Opus. It becomes a skill. Now every engineer on the team runs security audits at that level, automatically.</p>
-<p>Instead of "someone has a strong prompt in a DM," these became shared tools that anyone on the team can run, inspect, and improve. They live in version control with clear entry points, not in someone's clipboard.</p>
+<p>Instead of "someone has a strong prompt in a <abbr title="Direct Message">DM</abbr>," these became shared tools that anyone on the team can run, inspect, and improve. They live in version control with clear entry points, not in someone's clipboard.</p>
 <p>This matters for two reasons:</p>
 <ol>
 <li><strong>Reviews stop depending on who is doing them.</strong> When every code review uses the same skill with the same guardrails, the floor rises. You stop getting thorough reviews from one person and surface-level reviews from another.</li>
@@ -1072,12 +1099,12 @@ code,
 
 <p>Here is how the loops worked:</p>
 <ul>
-<li><strong>CI speed → testing velocity.</strong> Faster CI feedback meant testing improvements were cheaper to validate. You could iterate on a test three times in an hour instead of once.</li>
-<li><strong>Testing quality → CI signal.</strong> Better tests with deterministic waits produced cleaner CI signal. Fewer flaky failures meant the CI results were actually trustworthy, which made scope-aware gating and cost optimization possible.</li>
+<li><strong><abbr title="Continuous Integration">CI</abbr> speed → testing velocity.</strong> Faster <abbr title="Continuous Integration">CI</abbr> feedback meant testing improvements were cheaper to validate. You could iterate on a test three times in an hour instead of once.</li>
+<li><strong>Testing quality → <abbr title="Continuous Integration">CI</abbr> signal.</strong> Better tests with deterministic waits produced cleaner <abbr title="Continuous Integration">CI</abbr> signal. Fewer flaky failures meant the <abbr title="Continuous Integration">CI</abbr> results were actually trustworthy, which made scope-aware gating and cost optimization possible.</li>
 <li><strong>Worktree isolation → everything.</strong> Reliable worktrees meant agents and engineers could iterate on every other stream in parallel without breaking each other's environments.</li>
 <li><strong>Skills codification → all of the above.</strong> Once patterns were encoded into reusable skills, we stopped relearning the same lessons. New contributors inherited the workflow directly.</li>
 </ul>
-<p>We did not just do many things in one quarter - we ended up building a system where the improvements reinforced each other. Better CI feedback made testing more productive, which made CI signal more trustworthy, which made it safe to skip unnecessary checks, which freed up time to codify the patterns, which meant the next improvement started from a higher baseline.</p>
+<p>We did not just do many things in one quarter - we ended up building a system where the improvements reinforced each other. Better <abbr title="Continuous Integration">CI</abbr> feedback made testing more productive, which made <abbr title="Continuous Integration">CI</abbr> signal more trustworthy, which made it safe to skip unnecessary checks, which freed up time to codify the patterns, which meant the next improvement started from a higher baseline.</p>
 <p>If you are looking at this and thinking "we have the same hidden queue," here is where to start.</p>
 <hr>
 <h2 id="what-you-can-actually-copy"><a class="toclink" href="#what-you-can-actually-copy">What you can actually copy</a></h2>
@@ -1087,19 +1114,19 @@ code,
 <p><strong>Make the hidden queue visible and measure it.</strong> Track every time an engineer waits, context-switches, or does manual repetitive work for one week. Add up the hours. Then pick one loop, instrument it, fix it, and measure the before and after. Start wherever your data is cleanest.</p>
 </li>
 <li>
-<p><strong>Separate qualification from execution.</strong> In any expensive system - CI, deployments, data pipelines - cheap checks should decide whether expensive checks run. A 30-second linter should gate a 15-minute integration test, not run alongside it.</p>
+<p><strong>Separate qualification from execution.</strong> In any expensive system - <abbr title="Continuous Integration">CI</abbr>, deployments, data pipelines - cheap checks should decide whether expensive checks run. A 30-second linter should gate a 15-minute integration test, not run alongside it.</p>
 </li>
 <li>
 <p><strong>Ship in phases, not big bangs.</strong> Every improvement in this post was shipped incrementally. If Phase 2 breaks, you roll back Phase 2. Phase 1 still works.</p>
 </li>
 <li>
-<p><strong>Make worktrees work.</strong> If your team is using AI coding agents, fix your local dev setup first. Deterministic port isolation, environment syncing, single-command startup. Without this, you are bottlenecking every other improvement.</p>
+<p><strong>Make worktrees work.</strong> If your team is using <abbr title="Artificial Intelligence">AI</abbr> coding agents, fix your local dev setup first. Deterministic port isolation, environment syncing, single-command startup. Without this, you are bottlenecking every other improvement.</p>
 </li>
 <li>
 <p><strong>Learn the models and mix them.</strong> Claude is fast and great for execution but will take shortcuts on complex work. Codex is slower but more thorough. Run them together - one plans, one executes, one reviews.</p>
 </li>
 <li>
-<p><strong>Turn prompts into skills.</strong> When someone on your team figures out an effective AI-assisted workflow, do not let it stay in their head. Encode it. Version it. Share it. The gap between "one person is fast" and "the whole team is fast" is a skill system.</p>
+<p><strong>Turn prompts into skills.</strong> When someone on your team figures out an effective <abbr title="Artificial Intelligence">AI</abbr>-assisted workflow, do not let it stay in their head. Encode it. Version it. Share it. The gap between "one person is fast" and "the whole team is fast" is a skill system.</p>
 </li>
 </ol>
 <p>These patterns are general-purpose and work whether you are running a monolith, microservices, or something in between. The models make it cheaper to try things and iterate. The patterns are what make the results last.</p>
@@ -1107,7 +1134,7 @@ code,
 <h2 id="attention-is-still-the-bottleneck"><a class="toclink" href="#attention-is-still-the-bottleneck">Attention is still the bottleneck</a></h2>
 <p>If you take one thing from this post, do not let it be "they wrote less code." We wrote and deleted a lot of code - 120,929 lines added, 31,170 deleted.</p>
 <p>What changed is where we <strong>spent our attention</strong>.</p>
-<p>The repetitive plumbing - CI configuration, test infrastructure, environment wiring, dependency management, snapshot steps - is now cheaper to do. That frees up the team to focus on things that actually need human judgment: where should the system boundaries be, what are the failure modes, how should the control surfaces work, what does good review look like, and how do we make sure the team keeps getting better.</p>
+<p>The repetitive plumbing - <abbr title="Continuous Integration">CI</abbr> configuration, test infrastructure, environment wiring, dependency management, snapshot steps - is now cheaper to do. That frees up the team to focus on things that actually need human judgment: where should the system boundaries be, what are the failure modes, how should the control surfaces work, what does good review look like, and how do we make sure the team keeps getting better.</p>
 <p>That is how you end up with both speed and quality at the same time instead of trading one for the other.</p>
 <p>That is what <strong>No Code by Hand</strong> means for me. Not that we stopped writing code, and not that we stopped needing engineers. We built better systems, tighter feedback loops, and started spending our scarcest resource - human attention - on the work that actually deserves it.</p>
         </div>
@@ -1303,6 +1330,34 @@ div.input_area {
     padding: 0.3rem;
   }
 }</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var content = document.querySelector('.article-content');
+  if (!content) return;
+
+  var seen = {};
+  var abbrs = content.querySelectorAll('abbr[title]');
+
+  abbrs.forEach(function (abbr) {
+    var key = abbr.textContent.trim();
+    // Skip abbreviations inside headings
+    if (abbr.closest('h1, h2, h3, h4, h5, h6')) return;
+    if (!seen[key]) {
+      seen[key] = true;
+      abbr.classList.add('abbr-first');
+    }
+  });
+
+  var firstAbbrs = content.querySelectorAll('abbr.abbr-first');
+  firstAbbrs.forEach(function (el) {
+    new bootstrap.Tooltip(el, {
+      delay: { show: 300, hide: 0 },
+      trigger: 'hover focus'
+    });
+  });
+});
+</script>
         </main>
 
         <footer class="site-footer mt-5 py-4 bg-light">

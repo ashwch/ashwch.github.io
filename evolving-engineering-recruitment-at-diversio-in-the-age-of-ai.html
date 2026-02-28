@@ -695,6 +695,33 @@ code,
   background-color: var(--background-color) !important;
 }
 
+/* Abbreviation tooltips */
+abbr {
+  text-decoration: none;
+  border-bottom: none;
+}
+
+.article-content abbr.abbr-first {
+  border-bottom: 1px dotted var(--text-light);
+  cursor: help;
+  transition: border-color 0.2s ease;
+}
+
+.article-content abbr.abbr-first:hover {
+  border-bottom-color: var(--primary-color);
+}
+
+h1 abbr, h2 abbr, h3 abbr, h4 abbr, h5 abbr, h6 abbr {
+  border-bottom: none !important;
+  cursor: inherit !important;
+}
+
+.tooltip {
+  --bs-tooltip-bg: var(--text-color);
+  --bs-tooltip-color: var(--background-color);
+  --bs-tooltip-opacity: 0.95;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .article-header h1 {
@@ -782,18 +809,18 @@ code,
 </ol>
 <hr>
 <h1 id="introduction-evolution-at-diversio"><a class="toclink" href="#introduction-evolution-at-diversio">Introduction &amp; Evolution at Diversio</a></h1>
-<p>At Diversio, our hiring process has evolved significantly over the years. In our early days, we relied heavily on detailed resume screenings and take-home exercises. Today, we’ve adapted to a new landscape where remote hiring, AI-assisted filtering, and a streamlined interview process help us manage the increased applicant volume while ensuring we find the best long-term fits.</p>
+<p>At Diversio, our hiring process has evolved significantly over the years. In our early days, we relied heavily on detailed resume screenings and take-home exercises. Today, we’ve adapted to a new landscape where remote hiring, <abbr title="Artificial Intelligence">AI</abbr>-assisted filtering, and a streamlined interview process help us manage the increased applicant volume while ensuring we find the best long-term fits.</p>
 <p><strong>Key Changes at a Glance:</strong></p>
 <ul>
 <li>Transition from take-home exercises to real-time, remote interviews.</li>
-<li>Adoption of AI tools (like our custom GPT) to efficiently filter resumes.</li>
+<li>Adoption of <abbr title="Artificial Intelligence">AI</abbr> tools (like our custom <abbr title="Generative Pre-trained Transformer">GPT</abbr>) to efficiently filter resumes.</li>
 <li>Increased focus on cultural fit and long-term alignment.</li>
 <li>Emphasis on transparent, remote hiring practices.</li>
 </ul>
 <h1 id="how-we-used-to-do-it-pre-chatgpt"><a class="toclink" href="#how-we-used-to-do-it-pre-chatgpt">How We Used to Do It (Pre-ChatGPT)</a></h1>
 <p>We were very lucky in terms of hiring at Diversio until 2023—we had an excellent attrition rate and were fortunate to hire very talented interns from the University of Toronto, University of Waterloo, and Queen's University. The full-time hires were mostly referrals.</p>
 <h3 id="1-resume-screening"><a class="toclink" href="#1-resume-screening">1. Resume Screening</a></h3>
-<p>A resume screening was conducted by myself and the PM, including checking candidates' past co-op remarks from other companies.</p>
+<p>A resume screening was conducted by myself and the <abbr title="Product Manager">PM</abbr>, including checking candidates' past co-op remarks from other companies.</p>
 <h3 id="2-take-home-exercises"><a class="toclink" href="#2-take-home-exercises">2. Take Home Exercises</a></h3>
 <p>We have a strong belief in asking questions that are directly relevant to what a candidate will do on a day-to-day basis at Diversio.</p>
 <p>Depending on the position, we provided a different set of questions. Our exercises included:</p>
@@ -816,8 +843,8 @@ code,
 </ul>
 <p>Goals here were:</p>
 <ul>
-<li>Are they able to parse HTML source code?</li>
-<li>Are they inspecting elements to see if there are any internal APIs they can utilize?</li>
+<li>Are they able to parse <abbr title="HyperText Markup Language">HTML</abbr> source code?</li>
+<li>Are they inspecting elements to see if there are any internal <abbr title="Application Programming Interfaces">APIs</abbr> they can utilize?</li>
 <li>Do they know how to build command-line utilities? (This is a skill we use frequently at Diversio.)</li>
 <li>How is their code structure, documentation, and testing?</li>
 </ul>
@@ -839,9 +866,9 @@ code,
 <p>A lot has changed since 2023:</p>
 <ul>
 <li>We are a much bigger company now, so when we post a job, we receive many more applicants.</li>
-<li>Many layoffs in big tech companies and AI's impact on dev jobs are resulting in significantly more applicants.</li>
+<li>Many layoffs in big tech companies and <abbr title="Artificial Intelligence">AI</abbr>'s impact on dev jobs are resulting in significantly more applicants.</li>
 <li>Take-home interviews have been phased out in favor of real-time evaluations.</li>
-<li>Candidates are using resume tools to trick ATS auto-screening into thinking their resumes are the best.</li>
+<li>Candidates are using resume tools to trick <abbr title="Applicant Tracking System">ATS</abbr> auto-screening into thinking their resumes are the best.</li>
 <li>Remote hiring is the norm.</li>
 </ul>
 <h3 id="posting-the-job-ad"><a class="toclink" href="#posting-the-job-ad">Posting the Job Ad</a></h3>
@@ -861,7 +888,7 @@ code,
 <li>
 <p><strong>Work History:</strong>
   We prefer candidates with experience at product startups over service-based companies. We also assess how they explain the features they have worked on—whether they are concise and to the point or merely rely on buzzwords.<br>
-  Resumes that boast metrics like "x% improvement in signups/deployment" or "y% reduction in bugs" without proper context are directly rejected. Such figures often result from attempts to game ATS auto-screening and, frankly, are often meaningless—even after 12 years as a software engineer I don't have such stats myself.</p>
+  Resumes that boast metrics like "x% improvement in signups/deployment" or "y% reduction in bugs" without proper context are directly rejected. Such figures often result from attempts to game <abbr title="Applicant Tracking System">ATS</abbr> auto-screening and, frankly, are often meaningless—even after 12 years as a software engineer I don't have such stats myself.</p>
 </li>
 <li>
 <p><strong>GitHub and Portfolio (if any):</strong><br>
@@ -873,7 +900,7 @@ code,
 </li>
 </ul>
 <h4 id="chatgpt"><a class="toclink" href="#chatgpt">ChatGPT</a></h4>
-<p>To speed up the filtering process, we use a custom GPT tool that evaluates most of the above criteria (except for the last two points), assigning points to each resume so that we can sort them efficiently.</p>
+<p>To speed up the filtering process, we use a custom <abbr title="Generative Pre-trained Transformer">GPT</abbr> tool that evaluates most of the above criteria (except for the last two points), assigning points to each resume so that we can sort them efficiently.</p>
 <h3 id="screening-round"><a class="toclink" href="#screening-round">Screening Round</a></h3>
 <p>Candidates selected after resume screening go through a screening round with a senior engineer at Diversio. We require screen sharing and that the camera be turned on to ensure there is no cheating. Candidates are allowed to use Google—but only on the shared screen.</p>
 <p>The goal of this 30–45 minute call is to:</p>
@@ -1089,6 +1116,34 @@ div.input_area {
     padding: 0.3rem;
   }
 }</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var content = document.querySelector('.article-content');
+  if (!content) return;
+
+  var seen = {};
+  var abbrs = content.querySelectorAll('abbr[title]');
+
+  abbrs.forEach(function (abbr) {
+    var key = abbr.textContent.trim();
+    // Skip abbreviations inside headings
+    if (abbr.closest('h1, h2, h3, h4, h5, h6')) return;
+    if (!seen[key]) {
+      seen[key] = true;
+      abbr.classList.add('abbr-first');
+    }
+  });
+
+  var firstAbbrs = content.querySelectorAll('abbr.abbr-first');
+  firstAbbrs.forEach(function (el) {
+    new bootstrap.Tooltip(el, {
+      delay: { show: 300, hide: 0 },
+      trigger: 'hover focus'
+    });
+  });
+});
+</script>
         </main>
 
         <footer class="site-footer mt-5 py-4 bg-light">

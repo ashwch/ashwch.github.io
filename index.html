@@ -695,6 +695,33 @@ code,
   background-color: var(--background-color) !important;
 }
 
+/* Abbreviation tooltips */
+abbr {
+  text-decoration: none;
+  border-bottom: none;
+}
+
+.article-content abbr.abbr-first {
+  border-bottom: 1px dotted var(--text-light);
+  cursor: help;
+  transition: border-color 0.2s ease;
+}
+
+.article-content abbr.abbr-first:hover {
+  border-bottom-color: var(--primary-color);
+}
+
+h1 abbr, h2 abbr, h3 abbr, h4 abbr, h5 abbr, h6 abbr {
+  border-bottom: none !important;
+  cursor: inherit !important;
+}
+
+.tooltip {
+  --bs-tooltip-bg: var(--text-color);
+  --bs-tooltip-color: var(--background-color);
+  --bs-tooltip-opacity: 0.95;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .article-header h1 {
@@ -773,7 +800,7 @@ code,
             </div>
             
             <div class="card-text">
-              <p>CI dropped from 37 minutes to 9, at 35% lower cost. What we learned about mixing Claude and Codex, clearing the hidden queue, and where the real multiplier came from.</p>
+              <p><abbr title="Continuous Integration">CI</abbr> dropped from 37 minutes to 9, at 35% lower cost. What we learned about mixing Claude and Codex, clearing the hidden queue, and where the real multiplier came from.</p>
             </div>
             
             <div class="mt-4">
@@ -810,7 +837,7 @@ code,
             </div>
             
             <div class="card-text">
-              <p>How we treat Diversio's own tenant inside Optimo as the hardest one to reach, using layered controls across Django admin, approvals, Postgres RLS, IAM and automation.</p>
+              <p>How we treat Diversio's own tenant inside Optimo as the hardest one to reach, using layered controls across Django admin, approvals, Postgres <abbr title="Row-Level Security">RLS</abbr>, <abbr title="Identity and Access Management">IAM</abbr> and automation.</p>
             </div>
             
             <div class="mt-4">
@@ -884,7 +911,7 @@ code,
             </div>
             
             <div class="card-text">
-              <p>How we solved context switching across multiple repositories by building a monolith using git submodules, making both humans and AI 10x more effective with our codebase.</p>
+              <p>How we solved context switching across multiple repositories by building a monolith using git submodules, making both humans and <abbr title="Artificial Intelligence">AI</abbr> 10x more effective with our codebase.</p>
             </div>
             
             <div class="mt-4">
@@ -921,7 +948,7 @@ code,
             </div>
             
             <div class="card-text">
-              <p>We migrated our entire Postman collection to Bruno over a weekend and leveraged Claude Code to automate API documentation, reducing documentation time by 90% and catching breaking changes at review time.</p>
+              <p>We migrated our entire Postman collection to Bruno over a weekend and leveraged Claude Code to automate <abbr title="Application Programming Interface">API</abbr> documentation, reducing documentation time by 90% and catching breaking changes at review time.</p>
             </div>
             
             <div class="mt-4">

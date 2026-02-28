@@ -695,6 +695,33 @@ code,
   background-color: var(--background-color) !important;
 }
 
+/* Abbreviation tooltips */
+abbr {
+  text-decoration: none;
+  border-bottom: none;
+}
+
+.article-content abbr.abbr-first {
+  border-bottom: 1px dotted var(--text-light);
+  cursor: help;
+  transition: border-color 0.2s ease;
+}
+
+.article-content abbr.abbr-first:hover {
+  border-bottom-color: var(--primary-color);
+}
+
+h1 abbr, h2 abbr, h3 abbr, h4 abbr, h5 abbr, h6 abbr {
+  border-bottom: none !important;
+  cursor: inherit !important;
+}
+
+.tooltip {
+  --bs-tooltip-bg: var(--text-color);
+  --bs-tooltip-color: var(--background-color);
+  --bs-tooltip-opacity: 0.95;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .article-header h1 {
@@ -770,7 +797,7 @@ code,
 <h3 id="what-is-pghistorycontext"><a class="toclink" href="#what-is-pghistorycontext">What is <code>pghistory.context</code>?</a></h3>
 <p><code>pghistory.context</code> is a decorator and a function that is part of the fantastic <a href="https://django-pghistory.readthedocs.io/en/stable/"><code>django-pghistory</code></a> project. I would cover how we use <code>django-pghistory</code> in a separate post.</p>
 <p>When <code>django-pghistory</code> is keeping track of changes to Django models, there are several instances where we want to include additional information with the tracked changes. This is where <code>pghistory.context</code> comes into picture to easily capture such metadata.</p>
-<p>We are making use of <a href="https://django-pghistory.readthedocs.io/en/3.5.5/context/?h=historymiddleware#middleware"><code>pghistory.middleware.HistoryMiddleware</code></a> to collect basic fields that we want to store with each change. This includes IP address, URL and the User who made the request. Some of this is done by the <a href="https://github.com/AmbitionEng/django-pghistory/blob/e991e610ddfc393aa7e3f39945627485e0d7bc60/pghistory/middleware.py#L42">library itself</a> (comments removed for brevity) as seen in the code below.</p>
+<p>We are making use of <a href="https://django-pghistory.readthedocs.io/en/3.5.5/context/?h=historymiddleware#middleware"><code>pghistory.middleware.HistoryMiddleware</code></a> to collect basic fields that we want to store with each change. This includes IP address, <abbr title="Uniform Resource Locator">URL</abbr> and the User who made the request. Some of this is done by the <a href="https://github.com/AmbitionEng/django-pghistory/blob/e991e610ddfc393aa7e3f39945627485e0d7bc60/pghistory/middleware.py#L42">library itself</a> (comments removed for brevity) as seen in the code below.</p>
 <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">HistoryMiddleware</span><span class="p">:</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">get_response</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">get_response</span> <span class="o">=</span> <span class="n">get_response</span>
@@ -796,7 +823,7 @@ code,
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_response</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
 </code></pre></div>
 
-<p>An interesting thing happening here is that the request-response is wrapped in the <code>pghistory.context</code> context manager. That means all call to <code>pghistory.context</code> anywhere in views would keep on accumulating the metadata that <code>pghistory.context</code> is getting. This is a powerful pattern for audit tracking without having to manually pass context through your application code. Every database change automatically gets tagged with "who" (user) and "where" (URL) the change happened.</p>
+<p>An interesting thing happening here is that the request-response is wrapped in the <code>pghistory.context</code> context manager. That means all call to <code>pghistory.context</code> anywhere in views would keep on accumulating the metadata that <code>pghistory.context</code> is getting. This is a powerful pattern for audit tracking without having to manually pass context through your application code. Every database change automatically gets tagged with "who" (user) and "where" (<abbr title="Uniform Resource Locator">URL</abbr>) the change happened.</p>
 <p>But this also has an unintended effect, let's use an example to explain it(<a href="https://gist.github.com/ashwch/1fc98f3f76860b95936bf278ba38dbba">gist</a>)</p>
 <div class="highlight"><pre><span></span><code><span class="n">In</span> <span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="kn">import</span> <span class="nn">pghistory</span>
    <span class="o">...</span><span class="p">:</span>
@@ -978,7 +1005,7 @@ Level<span class="w"> </span><span class="m">1</span>-6:<span class="w"> </span>
 </li>
 <li>The <code>get_parent_context()</code> static method provides a way to access the parent context if needed.</li>
 </ol>
-<p>This implementation solves our problem by allowing us to control which metadata persists across different parts of our application. We can use <code>persist=True</code> for global tracking (like user and URL from middleware) and <code>persist=False</code> for local, context-specific metadata that shouldn't leak into other operations.</p>
+<p>This implementation solves our problem by allowing us to control which metadata persists across different parts of our application. We can use <code>persist=True</code> for global tracking (like user and <abbr title="Uniform Resource Locator">URL</abbr> from middleware) and <code>persist=False</code> for local, context-specific metadata that shouldn't leak into other operations.</p>
 <h3 id="using-the-custom-context-in-django"><a class="toclink" href="#using-the-custom-context-in-django">Using the Custom Context in Django</a></h3>
 <p>To implement this in a Django project, you would:</p>
 <ol>
@@ -1229,6 +1256,34 @@ div.input_area {
     padding: 0.3rem;
   }
 }</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var content = document.querySelector('.article-content');
+  if (!content) return;
+
+  var seen = {};
+  var abbrs = content.querySelectorAll('abbr[title]');
+
+  abbrs.forEach(function (abbr) {
+    var key = abbr.textContent.trim();
+    // Skip abbreviations inside headings
+    if (abbr.closest('h1, h2, h3, h4, h5, h6')) return;
+    if (!seen[key]) {
+      seen[key] = true;
+      abbr.classList.add('abbr-first');
+    }
+  });
+
+  var firstAbbrs = content.querySelectorAll('abbr.abbr-first');
+  firstAbbrs.forEach(function (el) {
+    new bootstrap.Tooltip(el, {
+      delay: { show: 300, hide: 0 },
+      trigger: 'hover focus'
+    });
+  });
+});
+</script>
         </main>
 
         <footer class="site-footer mt-5 py-4 bg-light">

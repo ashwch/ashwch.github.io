@@ -695,6 +695,33 @@ code,
   background-color: var(--background-color) !important;
 }
 
+/* Abbreviation tooltips */
+abbr {
+  text-decoration: none;
+  border-bottom: none;
+}
+
+.article-content abbr.abbr-first {
+  border-bottom: 1px dotted var(--text-light);
+  cursor: help;
+  transition: border-color 0.2s ease;
+}
+
+.article-content abbr.abbr-first:hover {
+  border-bottom-color: var(--primary-color);
+}
+
+h1 abbr, h2 abbr, h3 abbr, h4 abbr, h5 abbr, h6 abbr {
+  border-bottom: none !important;
+  cursor: inherit !important;
+}
+
+.tooltip {
+  --bs-tooltip-bg: var(--text-color);
+  --bs-tooltip-color: var(--background-color);
+  --bs-tooltip-opacity: 0.95;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .article-header h1 {
@@ -767,18 +794,18 @@ code,
 
         <div class="article-content">
           <blockquote>
-<p>Picture this: You're debugging an issue that spans your React frontend, Django backend, and Terraform infrastructure. Three terminal windows. Three different repos. Three different contexts. By the time you trace the bug from UI to API to database, you've lost half your morning just to context switching.</p>
+<p>Picture this: You're debugging an issue that spans your React frontend, Django backend, and Terraform infrastructure. Three terminal windows. Three different repos. Three different contexts. By the time you trace the bug from <abbr title="User Interface">UI</abbr> to <abbr title="Application Programming Interface">API</abbr> to database, you've lost half your morning just to context switching.</p>
 </blockquote>
-<p>We solved this at Diversio. The solution made both humans and AI 10x more effective with our codebase.</p>
+<p>We solved this at Diversio. The solution made both humans and <abbr title="Artificial Intelligence">AI</abbr> 10x more effective with our codebase.</p>
 <hr>
 <h2 id="table-of-contents"><a class="toclink" href="#table-of-contents">Table of Contents</a></h2>
 <ol>
 <li><a href="#what-youll-learn">What you'll learn</a></li>
 <li><a href="#the-problem-we-were-facing">The Problem We Were Facing</a></li>
 <li><a href="#our-solution-git-submodules-done-right">Our Solution: Git Submodules Done Right</a></li>
-<li><a href="#the-ai-advantage">The AI Advantage</a></li>
+<li><a href="#the-ai-advantage">The <abbr title="Artificial Intelligence">AI</abbr> Advantage</a></li>
 <li><a href="#advanced-implementation">Advanced Implementation</a></li>
-<li><a href="#mcp-integration-and-team-benefits">MCP Integration and Team Benefits</a></li>
+<li><a href="#mcp-integration-and-team-benefits"><abbr title="Model Context Protocol">MCP</abbr> Integration and Team Benefits</a></li>
 <li><a href="#the-technical-details">The Technical Details</a></li>
 <li><a href="#implementation-strategy">Implementation Strategy</a></li>
 <li><a href="#the-bottom-line">The Bottom Line</a></li>
@@ -790,7 +817,7 @@ code,
 <li><strong>Master git worktrees</strong> for parallel development without context switching  </li>
 <li><strong>Automate worktree creation</strong> with our Python scripts (links included!)</li>
 <li><strong>Reduce context switching</strong> by 90% and watch productivity soar</li>
-<li><strong>Supercharge AI tools</strong> with complete codebase context—making them actually useful</li>
+<li><strong>Supercharge <abbr title="Artificial Intelligence">AI</abbr> tools</strong> with complete codebase context—making them actually useful</li>
 <li><strong>Implement immediately</strong> with practical tips and working code</li>
 </ul>
 <p>If you're tired of juggling multiple repos and losing context between features, this guide shows you exactly how we solved it. If you're already using git submodules, you'll learn how to level up with worktrees and automation.</p>
@@ -803,7 +830,7 @@ code,
 <li>Jump between directories constantly  </li>
 <li>Lose context when debugging cross-service issues</li>
 </ul>
-<p>But here's the real kicker. AI tools like Claude Code couldn't see our full system. They'd suggest fixes that made sense for one service but broke two others. They had fragments, not the full picture.</p>
+<p>But here's the real kicker. <abbr title="Artificial Intelligence">AI</abbr> tools like Claude Code couldn't see our full system. They'd suggest fixes that made sense for one service but broke two others. They had fragments, not the full picture.</p>
 <h2 id="our-solution-git-submodules-done-right"><a class="toclink" href="#our-solution-git-submodules-done-right">Our Solution: Git Submodules Done Right</a></h2>
 <p>We built a monolith using git submodules that gives us the best of both worlds:</p>
 <div class="highlight"><pre><span></span><code>diversio-monolith/
@@ -819,25 +846,25 @@ code,
 
 <p>Each directory is its own git repository. But they all live in one workspace. One clone gets you everything.</p>
 <h3 id="from-days-to-hours"><a class="toclink" href="#from-days-to-hours">From Days to Hours</a></h3>
-<p>Our product manager <a href="https://www.linkedin.com/in/samuel-bonin/">Sam</a> now redesigns features in hours, not days. He pulls the latest code, runs migrations, and has AI analyze our Bruno API collections. Remember when we <a href="https://ashwch.com/from-postman-to-bruno-how-ai-changed-our-api-workflow.html">migrated from Postman to Bruno</a>? That decision pays huge dividends in a monolith.</p>
+<p>Our product manager <a href="https://www.linkedin.com/in/samuel-bonin/">Sam</a> now redesigns features in hours, not days. He pulls the latest code, runs migrations, and has <abbr title="Artificial Intelligence">AI</abbr> analyze our Bruno <abbr title="Application Programming Interface">API</abbr> collections. Remember when we <a href="https://ashwch.com/from-postman-to-bruno-how-ai-changed-our-api-workflow.html">migrated from Postman to Bruno</a>? That decision pays huge dividends in a monolith.</p>
 <p>The workflow looks like this:</p>
 <ol>
 <li>Pull latest commits across all services</li>
 <li>Run migrations with full database context</li>
-<li>AI reads organized API documentation</li>
+<li><abbr title="Artificial Intelligence">AI</abbr> reads organized <abbr title="Application Programming Interface">API</abbr> documentation</li>
 <li>Create comprehensive designs with complete system understanding</li>
 <li>Implement changes knowing exactly what will be affected</li>
 </ol>
 <p>What used to take hours of repository hopping now happens in a single flow.</p>
-<h2 id="the-ai-advantage"><a class="toclink" href="#the-ai-advantage">The AI Advantage</a></h2>
-<p>Here's where it gets interesting. By giving AI tools complete system context, we unlocked capabilities that were impossible before:</p>
+<h2 id="the-ai-advantage"><a class="toclink" href="#the-ai-advantage">The <abbr title="Artificial Intelligence">AI</abbr> Advantage</a></h2>
+<p>Here's where it gets interesting. By giving <abbr title="Artificial Intelligence">AI</abbr> tools complete system context, we unlocked capabilities that were impossible before:</p>
 <ul>
-<li><strong>Cross-repository analysis</strong>: Claude Code traces API calls from frontend to backend to infrastructure</li>
+<li><strong>Cross-repository analysis</strong>: Claude Code traces <abbr title="Application Programming Interface">API</abbr> calls from frontend to backend to infrastructure</li>
 <li><strong>Better architectural decisions</strong>: Suggestions consider the entire stack</li>
 <li><strong>System-wide debugging</strong>: Issues that span services become traceable</li>
 <li><strong>Smarter refactoring</strong>: Changes account for all dependencies</li>
 </ul>
-<p>The AI isn't guessing anymore. It knows.</p>
+<p>The <abbr title="Artificial Intelligence">AI</abbr> isn't guessing anymore. It knows.</p>
 <h2 id="advanced-implementation"><a class="toclink" href="#advanced-implementation">Advanced Implementation</a></h2>
 <h3 id="git-worktrees-the-secret-sauce"><a class="toclink" href="#git-worktrees-the-secret-sauce">Git Worktrees: The Secret Sauce</a></h3>
 <p>The real magic happens with git worktrees. Instead of switching branches and losing context, we work on multiple features simultaneously:</p>
@@ -859,12 +886,12 @@ uv<span class="w"> </span>run<span class="w"> </span>scripts/create_worktree.py
 <li><a href="https://gist.github.com/ashwch/909ea473250e8c8a937a8a4aa4a4dc72"><strong>update_submodules.py</strong></a> - Automated submodule updater with branch configuration</li>
 </ul>
 <p>Each developer can have multiple features in progress, each in its own directory, with full system context preserved.</p>
-<h3 id="custom-ai-agents-specialized-tools-for-every-task"><a class="toclink" href="#custom-ai-agents-specialized-tools-for-every-task">Custom AI Agents: Specialized Tools for Every Task</a></h3>
+<h3 id="custom-ai-agents-specialized-tools-for-every-task"><a class="toclink" href="#custom-ai-agents-specialized-tools-for-every-task">Custom <abbr title="Artificial Intelligence">AI</abbr> Agents: Specialized Tools for Every Task</a></h3>
 <p>We built specialized Claude Code agents that understand our codebase deeply:</p>
 <ul>
-<li><strong>Frontend PR Specialist</strong>: Analyzes React/TypeScript changes with component architecture visualizations</li>
-<li><strong>Backend PR Specialist</strong>: Reviews Django changes with database schema analysis</li>
-<li><strong>Infrastructure PR Specialist</strong>: Validates Terraform changes with cost and security impact assessments  </li>
+<li><strong>Frontend <abbr title="Pull Request">PR</abbr> Specialist</strong>: Analyzes React/TypeScript changes with component architecture visualizations</li>
+<li><strong>Backend <abbr title="Pull Request">PR</abbr> Specialist</strong>: Reviews Django changes with database schema analysis</li>
+<li><strong>Infrastructure <abbr title="Pull Request">PR</abbr> Specialist</strong>: Validates Terraform changes with cost and security impact assessments  </li>
 <li><strong>Integration Specialist</strong>: Traces data flows across frontend, backend, and infrastructure</li>
 <li><strong>Data Migration Specialist</strong>: Handles complex data transformations and migrations</li>
 <li><strong>Testing Automation Specialist</strong>: Writes comprehensive test suites following our patterns</li>
@@ -875,30 +902,30 @@ uv<span class="w"> </span>run<span class="w"> </span>scripts/create_worktree.py
 <li><strong>Subagent Creator</strong>: Designs new focused agents with clear boundaries</li>
 <li><strong>Subagent Reviewer</strong>: Reviews and optimizes agent definitions to prevent overlaps</li>
 </ul>
-<p>These meta agents save hours when adding or updating agents. No more manual agent configuration. The AI helps manage the AI.</p>
+<p>These meta agents save hours when adding or updating agents. No more manual agent configuration. The <abbr title="Artificial Intelligence">AI</abbr> helps manage the <abbr title="Artificial Intelligence">AI</abbr>.</p>
 <p>The best part? These agents are shared across the entire team through the monolith. When one engineer creates an agent, everyone benefits immediately.</p>
-<h2 id="mcp-integration-and-team-benefits"><a class="toclink" href="#mcp-integration-and-team-benefits">MCP Integration and Team Benefits</a></h2>
-<p>We integrated Model Context Protocol (MCP) servers that give Claude Code direct access to:</p>
+<h2 id="mcp-integration-and-team-benefits"><a class="toclink" href="#mcp-integration-and-team-benefits"><abbr title="Model Context Protocol">MCP</abbr> Integration and Team Benefits</a></h2>
+<p>We integrated Model Context Protocol (<abbr title="Model Context Protocol">MCP</abbr>) servers that give Claude Code direct access to:</p>
 <ul>
 <li><strong>CircleCI</strong>: Build status, test results, deployment logs</li>
 <li><strong>Context7</strong>: Up-to-date documentation for any library</li>
-<li><strong>Gemini AI</strong>: Research and code analysis</li>
+<li><strong>Gemini <abbr title="Artificial Intelligence">AI</abbr></strong>: Research and code analysis</li>
 <li><strong>Playwright</strong>: Browser automation for testing</li>
 </ul>
-<p>These integrations work seamlessly across the entire monolith, giving AI unprecedented visibility into our development pipeline.</p>
+<p>These integrations work seamlessly across the entire monolith, giving <abbr title="Artificial Intelligence">AI</abbr> unprecedented visibility into our development pipeline.</p>
 <h3 id="benefits-across-the-team"><a class="toclink" href="#benefits-across-the-team">Benefits Across the Team</a></h3>
-<p><strong>Product Managers</strong> get complete system visibility for rapid prototyping. API documentation and database schemas always accessible.</p>
+<p><strong>Product Managers</strong> get complete system visibility for rapid prototyping. <abbr title="Application Programming Interface">API</abbr> documentation and database schemas always accessible.</p>
 <p><strong>New Engineers</strong> get a single command setup. Clone one repo, get everything with working examples.</p>
 <p><strong>Senior Engineers</strong> can do system-wide refactoring. Make changes across repos with full context.</p>
-<p><strong>AI Tools</strong> get complete codebase analysis. Suggestions that actually work.</p>
-<p><strong>DevOps teams</strong> see infrastructure definitions alongside the code they deploy.</p>
+<p><strong><abbr title="Artificial Intelligence">AI</abbr> Tools</strong> get complete codebase analysis. Suggestions that actually work.</p>
+<p><strong><abbr title="Development and Operations">DevOps</abbr> teams</strong> see infrastructure definitions alongside the code they deploy.</p>
 <h2 id="the-technical-details"><a class="toclink" href="#the-technical-details">The Technical Details</a></h2>
 <p><strong>Submodule Management</strong>: Each submodule points to a specific commit. Changes need commits in both the submodule and the monolith. This preserves atomicity while enabling coordination.</p>
-<p><strong>Branch Independence</strong>: Work on different branches in each submodule simultaneously. Perfect for features that need coordinated changes. And crucially, pull requests still go to individual repositories, maintaining our existing review processes and CI/CD pipelines.</p>
+<p><strong>Branch Independence</strong>: Work on different branches in each submodule simultaneously. Perfect for features that need coordinated changes. And crucially, pull requests still go to individual repositories, maintaining our existing review processes and <abbr title="Continuous Integration">CI</abbr>/<abbr title="Continuous Deployment">CD</abbr> pipelines.</p>
 <p><strong>Automated Tooling</strong>: Our Python scripts handle branch management, worktree creation, and submodule updates. No manual coordination needed.</p>
-<p><strong>API Documentation as Code</strong>: Bruno's file-based approach means API collections live with the code they test. They're discoverable, version-controlled, and immediately accessible to both humans and AI. The AI can read, understand, and even suggest API changes based on the actual implementation.</p>
+<p><strong><abbr title="Application Programming Interface">API</abbr> Documentation as Code</strong>: Bruno's file-based approach means <abbr title="Application Programming Interface">API</abbr> collections live with the code they test. They're discoverable, version-controlled, and immediately accessible to both humans and <abbr title="Artificial Intelligence">AI</abbr>. The <abbr title="Artificial Intelligence">AI</abbr> can read, understand, and even suggest <abbr title="Application Programming Interface">API</abbr> changes based on the actual implementation.</p>
 <h2 id="implementation-strategy"><a class="toclink" href="#implementation-strategy">Implementation Strategy</a></h2>
-<p>AI tools are becoming primary development partners. But these tools are only as good as the context you give them. By structuring our codebase for maximum AI comprehension, we created an environment where both humans and AI work at their full potential.</p>
+<p><abbr title="Artificial Intelligence">AI</abbr> tools are becoming primary development partners. But these tools are only as good as the context you give them. By structuring our codebase for maximum <abbr title="Artificial Intelligence">AI</abbr> comprehension, we created an environment where both humans and <abbr title="Artificial Intelligence">AI</abbr> work at their full potential.</p>
 <p>The results: 10x faster feature development, 90% fewer integration bugs, and architectural decisions that consider the full system impact.</p>
 <h3 id="getting-started"><a class="toclink" href="#getting-started">Getting Started</a></h3>
 <p>If you're working with multiple related repositories, you can implement this:</p>
@@ -906,14 +933,14 @@ uv<span class="w"> </span>run<span class="w"> </span>scripts/create_worktree.py
 <li>Create a monolith repository</li>
 <li>Add existing repos as git submodules</li>
 <li>Build automation scripts for common workflows</li>
-<li>Configure MCP servers for your tools</li>
+<li>Configure <abbr title="Model Context Protocol">MCP</abbr> servers for your tools</li>
 <li>Train your team on git worktrees</li>
-<li>Move API documentation to file-based tools like Bruno</li>
+<li>Move <abbr title="Application Programming Interface">API</abbr> documentation to file-based tools like Bruno</li>
 </ol>
-<p>The investment pays off immediately. No more context switching, better AI assistance, and a development experience that scales with complexity.</p>
+<p>The investment pays off immediately. No more context switching, better <abbr title="Artificial Intelligence">AI</abbr> assistance, and a development experience that scales with complexity.</p>
 <h2 id="the-bottom-line"><a class="toclink" href="#the-bottom-line">The Bottom Line</a></h2>
 <p>This isn't just about tooling. It's about creating an environment where high-quality work happens quickly and naturally.</p>
-<p>When your product managers can redesign systems confidently, your engineers can refactor safely across services, and your AI tools provide system-aware suggestions, you've built more than a development environment.</p>
+<p>When your product managers can redesign systems confidently, your engineers can refactor safely across services, and your <abbr title="Artificial Intelligence">AI</abbr> tools provide system-aware suggestions, you've built more than a development environment.</p>
 <p>You've built a competitive advantage.</p>
 <hr>
 <p>Want to dive deeper into Git worktrees? Check out my comprehensive guide: <a href="https://gist.github.com/ashwch/946ad983977c9107db7ee9abafeb95bd">Git Worktrees: From Zero to Hero</a>. It covers everything from first principles to advanced workflows with submodules.</p>
@@ -1111,6 +1138,34 @@ div.input_area {
     padding: 0.3rem;
   }
 }</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var content = document.querySelector('.article-content');
+  if (!content) return;
+
+  var seen = {};
+  var abbrs = content.querySelectorAll('abbr[title]');
+
+  abbrs.forEach(function (abbr) {
+    var key = abbr.textContent.trim();
+    // Skip abbreviations inside headings
+    if (abbr.closest('h1, h2, h3, h4, h5, h6')) return;
+    if (!seen[key]) {
+      seen[key] = true;
+      abbr.classList.add('abbr-first');
+    }
+  });
+
+  var firstAbbrs = content.querySelectorAll('abbr.abbr-first');
+  firstAbbrs.forEach(function (el) {
+    new bootstrap.Tooltip(el, {
+      delay: { show: 300, hide: 0 },
+      trigger: 'hover focus'
+    });
+  });
+});
+</script>
         </main>
 
         <footer class="site-footer mt-5 py-4 bg-light">

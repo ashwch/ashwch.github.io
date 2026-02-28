@@ -695,6 +695,33 @@ code,
   background-color: var(--background-color) !important;
 }
 
+/* Abbreviation tooltips */
+abbr {
+  text-decoration: none;
+  border-bottom: none;
+}
+
+.article-content abbr.abbr-first {
+  border-bottom: 1px dotted var(--text-light);
+  cursor: help;
+  transition: border-color 0.2s ease;
+}
+
+.article-content abbr.abbr-first:hover {
+  border-bottom-color: var(--primary-color);
+}
+
+h1 abbr, h2 abbr, h3 abbr, h4 abbr, h5 abbr, h6 abbr {
+  border-bottom: none !important;
+  cursor: inherit !important;
+}
+
+.tooltip {
+  --bs-tooltip-bg: var(--text-color);
+  --bs-tooltip-color: var(--background-color);
+  --bs-tooltip-opacity: 0.95;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .article-header h1 {
@@ -767,7 +794,7 @@ code,
 
         <div class="article-content">
           <blockquote>
-<p>We moved our entire Postman collection to Bruno over a weekend and let Claude Code chew on the new files by Monday morning. By lunchtime, API docs were writing themselves.</p>
+<p>We moved our entire Postman collection to Bruno over a weekend and let Claude Code chew on the new files by Monday morning. By lunchtime, <abbr title="Application Programming Interface">API</abbr> docs were writing themselves.</p>
 </blockquote>
 <hr>
 <h2 id="table-of-contents"><a class="toclink" href="#table-of-contents">Table of Contents</a></h2>
@@ -777,7 +804,7 @@ code,
 <li><a href="#migration-basics">Migration basics</a></li>
 <li><a href="#scripts-that-saved-us-hours">Scripts that saved us hours</a></li>
 <li><a href="#common-migration-patterns">Common Migration Patterns</a></li>
-<li><a href="#the-ai-integration-revolution">The AI Integration Revolution</a></li>
+<li><a href="#the-ai-integration-revolution">The <abbr title="Artificial Intelligence">AI</abbr> Integration Revolution</a></li>
 <li><a href="#the-unexpected-benefits">The Unexpected Benefits</a></li>
 <li><a href="#getting-your-team-started">Getting Your Team Started</a></li>
 <li><a href="#what-this-means-for-engineering-teams">What This Means for Engineering Teams</a></li>
@@ -787,23 +814,23 @@ code,
 <ul>
 <li><strong>Migrate</strong> a Postman collection (requests <em>and</em> environments) to Bruno in a few hours.</li>
 <li><strong>Keep docs in‑lockstep</strong> with your codebase; no more stale Postman descriptions.</li>
-<li><strong>Let AI write the boring bits:</strong> type <code>/bruno-api path/to/request.bru</code> and get ready‑to‑ship docs, TypeScript types, and React Query hooks.</li>
+<li><strong>Let <abbr title="Artificial Intelligence">AI</abbr> write the boring bits:</strong> type <code>/bruno-api path/to/request.bru</code> and get ready‑to‑ship docs, TypeScript types, and React Query hooks.</li>
 <li><strong>Catch breaking changes at review time,</strong> not after deploy night.</li>
 </ul>
-<p>If you're exploring AI‑first tooling and looking to streamline your API workflow, this guide walks you through our practical migration step‑by‑step. If you're already using Bruno, you'll learn how to help improve your existing workflow further using AI.</p>
+<p>If you're exploring <abbr title="Artificial Intelligence">AI</abbr>‑first tooling and looking to streamline your <abbr title="Application Programming Interface">API</abbr> workflow, this guide walks you through our practical migration step‑by‑step. If you're already using Bruno, you'll learn how to help improve your existing workflow further using <abbr title="Artificial Intelligence">AI</abbr>.</p>
 <hr>
 <h2 id="why-we-relied-on-postman-for-so-long-where-it-falls-short"><a class="toclink" href="#why-we-relied-on-postman-for-so-long-where-it-falls-short">Why we relied on Postman for so long &amp; where it falls short</a></h2>
-<p>At <a href="https://diversio.com/">Diversio</a>, Postman had been our all‑purpose API toolkit since the company's first endpoint shipped in 2018. Every engineer has owned a collection or three; shared environments lived in the cloud; QA and PMs could fire requests without touching the codebase.</p>
+<p>At <a href="https://diversio.com/">Diversio</a>, Postman had been our all‑purpose <abbr title="Application Programming Interface">API</abbr> toolkit since the company's first endpoint shipped in 2018. Every engineer has owned a collection or three; shared environments lived in the cloud; <abbr title="Quality Assurance">QA</abbr> and PMs could fire requests without touching the codebase.</p>
 <p><strong>Why Postman Works for Us (So Far)</strong></p>
 <ul>
 <li>
 <p><em>Scriptable</em>: Pre‑request scripts spun up test users, refreshed auth tokens, and handled auth with a single click.</p>
 </li>
 <li>
-<p><em>Variable templating</em>: <code>{{base_url}}</code>, <code>{{auth_token}}</code>, and other vars kept requests DRY across local and cloud setups.</p>
+<p><em>Variable templating</em>: <code>{{base_url}}</code>, <code>{{auth_token}}</code>, and other vars kept requests <abbr title="Don't Repeat Yourself">DRY</abbr> across local and cloud setups.</p>
 </li>
 <li>
-<p><em>Chained workflows</em>: Scripts set environment variables that downstream requests consumed, so multi‑step API flows ran end‑to‑end without anyone hand‑editing the shared collection.</p>
+<p><em>Chained workflows</em>: Scripts set environment variables that downstream requests consumed, so multi‑step <abbr title="Application Programming Interface">API</abbr> flows ran end‑to‑end without anyone hand‑editing the shared collection.</p>
 </li>
 <li>
 <p><em>Performance‑testing ready</em>: The same collections powered our performance tests, giving us baseline latency numbers without duplicating effort.</p>
@@ -816,23 +843,23 @@ code,
 </li>
 </ul>
 <h3 id="why-it-started-to-hurt"><a class="toclink" href="#why-it-started-to-hurt">Why it started to hurt</a></h3>
-<p>As our API surface has increased and now we are working on more and more features at once(thanks to agentic coding), the workflow that once felt effortless began eating hours and hurting our productivity.</p>
+<p>As our <abbr title="Application Programming Interface">API</abbr> surface has increased and now we are working on more and more features at once(thanks to agentic coding), the workflow that once felt effortless began eating hours and hurting our productivity.</p>
 <ul>
 <li>
 <p><strong>Manual sync tax</strong> – Every new endpoint meant combing through multiple collections to wire up scripts, tests, and examples by hand.</p>
 </li>
 <li>
-<p><strong>Docs drift</strong> – Descriptions hid in Postman's UI; unless someone remembered to update them, they slipped out of date.</p>
+<p><strong>Docs drift</strong> – Descriptions hid in Postman's <abbr title="User Interface">UI</abbr>; unless someone remembered to update them, they slipped out of date.</p>
 </li>
 <li>
 <p><strong>Invisible breaking changes</strong> – Because collections lived in Postman's cloud, reviewers never saw contract updates during code review.</p>
 </li>
 <li>
-<p><strong>Meeting creep</strong> – We still ended up on calls to reconcile mismatched examples and edge‑case behaviours. A lot of time spent in huddles and stand-ups discussing APIs that we couldn't document well inside of Postman.</p>
+<p><strong>Meeting creep</strong> – We still ended up on calls to reconcile mismatched examples and edge‑case behaviours. A lot of time spent in huddles and stand-ups discussing <abbr title="Application Programming Interfaces">APIs</abbr> that we couldn't document well inside of Postman.</p>
 </li>
 </ul>
-<p>Postman still <em>works</em> but it has just slowed us down. Any change meant updating code <em>and</em> a JSON export no one liked opening. That lag became the bottleneck.</p>
-<p><a href="https://www.usebruno.com/">Bruno</a>'s Git‑friendly plain‑text format, and its ability to embed full Markdown docs, looked like a way out. The best part? AI agents can read <code>.bru</code> files like normal code, so automation suddenly became trivial and APIs are now part of our codebase and included in diffs during code reviews.</p>
+<p>Postman still <em>works</em> but it has just slowed us down. Any change meant updating code <em>and</em> a <abbr title="JavaScript Object Notation">JSON</abbr> export no one liked opening. That lag became the bottleneck.</p>
+<p><a href="https://www.usebruno.com/">Bruno</a>'s Git‑friendly plain‑text format, and its ability to embed full Markdown docs, looked like a way out. The best part? <abbr title="Artificial Intelligence">AI</abbr> agents can read <code>.bru</code> files like normal code, so automation suddenly became trivial and <abbr title="Application Programming Interfaces">APIs</abbr> are now part of our codebase and included in diffs during code reviews.</p>
 <h2 id="migration-basics"><a class="toclink" href="#migration-basics">Migration basics</a></h2>
 <h3 id="1-script-syntax"><a class="toclink" href="#1-script-syntax">1. Script syntax</a></h3>
 <div class="highlight"><pre><span></span><code><span class="c1">// Postman</span>
@@ -878,9 +905,9 @@ code,
 <span class="err">}</span>
 </code></pre></div>
 
-<p>Rich tables, code fences, emojis etc can be included. Because it's Markdown, Claude Code and other AI tools parse it effortlessly.</p>
+<p>Rich tables, code fences, emojis etc can be included. Because it's Markdown, Claude Code and other <abbr title="Artificial Intelligence">AI</abbr> tools parse it effortlessly.</p>
 <h3 id="5-organizing-your-bruno-collections"><a class="toclink" href="#5-organizing-your-bruno-collections">5. Organizing your Bruno collections</a></h3>
-<p>After migration, we organized our Bruno files by feature rather than by API version. Here's our structure:</p>
+<p>After migration, we organized our Bruno files by feature rather than by <abbr title="Application Programming Interface">API</abbr> version. Here's our structure:</p>
 <div class="highlight"><pre><span></span><code>bruno/
 ├── .env                  # Local secrets (git-ignored)
 ├── .env.example          # Template for team members
@@ -920,7 +947,7 @@ code,
 <p>Each <code>.bru</code> file can include documentation, pre/post scripts, and environment variable references. This structure makes it easy to:</p>
 <ul>
 <li>Find related endpoints quickly</li>
-<li>Review API changes in PRs</li>
+<li>Review <abbr title="Application Programming Interface">API</abbr> changes in <abbr title="Pull Requests">PRs</abbr></li>
 <li>Generate documentation by feature area</li>
 <li>Manage permissions at the folder level</li>
 <li>Keep sensitive data out of version control</li>
@@ -1016,7 +1043,7 @@ sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;s/jso
 <span class="p">});</span>
 </code></pre></div>
 
-<h2 id="the-ai-integration-revolution"><a class="toclink" href="#the-ai-integration-revolution">The AI Integration Revolution</a></h2>
+<h2 id="the-ai-integration-revolution"><a class="toclink" href="#the-ai-integration-revolution">The <abbr title="Artificial Intelligence">AI</abbr> Integration Revolution</a></h2>
 <p>Here's where things get exciting. I created a custom Claude <a href="https://docs.anthropic.com/en/docs/claude-code/slash-commands">slash command</a> that analyzes our Bruno files and generates comprehensive documentation by inspecting our Django codebase.</p>
 <h3 id="the-bruno-api-command"><a class="toclink" href="#the-bruno-api-command">The <code>/bruno-api</code> Command</a></h3>
 <p>Instead of maintaining documentation scripts, we taught Claude to understand our codebase. Here's how the actual command works:</p>
@@ -1072,7 +1099,7 @@ When the user types `/bruno-api [bruno-file-path]`, you will:
 7. Generate complete, accurate documentation
 </code></pre></div>
 
-<p><strong>The magic</strong>: This is more than just brittle script parsing AST. Claude Code understands our code semantically, follows imports, and comprehends business logic and can inspect multiple aspects of an API.</p>
+<p><strong>The magic</strong>: This is more than just brittle script parsing AST. Claude Code understands our code semantically, follows imports, and comprehends business logic and can inspect multiple aspects of an <abbr title="Application Programming Interface">API</abbr>.</p>
 <h3 id="real-example-output"><a class="toclink" href="#real-example-output">Real Example Output</a></h3>
 <p><strong>Input:</strong> Simple Bruno file from Postman migration - <a href="https://gist.github.com/ashwch/2a9d05024ac43479782092acbd4eae8f">see this basic file</a> (just endpoint + auth)</p>
 <p><strong>Command:</strong> <code>/bruno-api bruno/analytics/user_metrics.bru</code></p>
@@ -1119,7 +1146,7 @@ When the user types `/bruno-api [bruno-file-path]`, you will:
 
 <p><strong>This is just a fraction of the output.</strong> <a href="https://gist.github.com/ashwch/65dc35b651c989355bb924b5bfb09bd8">See the complete generated documentation</a> which includes:</p>
 <ul>
-<li>Complete API documentation with request/response examples</li>
+<li>Complete <abbr title="Application Programming Interface">API</abbr> documentation with request/response examples</li>
 <li>Comprehensive error handling for all status codes</li>
 <li>Authentication and permission requirements</li>
 <li>TypeScript interfaces for all data structures</li>
@@ -1138,8 +1165,8 @@ When the user types `/bruno-api [bruno-file-path]`, you will:
 <li><strong>FastAPI</strong>: Extract Pydantic models, dependencies</li>
 </ul>
 <h2 id="the-unexpected-benefits"><a class="toclink" href="#the-unexpected-benefits">The Unexpected Benefits</a></h2>
-<h3 id="1-code-reviews-for-api-changes"><a class="toclink" href="#1-code-reviews-for-api-changes">1. Code Reviews for API Changes</a></h3>
-<p>When someone changes an API, reviewers can see it in the PR:</p>
+<h3 id="1-code-reviews-for-api-changes"><a class="toclink" href="#1-code-reviews-for-api-changes">1. Code Reviews for <abbr title="Application Programming Interface">API</abbr> Changes</a></h3>
+<p>When someone changes an <abbr title="Application Programming Interface">API</abbr>, reviewers can see it in the <abbr title="Pull Request">PR</abbr>:</p>
 <div class="highlight"><pre><span></span><code>git diff api/users/create.bru
 
 <span class="gi">+ body:json {</span>
@@ -1152,26 +1179,26 @@ When the user types `/bruno-api [bruno-file-path]`, you will:
 </code></pre></div>
 
 <p>Breaking changes are caught before deployment, not after.</p>
-<h3 id="2-ai-powered-api-discovery"><a class="toclink" href="#2-ai-powered-api-discovery">2. AI-Powered API Discovery</a></h3>
+<h3 id="2-ai-powered-api-discovery"><a class="toclink" href="#2-ai-powered-api-discovery">2. <abbr title="Artificial Intelligence">AI</abbr>-Powered <abbr title="Application Programming Interface">API</abbr> Discovery</a></h3>
 <p>New and existing team members can ask:
 - "Show me all endpoints that return user data"
 - "How do I paginate through results?"
 - "Generate TypeScript types for the profile endpoint"</p>
 <p>Claude reads your Bruno collections and provides accurate answers and vice-versa.</p>
 <h3 id="3-documentation-that-stays-fresh"><a class="toclink" href="#3-documentation-that-stays-fresh">3. Documentation That Stays Fresh</a></h3>
-<p>Since docs live with code, they're more likely to stay updated. We are working on a pre-commit hook that is going to remind developers to update Bruno files when an API related change is made.</p>
+<p>Since docs live with code, they're more likely to stay updated. We are working on a pre-commit hook that is going to remind developers to update Bruno files when an <abbr title="Application Programming Interface">API</abbr> related change is made.</p>
 <h2 id="getting-your-team-started"><a class="toclink" href="#getting-your-team-started">Getting Your Team Started</a></h2>
 <h3 id="start-small-move-fast"><a class="toclink" href="#start-small-move-fast">Start Small, Move Fast</a></h3>
 <p>We did our entire migration over a weekend, and you can too. Here's what worked for us:</p>
 <ol>
 <li><strong>Pick your proof of concept</strong> - Choose one well-used Postman collection</li>
 <li><strong>Run the migration scripts</strong> - Use the Python converters linked above</li>
-<li><strong>Set up your first AI command</strong> - Start with our <code>/bruno-api</code> template</li>
+<li><strong>Set up your first <abbr title="Artificial Intelligence">AI</abbr> command</strong> - Start with our <code>/bruno-api</code> template</li>
 <li><strong>Show, don't tell</strong> - Generate docs for one endpoint and share with the team</li>
 </ol>
 <h3 id="the-aha-moment"><a class="toclink" href="#the-aha-moment">The Aha Moment</a></h3>
 <p>The real buy-in happens when developers see:
-- Their API changes appearing in PR diffs
+- Their <abbr title="Application Programming Interface">API</abbr> changes appearing in <abbr title="Pull Request">PR</abbr> diffs
 - Claude Code generating accurate TypeScript interfaces
 - Documentation that actually matches the code
 - No more "update Postman" tickets in the backlog</p>
@@ -1179,15 +1206,15 @@ When the user types `/bruno-api [bruno-file-path]`, you will:
 <ul>
 <li><strong>Today</strong>: <a href="https://learning.postman.com/docs/getting-started/importing-and-exporting/exporting-data/">Export one Postman collection</a>, import to Bruno</li>
 <li><strong>Tomorrow</strong>: Create your first custom Claude command</li>
-<li><strong>This Week</strong>: Add <code>.bru</code> files to your repo and update PR templates</li>
+<li><strong>This Week</strong>: Add <code>.bru</code> files to your repo and update <abbr title="Pull Request">PR</abbr> templates</li>
 <li><strong>Next Sprint</strong>: Deprecate Postman licenses and celebrate the cost savings</li>
 </ul>
 <h3 id="common-questions-we-heard"><a class="toclink" href="#common-questions-we-heard">Common Questions We Heard</a></h3>
 <ul>
-<li>"Can QA still use it?" → Yes, Bruno has a UI too (and it's free)</li>
+<li>"Can <abbr title="Quality Assurance">QA</abbr> still use it?" → Yes, Bruno has a <abbr title="User Interface">UI</abbr> too (and it's free)</li>
 <li>"What if we need to go back?" → Keep Postman exports for 30 days, but we never looked back</li>
 </ul>
-<h3 id="creating-your-own-ai-commands"><a class="toclink" href="#creating-your-own-ai-commands">Creating Your Own AI Commands</a></h3>
+<h3 id="creating-your-own-ai-commands"><a class="toclink" href="#creating-your-own-ai-commands">Creating Your Own <abbr title="Artificial Intelligence">AI</abbr> Commands</a></h3>
 <p>Here's a complete example you can adapt:</p>
 <div class="highlight"><pre><span></span><code><span class="gh"># .claude/commands/bruno-api.md</span>
 
@@ -1219,16 +1246,16 @@ Use our conventions:
 <span class="k">-</span><span class="w"> </span>Note any side effects (emails, webhooks, etc.)
 </code></pre></div>
 
-<p><strong>Implementation tip</strong>: Start with one endpoint type (e.g., CRUD operations) and expand from there.</p>
+<p><strong>Implementation tip</strong>: Start with one endpoint type (e.g., <abbr title="Create, Read, Update, Delete">CRUD</abbr> operations) and expand from there.</p>
 <h2 id="what-this-means-for-engineering-teams"><a class="toclink" href="#what-this-means-for-engineering-teams">What This Means for Engineering Teams</a></h2>
-<p>The shift from Postman to Bruno in 2025 is really a shift in how we think about API documentation. It's no longer a separate artifact that gets out of sync. It's part of your codebase, reviewed like code, and enhanced by AI.</p>
+<p>The shift from Postman to Bruno in 2025 is really a shift in how we think about <abbr title="Application Programming Interface">API</abbr> documentation. It's no longer a separate artifact that gets out of sync. It's part of your codebase, reviewed like code, and enhanced by <abbr title="Artificial Intelligence">AI</abbr>.</p>
 <h3 id="immediate-benefits-we-measured"><a class="toclink" href="#immediate-benefits-we-measured">Immediate Benefits We Measured</a></h3>
 <ul>
-<li><strong>API documentation time</strong>: Reduced from days to hours</li>
-<li><strong>Documentation quality</strong>: Rich Markdown docs with examples, tables, and diagrams (vs. limited formatting options and inconsistent AI-generated docs in Postman)</li>
-<li><strong>Breaking changes caught</strong>: Significant improvement during code review (from rarely caught to consistently visible in PRs)</li>
+<li><strong><abbr title="Application Programming Interface">API</abbr> documentation time</strong>: Reduced from days to hours</li>
+<li><strong>Documentation quality</strong>: Rich Markdown docs with examples, tables, and diagrams (vs. limited formatting options and inconsistent <abbr title="Artificial Intelligence">AI</abbr>-generated docs in Postman)</li>
+<li><strong>Breaking changes caught</strong>: Significant improvement during code review (from rarely caught to consistently visible in <abbr title="Pull Requests">PRs</abbr>)</li>
 <li><strong>Team participation</strong>: Entire team can now contribute without needing a Postman seat</li>
-<li><strong>Onboarding time</strong>: New engineers integrate APIs faster with self-documenting collections and AI-generated examples</li>
+<li><strong>Onboarding time</strong>: New engineers integrate <abbr title="Application Programming Interfaces">APIs</abbr> faster with self-documenting collections and <abbr title="Artificial Intelligence">AI</abbr>-generated examples</li>
 </ul>
         </div>
 
@@ -1424,6 +1451,34 @@ div.input_area {
     padding: 0.3rem;
   }
 }</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var content = document.querySelector('.article-content');
+  if (!content) return;
+
+  var seen = {};
+  var abbrs = content.querySelectorAll('abbr[title]');
+
+  abbrs.forEach(function (abbr) {
+    var key = abbr.textContent.trim();
+    // Skip abbreviations inside headings
+    if (abbr.closest('h1, h2, h3, h4, h5, h6')) return;
+    if (!seen[key]) {
+      seen[key] = true;
+      abbr.classList.add('abbr-first');
+    }
+  });
+
+  var firstAbbrs = content.querySelectorAll('abbr.abbr-first');
+  firstAbbrs.forEach(function (el) {
+    new bootstrap.Tooltip(el, {
+      delay: { show: 300, hide: 0 },
+      trigger: 'hover focus'
+    });
+  });
+});
+</script>
         </main>
 
         <footer class="site-footer mt-5 py-4 bg-light">
