@@ -54,43 +54,5 @@
 {% include 'ipynb.css' %}
 </style>
 
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-  var content = document.querySelector('.article-content');
-  if (!content) return;
-
-  // Build acronym dictionary from existing <abbr> tags
-  var defined = {};
-  content.querySelectorAll('abbr[title]').forEach(function (abbr) {
-    defined[abbr.textContent.trim()] = abbr.getAttribute('title');
-  });
-
-  // Patch figcaptions: Markdown abbr extension skips raw HTML blocks,
-  // so acronyms inside <figure>/<figcaption> need runtime wrapping.
-  var keys = Object.keys(defined);
-  if (keys.length) {
-    var pattern = new RegExp('\\b(' + keys.map(function (k) {
-      return k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    }).join('|') + ')\\b', 'g');
-
-    content.querySelectorAll('figcaption').forEach(function (fc) {
-      fc.innerHTML = fc.innerHTML.replace(pattern, function (m) {
-        return '<abbr title="' + defined[m] + '">' + m + '</abbr>';
-      });
-    });
-  }
-
-  // Strip tooltip from headings, init Bootstrap tooltips on everything else
-  content.querySelectorAll('abbr[title]').forEach(function (el) {
-    if (el.closest('h1, h2, h3, h4, h5, h6')) {
-      el.removeAttribute('title');
-      return;
-    }
-    new bootstrap.Tooltip(el, {
-      delay: { show: 200, hide: 0 },
-      trigger: 'hover focus'
-    });
-  });
-});
-</script>
+{% include '_includes/abbr_tooltips.html' %}
 {% endblock %}
