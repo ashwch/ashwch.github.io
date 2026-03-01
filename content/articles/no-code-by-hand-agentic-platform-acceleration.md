@@ -22,7 +22,7 @@ That is the hidden queue. It is not on your roadmap, it is not in your sprints, 
 
 Most teams do not ignore this queue on purpose. It just keeps losing in prioritization because each item feels small in isolation. "Fix the flaky test" is never going to beat "Ship the dashboard redesign" in a planning meeting. But those small items compound. A 16-minute CI wait happens 20 times a day across 5 engineers, and that adds up to over 26 hours of dead time per week - time where nobody is building anything or even thinking about the problem, just staring at a spinner.
 
-Late last year, we changed one rule: **if something keeps burning team time, it is roadmap work**. Not "tech debt we'll get to someday." Actual, prioritized, measured roadmap work.
+Late last year, we changed one rule: **if something keeps burning team time, it is roadmap work** - not "tech debt we'll get to someday," but prioritized work with owners and metrics.
 
 In the 90-day window from **December 1, 2025** through **February 28, 2026**, that rule turned into **57 major non-product changesets** across backend, frontend, and monolith tooling repos: **56 major PRs and 1 major direct commit**, touching **1,303 files** with **120,929 additions** and **31,170 deletions**.
 
@@ -82,7 +82,7 @@ With Codex specifically, we use **steer mode** and **queue mode** very tacticall
 
 - **Steer mode for ambiguous work.** Anything that involves architectural decisions, multi-tenant security logic, or unfamiliar parts of the codebase - we steer. Example: when building the admin safety model (the system that prevents admins from locking themselves out), we started Codex in steer mode, pointed it at the permission hierarchy, course-corrected twice when it tried to flatten the role graph, and guided it through the edge cases where a superadmin demotes themselves. The final implementation was clean because we were in the loop at every decision point instead of reviewing a finished mess.
 - **Queue mode for well-scoped, parallelizable work.** When the task is clear and the scope is bounded, queue mode lets us fire off multiple Codex tasks and review them as they land. Example: during the CI migration, we queued separate tasks for each workflow file rewrite - linting pipeline, test matrix, deployment gates - each with its own clean context. Five tasks running in parallel, each one scoped tightly enough that the model did not need steering.
-- **The tactical switch.** We start most sessions in steer mode. If the first few interactions show the model understands the problem and the scope is narrowing, we switch to queue mode and let it run. If it starts drifting, we pull it back to steer. This is not a setting you pick once - it is a judgment call you make every few minutes.
+- **The tactical switch.** We start most sessions in steer mode. If the first few interactions show the model understands the problem and the scope is narrowing, we switch to queue mode and let it run. If it starts drifting, we pull it back to steer. We re-evaluate steer vs queue mode throughout the session based on drift, clarity, and risk.
 
 Picking the right model for the right task - and knowing when to combine them - is itself a skill that takes time to develop, and teams that treat all models as interchangeable are missing most of the value.
 
@@ -94,7 +94,7 @@ Our team has taken this to its logical conclusion: we have pretty much ditched o
 
 None of this means the models write perfect code or replace engineering judgment. What changed is how cheap it became to try something, evaluate it, and try again. When a rewrite takes 20 minutes instead of a day, you can try three approaches and pick the best one. You can afford to be thorough instead of cutting corners because iteration itself got cheap.
 
-That context matters for everything that follows. The hidden queue did not shrink because we worked harder - it shrank because the cost of going after each item dropped by an order of magnitude. So we started with the one system where we could prove it.
+That context matters for everything that follows. The hidden queue shrank because each iteration got about 10x cheaper, so we could clear items that used to stay deferred. So we started with the one system where we could prove it.
 
 ---
 
@@ -263,7 +263,7 @@ None of that would have mattered, though, if the environment running those tests
 
 ## Why two agents could not run at the same time
 
-If you are doing agentic coding seriously, worktrees are not optional - they are the foundation that everything else depends on.
+If you are doing agentic coding seriously, Worktrees are the base layer for agentic coding; without isolated checkouts, parallel execution breaks down.
 
 An AI coding agent needs its own isolated checkout to work in. It cannot share your working directory - it would stomp on your files, your running servers, your local state. Git worktrees solve this cleanly: each worktree is a separate working copy of the repo with its own branch, its own file state, and its own index. You can have an agent working on a refactor in one worktree while you are reviewing a PR in another and a second agent is writing tests in a third.
 
@@ -275,7 +275,7 @@ Every worktree tries to spin up its own local dev environment. Without isolation
 
 - Branch A starts Docker with the default port mapping: `localhost:8000` for the API, `localhost:3000` for the frontend.
 - An agent opens a worktree for Branch B. It also wants `localhost:8000` and `localhost:3000`.
-- Port collision. One of them fails silently or grabs a random port. The agent's frontend is now talking to your backend running different code. Or your server crashes because the port is taken. Either way, someone wastes 20 minutes debugging a problem that is not a bug - it is a port conflict.
+- Port collision. One of them fails silently or grabs a random port. The agent's frontend is now talking to your backend running different code. Or your server crashes because the port is taken. Either way, someone wastes 20 minutes debugging a port-conflict issue that looks like an app bug and burns 20 minutes of debugging.
 - Meanwhile, Branch A's `.env` file says `API_URL=http://localhost:8000`. Branch B's `.env` says the same thing. The frontend in one worktree makes API calls to a server that is running code from a completely different branch.
 
 This blocked the entire agentic workflow. If worktrees are unreliable, agents cannot work in parallel, and the speed advantage you are counting on just collapses.
@@ -291,7 +291,7 @@ The primary checkout behaves exactly like before - same ports, same config, no s
 
 We added root-level wrappers - `just up`, `just down`, `just sync-api-env` - so that starting, stopping, and syncing environment state became a single predictable command regardless of which worktree you are in. The frontend environment file automatically picks up the correct backend URL for whichever worktree is running. An agent can `just up` in its worktree and get a fully working, fully isolated local environment without any human intervention.
 
-This unlocked everything else. Once worktrees were reliable, we could run multiple agents in parallel on different tasks, each with its own branch, its own server, its own test environment. The real speed gain is not one agent working faster - it is three or four agents working at the same time without stepping on each other or on you.
+This unlocked everything else. Once worktrees were reliable, we could run multiple agents in parallel on different tasks, each with its own branch, its own server, its own test environment. Most of the speedup came from running three or four agents in parallel without collisions.
 
 But that speed advantage hits a wall the first time one of those agents needs to run a database snapshot.
 
@@ -327,7 +327,7 @@ After: high-impact actions follow a three-step model. First, **review the impact
 
 ### Support shell workflows
 
-Support shells - the tools your team uses to diagnose and fix customer issues in production - got a significant upgrade. Instead of an engineer manually running queries and eyeballing results, the shell now surfaces relevant context, suggests likely fixes, and handles the common reconciliation patterns automatically. This does not replace engineering judgment. It reduces the time between "customer reported a problem" and "here is what is actually going on."
+Support shells - the tools your team uses to diagnose and fix customer issues in production - got a significant upgrade. Instead of an engineer manually running queries and eyeballing results, the shell now surfaces relevant context, suggests likely fixes, and handles the common reconciliation patterns automatically. The shell keeps engineering judgment in the loop while shortening the path from incident report to root-cause diagnosis.
 
 <figure>
   <img src="{static}/images/articles/no-code-by-hand/ops-safety-surfaces.svg" alt="Grid showing operational surfaces moved from person-dependent choreography to guarded control planes.">
@@ -353,7 +353,7 @@ We replaced that pattern with a **wave-based remediation model**:
   <figcaption>Security moved from reactive interrupts to a layered, wave-based remediation program.</figcaption>
 </figure>
 
-But the security work was not just dependency bumping. In the same window, we also:
+The security work went beyond dependency bumping. In the same window, we also:
 
 - **Hardened CI input handling.** GitHub Actions workflows can receive untrusted input from PR titles, branch names, and commit messages. If those inputs flow unsanitized into shell commands, that is a command injection vulnerability *in your CI pipeline*. We audited and hardened those paths.
 - **Reduced PII exposure in telemetry.** Logging and error tracking payloads were carrying more personally identifiable information than they needed to. We scrubbed those payloads down to what is actually useful for debugging without exposing user data.
@@ -478,8 +478,6 @@ If you take one thing from this post, do not let it be "they wrote less code." W
 
 What changed is where we **spent our attention**.
 
-The repetitive plumbing - CI configuration, test infrastructure, environment wiring, dependency management, snapshot steps - is now cheaper to do. That frees up the team to focus on things that actually need human judgment: where should the system boundaries be, what are the failure modes, how should the control surfaces work, what does good review look like, and how do we make sure the team keeps getting better.
+The repetitive plumbing - CI configuration, test infrastructure, environment wiring, dependency management, snapshot steps - is now cheaper to do. That frees up the team to focus on boundaries, failure modes, control surfaces, and review quality.
 
-That is how you end up with both speed and quality at the same time instead of trading one for the other.
-
-That is what **No Code by Hand** means for me. Not that we stopped writing code, and not that we stopped needing engineers. We built better systems, tighter feedback loops, and started spending our scarcest resource - human attention - on the work that actually deserves it.
+We still write code and still need engineers; we are just spending more of that scarce attention on work that actually needs human judgment.
