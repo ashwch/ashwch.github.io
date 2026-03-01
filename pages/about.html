@@ -832,21 +832,29 @@ h1 abbr, h2 abbr, h3 abbr, h4 abbr, h5 abbr, h6 abbr {
         <div class="article-content">
           <p><strong>Ashwini Chaudhary</strong> (Monty)</p>
 <blockquote>
-<p><abbr title="Chief Technology Officer">CTO</abbr> @ <a href="https://diversio.com/">Diversio</a> | Open-source contributor | Pythonista | Photographer</p>
+<p><abbr title="Chief Technology Officer">CTO</abbr> @ <a href="https://diversio.com/">Diversio</a> | Software Engineer | Photographer</p>
 </blockquote>
 <hr>
-<p>I'm a software engineer and technology leader passionate about building inclusive, data-driven solutions. Currently serving as <abbr title="Chief Technology Officer">CTO</abbr> at <a href="https://diversio.com/">Diversio</a>, I focus on leveraging <abbr title="Artificial Intelligence">AI</abbr> and <abbr title="Large Language Models">LLMs</abbr> to drive innovation.</p>
-<h3 id="what-i-do"><a class="toclink" href="#what-i-do">What I Do</a></h3>
-<ul>
-<li><strong>Lead Engineering Teams</strong> — Technology strategy, architecture, and mentoring</li>
-<li><strong>Open Source</strong> — Active contributor to CPython, mypy, Django ecosystem</li>
-<li><strong>Photography</strong> — Capturing landscapes and wildlife (190M+ views on Unsplash)</li>
-<li><strong>Writing</strong> — Sharing technical insights on this blog</li>
-</ul>
+<p>I build software and lead engineering teams. At <a href="https://diversio.com/">Diversio</a>, we build <abbr title="Artificial Intelligence">AI</abbr>-powered tools for measuring and improving workplace inclusion.</p>
+<p>Before that: <a href="https://www.merklescience.com/">Merkle Science</a>, <a href="https://www.unhaggle.com/">Unhaggle/Motoinsight</a>, <a href="https://www.instamojo.com/">Instamojo</a>, and <a href="https://www.simform.com/">Simform Solutions</a> in Ahmedabad where I started out. Most of my career has been Python, payments, and platform infrastructure.</p>
+<blockquote>
+<p>"All of us who do creative work, we get into it because we have good taste. But there is this gap. For the first couple years you make stuff, it's just not that good. It's trying to be good, it has potential, but it's not. But your taste, the thing that got you into the game, is still killer. And your taste is why your work disappoints you."
+— Ira Glass</p>
+</blockquote>
+<p>There's plenty left to learn, and that's the point.</p>
+<h3 id="stack-overflow"><a class="toclink" href="#stack-overflow">Stack Overflow</a></h3>
+<p>Answered 3,700+ Python questions on <a href="https://stackoverflow.com/users/846892/ashwini-chaudhary">Stack Overflow</a>, the largest Q&amp;A site for programmers (252K reputation, ranked #287 out of ~9 million users), mostly between 2012-2017.</p>
+<h3 id="open-source"><a class="toclink" href="#open-source">Open Source</a></h3>
+<p>Contributed to the Python ecosystem between 2012-2017 - patches and bug reports on <a href="https://github.com/python/cpython">CPython</a>, type stubs for <a href="https://github.com/python/typeshed/pulls?q=is%3Apr+author%3Aashwch+is%3Amerged">typeshed</a> and <a href="https://github.com/python/mypy/pulls?q=is%3Apr+author%3Aashwch+is%3Amerged">mypy</a>, and contributions to <a href="https://github.com/jazzband/django-debug-toolbar">django-debug-toolbar</a>, <a href="https://github.com/pep8speaks/pep8speaks">pep8speaks</a>, <a href="https://github.com/skorokithakis/django-annoying">django-annoying</a>, <a href="https://github.com/pgmpy/pgmpy">pgmpy</a>, and others. Built the Instamojo payment SDKs across Python, PHP, Ruby, Java, and .NET. Coached at <a href="https://djangogirls.org/en/bangalore2/">Django Girls Bangalore</a> in 2017.</p>
+<p>Own projects on <a href="https://github.com/ashwch">GitHub</a>: <a href="https://github.com/ashwch/precommit-vet-lint">precommit-vet-lint</a> (Go), <a href="https://github.com/ashwch/microverse">microverse</a> (Swift), <a href="https://github.com/ashwch/ew">ew</a> (Go), and currently <a href="https://github.com/DiversioTeam/agent-skills-marketplace">agent-skills-marketplace</a> - Claude Code skills and <abbr title="Model Context Protocol">MCP</abbr> plugins.</p>
+<p><img src="https://ghchart.rshah.org/ashwch" alt="ashwch's GitHub contribution chart" style="width:100%; max-width:720px;" /></p>
+<h3 id="photography"><a class="toclink" href="#photography">Photography</a></h3>
+<p>Landscapes and wildlife, shot on a Sony A7III and DJI Mini 3 Pro. <a href="https://unsplash.com/@suicide_chewbacca">207M+ views and 1.2M+ downloads on Unsplash</a>, the largest free photography platform (400K+ contributors), ranking in the top 1000 for both views and downloads.</p>
 <h3 id="beyond-code"><a class="toclink" href="#beyond-code">Beyond Code</a></h3>
 <p>When not coding, you'll find me strategizing in Age of Empires II, supporting Real Madrid, following F1, or exploring new places with my camera.</p>
 <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/4OnJ4u3ReYOXUvwuaA5KwQ?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
 
+<p>I care less about titles and more about steady improvement, good systems, and useful work.</p>
 <hr>
 <p>📧 You can reach me at: monty [dot] sinngh [at] gmail [dot] com</p>
         </div>
@@ -854,7 +862,46 @@ h1 abbr, h2 abbr, h3 abbr, h4 abbr, h5 abbr, h6 abbr {
     </div>
   </div>
 </div>
-        </main>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var content = document.querySelector('.article-content');
+  if (!content) return;
+
+  // Build acronym dictionary from existing <abbr> tags
+  var defined = {};
+  content.querySelectorAll('abbr[title]').forEach(function (abbr) {
+    defined[abbr.textContent.trim()] = abbr.getAttribute('title');
+  });
+
+  // Patch figcaptions: Markdown abbr extension skips raw HTML blocks,
+  // so acronyms inside <figure>/<figcaption> need runtime wrapping.
+  var keys = Object.keys(defined);
+  if (keys.length) {
+    var pattern = new RegExp('\\b(' + keys.map(function (k) {
+      return k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }).join('|') + ')\\b', 'g');
+
+    content.querySelectorAll('figcaption').forEach(function (fc) {
+      fc.innerHTML = fc.innerHTML.replace(pattern, function (m) {
+        return '<abbr title="' + defined[m] + '">' + m + '</abbr>';
+      });
+    });
+  }
+
+  // Strip tooltip from headings, init Bootstrap tooltips on everything else
+  content.querySelectorAll('abbr[title]').forEach(function (el) {
+    if (el.closest('h1, h2, h3, h4, h5, h6')) {
+      el.removeAttribute('title');
+      return;
+    }
+    new bootstrap.Tooltip(el, {
+      delay: { show: 200, hide: 0 },
+      trigger: 'hover focus'
+    });
+  });
+});
+</script>        </main>
 
         <footer class="site-footer mt-5 py-4 bg-light">
             <div class="container text-center">
