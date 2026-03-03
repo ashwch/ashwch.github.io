@@ -1,66 +1,80 @@
 title: Projects
 slug: projects
 
-## Open Source Tools
+I work across developer tooling, AI workflows, and platform engineering.
+Here are the projects I actively maintain or contribute to.
+
+## Current Projects
 
 ### [Microverse](https://microverse.ashwch.com/)
-A macOS system monitoring application that provides elegant desktop widgets and comprehensive system performance tracking. Transform your Mac into a comprehensive system intelligence hub with minimal resource impact.
+macOS system monitoring with desktop widgets and low overhead.
 
-- **Tech**: Swift, SwiftUI, IOKit, macOS 11.0+
-- **Features**: Battery monitoring, CPU tracking, Memory analysis, 6 widget styles, Light/dark theme support
-- **Performance**: Less than 1% CPU usage, Under 50MB memory footprint
+- **Tech**: Swift, SwiftUI
+- **Focus**: Battery, CPU, and memory visibility with polished UI
 - [Website](https://microverse.ashwch.com/) | [GitHub](https://github.com/ashwch/microverse)
 
 ### [Auto UV Environment](https://auto-uv-env.ashwch.com/)
-A tool that automatically detects and activates Python virtual environments based on directory context. Makes working with multiple Python projects seamless by eliminating the need to manually activate environments.
+Automatic UV-based Python virtual environment management.
 
-- **Tech**: Python, Shell scripting
-- **Features**: Auto-detection, Cross-platform support, Multiple venv tools support
-- [GitHub](https://github.com/ashwch/auto-uv-env) | [Documentation](https://auto-uv-env.ashwch.com/)
+- **Tech**: Shell, Python
+- **Focus**: Zero-friction local Python project switching
+- [Documentation](https://auto-uv-env.ashwch.com/) | [GitHub](https://github.com/ashwch/auto-uv-env)
 
-### [Gemini CLI MCP Server](https://github.com/DiversioTeam/gemini-cli-mcp)
-A Model Context Protocol (MCP) server that wraps the Gemini CLI, allowing AI assistants like Claude to use Gemini for research and analysis tasks.
+### [wt](https://github.com/ashwch/wt)
+Interactive git worktree dashboard with an `fzf`-based TUI for faster multi-branch workflows.
 
-- **Tech**: Python (3.10-3.13)
-- **Features**: Send prompts to Gemini, Research with file context, Code analysis, Content summarization
-- [GitHub](https://github.com/DiversioTeam/gemini-cli-mcp)
+- **Tech**: Shell
+- **Focus**: Worktree visibility, quick branch switching, terminal-first DX
+- [GitHub](https://github.com/ashwch/wt)
 
-### [ClickUp MCP Server](https://github.com/DiversioTeam/clickup-mcp)
-A Model Context Protocol (MCP) server that enables AI assistants to interact with ClickUp's task management API.
+### [ew](https://github.com/ashwch/ew)
+Plain-English shell copilot with one command.
 
-- **Tech**: Python (3.10+)
-- **Features**: Task CRUD operations, Search & filtering, Time tracking, Team analytics
-- [GitHub](https://github.com/DiversioTeam/clickup-mcp)
+- **Tech**: Go
+- **Focus**: Fast command translation from intent to executable shell
+- [GitHub](https://github.com/ashwch/ew)
+
+### [ashwch-agent-skills-marketplace](https://github.com/ashwch/ashwch-agent-skills-marketplace)
+Personal marketplace of reusable agent skills, starting with imaging and workflow automation.
+
+- **Tech**: Swift
+- **Focus**: Reusable agent capabilities for day-to-day engineering work
+- [GitHub](https://github.com/ashwch/ashwch-agent-skills-marketplace)
 
 ### [Dotfiles](https://github.com/ashwch/dotfiles)
-Personal collection of configuration files and development environment setup, optimized for macOS.
+Performance-focused macOS terminal and development environment setup.
 
-- **Tech**: ZSH, Shell configuration
-- **Features**: Performance-optimized shell, Python environment management, Enhanced Git workflow, Modern CLI tools
+- **Tech**: Shell, Zsh
+- **Focus**: Reliable local tooling, productivity defaults, fast startup
 - [GitHub](https://github.com/ashwch/dotfiles)
 
-## Open Source Contributions
+### [Homebrew Tap](https://github.com/ashwch/homebrew-tap)
+Distribution tap for packaging and shipping personal CLI tools.
 
-### [pgmpy](https://github.com/pgmpy/pgmpy) (3k+ stars)
-Python library for probabilistic graphical models. Contributed to causal and probabilistic modeling using Bayesian Networks.
+- **Tech**: Ruby (Homebrew formulae)
+- **Focus**: Installability and release ergonomics
+- [GitHub](https://github.com/ashwch/homebrew-tap)
 
-- **Tech**: Python, Machine Learning
-- [GitHub](https://github.com/pgmpy/pgmpy)
+## Agent and MCP Work (DiversioTeam)
 
-### [pep8speaks](https://github.com/pep8speaks-org/pep8speaks) (600+ stars)
-A GitHub app that automatically reviews Python code style over Pull Requests.
+### [agent-skills-marketplace](https://github.com/DiversioTeam/agent-skills-marketplace)
+Open-standard agent skills marketplace with Claude marketplace metadata and engineering workflow assets.
 
-- **Tech**: Python, GitHub Apps
-- [GitHub](https://github.com/pep8speaks-org/pep8speaks)
+- **Tech**: Shell + docs + workflow assets
+- [GitHub](https://github.com/DiversioTeam/agent-skills-marketplace)
 
-### [typeshed](https://github.com/python/typeshed)
-Collection of type stubs for the Python standard library and third-party packages.
+### [gemini-cli-mcp](https://github.com/DiversioTeam/gemini-cli-mcp)
+MCP server wrapper around Gemini CLI for assistant-driven research and code analysis workflows.
 
-- **Tech**: Python, Type Annotations
-- [GitHub](https://github.com/python/typeshed)
+- **Tech**: Python
+- [GitHub](https://github.com/DiversioTeam/gemini-cli-mcp)
+
+### [clickup-mcp](https://github.com/DiversioTeam/clickup-mcp)
+MCP integration for ClickUp task retrieval and management from coding assistants.
+
+- **Tech**: Python
+- [GitHub](https://github.com/DiversioTeam/clickup-mcp)
 
 ---
 
-## Contributing
-
-I'm always working on new projects and contributing to open source. Check out my [GitHub profile](https://github.com/ashwch) for more!
+For the full list of repos and recent activity, see my [GitHub profile](https://github.com/ashwch).
