@@ -728,6 +728,14 @@ h1 abbr, h2 abbr, h3 abbr, h4 abbr, h5 abbr, h6 abbr {
     font-size: 2rem;
   }
   
+  .about-page .article-content p {
+    text-align: left;
+  }
+
+  .about-page .article-content blockquote {
+    padding: 0.875rem 1rem;
+  }
+
   .article-content h2 {
     font-size: 1.5rem;
   }
@@ -792,65 +800,79 @@ h1 abbr, h2 abbr, h3 abbr, h4 abbr, h5 abbr, h6 abbr {
         </header>
 
         <div class="article-content">
-          <h2 id="open-source-tools"><a class="toclink" href="#open-source-tools">Open Source Tools</a></h2>
+          <p>I work across developer tooling, <abbr title="Artificial Intelligence">AI</abbr> workflows, and platform engineering.
+Here are the projects I actively maintain or contribute to.</p>
+<h2 id="current-projects"><a class="toclink" href="#current-projects">Current Projects</a></h2>
 <h3 id="microverse"><a class="toclink" href="#microverse"><a href="https://microverse.ashwch.com/">Microverse</a></a></h3>
-<p>A macOS system monitoring application that provides elegant desktop widgets and comprehensive system performance tracking. Transform your Mac into a comprehensive system intelligence hub with minimal resource impact.</p>
+<p>macOS system monitoring with desktop widgets and low overhead.</p>
 <ul>
-<li><strong>Tech</strong>: Swift, SwiftUI, IOKit, macOS 11.0+</li>
-<li><strong>Features</strong>: Battery monitoring, CPU tracking, Memory analysis, 6 widget styles, Light/dark theme support</li>
-<li><strong>Performance</strong>: Less than 1% CPU usage, Under 50MB memory footprint</li>
+<li><strong>Tech</strong>: Swift, SwiftUI</li>
+<li><strong>Focus</strong>: Battery, CPU, and memory visibility with polished <abbr title="User Interface">UI</abbr></li>
 <li><a href="https://microverse.ashwch.com/">Website</a> | <a href="https://github.com/ashwch/microverse">GitHub</a></li>
 </ul>
 <h3 id="auto-uv-environment"><a class="toclink" href="#auto-uv-environment"><a href="https://auto-uv-env.ashwch.com/">Auto UV Environment</a></a></h3>
-<p>A tool that automatically detects and activates Python virtual environments based on directory context. Makes working with multiple Python projects seamless by eliminating the need to manually activate environments.</p>
+<p>Automatic UV-based Python virtual environment management.</p>
 <ul>
-<li><strong>Tech</strong>: Python, Shell scripting</li>
-<li><strong>Features</strong>: Auto-detection, Cross-platform support, Multiple venv tools support</li>
-<li><a href="https://github.com/ashwch/auto-uv-env">GitHub</a> | <a href="https://auto-uv-env.ashwch.com/">Documentation</a></li>
+<li><strong>Tech</strong>: Shell, Python</li>
+<li><strong>Focus</strong>: Zero-friction local Python project switching</li>
+<li><a href="https://auto-uv-env.ashwch.com/">Documentation</a> | <a href="https://github.com/ashwch/auto-uv-env">GitHub</a></li>
 </ul>
-<h3 id="gemini-cli-mcp-server"><a class="toclink" href="#gemini-cli-mcp-server"><a href="https://github.com/DiversioTeam/gemini-cli-mcp">Gemini <abbr title="Command Line Interface">CLI</abbr> <abbr title="Model Context Protocol">MCP</abbr> Server</a></a></h3>
-<p>A Model Context Protocol (<abbr title="Model Context Protocol">MCP</abbr>) server that wraps the Gemini <abbr title="Command Line Interface">CLI</abbr>, allowing <abbr title="Artificial Intelligence">AI</abbr> assistants like Claude to use Gemini for research and analysis tasks.</p>
+<h3 id="wt"><a class="toclink" href="#wt"><a href="https://github.com/ashwch/wt">wt</a></a></h3>
+<p>Interactive git worktree dashboard with an <code>fzf</code>-based TUI for faster multi-branch workflows.</p>
 <ul>
-<li><strong>Tech</strong>: Python (3.10-3.13)</li>
-<li><strong>Features</strong>: Send prompts to Gemini, Research with file context, Code analysis, Content summarization</li>
-<li><a href="https://github.com/DiversioTeam/gemini-cli-mcp">GitHub</a></li>
+<li><strong>Tech</strong>: Shell</li>
+<li><strong>Focus</strong>: Worktree visibility, quick branch switching, terminal-first DX</li>
+<li><a href="https://github.com/ashwch/wt">GitHub</a></li>
 </ul>
-<h3 id="clickup-mcp-server"><a class="toclink" href="#clickup-mcp-server"><a href="https://github.com/DiversioTeam/clickup-mcp">ClickUp <abbr title="Model Context Protocol">MCP</abbr> Server</a></a></h3>
-<p>A Model Context Protocol (<abbr title="Model Context Protocol">MCP</abbr>) server that enables <abbr title="Artificial Intelligence">AI</abbr> assistants to interact with ClickUp's task management <abbr title="Application Programming Interface">API</abbr>.</p>
+<h3 id="ew"><a class="toclink" href="#ew"><a href="https://github.com/ashwch/ew">ew</a></a></h3>
+<p>Plain-English shell copilot with one command.</p>
 <ul>
-<li><strong>Tech</strong>: Python (3.10+)</li>
-<li><strong>Features</strong>: Task <abbr title="Create, Read, Update, Delete">CRUD</abbr> operations, Search &amp; filtering, Time tracking, Team analytics</li>
-<li><a href="https://github.com/DiversioTeam/clickup-mcp">GitHub</a></li>
+<li><strong>Tech</strong>: Go</li>
+<li><strong>Focus</strong>: Fast command translation from intent to executable shell</li>
+<li><a href="https://github.com/ashwch/ew">GitHub</a></li>
+</ul>
+<h3 id="ashwch-agent-skills-marketplace"><a class="toclink" href="#ashwch-agent-skills-marketplace"><a href="https://github.com/ashwch/ashwch-agent-skills-marketplace">ashwch-agent-skills-marketplace</a></a></h3>
+<p>Personal marketplace of reusable agent skills, starting with imaging and workflow automation.</p>
+<ul>
+<li><strong>Tech</strong>: Swift</li>
+<li><strong>Focus</strong>: Reusable agent capabilities for day-to-day engineering work</li>
+<li><a href="https://github.com/ashwch/ashwch-agent-skills-marketplace">GitHub</a></li>
 </ul>
 <h3 id="dotfiles"><a class="toclink" href="#dotfiles"><a href="https://github.com/ashwch/dotfiles">Dotfiles</a></a></h3>
-<p>Personal collection of configuration files and development environment setup, optimized for macOS.</p>
+<p>Performance-focused macOS terminal and development environment setup.</p>
 <ul>
-<li><strong>Tech</strong>: ZSH, Shell configuration</li>
-<li><strong>Features</strong>: Performance-optimized shell, Python environment management, Enhanced Git workflow, Modern <abbr title="Command Line Interface">CLI</abbr> tools</li>
+<li><strong>Tech</strong>: Shell, Zsh</li>
+<li><strong>Focus</strong>: Reliable local tooling, productivity defaults, fast startup</li>
 <li><a href="https://github.com/ashwch/dotfiles">GitHub</a></li>
 </ul>
-<h2 id="open-source-contributions"><a class="toclink" href="#open-source-contributions">Open Source Contributions</a></h2>
-<h3 id="pgmpy-3k-stars"><a class="toclink" href="#pgmpy-3k-stars"><a href="https://github.com/pgmpy/pgmpy">pgmpy</a> (3k+ stars)</a></h3>
-<p>Python library for probabilistic graphical models. Contributed to causal and probabilistic modeling using Bayesian Networks.</p>
+<h3 id="homebrew-tap"><a class="toclink" href="#homebrew-tap"><a href="https://github.com/ashwch/homebrew-tap">Homebrew Tap</a></a></h3>
+<p>Distribution tap for packaging and shipping personal <abbr title="Command Line Interface">CLI</abbr> tools.</p>
 <ul>
-<li><strong>Tech</strong>: Python, Machine Learning</li>
-<li><a href="https://github.com/pgmpy/pgmpy">GitHub</a></li>
+<li><strong>Tech</strong>: Ruby (Homebrew formulae)</li>
+<li><strong>Focus</strong>: Installability and release ergonomics</li>
+<li><a href="https://github.com/ashwch/homebrew-tap">GitHub</a></li>
 </ul>
-<h3 id="pep8speaks-600-stars"><a class="toclink" href="#pep8speaks-600-stars"><a href="https://github.com/pep8speaks-org/pep8speaks">pep8speaks</a> (600+ stars)</a></h3>
-<p>A GitHub app that automatically reviews Python code style over Pull Requests.</p>
+<h2 id="agent-and-mcp-work-diversioteam"><a class="toclink" href="#agent-and-mcp-work-diversioteam">Agent and <abbr title="Model Context Protocol">MCP</abbr> Work (DiversioTeam)</a></h2>
+<h3 id="agent-skills-marketplace"><a class="toclink" href="#agent-skills-marketplace"><a href="https://github.com/DiversioTeam/agent-skills-marketplace">agent-skills-marketplace</a></a></h3>
+<p>Open-standard agent skills marketplace with Claude marketplace metadata and engineering workflow assets.</p>
 <ul>
-<li><strong>Tech</strong>: Python, GitHub Apps</li>
-<li><a href="https://github.com/pep8speaks-org/pep8speaks">GitHub</a></li>
+<li><strong>Tech</strong>: Shell + docs + workflow assets</li>
+<li><a href="https://github.com/DiversioTeam/agent-skills-marketplace">GitHub</a></li>
 </ul>
-<h3 id="typeshed"><a class="toclink" href="#typeshed"><a href="https://github.com/python/typeshed">typeshed</a></a></h3>
-<p>Collection of type stubs for the Python standard library and third-party packages.</p>
+<h3 id="gemini-cli-mcp"><a class="toclink" href="#gemini-cli-mcp"><a href="https://github.com/DiversioTeam/gemini-cli-mcp">gemini-cli-mcp</a></a></h3>
+<p><abbr title="Model Context Protocol">MCP</abbr> server wrapper around Gemini <abbr title="Command Line Interface">CLI</abbr> for assistant-driven research and code analysis workflows.</p>
 <ul>
-<li><strong>Tech</strong>: Python, Type Annotations</li>
-<li><a href="https://github.com/python/typeshed">GitHub</a></li>
+<li><strong>Tech</strong>: Python</li>
+<li><a href="https://github.com/DiversioTeam/gemini-cli-mcp">GitHub</a></li>
+</ul>
+<h3 id="clickup-mcp"><a class="toclink" href="#clickup-mcp"><a href="https://github.com/DiversioTeam/clickup-mcp">clickup-mcp</a></a></h3>
+<p><abbr title="Model Context Protocol">MCP</abbr> integration for ClickUp task retrieval and management from coding assistants.</p>
+<ul>
+<li><strong>Tech</strong>: Python</li>
+<li><a href="https://github.com/DiversioTeam/clickup-mcp">GitHub</a></li>
 </ul>
 <hr>
-<h2 id="contributing"><a class="toclink" href="#contributing">Contributing</a></h2>
-<p>I'm always working on new projects and contributing to open source. Check out my <a href="https://github.com/ashwch">GitHub profile</a> for more!</p>
+<p>For the full list of repos and recent activity, see my <a href="https://github.com/ashwch">GitHub profile</a>.</p>
         </div>
       </article>
     </div>
