@@ -120,7 +120,7 @@ The theme files are located in the `theme/` directory:
 - `static/css/` - CSS stylesheets
 - `static/font/` - Font files
 
-The main CSS variables for theme colors can be found at the top of `theme/static/css/main.css`.
+The main layout and theme CSS is included from `theme/templates/main.css`.
 
 ### Adding Pages
 
@@ -140,6 +140,29 @@ This script will:
 1. Build your site with production settings
 2. Use ghp-import to push to your gh-pages branch
 3. Deploy to GitHub Pages
+
+Important:
+
+- `master` is the source branch, not the live branch.
+- GitHub Pages serves this site from `gh-pages` (root path).
+- A push to `master` alone will not update `ashwch.com`.
+
+### Deployment Verification (Required)
+
+After deployment, verify before considering work done:
+
+```bash
+# 1) Confirm Pages source config and status
+gh api repos/ashwch/ashwch.github.io/pages
+
+# 2) Confirm latest build commit/status
+gh api 'repos/ashwch/ashwch.github.io/pages/builds?per_page=1'
+
+# 3) Confirm live content with cache busting
+curl -sL 'https://ashwch.com/pages/about.html?cb=YYYYMMDDHHMM'
+```
+
+For agent-specific guardrails and a complete release checklist, see `AGENTS.md`.
 
 ### Other Hosting
 

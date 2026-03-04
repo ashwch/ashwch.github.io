@@ -9,6 +9,12 @@ This directory contains documentation for the blog project.
 
 ## Key Documentation
 
+### AGENTS.md (Project Root)
+Primary deployment guardrail document for agent and automation workflows, including:
+- Source vs live branch rules (`master` vs `gh-pages`)
+- Safe publish workflow and verification commands
+- Required pre-close deployment checklist
+
 ### CLAUDE.md (Project Root)
 Main project instruction file for Claude Code, containing:
 - Project overview

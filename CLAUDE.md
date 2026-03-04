@@ -1,5 +1,7 @@
 # CLAUDE.md
 
+@AGENTS.md
+
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Project Overview
@@ -77,7 +79,8 @@ Summary: Brief description
   - `_includes/` - Reusable partials (header, footer, etc.)
   - Page templates use Bootstrap 5 with custom styling
 - **Static Assets**: `theme/static/`
-  - `css/main.css` - Main stylesheet with CSS variables for theming
+  - Icons, JS, and fonts are under `theme/static/`
+  - Main site stylesheet is `theme/templates/main.css` (inlined by `base.html`)
   - Dark/light mode toggle implementation in base template
 
 ### Configuration
@@ -90,9 +93,10 @@ Key configuration patterns:
 - Social links and navigation defined in pelicanconf
 
 ### Deployment
-- Uses `ghp-import` to manage gh-pages branch
-- Production site at https://ashwch.com
-- GitHub Pages serves from gh-pages branch
+- Uses `ghp-import` to manage `gh-pages` branch
+- Production site: https://ashwch.com
+- GitHub Pages source: `gh-pages` branch, root path (`/`)
+- `master` is source only; pushing `master` does not deploy the site
 
 ## Development Workflow
 
@@ -101,6 +105,10 @@ Key configuration patterns:
 2. Use `./blog.sh livereload` for development
 3. Theme changes in `theme/` directory auto-refresh
 4. Deploy with `./blog.sh deploy` when ready
+5. Verify Pages build and live content before marking done:
+   - `gh api repos/ashwch/ashwch.github.io/pages`
+   - `gh api 'repos/ashwch/ashwch.github.io/pages/builds?per_page=1'`
+   - `curl -sL 'https://ashwch.com/pages/about.html?cb=YYYYMMDDHHMM'`
 
 ### Photography Workflow
 1. Drop photos in `content/images/photography/`
