@@ -1,0 +1,66 @@
+name: Astro Pages deploy
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'site/**'
+      - 'content/**'
+      - '.github/workflows/astro-pages-deploy.yml'
+  push:
+    branches:
+      - master
+    paths:
+      - 'site/**'
+      - 'content/**'
+      - '.github/workflows/astro-pages-deploy.yml'
+
+concurrency:
+  group: astro-pages-${{ github.event.pull_request.head.ref || github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    env:
+      PUBLIC_GA_MEASUREMENT_ID: ${{ vars.PUBLIC_GA_MEASUREMENT_ID }}
+      PUBLIC_DISQUS_SHORTNAME: ${{ vars.PUBLIC_DISQUS_SHORTNAME }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_PAGES_PROJECT: ${{ vars.CLOUDFLARE_PAGES_PROJECT }}
+    defaults:
+      run:
+        working-directory: site
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+          cache-dependency-path: site/pnpm-lock.yaml
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build site
+        run: pnpm build
+
+      - name: Derive Pages branch name
+        run: echo "CF_PAGES_BRANCH=${GITHUB_HEAD_REF:-${GITHUB_REF_NAME}}" >> "$GITHUB_ENV"
+
+      - name: Skip deploy when Cloudflare credentials are not configured
+        if: ${{ env.CLOUDFLARE_ACCOUNT_ID == '' || env.CLOUDFLARE_PAGES_PROJECT == '' || env.CLOUDFLARE_API_TOKEN == '' }}
+        run: |
+          echo "Cloudflare Pages deploy is not configured for this repository."
+          echo "Set repo vars CLOUDFLARE_ACCOUNT_ID / CLOUDFLARE_PAGES_PROJECT and secret CLOUDFLARE_API_TOKEN to enable auto deploys."
+
+      - name: Deploy to Cloudflare Pages
+        if: ${{ env.CLOUDFLARE_ACCOUNT_ID != '' && env.CLOUDFLARE_PAGES_PROJECT != '' && env.CLOUDFLARE_API_TOKEN != '' }}
+        run: npx wrangler pages deploy dist --project-name "$CLOUDFLARE_PAGES_PROJECT" --branch "$CF_PAGES_BRANCH"

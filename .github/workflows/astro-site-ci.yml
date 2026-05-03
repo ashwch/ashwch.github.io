@@ -6,6 +6,7 @@ on:
       - 'site/**'
       - 'content/**'
       - '.github/workflows/astro-site-ci.yml'
+      - '.github/workflows/astro-pages-deploy.yml'
   push:
     branches:
       - master
@@ -13,6 +14,7 @@ on:
       - 'site/**'
       - 'content/**'
       - '.github/workflows/astro-site-ci.yml'
+      - '.github/workflows/astro-pages-deploy.yml'
 
 jobs:
   build:
