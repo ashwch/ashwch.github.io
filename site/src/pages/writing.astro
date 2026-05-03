@@ -25,7 +25,7 @@ const domains = [...new Set(articles.map((article) => article.data.domain))].sor
       <div class="search-shell" id="search">
         <label class="search-bar" for="writing-search">
           <span aria-hidden="true">⌕</span>
-          <input id="writing-search" type="search" placeholder="Search articles..." />
+          <input id="writing-search" type="search" placeholder="Search articles..." aria-label="Search articles" />
         </label>
         <div class="filter-row" id="writing-filters">
           <button class="filter-chip meta-chip--accent" type="button" data-domain="all" aria-pressed="true">

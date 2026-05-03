@@ -81,6 +81,84 @@ async function fetchDetailsForPhotos(photos) {
   );
 }
 
+function buildStats(detail) {
+  return detail.statistics
+    ? {
+        downloads: detail.statistics.downloads?.total ?? null,
+        views: detail.statistics.views?.total ?? null,
+        likes: detail.likes ?? null,
+      }
+    : {
+        downloads: null,
+        views: null,
+        likes: detail.likes ?? null,
+      };
+}
+
+function applyOverridesToPhoto(photo, override = {}) {
+  const baseTitle = override.title || photo.title || `Photo ${photo.id}`;
+  const title = baseTitle.length > 120 ? `${baseTitle.slice(0, 117)}...` : baseTitle;
+
+  return {
+    ...photo,
+    slug: override.slug || slugify(title) || photo.id,
+    title,
+    description: override.description ?? photo.description ?? null,
+    alt: override.alt ?? photo.alt ?? photo.description ?? title,
+    featured: Boolean(override.featured),
+    hidden: Boolean(override.hidden),
+    order: override.order ?? null,
+    categories: override.categories || photo.categories || [],
+  };
+}
+
+function refreshCachedPhoto(photo, listPhoto, override = {}) {
+  const refreshed = {
+    ...photo,
+    color: listPhoto.color ?? photo.color,
+    blurHash: listPhoto.blur_hash ?? photo.blurHash,
+    width: listPhoto.width ?? photo.width,
+    height: listPhoto.height ?? photo.height,
+    createdAt: listPhoto.created_at ?? photo.createdAt,
+    updatedAt: listPhoto.updated_at ?? photo.updatedAt,
+    publishedAt: listPhoto.promoted_at || listPhoto.created_at || photo.publishedAt,
+    urls: listPhoto.urls
+      ? {
+          ...photo.urls,
+          raw: listPhoto.urls.raw ?? photo.urls.raw,
+          full: listPhoto.urls.full ?? photo.urls.full,
+          regular: listPhoto.urls.regular ?? photo.urls.regular,
+          small: listPhoto.urls.small ?? photo.urls.small,
+          thumb: listPhoto.urls.thumb ?? photo.urls.thumb,
+          smallS3: listPhoto.urls.small_s3 ?? photo.urls.smallS3,
+        }
+      : photo.urls,
+    user: {
+      username: listPhoto.user?.username ?? photo.user?.username ?? null,
+      name: listPhoto.user?.name ?? photo.user?.name ?? null,
+    },
+    stats: buildStats(listPhoto),
+  };
+
+  return applyOverridesToPhoto(refreshed, override);
+}
+
+function partitionPhotosForDetails(photos, cachedPhotosById, overrides) {
+  const reusedPhotos = [];
+  const photosNeedingDetails = [];
+
+  for (const photo of photos) {
+    const cachedPhoto = cachedPhotosById.get(photo.id);
+    if (cachedPhoto && cachedPhoto.updatedAt === photo.updated_at) {
+      reusedPhotos.push(refreshCachedPhoto(cachedPhoto, photo, overrides[photo.id] || {}));
+      continue;
+    }
+    photosNeedingDetails.push(photo);
+  }
+
+  return { reusedPhotos, photosNeedingDetails };
+}
+
 function normalizePhoto(detail, override = {}) {
   const baseTitle = override.title || detail.alt_description || detail.description || `Photo ${detail.id}`;
   const title = baseTitle.length > 120 ? `${baseTitle.slice(0, 117)}...` : baseTitle;
@@ -142,17 +220,7 @@ function normalizePhoto(detail, override = {}) {
       username: detail.user?.username,
       name: detail.user?.name,
     },
-    stats: detail.statistics
-      ? {
-          downloads: detail.statistics.downloads?.total ?? null,
-          views: detail.statistics.views?.total ?? null,
-          likes: detail.likes ?? null,
-        }
-      : {
-          downloads: null,
-          views: null,
-          likes: detail.likes ?? null,
-        },
+    stats: buildStats(detail),
   };
 }
 
@@ -181,10 +249,14 @@ async function main() {
 
   await mkdir(path.dirname(GENERATED_PATH), { recursive: true });
   const overrides = await readJson(OVERRIDES_PATH, {});
+  const existingDataset = await readJson(GENERATED_PATH, { photos: [] });
+  const cachedPhotosById = new Map((existingDataset.photos || []).map((photo) => [photo.id, photo]));
 
   const photos = await fetchUserPhotos();
-  const details = await fetchDetailsForPhotos(photos);
-  const normalized = sortPhotos(details.map((detail) => normalizePhoto(detail, overrides[detail.id] || {})));
+  const { reusedPhotos, photosNeedingDetails } = partitionPhotosForDetails(photos, cachedPhotosById, overrides);
+  const details = await fetchDetailsForPhotos(photosNeedingDetails);
+  const fetchedPhotos = details.map((detail) => normalizePhoto(detail, overrides[detail.id] || {}));
+  const normalized = sortPhotos([...reusedPhotos, ...fetchedPhotos]);
 
   await writeFile(
     GENERATED_PATH,
@@ -200,7 +272,10 @@ async function main() {
     )}\n`,
   );
 
-  console.log(`Synced ${normalized.length} Unsplash photos into ${path.relative(SITE_ROOT, GENERATED_PATH)}.`);
+  console.log(
+    `Synced ${normalized.length} Unsplash photos into ${path.relative(SITE_ROOT, GENERATED_PATH)} ` +
+      `(${reusedPhotos.length} reused, ${fetchedPhotos.length} fetched in detail).`,
+  );
 }
 
 main().catch((error) => {
