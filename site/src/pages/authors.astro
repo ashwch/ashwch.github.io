@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { LEGACY_AUTHOR_SLUGS, getAllArticles } from '../lib/content';
+
+const articles = await getAllArticles();
+---
+
+<BaseLayout
+  title="Authors"
+  description="Legacy author routes preserved for ashwch.com."
+  canonical="https://ashwch.com/authors.html"
+  robots="noindex,follow"
+>
+  <section class="section">
+    <div class="container">
+      <h1 class="page-title">Authors</h1>
+      <p class="page-lead">The archive currently has one author identity with legacy alias routes preserved.</p>
+      <div class="surface-card" style="padding:1.5rem; margin-top:2rem">
+        <h2 class="section-title" style="font-size:2rem">Ashwini Chaudhary</h2>
+        <p>{articles.length} articles in the current archive.</p>
+        <div class="pill-row" style="margin-top:1rem">
+          {LEGACY_AUTHOR_SLUGS.map((slug) => (
+            <a class="pill" href={`/author/${slug}.html`}>
+              /author/{slug}.html
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

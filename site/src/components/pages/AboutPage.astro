@@ -1,0 +1,12 @@
+---
+const { Content } = Astro.props;
+---
+
+<section class="section about-page">
+  <div class="container about-page__container">
+    <div class="prose about-page__prose">
+      <img src="/images/profile-monty.jpg" alt="Ashwini Chaudhary" loading="lazy" class="about-page__portrait" />
+      <Content />
+    </div>
+  </div>
+</section>

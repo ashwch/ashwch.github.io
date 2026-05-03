@@ -1,0 +1,59 @@
+---
+import { render } from 'astro:content';
+import AbbreviationTooltips from '../../components/AbbreviationTooltips.astro';
+import AboutPage from '../../components/pages/AboutPage.astro';
+import PhotographyPage from '../../components/pages/PhotographyPage.astro';
+import ProjectsPage from '../../components/pages/ProjectsPage.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getAllPages } from '../../lib/content';
+import { getVisiblePhotos } from '../../lib/photography';
+
+export async function getStaticPaths() {
+  const pages = await getAllPages();
+  return pages.map((page) => ({
+    params: { slug: page.data.slug },
+    props: { page },
+  }));
+}
+
+const { page } = Astro.props;
+const { Content } = await render(page);
+const descriptionMap = {
+  about:
+    'About Ashwini Chaudhary: engineering leadership, software, open source, and photography.',
+  projects:
+    'Projects and tools by Ashwini Chaudhary.',
+  photography:
+    'Photography by Ashwini Chaudhary from the Unsplash portfolio.',
+};
+const pageDescription = descriptionMap[page.data.pageType as keyof typeof descriptionMap] || page.data.description;
+const pageRobots = page.data.pageType === 'photography' && getVisiblePhotos().length === 0 ? 'noindex,follow' : 'index,follow';
+---
+
+<BaseLayout
+  title={page.data.title}
+  description={pageDescription}
+  canonical={page.data.canonicalUrl}
+  robots={pageRobots}
+>
+  {
+    page.data.pageType === 'about' ? (
+      <AboutPage Content={Content} />
+    ) : page.data.pageType === 'projects' ? (
+      <ProjectsPage />
+    ) : page.data.pageType === 'photography' ? (
+      <PhotographyPage />
+    ) : (
+      <section class="section">
+        <div class="container">
+          <h1 class="page-title">{page.data.title}</h1>
+          <div class="prose" style="margin-top:1.5rem">
+            <Content />
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <AbbreviationTooltips />
+</BaseLayout>

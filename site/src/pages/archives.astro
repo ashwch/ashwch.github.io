@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { formatDateIso, getAllArticles, getArchiveGroups, getTagIndex } from '../lib/content';
+
+const articles = await getAllArticles();
+const archiveGroups = getArchiveGroups(articles);
+const tags = getTagIndex(articles).slice(0, 24);
+---
+
+<BaseLayout title="Archives" description="Browse the full archive of articles published on ashwch.com." canonical="https://ashwch.com/archives.html">
+  <section class="section">
+    <div class="container">
+      <h1 class="page-title">Archives</h1>
+      <p class="page-lead">A chronological view of writing, with quick access to the tag index.</p>
+
+      <div class="pill-row" style="margin-top:2rem">
+        {tags.map((tag) => (
+          <a class="pill" href={`/tag/${tag.slug}.html`}>
+            {tag.label} ({tag.articles.length})
+          </a>
+        ))}
+      </div>
+
+      {archiveGroups.map(([year, yearArticles]) => (
+        <section class="archive-year">
+          <h2>{year}</h2>
+          <ul class="archive-list">
+            {yearArticles.map((article) => (
+              <li>
+                <a href={article.data.legacyUrl}>{article.data.title}</a>
+                <time datetime={article.data.date.toISOString()}>{formatDateIso(article.data.date)}</time>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

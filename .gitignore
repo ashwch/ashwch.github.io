@@ -26,6 +26,15 @@ lib64
 # Installer logs
 pip-log.txt
 
+# Node / Astro
+site/node_modules
+site/dist
+site/.astro
+site/public/images
+site/public/CNAME
+!site/src/lib/
+!site/src/lib/**
+
 # Unit test / coverage reports
 .coverage
 .tox

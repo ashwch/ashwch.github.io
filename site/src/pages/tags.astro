@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getAllArticles, getTagIndex } from '../lib/content';
+
+const articles = await getAllArticles();
+const tags = getTagIndex(articles);
+---
+
+<BaseLayout title="Tags" description="Browse articles by tag." canonical="https://ashwch.com/tags.html">
+  <section class="section">
+    <div class="container">
+      <h1 class="page-title">Tags</h1>
+      <p class="page-lead">All current tags across the writing archive.</p>
+      <div class="pill-row" style="margin-top:2rem">
+        {tags.map((tag) => (
+          <a class="pill" href={`/tag/${tag.slug}.html`}>
+            {tag.label} ({tag.articles.length})
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,28 @@
+---
+import RichTitle from './RichTitle.astro';
+import type { ArticleEntry } from '../lib/content';
+import { formatDate, getReadingStats } from '../lib/content';
+
+interface Props {
+  article: ArticleEntry;
+}
+
+const { article } = Astro.props;
+const reading = getReadingStats(article.body ?? '');
+---
+
+<article class="article-list">
+  <div class="article-list__meta">
+    <span class="eyebrow" style="margin:0">{article.data.domain}</span>
+    <span>{formatDate(article.data.date)}</span>
+    <span>{reading.minutes} min read</span>
+  </div>
+  <div>
+    <h3>
+      <a class="article-list__title" href={article.data.legacyUrl}
+        ><RichTitle title={article.data.title} titleHtml={article.data.titleHtml} /></a
+      >
+    </h3>
+    <p>{article.data.summary ?? article.data.description}</p>
+  </div>
+</article>

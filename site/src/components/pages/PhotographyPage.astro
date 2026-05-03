@@ -1,0 +1,103 @@
+---
+import { getPhotographyCategories, getVisiblePhotos } from '../../lib/photography';
+
+const photos = getVisiblePhotos();
+const categories = getPhotographyCategories();
+const hasPhotos = photos.length > 0;
+---
+
+<section class="hero">
+  <div class="container" style="text-align:center">
+    <span class="eyebrow">Photography</span>
+    <h1 class="page-title">Photography</h1>
+    <p class="page-lead" style="margin-inline:auto">
+      Photos from my Unsplash portfolio.
+    </p>
+    <div class="hero-actions" style="justify-content:center">
+      <a class="button" href="https://unsplash.com/@suicide_chewbacca" target="_blank" rel="noreferrer">
+        View Unsplash profile
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="notice" style="margin-bottom:1.5rem">
+      Photos are shown here and link back to Unsplash for the original photo pages.
+    </div>
+
+    {
+      photos.length ? (
+        <>
+          <div class="filter-row" id="photo-filters">
+            <button class="filter-chip meta-chip--accent" type="button" data-filter="all" aria-pressed="true">
+              All
+            </button>
+            {categories.map((category) => (
+              <button class="filter-chip" type="button" data-filter={category.slug} aria-pressed="false">
+                {category.label} ({category.count})
+              </button>
+            ))}
+          </div>
+
+          <div class="photo-page__grid" id="photo-grid">
+            {photos.map((photo) => (
+              <article
+                class="photo-card"
+                data-categories={photo.categories.join(',')}
+                data-filter-item
+              >
+                <img src={photo.urls.regular} alt={photo.alt} loading="lazy" />
+                <div class="photo-card__body">
+                  <h3>{photo.title}</h3>
+                  <div class="photo-card__meta">
+                    {photo.location?.title || photo.location?.name || 'Unsplash portfolio'}
+                  </div>
+                  <p>
+                    Photo by {photo.user.name || 'Ashwini Chaudhary'} on{' '}
+                    <a href={photo.links.html} target="_blank" rel="noopener noreferrer">Unsplash</a>
+                  </p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </>
+      ) : (
+        <div class="empty-state">
+          <strong>Unsplash sync data is not available yet.</strong>
+          <p>
+            Run <code>pnpm sync:unsplash</code> with <code>UNSPLASH_ACCESS_KEY</code> configured to
+            populate the gallery dataset.
+          </p>
+        </div>
+      )
+    }
+  </div>
+</section>
+
+{
+  hasPhotos && (
+    <script is:inline>
+      const buttons = document.querySelectorAll('#photo-filters [data-filter]');
+      const cards = document.querySelectorAll('[data-filter-item]');
+
+      buttons.forEach((button) => {
+        button.addEventListener('click', () => {
+          const filter = button.dataset.filter;
+          buttons.forEach((item) => {
+            const active = item === button;
+            item.setAttribute('aria-pressed', String(active));
+            item.classList.toggle('meta-chip--accent', active);
+          });
+
+          cards.forEach((card) => {
+            const categories = card.dataset.categories?.split(',').filter(Boolean) || [];
+            const visible = filter === 'all' || categories.includes(filter);
+            card.style.display = visible ? '' : 'none';
+          });
+        });
+      });
+    </script>
+  )
+}

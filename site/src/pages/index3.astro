@@ -1,0 +1,31 @@
+---
+import ArticleListItem from '../components/ArticleListItem.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getAllArticles, getArticlesForLegacyPage } from '../lib/content';
+
+const articles = await getAllArticles();
+const pageArticles = getArticlesForLegacyPage(articles, 3);
+---
+
+<BaseLayout
+  title="Archive page 3"
+  description="Legacy paginated writing index page 3."
+  canonical="https://ashwch.com/writing.html"
+  robots="noindex,follow"
+>
+  <section class="section">
+    <div class="container">
+      <h1 class="page-title">Writing archive</h1>
+      <p class="page-lead">Legacy pagination route preserved for continuity.</p>
+      <div>
+        {pageArticles.map((article) => (
+          <ArticleListItem article={article} />
+        ))}
+      </div>
+      <div class="hero-actions">
+        <a class="button--secondary" href="/index2.html">Newer posts</a>
+        <a class="button--ghost" href="/writing.html">Back to writing</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,41 @@
+{
+  "name": "ashwch-main-site",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "sync": "pnpm sync:content && pnpm sync:assets",
+    "sync:content": "node ./scripts/migrate-pelican-content.mjs",
+    "sync:assets": "node ./scripts/sync-static-assets.mjs",
+    "sync:unsplash": "node ./scripts/sync-unsplash.mjs",
+    "predev": "pnpm sync",
+    "dev": "astro dev",
+    "prebuild": "pnpm sync",
+    "build": "astro build",
+    "preview": "astro preview",
+    "precheck": "pnpm sync",
+    "check": "astro check",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^5.0.4",
+    "@astrojs/rss": "^4.0.18",
+    "@astrojs/sitemap": "^3.7.2",
+    "@fontsource-variable/inter": "^5.2.8",
+    "@fontsource/jetbrains-mono": "^5.2.8",
+    "@fontsource/newsreader": "^5.2.10",
+    "astro": "^6.2.1",
+    "feed": "^5.2.1",
+    "reading-time": "^1.5.0",
+    "rehype-autolink-headings": "^7.1.0",
+    "rehype-slug": "^6.0.0",
+    "remark-gfm": "^4.0.1"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.9",
+    "typescript": "^5.9.3"
+  }
+}

@@ -1,0 +1,36 @@
+---
+import ArticleListItem from '../../components/ArticleListItem.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getAllArticles, getCategoryIndex } from '../../lib/content';
+
+export async function getStaticPaths() {
+  const articles = await getAllArticles();
+  const categories = getCategoryIndex(articles);
+  return categories.map((category) => ({
+    params: { slug: category.slug },
+    props: { category },
+  }));
+}
+
+const { category } = Astro.props;
+---
+
+<BaseLayout
+  title={`Category: ${category.label}`}
+  description={`Articles filed under ${category.label}.`}
+  canonical={`https://ashwch.com/category/${category.slug}.html`}
+>
+  <section class="section">
+    <div class="container">
+      <h1 class="page-title">Category: {category.label}</h1>
+      <p class="page-lead">
+        {category.articles.length} article{category.articles.length === 1 ? '' : 's'} in this category.
+      </p>
+      <div>
+        {category.articles.map((article) => (
+          <ArticleListItem article={article} />
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

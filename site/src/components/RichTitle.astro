@@ -1,0 +1,31 @@
+---
+interface Props {
+  title: string;
+  titleHtml?: string;
+}
+
+const { title, titleHtml } = Astro.props;
+const ALLOWED_INLINE_TITLE_TAGS = ['em', 'strong', 'code', 'del', 'ins', 'mark', 'sub', 'sup'];
+
+function escapeHtml(value: string) {
+  return value
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;');
+}
+
+function sanitizeTitleHtml(value: string) {
+  const escaped = escapeHtml(value.trim());
+  const allowedTagPattern = new RegExp(
+    `&lt;(\\/?(?:${ALLOWED_INLINE_TITLE_TAGS.join('|')}))&gt;`,
+    'gi',
+  );
+  return escaped.replaceAll(allowedTagPattern, '<$1>');
+}
+
+const safeTitleHtml = titleHtml ? sanitizeTitleHtml(titleHtml) : undefined;
+---
+
+{safeTitleHtml ? <span set:html={safeTitleHtml} /> : title}

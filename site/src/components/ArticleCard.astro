@@ -1,0 +1,27 @@
+---
+import RichTitle from './RichTitle.astro';
+import type { ArticleEntry } from '../lib/content';
+import { formatDate, getReadingStats, getTagPath } from '../lib/content';
+
+interface Props {
+  article: ArticleEntry;
+}
+
+const { article } = Astro.props;
+const reading = getReadingStats(article.body ?? '');
+const primaryTag = article.data.tags[0];
+---
+
+<article class="article-card">
+  <div class="article-card__meta">
+    {primaryTag && <a class="pill pill--accent" href={getTagPath(primaryTag)}>{primaryTag}</a>}
+    <span>{formatDate(article.data.date)}</span>
+    <span>{reading.minutes} min read</span>
+  </div>
+  <h3>
+    <a class="article-list__title" href={article.data.legacyUrl}
+      ><RichTitle title={article.data.title} titleHtml={article.data.titleHtml} /></a
+    >
+  </h3>
+  <p>{article.data.summary ?? article.data.description}</p>
+</article>
