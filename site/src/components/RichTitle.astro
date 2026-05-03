@@ -1,0 +1,10 @@
+---
+interface Props {
+  title: string;
+  titleHtml?: string;
+}
+
+const { title, titleHtml } = Astro.props;
+---
+
+{titleHtml ? <span set:html={titleHtml} /> : title}

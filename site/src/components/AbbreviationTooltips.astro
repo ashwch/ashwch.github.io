@@ -1,0 +1,156 @@
+---
+import { abbreviations } from '../lib/abbreviations';
+---
+
+<script is:inline define:vars={{ abbreviations }}>
+  (() => {
+    const entries = Object.entries(abbreviations || {}).sort((left, right) => right[0].length - left[0].length);
+    if (!entries.length) return;
+
+    const escapeRegex = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const pattern = new RegExp(`\\b(${entries.map(([key]) => escapeRegex(key)).join('|')})\\b`, 'g');
+    const rootSelector = '.prose, .article-summary';
+    const skipSelector = 'abbr, code, pre, script, style, textarea, noscript, samp, kbd, var';
+    const headingSelector = 'h1, h2, h3, h4, h5, h6';
+
+    const closeOpenAbbreviations = (except) => {
+      document.querySelectorAll('abbr[data-open="true"]').forEach((element) => {
+        if (element !== except) {
+          element.removeAttribute('data-open');
+        }
+      });
+    };
+
+    const shouldSkipTextNode = (node) => {
+      const parent = node.parentElement;
+      if (!parent) return true;
+      return Boolean(parent.closest(skipSelector));
+    };
+
+    const wrapTextNode = (node) => {
+      const text = node.nodeValue;
+      if (!text) return;
+
+      pattern.lastIndex = 0;
+      if (!pattern.test(text)) return;
+      pattern.lastIndex = 0;
+
+      const fragment = document.createDocumentFragment();
+      let cursor = 0;
+      const insideHeading = Boolean(node.parentElement?.closest(headingSelector));
+
+      for (const match of text.matchAll(pattern)) {
+        const [term] = match;
+        const index = match.index ?? 0;
+
+        if (index > cursor) {
+          fragment.append(text.slice(cursor, index));
+        }
+
+        const abbr = document.createElement('abbr');
+        abbr.textContent = term;
+        abbr.setAttribute('title', abbreviations[term]);
+        if (insideHeading) {
+          abbr.dataset.abbrDisabled = 'true';
+        }
+        fragment.append(abbr);
+        cursor = index + term.length;
+      }
+
+      if (cursor < text.length) {
+        fragment.append(text.slice(cursor));
+      }
+
+      node.parentNode?.replaceChild(fragment, node);
+    };
+
+    const enhanceRoot = (root) => {
+      if (root.dataset.abbrEnhanced === 'true') return;
+
+      const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+      const textNodes = [];
+
+      while (walker.nextNode()) {
+        const node = walker.currentNode;
+        if (!shouldSkipTextNode(node)) {
+          textNodes.push(node);
+        }
+      }
+
+      textNodes.forEach(wrapTextNode);
+
+      root.querySelectorAll('abbr[title], abbr[data-full-form]').forEach((element) => {
+        const label = element.getAttribute('data-full-form') || element.getAttribute('title');
+        if (!label) return;
+
+        element.dataset.fullForm = label;
+        if (element.dataset.abbrDisabled === 'true') {
+          element.removeAttribute('title');
+          return;
+        }
+
+        element.classList.add('abbr-tooltip');
+        element.setAttribute('aria-label', label);
+        element.setAttribute('tabindex', '0');
+        element.removeAttribute('title');
+
+        if (element.dataset.abbrBound === 'true') return;
+
+        element.addEventListener('click', (event) => {
+          event.stopPropagation();
+          const isOpen = element.dataset.open === 'true';
+          closeOpenAbbreviations(element);
+          if (isOpen) {
+            element.removeAttribute('data-open');
+            element.blur();
+            return;
+          }
+          element.dataset.open = 'true';
+          element.focus({ preventScroll: true });
+        });
+
+        element.addEventListener('keydown', (event) => {
+          if (event.key === 'Escape') {
+            element.removeAttribute('data-open');
+            element.blur();
+          }
+        });
+
+        element.addEventListener('blur', () => {
+          requestAnimationFrame(() => {
+            if (document.activeElement !== element && !element.matches(':hover')) {
+              element.removeAttribute('data-open');
+            }
+          });
+        });
+
+        element.dataset.abbrBound = 'true';
+      });
+
+      root.dataset.abbrEnhanced = 'true';
+    };
+
+    const init = () => {
+      document.querySelectorAll(rootSelector).forEach((root) => enhanceRoot(root));
+    };
+
+    document.addEventListener('click', (event) => {
+      if (event.target instanceof Element && event.target.closest('abbr.abbr-tooltip')) {
+        return;
+      }
+      closeOpenAbbreviations();
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        closeOpenAbbreviations();
+      }
+    });
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init, { once: true });
+    } else {
+      init();
+    }
+  })();
+</script>

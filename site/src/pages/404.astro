@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Not found" description="The page you requested could not be found." canonical="https://ashwch.com/404.html">
+  <section class="section">
+    <div class="container">
+      <span class="eyebrow">404</span>
+      <h1 class="page-title">Page not found</h1>
+      <p class="page-lead">
+        The route may have moved, or it may never have existed. The writing archive and project index
+        are good places to start again.
+      </p>
+      <div class="hero-actions">
+        <a class="button" href="/">Home</a>
+        <a class="button--secondary" href="/writing.html">Writing</a>
+        <a class="button--ghost" href="/archives.html">Archives</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

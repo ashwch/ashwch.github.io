@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getAllArticles, getCategoryIndex } from '../lib/content';
+
+const articles = await getAllArticles();
+const categories = getCategoryIndex(articles);
+---
+
+<BaseLayout title="Categories" description="Browse articles by category." canonical="https://ashwch.com/categories.html">
+  <section class="section">
+    <div class="container">
+      <h1 class="page-title">Categories</h1>
+      <p class="page-lead">Legacy category routes preserved for continuity and discovery.</p>
+      <div class="pill-row" style="margin-top:2rem">
+        {categories.map((category) => (
+          <a class="pill" href={`/category/${category.slug}.html`}>
+            {category.label} ({category.articles.length})
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

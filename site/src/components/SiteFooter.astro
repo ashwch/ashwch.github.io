@@ -1,0 +1,17 @@
+---
+import { footerLinks } from '../data/site';
+---
+
+<footer class="site-footer">
+  <div class="container site-footer__inner">
+    <div class="site-footer__copy">© Ashwini Chaudhary (Monty).</div>
+
+    <nav class="footer-links" aria-label="Footer">
+      {footerLinks.map((link) => (
+        <a href={link.href} target={link.href.startsWith('https://') ? '_blank' : undefined} rel="noreferrer">
+          {link.label}
+        </a>
+      ))}
+    </nav>
+  </div>
+</footer>

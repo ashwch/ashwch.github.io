@@ -1,0 +1,117 @@
+---
+import { render } from 'astro:content';
+import AbbreviationTooltips from '../components/AbbreviationTooltips.astro';
+import AuthorBio from '../components/AuthorBio.astro';
+import Comments from '../components/Comments.astro';
+import RichTitle from '../components/RichTitle.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import {
+  formatDate,
+  getAllArticles,
+  getReadingStats,
+  getRelatedArticles,
+  getTagPath,
+} from '../lib/content';
+
+export async function getStaticPaths() {
+  const articles = await getAllArticles();
+  return articles.map((article) => ({
+    params: { slug: article.data.slug },
+    props: { article, articles },
+  }));
+}
+
+const { article, articles } = Astro.props;
+const { Content, headings } = await render(article);
+const reading = getReadingStats(article.body ?? '');
+const related = getRelatedArticles(article, articles);
+const topLevelHeadings = headings.filter((heading) => heading.depth === 2);
+const tocHeadings = topLevelHeadings.length >= 2 ? topLevelHeadings : headings.filter((heading) => heading.depth <= 3);
+const hasToc = tocHeadings.length >= 2;
+---
+
+<BaseLayout
+  title={article.data.title}
+  description={article.data.description}
+  canonical={article.data.canonicalUrl}
+  type="article"
+>
+  <div class="reading-container">
+    <div class:list={["article-shell", !hasToc && 'article-shell--no-toc']}>
+      {hasToc && (
+        <aside class="article-toc" aria-label="Table of contents">
+          <div class="eyebrow" style="margin-bottom:0.75rem">Contents</div>
+          <nav>
+            {tocHeadings.map((heading, index) => (
+              <a href={`#${heading.slug}`} data-active={index === 0 ? 'true' : undefined}
+                >{heading.text.replace(/\s*#$/, '')}</a
+              >
+            ))}
+          </nav>
+        </aside>
+      )}
+
+      <article class="article-main">
+        <header class="article-header">
+          <div class="pill-row">
+            <span class="meta-chip meta-chip--accent">{article.data.domain}</span>
+            {article.data.categories[0] && <span class="meta-chip">{article.data.categories[0]}</span>}
+          </div>
+          <h1 class="article-title">
+            <RichTitle title={article.data.title} titleHtml={article.data.titleHtml} />
+          </h1>
+          {article.data.summary && <p class="article-summary">{article.data.summary}</p>}
+          <div class="article-meta" style="margin-top:1rem">
+            <span>{formatDate(article.data.date)}</span>
+            <span>{reading.minutes} min read</span>
+            <span>{reading.words} words</span>
+          </div>
+        </header>
+
+        <div class="prose">
+          <Content />
+        </div>
+
+        {article.data.tags.length > 0 && (
+          <div class="pill-row" style="width:min(100%, var(--reading-width)); margin-top:2rem">
+            {article.data.tags.map((tag) => (
+              <a class="pill" href={getTagPath(tag)}>{tag}</a>
+            ))}
+          </div>
+        )}
+
+        <AuthorBio />
+        <Comments
+          identifier={article.data.legacyUrl}
+          title={article.data.title}
+          url={article.data.canonicalUrl}
+        />
+      </article>
+
+      <AbbreviationTooltips />
+    </div>
+  </div>
+
+  {related.length > 0 && (
+    <section class="related-section">
+      <div class="container">
+        <h2 class="section-title" style="font-size:2.2rem">Related articles</h2>
+        <div class="related-grid">
+          {related.map((candidate) => (
+            <article class="article-card">
+              <div class="article-card__meta">
+                <span class="eyebrow" style="margin:0">{candidate.data.domain}</span>
+              </div>
+              <h3>
+                <a class="article-list__title" href={candidate.data.legacyUrl}
+                  ><RichTitle title={candidate.data.title} titleHtml={candidate.data.titleHtml} /></a
+                >
+              </h3>
+              <p>{candidate.data.summary ?? candidate.data.description}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+</BaseLayout>

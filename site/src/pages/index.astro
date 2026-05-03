@@ -1,0 +1,105 @@
+---
+import ArticleCard from '../components/ArticleCard.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { featuredProjects } from '../data/projects';
+import { getFeaturedPhotos } from '../lib/photography';
+import { getAllArticles } from '../lib/content';
+
+const articles = await getAllArticles();
+const latestArticles = articles.slice(0, 2);
+const featuredPhotos = getFeaturedPhotos(3);
+---
+
+<BaseLayout canonical="https://ashwch.com/">
+  <section class="hero">
+    <div class="container" style="width:min(calc(100% - 2rem), 52rem)">
+      <span class="eyebrow">Ashwini Chaudhary (Monty)</span>
+      <h1 class="display-title">Writing, projects, and photography.</h1>
+      <p class="hero-copy">
+        I build software, lead engineering teams, and write about the systems and tools I use.
+      </p>
+      <div class="hero-actions">
+        <a class="button" href="/writing.html">Writing</a>
+        <a class="button--secondary" href="/pages/projects.html">Projects</a>
+        <a class="button--secondary" href="/pages/photography.html">Photography</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Writing</h2>
+        <a class="section-link" href="/writing.html">View all</a>
+      </div>
+
+      <div class="grid grid--two">
+        {latestArticles.map((article) => (
+          <ArticleCard article={article} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Projects</h2>
+        <a class="section-link" href="/pages/projects.html">Project index</a>
+      </div>
+
+      <div class="grid grid--two">
+        {featuredProjects.map((project) => (
+          <article class="project-card">
+            <div class="article-card__meta">
+              <span class="eyebrow" style="margin:0">{project.category}</span>
+            </div>
+            <h3>{project.name}</h3>
+            <p>{project.description}</p>
+            <div class="pill-row" style="margin-top:1rem">
+              {project.tags.map((tag) => (
+                <span class="pill">{tag}</span>
+              ))}
+            </div>
+            <div class="hero-actions">
+              <a class="button" href={project.href} target="_blank" rel="noreferrer">Visit site</a>
+              {project.repo && (
+                <a class="button--secondary" href={project.repo} target="_blank" rel="noreferrer">
+                  Source
+                </a>
+              )}
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Photography. <span style="color:var(--text-muted); font-style:italic">Gallery</span></h2>
+        <a class="section-link" href="/pages/photography.html">Gallery</a>
+      </div>
+
+      {
+        featuredPhotos.length ? (
+          <div class="photo-preview">
+            {featuredPhotos.slice(0, 3).map((photo) => (
+              <a class="photo-card" href={photo.links.html} target="_blank" rel="noreferrer">
+                <img src={photo.urls.regular} alt={photo.alt} loading="lazy" />
+                <div class="photo-card__body">
+                  <h3>{photo.title}</h3>
+                  <p>{photo.location?.title || photo.location?.name || 'Unsplash portfolio'}</p>
+                  <p>Photo by {photo.user.name || 'Ashwini Chaudhary'} on Unsplash</p>
+                </div>
+              </a>
+            ))}
+          </div>
+        ) : (
+          <div class="empty-state">Photography is not available yet.</div>
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>

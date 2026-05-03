@@ -1,0 +1,85 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ArticleListItem from '../components/ArticleListItem.astro';
+import { getAllArticles } from '../lib/content';
+
+const articles = await getAllArticles();
+const domains = [...new Set(articles.map((article) => article.data.domain))].sort();
+---
+
+<BaseLayout
+  title="Writing"
+  description="Writing by Ashwini Chaudhary."
+  canonical="https://ashwch.com/writing.html"
+>
+  <section class="hero">
+    <div class="container">
+      <span class="eyebrow">Writing</span>
+      <h1 class="page-title">Writing</h1>
+      <p class="page-lead">Articles on software, leadership, tools, and work.</p>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="container">
+      <div class="search-shell" id="search">
+        <label class="search-bar" for="writing-search">
+          <span aria-hidden="true">⌕</span>
+          <input id="writing-search" type="search" placeholder="Search articles..." />
+        </label>
+        <div class="filter-row" id="writing-filters">
+          <button class="filter-chip meta-chip--accent" type="button" data-domain="all" aria-pressed="true">
+            All
+          </button>
+          {domains.map((domain) => (
+            <button class="filter-chip" type="button" data-domain={domain} aria-pressed="false">
+              {domain}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div id="writing-results">
+        {articles.map((article) => (
+          <div
+            data-writing-item
+            data-domain={article.data.domain}
+            data-search={`${article.data.title} ${article.data.summary ?? ''} ${article.data.tags.join(' ')}`.toLowerCase()}
+          >
+            <ArticleListItem article={article} />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <script is:inline>
+    const filterButtons = document.querySelectorAll('#writing-filters [data-domain]');
+    const searchInput = document.getElementById('writing-search');
+    const items = document.querySelectorAll('[data-writing-item]');
+    let currentDomain = 'all';
+
+    const applyFilters = () => {
+      const query = searchInput?.value.toLowerCase().trim() || '';
+      items.forEach((item) => {
+        const domainMatch = currentDomain === 'all' || item.dataset.domain === currentDomain;
+        const searchMatch = !query || item.dataset.search?.includes(query);
+        item.style.display = domainMatch && searchMatch ? '' : 'none';
+      });
+    };
+
+    filterButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        currentDomain = button.dataset.domain || 'all';
+        filterButtons.forEach((candidate) => {
+          const active = candidate === button;
+          candidate.setAttribute('aria-pressed', String(active));
+          candidate.classList.toggle('meta-chip--accent', active);
+        });
+        applyFilters();
+      });
+    });
+
+    searchInput?.addEventListener('input', applyFilters);
+  </script>
+</BaseLayout>

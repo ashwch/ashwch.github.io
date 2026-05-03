@@ -1,4 +1,21 @@
-# Modern Pelican Blog
+# ashwch.com source repository
+
+This repository currently contains:
+
+- the legacy Pelican site that still powers production today
+- the new Astro rebuild in `site/`
+
+If you are working on the Astro migration, start with:
+
+- `docs/plans/astro-migration-plan.md`
+- `site/README.md`
+- `AGENTS.md`
+
+> Production is still served from `gh-pages` until the Astro cutover is complete.
+
+---
+
+## Legacy Pelican site
 
 A clean, responsive, and modern blog built with Pelican, featuring dark mode support, improved typography, and an elegant design.
 

@@ -1,0 +1,35 @@
+---
+import { primaryNav } from '../data/site';
+import ThemeToggle from './ThemeToggle.astro';
+
+const { pathname } = Astro.url;
+
+function isActive(href: string) {
+  if (href === '/writing.html') return pathname === '/writing' || pathname === '/writing/' || pathname === '/writing.html';
+  return pathname === href;
+}
+---
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a class="brand" href="/">ashwch</a>
+
+    <nav class="site-nav" aria-label="Primary">
+      {primaryNav.map((item) => (
+        <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>
+          {item.label}
+        </a>
+      ))}
+    </nav>
+
+    <div class="header-actions">
+      <a class="icon-button" href="/writing.html#search" aria-label="Search writing">
+        <span aria-hidden="true">⌕</span>
+      </a>
+      <a class="icon-button" href="/feeds/all.atom.xml" aria-label="RSS feed">
+        <span aria-hidden="true">RSS</span>
+      </a>
+      <ThemeToggle />
+    </div>
+  </div>
+</header>

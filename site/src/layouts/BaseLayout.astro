@@ -1,0 +1,82 @@
+---
+import SiteFooter from '../components/SiteFooter.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import '../styles/global.css';
+import { siteMeta } from '../data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  canonical?: string;
+  image?: string;
+  type?: 'website' | 'article';
+  robots?: string;
+}
+
+const {
+  title,
+  description = siteMeta.description,
+  canonical = Astro.url.href,
+  image,
+  type = 'website',
+  robots = 'index,follow',
+} = Astro.props;
+
+const pageTitle = title ? `${title} · ${siteMeta.name}` : `${siteMeta.title} · ${siteMeta.tagline}`;
+const ogImage = image ? new URL(image, Astro.site ?? siteMeta.siteUrl).toString() : undefined;
+const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID || undefined;
+---
+
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={siteMeta.author} />
+    <meta name="robots" content={robots} />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" type="application/atom+xml" title="ashwch Atom feed" href="/feeds/all.atom.xml" />
+    <link rel="alternate" type="application/rss+xml" title="ashwch RSS feed" href="/rss.xml" />
+    <meta property="og:site_name" content={siteMeta.name} />
+    <meta property="og:type" content={type} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    {ogImage && <meta name="twitter:image" content={ogImage} />}
+    <script is:inline>
+      const savedTheme = localStorage.getItem('ashwch-theme');
+      const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.dataset.theme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
+    </script>
+    {gaMeasurementId && (
+      <>
+        <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`}></script>
+        <script is:inline define:vars={{ gaMeasurementId }}>
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            window.dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', gaMeasurementId);
+        </script>
+      </>
+    )}
+  </head>
+  <body>
+    <div class="site-shell">
+      <SiteHeader />
+      <main class="site-main">
+        <slot />
+      </main>
+      <SiteFooter />
+    </div>
+  </body>
+</html>

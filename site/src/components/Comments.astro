@@ -1,0 +1,37 @@
+---
+interface Props {
+  identifier: string;
+  title: string;
+  url: string;
+}
+
+const { identifier, title, url } = Astro.props;
+const shortname = import.meta.env.PROD ? import.meta.env.PUBLIC_DISQUS_SHORTNAME || 'ashwch' : undefined;
+---
+
+<div class="comments-shell">
+  <h2 class="section-title" style="font-size:2rem">Comments</h2>
+  {
+    shortname ? (
+      <>
+        <div id="disqus_thread"></div>
+        <noscript>
+          Please enable JavaScript to view the comments powered by Disqus.
+        </noscript>
+        <script is:inline define:vars={{ identifier, shortname, title, url }}>
+          window.disqus_config = function () {
+            this.page.identifier = identifier;
+            this.page.url = url;
+            this.page.title = title;
+          };
+          const script = document.createElement('script');
+          script.src = `https://${shortname}.disqus.com/embed.js`;
+          script.setAttribute('data-timestamp', String(Date.now()));
+          document.head.appendChild(script);
+        </script>
+      </>
+    ) : (
+      <div class="notice">Disqus comments are disabled in local development previews.</div>
+    )
+  }
+</div>

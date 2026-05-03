@@ -1,0 +1,34 @@
+---
+import ArticleListItem from '../../components/ArticleListItem.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { LEGACY_AUTHOR_SLUGS, getAllArticles } from '../../lib/content';
+
+export async function getStaticPaths() {
+  const articles = await getAllArticles();
+  return LEGACY_AUTHOR_SLUGS.map((slug) => ({
+    params: { slug },
+    props: { slug, articles },
+  }));
+}
+
+const { slug, articles } = Astro.props;
+---
+
+<BaseLayout
+  title="Articles by Ashwini Chaudhary"
+  description="Legacy author archive route preserved for continuity."
+  canonical="https://ashwch.com/authors.html"
+  robots="noindex,follow"
+>
+  <section class="section">
+    <div class="container">
+      <h1 class="page-title">Articles by Ashwini Chaudhary</h1>
+      <p class="page-lead">Legacy author route preserved at /author/{slug}.html.</p>
+      <div>
+        {articles.map((article) => (
+          <ArticleListItem article={article} />
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

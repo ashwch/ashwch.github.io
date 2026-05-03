@@ -1,0 +1,20 @@
+<button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle dark mode">
+  <span id="theme-toggle-icon" aria-hidden="true">◐</span>
+</button>
+
+<script is:inline>
+  const button = document.getElementById('theme-toggle');
+  const icon = document.getElementById('theme-toggle-icon');
+
+  const syncIcon = () => {
+    icon.textContent = document.documentElement.dataset.theme === 'dark' ? '☾' : '◐';
+  };
+
+  syncIcon();
+  button?.addEventListener('click', () => {
+    const nextTheme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+    document.documentElement.dataset.theme = nextTheme;
+    localStorage.setItem('ashwch-theme', nextTheme);
+    syncIcon();
+  });
+</script>
