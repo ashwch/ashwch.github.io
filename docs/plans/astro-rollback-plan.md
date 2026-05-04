@@ -1,5 +1,8 @@
 # Astro rollback plan
 
+> Historical note: this was the rollback plan during the Astro cutover period.
+
+
 ## Trigger conditions
 
 Roll back immediately if any of the following happen after cutover:

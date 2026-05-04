@@ -1,6 +1,6 @@
 # Astro main site for ashwch.com
 
-This directory contains the Astro rewrite of the main `ashwch.com` site.
+This directory contains the live Astro application for `ashwch.com`.
 
 ## Goals
 
@@ -44,7 +44,7 @@ pnpm sync:unsplash   # fetch Unsplash portfolio metadata into the generated data
 
 ## Content model
 
-Legacy Pelican content remains the source input during migration:
+Root `content/` remains the source input:
 
 - `../content/articles/*.md`
 - `../content/pages/*.md`
@@ -92,7 +92,12 @@ Current expected launch behavior:
 
 Target platform: Cloudflare Pages.
 
-The current repository still deploys the Pelican build to `gh-pages`. Do not remove that flow until the Astro cutover is ready.
+Current live setup:
+
+- `master` deploys to the Cloudflare Pages project `ashwch-main-site`
+- `ashwch.com` and `www.ashwch.com` are served through Cloudflare
+- the custom domain uses `../cloudflare/ashwch-astro-domain-proxy.mjs` to preserve legacy `.html` URLs
+- the old Pelican stack is archived in `../archive/pelican/`
 
 ## Related docs
 

@@ -1,64 +1,36 @@
 # Scripts Directory
 
-This directory contains utility scripts for managing the blog and its content.
+This directory contains current helper scripts for content and photography workflows.
 
-## Photo Management Scripts
+## Active scripts
 
-### photo_manager.py
-Smart photo management system using Moondream2 AI for image understanding.
+### `photo_manager.py`
+Smart photo management using Moondream2 for image understanding.
 
-**Features:**
-- Automatic title and description generation using AI
-- EXIF data extraction including GPS coordinates
-- Thumbnail generation (1600px, 2000px, 2400px)
-- Smart categorization based on image content
-- MPS acceleration support for Apple Silicon
+What it does:
+- generates titles and descriptions
+- extracts EXIF and GPS data
+- creates photography thumbnails
+- updates gallery metadata in `content/images/photography/gallery_metadata.json`
 
-**Usage:**
+Usage:
 ```bash
-python3 scripts/photo_manager.py [update|regenerate]
+uv run scripts/photo_manager.py
 ```
 
-### set_photo_order.py
-Interactive tool for manually ordering photos in the gallery.
+### `set_photo_order.py`
+Interactive helper for manually ordering photos in the gallery metadata.
 
-**Features:**
-- Set custom order for specific photos
-- Reset to automatic ordering
-- View current photo order
-
-**Usage:**
+Usage:
 ```bash
 python3 scripts/set_photo_order.py
 ```
 
-## Running Scripts
+### `generate_no_code_by_hand_charts.py`
+One-off chart generator used for the “No Code by Hand” article assets.
 
-All photo-related scripts are integrated with the main blog management script:
+## Notes
 
-```bash
-./blog.sh photos update      # Process new photos
-./blog.sh photos regenerate  # Force regenerate all thumbnails
-./blog.sh photos order       # Set manual photo ordering
-./blog.sh photos stats       # Show gallery statistics
-./blog.sh photos clean       # Remove orphaned thumbnails
-```
-
-## Dependencies
-
-The photo management scripts require:
-- Python 3.9+
-- Pillow (image processing)
-- piexif (EXIF data extraction)
-- transformers & torch (for Moondream2 AI)
-- einops (tensor operations)
-
-Install with:
-```bash
-pip install pillow piexif transformers torch einops
-```
-
-Or use uv (recommended):
-```bash
-uv pip install pillow piexif transformers torch einops
-```
+- These scripts operate on the root `content/` tree.
+- The Astro app in `site/` picks up the resulting content and images during `pnpm sync` / `pnpm build`.
+- Historical Pelican-era wrappers now live in `archive/pelican/`.

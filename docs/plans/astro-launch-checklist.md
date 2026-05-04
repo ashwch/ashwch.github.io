@@ -1,5 +1,8 @@
 # Astro launch checklist
 
+> Historical note: this checklist was used for the Astro cutover. `ashwch.com` is now live on Astro/Cloudflare Pages.
+
+
 ## Before cutover
 
 - [ ] `site/` builds cleanly with `pnpm build`

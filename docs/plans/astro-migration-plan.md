@@ -1,5 +1,8 @@
 # Astro migration plan for ashwch.com
 
+> Historical note: this was the working migration plan before the Astro cutover. `ashwch.com` now runs on Astro/Cloudflare Pages; use root `README.md` and `AGENTS.md` for the current state.
+
+
 ## Decisions locked before implementation
 
 ### 1) URL preservation policy
