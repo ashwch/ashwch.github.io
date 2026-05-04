@@ -13,7 +13,7 @@ def set_photo_order():
     metadata_file = Path("content/images/photography/gallery_metadata.json")
     
     if not metadata_file.exists():
-        print("❌ Metadata file not found. Run './blog.sh photos update' first.")
+        print("❌ Metadata file not found. Run 'uv run scripts/photo_manager.py' first.")
         return
     
     with open(metadata_file) as f:
@@ -80,7 +80,7 @@ def set_photo_order():
         json.dump(metadata, f, indent=2)
     
     print("\n✅ Photo order updated!")
-    print("Run './blog.sh photos update' to regenerate the gallery.")
+    print("Run 'uv run scripts/photo_manager.py' to regenerate the gallery.")
 
 if __name__ == "__main__":
     set_photo_order()

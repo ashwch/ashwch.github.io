@@ -313,7 +313,6 @@ select {
 
 .hero-visual {
   overflow: hidden;
-  aspect-ratio: 4 / 5;
 }
 
 .hero-visual img {
@@ -322,26 +321,223 @@ select {
   object-fit: cover;
 }
 
+/*
+ * Homepage hero overrides.
+ *
+ * The default hero—split grid puts text first and image second with equal
+ * weight.  For the homepage we bias toward the image (~60 % width) and
+ * tighten the text column so it reads as a caption rather than a competing
+ * headline.
+ */
+.hero-home {
+  padding-top: clamp(2.5rem, 5vw, 5rem);
+}
+
+.hero-home__grid {
+  grid-template-columns: minmax(0, 0.66fr) minmax(0, 1.34fr);
+  gap: clamp(2rem, 3.4vw, 3.5rem);
+  align-items: stretch;
+}
+
+.hero-home__copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+}
+
+.hero-home__copy .eyebrow {
+  margin-bottom: 0.75rem;
+  font-size: 0.74rem;
+}
+
+.hero-home__copy .display-title {
+  max-width: 8.6ch;
+  font-size: clamp(2.2rem, 4.2vw, 3.4rem);
+  line-height: 1.02;
+}
+
+.hero-home__copy .hero-copy {
+  max-width: 24rem;
+  margin-top: 1rem;
+  font-size: clamp(1rem, 1.25vw, 1.14rem);
+  line-height: 1.65;
+}
+
+.hero-home__copy .hero-actions {
+  gap: 0.65rem;
+  margin-top: 1.15rem;
+}
+
+.hero-home__copy .button,
+.hero-home__copy .button--secondary {
+  padding: 0.78rem 1rem;
+}
+
+.hero-home__visual {
+  min-width: 0;
+}
+
+/*
+ * Photography gallery (hero card).
+ *
+ * The gallery is a linked card that holds two stacked <picture> elements.
+ * Only one is visible at a time; they crossfade on rotation.
+ */
+.homepage-gallery {
+  position: relative;
+  display: block;
+  width: 100%;
+  min-height: clamp(23rem, 38vw, 30rem);
+  aspect-ratio: 16 / 9;
+  color: white;
+  text-decoration: none;
+  isolation: isolate;
+}
+
+.homepage-gallery:hover {
+  color: white;
+}
+
+.homepage-gallery__viewport {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* Inactive frame — hidden, no transition running. */
+.homepage-gallery__frame {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  will-change: opacity;
+  transition: opacity 950ms ease;
+}
+
+/*
+ * Each image starts from a preset transform (slightly zoomed + offset).
+ * When the is-animated class is added, CSS transitions it to the end
+ * transform over ~7.8 s, creating a slow Ken Burns effect.
+ *
+ * The custom properties (--gallery-start-*) are set per-slide by the JS.
+ */
+.homepage-gallery__frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  will-change: transform;
+  transform: translate3d(var(--gallery-start-x, 0%), var(--gallery-start-y, 0%), 0)
+    scale(var(--gallery-start-scale, 1.12));
+  transition: transform 7.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.homepage-gallery__frame.is-active {
+  opacity: 1;
+}
+
+.homepage-gallery__frame.is-active.is-animated img {
+  transform: translate3d(var(--gallery-end-x, 0%), var(--gallery-end-y, 0%), 0)
+    scale(var(--gallery-end-scale, 1.01));
+}
+
+/*
+ * Minimal overlay so the photography leads.
+ * We use a very light gradient — just enough to keep the badge and CTA
+ * readable without making the image feel covered.
+ */
+.homepage-gallery__overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(1rem, 2.4vw, 1.5rem);
+  background:
+    linear-gradient(180deg, rgba(15, 23, 42, 0.08) 0%, rgba(15, 23, 42, 0.03) 34%, rgba(15, 23, 42, 0.32) 100%),
+    linear-gradient(135deg, rgba(79, 70, 229, 0.04), transparent 55%);
+}
+
+.homepage-gallery__eyebrow,
+.homepage-gallery__cta,
+.homepage-gallery__counter {
+  display: inline-flex;
+  align-self: flex-start;
+  padding: 0.45rem 0.8rem;
+  border-radius: var(--radius-full);
+  background: rgba(15, 23, 42, 0.34);
+  color: rgba(255, 255, 255, 0.94);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  backdrop-filter: blur(10px);
+}
+
+.homepage-gallery__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.homepage-gallery__cta,
+.homepage-gallery__counter {
+  font-size: 0.75rem;
+}
+
+.homepage-gallery__counter {
+  align-self: auto;
+  margin-left: auto;
+  color: rgba(255, 255, 255, 0.82);
+}
+
 .about-page {
   padding-top: 0.75rem;
 }
 
 .about-page__container {
-  width: min(calc(100% - 2rem), 52rem);
+  width: min(calc(100% - 2rem), 58rem);
   margin-inline: auto;
 }
 
 .about-page__portrait {
   float: right;
-  width: 12rem;
+  width: clamp(18rem, 28vw, 22rem);
   height: auto;
-  margin: 0 0 1rem 1.5rem;
-  border-radius: 0.25rem;
+  margin: 0 0 1.5rem 2.25rem;
+  border-radius: 1rem;
+  box-shadow: var(--shadow);
   object-fit: cover;
+  object-position: center 42%;
 }
 
 .about-page__prose {
   width: 100%;
+}
+
+/*
+ * About-page role line.
+ *
+ * This is the quiet sentence under the name on the About page:
+ *   "CTO at Diversio, software engineer, and photographer."
+ *
+ * We keep it light, small, and below the visual hierarchy of the name and
+ * portrait so it reads as supporting metadata, not a competing element.
+ */
+.about-page__roles {
+  max-width: 34rem;
+  margin: 0.35rem 0 1.1rem;
+  color: var(--text-soft);
+  font-family: var(--font-sans);
+  font-size: clamp(0.96rem, 1vw, 1.06rem);
+  font-weight: 450;
+  line-height: 1.6;
+}
+
+.about-page__roles a {
+  color: inherit;
+  text-decoration-color: color-mix(in srgb, var(--text-soft) 45%, transparent);
 }
 
 .about-page__prose.prose blockquote {
@@ -373,6 +569,87 @@ select {
 .section-link {
   color: var(--accent);
   text-decoration: none;
+}
+
+/*
+ * Projects-page overrides.
+ *
+ * The default section / heading styles work well for reading-heavy pages
+ * (blog, about), but the Projects page needs to feel denser and more
+ * editorial.  These BEM classes tighten spacing and reduce heading sizes
+ * so the page reads as structured proof rather than an archive list.
+ */
+.projects-page__lead {
+  max-width: 40rem;
+}
+
+.projects-page__section-header {
+  margin-bottom: 1.25rem;
+}
+
+.projects-page__section-header--stacked {
+  align-items: flex-start;
+  margin-bottom: 1.6rem;
+  padding-bottom: 1rem;
+}
+
+.projects-page__section-copy-block {
+  display: grid;
+  gap: 0.45rem;
+}
+
+/*
+ * Smaller section titles so the page doesn't feel like it's shouting.
+ */
+.projects-page__section-title {
+  font-size: clamp(1.75rem, 3vw, 2.35rem);
+  line-height: 1.08;
+}
+
+.projects-page__section-copy {
+  max-width: 42rem;
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.projects-page__featured-card {
+  padding: 1.55rem;
+}
+
+.projects-page__featured-title {
+  font-size: clamp(1.8rem, 2.5vw, 2.35rem);
+}
+
+/*
+ * Highlight cards are smaller than featured-project cards because they
+ * represent clusters of work, not individual repos.  We want them scannable
+ * and lightweight rather than heavy and self-important.
+ */
+.projects-page__highlights-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.projects-page__highlight-card {
+  padding: 1.3rem;
+}
+
+.projects-page__highlight-card h3 {
+  margin: 0.4rem 0 0;
+  font-family: var(--font-serif);
+  font-size: 1.45rem;
+  line-height: 1.16;
+}
+
+.projects-page__highlight-card p {
+  margin: 0.7rem 0 0;
+}
+
+.projects-page__highlight-links {
+  margin-top: 1rem;
 }
 
 .grid {
@@ -1009,8 +1286,27 @@ select {
   .grid--three,
   .photo-page__grid,
   .photo-preview,
-  .related-grid {
+  .related-grid,
+  .projects-page__highlights-grid {
     grid-template-columns: 1fr;
+  }
+
+  .hero-home__visual {
+    order: -1;
+  }
+
+  .hero-home__copy .display-title {
+    max-width: 10ch;
+    font-size: clamp(2.2rem, 6vw, 3rem);
+  }
+
+  .hero-home__copy .hero-copy {
+    max-width: 32rem;
+  }
+
+  .homepage-gallery {
+    min-height: clamp(21rem, 58vw, 28rem);
+    aspect-ratio: 16 / 10;
   }
 
   .article-toc {
@@ -1025,8 +1321,13 @@ select {
   .about-page__portrait {
     float: none;
     display: block;
-    width: min(100%, 12rem);
-    margin: 0 0 1rem;
+    width: min(100%, 18rem);
+    margin: 0 0 1.25rem;
+  }
+
+  .about-page__roles {
+    max-width: 100%;
+    font-size: 0.97rem;
   }
 }
 
@@ -1037,9 +1338,44 @@ select {
     flex-direction: column;
   }
 
+  .hero-home__copy .display-title {
+    max-width: 9ch;
+    font-size: clamp(2.05rem, 8.5vw, 2.75rem);
+  }
+
+  .hero-home__copy .hero-copy {
+    font-size: 0.98rem;
+    line-height: 1.6;
+  }
+
+  .hero-home__copy .hero-actions {
+    gap: 0.55rem;
+  }
+
+  .homepage-gallery {
+    min-height: 21rem;
+    aspect-ratio: 4 / 3;
+  }
+
+  .homepage-gallery__overlay {
+    padding: 1rem;
+  }
+
+  .homepage-gallery__meta {
+    align-items: center;
+    gap: 0.5rem;
+  }
+
   .header-actions,
   .footer-links {
     width: 100%;
     justify-content: flex-start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .homepage-gallery__frame,
+  .homepage-gallery__frame img {
+    transition: none;
   }
 }

@@ -1,27 +1,55 @@
 ---
+/**
+ * Homepage.
+ *
+ * LAYOUT STRATEGY
+ *
+ * The page has three clear zones, top to bottom:
+ *
+ *   1. Hero        — split layout: text column + rotating photography gallery.
+ *                    The image gets ~60 % of the width so the photo leads.
+ *
+ *   2. Writing     — latest two articles as cards.
+ *
+ *   3. Projects    — the two featured projects (Microverse, auto-uv-env).
+ *                    The full credibility layer lives on /pages/projects.html.
+ *
+ * WHY NO PHOTOGRAPHY STRIP
+ *
+ * We removed the separate "Photography · Gallery" section below the fold.
+ * The hero gallery already links directly to /pages/photography.html and
+ * carries more emotional weight than three small Unsplash cards ever could.
+ * Removing the duplicate strip makes the page cleaner and respects the photos.
+ */
+
 import ArticleCard from '../components/ArticleCard.astro';
+import HomepageHeroGallery from '../components/HomepageHeroGallery.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { homepageBanners } from '../data/homepageBanners';
 import { featuredProjects } from '../data/projects';
-import { getFeaturedPhotos } from '../lib/photography';
 import { getAllArticles } from '../lib/content';
 
 const articles = await getAllArticles();
 const latestArticles = articles.slice(0, 2);
-const featuredPhotos = getFeaturedPhotos(3);
 ---
 
 <BaseLayout canonical="https://ashwch.com/">
-  <section class="hero">
-    <div class="container" style="width:min(calc(100% - 2rem), 52rem)">
-      <span class="eyebrow">Ashwini Chaudhary (Monty)</span>
-      <h1 class="display-title">Writing, projects, and photography.</h1>
-      <p class="hero-copy">
-        I build software, lead engineering teams, and write about the systems and tools I use.
-      </p>
-      <div class="hero-actions">
-        <a class="button" href="/writing.html">Writing</a>
-        <a class="button--secondary" href="/pages/projects.html">Projects</a>
-        <a class="button--secondary" href="/pages/photography.html">Photography</a>
+  <section class="hero hero-home">
+    <div class="container hero--split hero-home__grid">
+      <div class="hero-home__copy">
+        <span class="eyebrow">Ashwini Chaudhary (Monty)</span>
+        <h1 class="display-title">Software, writing, and photography.</h1>
+        <p class="hero-copy">
+          I lead engineering teams, build software, and write about the systems and tools behind the work.
+        </p>
+        <div class="hero-actions">
+          <a class="button" href="/writing.html">Writing</a>
+          <a class="button--secondary" href="/pages/projects.html">Projects</a>
+        </div>
+      </div>
+
+      <div class="hero-home__visual">
+        <HomepageHeroGallery banners={homepageBanners} />
       </div>
     </div>
   </section>
@@ -75,31 +103,4 @@ const featuredPhotos = getFeaturedPhotos(3);
     </div>
   </section>
 
-  <section class="section" style="padding-top:0">
-    <div class="container">
-      <div class="section-header">
-        <h2 class="section-title">Photography. <span style="color:var(--text-muted); font-style:italic">Gallery</span></h2>
-        <a class="section-link" href="/pages/photography.html">Gallery</a>
-      </div>
-
-      {
-        featuredPhotos.length ? (
-          <div class="photo-preview">
-            {featuredPhotos.slice(0, 3).map((photo) => (
-              <a class="photo-card" href={photo.links.html} target="_blank" rel="noreferrer">
-                <img src={photo.urls.regular} alt={photo.alt} loading="lazy" />
-                <div class="photo-card__body">
-                  <h3>{photo.title}</h3>
-                  <p>{photo.location?.title || photo.location?.name || 'Unsplash portfolio'}</p>
-                  <p>Photo by {photo.user.name || 'Ashwini Chaudhary'} on Unsplash</p>
-                </div>
-              </a>
-            ))}
-          </div>
-        ) : (
-          <div class="empty-state">Photography is not available yet.</div>
-        )
-      }
-    </div>
-  </section>
 </BaseLayout>

@@ -37,6 +37,8 @@ site/public/CNAME
 
 # Cloudflare / Wrangler
 .wrangler/
+archive/pelican/output
+archive/pelican/.venv
 
 # Unit test / coverage reports
 .coverage

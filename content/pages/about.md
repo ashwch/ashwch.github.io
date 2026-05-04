@@ -5,7 +5,7 @@ Template: about
 
 **Ashwini Chaudhary** (Monty)
 
-> CTO @ [Diversio](https://diversio.com/) | Software Engineer | Photographer
+<p class="about-page__roles">CTO at <a href="https://diversio.com/">Diversio</a>, software engineer, and photographer.</p>
 
 ---
 
@@ -36,7 +36,9 @@ Landscapes and wildlife, shot on a Sony A7III and DJI Mini 3 Pro. [207M+ views a
 
 ### Beyond Code
 
-When not coding, you'll find me strategizing in Age of Empires II, supporting Real Madrid, following F1, or exploring new places with my camera.
+When not coding, you'll find me supporting Real Madrid, following F1, exploring new places with my camera, or spending time on **Age of Empires II**.
+
+I spend a lot of time on 2v2 Empire Wars, playing online against strong players from around the world. AoE II’s depth, breadth, steep learning curve, and vibrant community are a big part of why it has held my attention for so long. [View AoE2 Companion profile](https://www.aoe2companion.com/players/3820258).
 
 <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/4OnJ4u3ReYOXUvwuaA5KwQ?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
 

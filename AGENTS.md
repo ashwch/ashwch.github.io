@@ -1,42 +1,108 @@
 # AGENTS.md
 
-This repository is the source for `https://ashwch.com`, generated with Pelican and published to GitHub Pages.
+This repository now powers the live Astro version of `https://ashwch.com`.
 
-## Critical Deployment Rule
+## Current deployment model
 
-Pushing to `master` does **not** update the live site.
+- **Production branch:** `master`
+- **Current host:** Cloudflare Pages
+- **Pages project:** `ashwch-main-site`
+- **Production domain:** `ashwch.com`
+- **Preview/production deploy workflow:** `.github/workflows/astro-pages-deploy.yml`
+- **Custom-domain Worker:** `cloudflare/ashwch-astro-domain-proxy.mjs`
 
-GitHub Pages is configured to serve from:
+## Important rules
 
-- Branch: `gh-pages`
-- Path: `/`
+### 1) `site/` is the active app
 
-Any content or theme change must be published to `gh-pages` after it is committed on `master`.
+Current application work happens in:
 
-## Safe Publish Workflow
+- `site/`
+- `content/`
+- `content/images/`
+- `cloudflare/`
 
-1. Commit and push source changes to `master`.
-2. Build production output:
-   - `./blog.sh build production`
-   - or `uvx --with markdown --from pelican pelican content -o output -s publishconf.py -t theme`
-3. Deploy output to `gh-pages`:
-   - `./blog.sh deploy`
-   - or `ghp-import -m "Deploy site YYYY-MM-DD HH:MM" -b gh-pages output && git push origin gh-pages`
-4. Verify GitHub Pages build status:
-   - `gh api repos/ashwch/ashwch.github.io/pages`
-   - `gh api 'repos/ashwch/ashwch.github.io/pages/builds?per_page=1'`
-5. Verify live page content with a cache-busting query string:
-   - `curl -sL 'https://ashwch.com/pages/about.html?cb=YYYYMMDDHHMM'`
+Do not treat the archived Pelican stack as current.
 
-## Fast Checklist Before Marking Done
+### 2) `site/src/content/**` is generated
 
-- [ ] Source branch (`master`) contains the intended commit(s)
-- [ ] `gh-pages` has a new deploy commit
-- [ ] Pages build status is `built` for that deploy commit
-- [ ] Live HTML reflects the expected change
+Do not hand-edit:
 
-## Known Gotchas
+- `site/src/content/articles/**`
+- `site/src/content/pages/**`
 
-- `make publish` only builds output; it does not deploy to GitHub Pages.
-- `make github` deploy branch is controlled by `GITHUB_PAGES_BRANCH` in `Makefile`.
-- GitHub Pages and CDN cache may delay visible updates for several minutes.
+Those files are regenerated from root `content/` by the Astro sync scripts.
+
+### 3) Historical Pelican files live in `archive/pelican/`
+
+The previous Pelican site, theme, configs, and old deployment instructions were moved to:
+
+- `archive/pelican/`
+
+Use that archive only for historical reference or one-off migration lookups.
+
+## Safe workflow for current changes
+
+### Local validation
+
+From `site/` run:
+
+```bash
+pnpm check
+pnpm build
+```
+
+If you touch the custom-domain Worker, also run:
+
+```bash
+node --check cloudflare/ashwch-astro-domain-proxy.mjs
+```
+
+### Content / image changes
+
+Root `content/` remains the source of truth.
+
+If you touch photography-related flows, current helpers are:
+
+```bash
+uv run scripts/photo_manager.py
+python3 scripts/set_photo_order.py
+```
+
+## Deployment notes
+
+### Astro deploys
+
+- GitHub Actions builds Astro and uploads it directly to Cloudflare Pages.
+- `master` updates production.
+- PR branches can create preview deploys.
+
+### Custom domain behavior
+
+Cloudflare Pages normalizes `.html` routes on its project domain, so `ashwch.com` is fronted by a Worker to preserve legacy `.html` URLs externally.
+
+If you touch route behavior, redirects, or custom-domain delivery, inspect both:
+
+- `site/public/_redirects`
+- `cloudflare/ashwch-astro-domain-proxy.mjs`
+
+### DNS / propagation caveat
+
+After custom-domain or DNS-related changes, your local resolver may lag behind public resolvers.
+
+Prefer checking both:
+
+```bash
+dig +short @1.1.1.1 ashwch.com
+dig +short @8.8.8.8 ashwch.com
+```
+
+## Done checklist
+
+Before marking work done:
+
+- [ ] `pnpm check` passes
+- [ ] `pnpm build` passes
+- [ ] Worker syntax is valid if `cloudflare/` changed
+- [ ] Live/preview behavior was verified for the changed routes when relevant
+- [ ] No archived Pelican instructions were reintroduced into current root docs

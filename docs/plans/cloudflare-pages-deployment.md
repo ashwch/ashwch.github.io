@@ -65,20 +65,18 @@ The current Worker route was deployed manually with local Wrangler OAuth credent
 
 If you want to automate `cloudflare/ashwch-astro-domain-proxy.mjs`, create a separate Cloudflare API token with Workers + Routes permissions and wire a dedicated workflow for it.
 
-## Recommended rollout shape
+## Current live state
 
-### Preview first
-Use Cloudflare Pages preview deployments for every PR that changes:
+- `master` deploys to Cloudflare Pages production
+- preview deployments can be created from PR branches
+- `ashwch.com` and `www.ashwch.com` are attached to the Pages project
+- the custom domain stays behind `cloudflare/ashwch-astro-domain-proxy.mjs` for legacy `.html` route preservation
+- Google Analytics is carried through `PUBLIC_GA_MEASUREMENT_ID`
+
+## Ongoing rollout guidance
+
+Use preview deployments for every PR that changes:
 - `site/**`
 - `content/**`
 
-### Production later
-Do not switch production traffic until:
-- route parity is verified
-- feeds are verified
-- comment/analytics decisions are confirmed
-- photography sync data is populated and approved
-
-## Important migration caveat
-
-The current live site still serves from GitHub Pages `gh-pages`. A Cloudflare Pages production deploy should be treated as a parallel target until cutover is approved.
+Before making custom-domain or worker changes, verify route parity, feeds, analytics, and comments on actual Cloudflare edge responses rather than only the `pages.dev` project domain.

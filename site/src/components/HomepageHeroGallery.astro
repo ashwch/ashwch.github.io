@@ -1,0 +1,357 @@
+---
+/**
+ * Homepage hero photography gallery.
+ *
+ * PROBLEM
+ *   A static headshot or single image under the hero text feels flat.
+ *   A full-page background image buries the text and loads slowly.
+ *
+ * SOLUTION
+ *   A side-by-side hero card with a gently-animating photo that rotates.
+ *
+ * VISUAL MODEL
+ *
+ *   Desktop                              Mobile
+ *   ┌──────────┬────────────────────┐    ┌──────────────────────┐
+ *   │  Hero    │                    │    │                      │
+ *   │  text    │  ┌──────────────┐  │    │  ┌──────────────┐    │
+ *   │          │  │              │  │    │  │              │    │
+ *   │  Ashwini │  │  rotating    │  │    │  │  photo       │    │
+ *   │  C.      │  │  photo       │  │    │  │  (top)       │    │
+ *   │          │  │  with Ken    │  │    │  └──────────────┘    │
+ *   │  Writing │  │  Burns       │  │    │                      │
+ *   │  Projects│  │  motion      │  │    │  Hero text           │
+ *   │          │  └──────────────┘  │    │  (below)             │
+ *   └──────────┴────────────────────┘    │                      │
+ *                                        └──────────────────────┘
+ *
+ * ANIMATION MECHANISM
+ *
+ *   Two picture frames are stacked absolutely on top of each other:
+ *
+ *     Frame A (is-active)
+ *     Frame B (hidden)
+ *
+ *   Every ~5 seconds we swap:
+ *
+ *     1. Paint new banner into the hidden frame.
+ *     2. Remove is-active from the old frame, add it to the new frame.
+ *     3. On the next animation frame, add is-animated to the new frame.
+ *
+ *   The double-requestAnimationFrame dance is intentional:
+ *     - First rAF:  the browser registers the class change.
+ *     - Second rAF: the browser starts the CSS transition from the initial
+ *       scale/position to the end state.
+ *
+ *   CSS CUSTOM PROPERTIES PER SLIDE
+ *
+ *     Each slide gets a motion preset picked deterministically from its slug:
+ *
+ *       --gallery-start-x / --gallery-start-y    initial pan offset
+ *       --gallery-end-x   / --gallery-end-y      final pan offset
+ *       --gallery-start-scale                    initial zoom (e.g. 1.13)
+ *       --gallery-end-scale                      final zoom (e.g. 1.01)
+ *
+ *     When is-animated is added, CSS transitions smoothly from start to end
+ *     over ~7.8 seconds, creating a slow Ken Burns effect.
+ *
+ * PER-IMAGE FOCAL POINTS
+ *
+ *   Desktop and mobile each have their own crop anchor (object-position).
+ *   This keeps the important subject in frame even though the aspect ratio
+ *   changes between wide and tall viewports.
+ *
+ * ACCESSIBILITY
+ *
+ *   - prefers-reduced-motion: rotation is paused entirely.
+ *   - visibilitychange: rotation pauses when the tab is hidden.
+ *   - mouseenter / mouseleave: rotation pauses on hover.
+ *   - visually-hidden span carries the current image title for screen readers.
+ *   - The anchor's aria-label changes with each slide.
+ */
+
+import type { HomepageBanner } from '../data/homepageBanners';
+
+interface Props {
+  banners: HomepageBanner[];
+}
+
+const { banners } = Astro.props;
+
+// We render the first banner server-side so it appears immediately.
+// The script then randomizes from there.
+const firstBanner = banners[0];
+
+/**
+ * Motion presets for the Ken Burns effect.
+ *
+ * Each preset defines a starting transform (more zoomed, offset slightly)
+ * and an ending transform (closer to natural, centered).
+ *
+ * The preset for each banner is chosen deterministically from its slug
+ * hash, so the same photo always gets the same drift direction.
+ */
+const motionPresets = [
+  {
+    startX: '-2.6%',
+    startY: '-1.2%',
+    endX: '0.8%',
+    endY: '0.3%',
+    startScale: '1.13',
+    endScale: '1.01',
+  },
+  {
+    startX: '2.4%',
+    startY: '-1%',
+    endX: '-0.7%',
+    endY: '0.2%',
+    startScale: '1.125',
+    endScale: '1.01',
+  },
+  {
+    startX: '-1.4%',
+    startY: '1.6%',
+    endX: '0.6%',
+    endY: '-0.2%',
+    startScale: '1.12',
+    endScale: '1.01',
+  },
+  {
+    startX: '1.8%',
+    startY: '1.2%',
+    endX: '-0.5%',
+    endY: '-0.3%',
+    startScale: '1.118',
+    endScale: '1.01',
+  },
+];
+---
+
+<a
+  class="homepage-gallery hero-visual"
+  href="/pages/photography.html"
+  aria-label={`View the photography gallery — ${firstBanner.title}`}
+>
+  <div class="homepage-gallery__viewport" data-homepage-gallery>
+    <!--
+      FRAME A — visible on load
+      Starts with is-active so the first image renders immediately.
+      is-animated is added by the script after the first paint to kick off
+      the Ken Burns motion.
+    -->
+    <picture class="homepage-gallery__frame is-active" data-gallery-frame>
+      <source media="(max-width: 54rem)" srcset={firstBanner.mobileSrc} />
+      <img
+        src={firstBanner.desktopSrc}
+        alt=""
+        width="1600"
+        height="1067"
+        fetchpriority="high"
+        decoding="async"
+      />
+    </picture>
+
+    <!--
+      FRAME B — hidden reserve
+      Starts as a clone of frame A so the page has a consistent LCP candidate.
+      The script repaints this frame with the next banner before swapping.
+      aria-hidden keeps screen readers from announcing an invisible duplicate.
+    -->
+    <picture class="homepage-gallery__frame" data-gallery-frame aria-hidden="true">
+      <source media="(max-width: 54rem)" srcset={firstBanner.mobileSrc} />
+      <img
+        src={firstBanner.desktopSrc}
+        alt=""
+        width="1600"
+        height="1067"
+        loading="lazy"
+        decoding="async"
+      />
+    </picture>
+
+    <!--
+      MINIMAL OVERLAY
+      We deliberately keep the overlay light so the photography leads.
+      Only a small badge (top-left) and a subtle action row (bottom-right).
+    -->
+    <div class="homepage-gallery__overlay">
+      <div class="homepage-gallery__eyebrow">Photography</div>
+      <div class="homepage-gallery__meta">
+        <span class="homepage-gallery__cta">Open gallery →</span>
+        <span class="homepage-gallery__counter" data-gallery-counter>1 / {banners.length}</span>
+      </div>
+      <!-- Hidden title updated by JS for screen-reader context -->
+      <span class="visually-hidden" data-gallery-title>{firstBanner.title}</span>
+    </div>
+  </div>
+</a>
+
+<script is:inline define:vars={{ banners, motionPresets }}>
+  (() => {
+    const galleries = document.querySelectorAll('[data-homepage-gallery]');
+    if (!galleries.length || !Array.isArray(banners) || banners.length === 0) return;
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Fisher-Yates shuffle so every page load shows a different order.
+    const shuffle = (items) => {
+      const copy = [...items];
+      for (let index = copy.length - 1; index > 0; index -= 1) {
+        const swapIndex = Math.floor(Math.random() * (index + 1));
+        [copy[index], copy[swapIndex]] = [copy[swapIndex], copy[index]];
+      }
+      return copy;
+    };
+
+    // Preload the next image pair so the crossfade is instant when it fires.
+    const preload = (banner) => {
+      if (!banner) return;
+      const desktopImage = new Image();
+      desktopImage.src = banner.desktopSrc;
+      const mobileImage = new Image();
+      mobileImage.src = banner.mobileSrc;
+    };
+
+    galleries.forEach((gallery) => {
+      const frames = Array.from(gallery.querySelectorAll('[data-gallery-frame]'));
+      const title = gallery.querySelector('[data-gallery-title]');
+      const counter = gallery.querySelector('[data-gallery-counter]');
+      const galleryLink = gallery.closest('.homepage-gallery');
+      if (frames.length < 2 || !(title instanceof HTMLElement) || !(counter instanceof HTMLElement)) return;
+
+      const sequence = shuffle(banners);
+      let sequenceIndex = Math.floor(Math.random() * sequence.length);
+      let activeFrameIndex = 0; // 0 or 1 — which <picture> is currently visible
+      let intervalId;
+
+      /**
+       * Apply per-slide motion presets and focal positions.
+       *
+       * Sets CSS custom properties on the frame so the img inherits:
+       *   --gallery-start-x / --gallery-start-y / --gallery-start-scale
+       *   --gallery-end-x   / --gallery-end-y   / --gallery-end-scale
+       *
+       * Also sets object-position on the img so the crop anchor matches
+       * the current viewport width.
+       */
+      const applyMotion = (frame, banner) => {
+        const image = frame.querySelector('img');
+        if (!(image instanceof HTMLImageElement)) return;
+
+        // Pick a preset deterministically from the banner slug.
+        // This way the same slide always drifts in the same direction.
+        const preset = motionPresets[Math.abs(
+          banner.slug.split('').reduce((sum, char) => sum + char.charCodeAt(0), 0)
+        ) % motionPresets.length];
+
+        frame.style.setProperty('--gallery-start-x', preset.startX);
+        frame.style.setProperty('--gallery-start-y', preset.startY);
+        frame.style.setProperty('--gallery-end-x', preset.endX);
+        frame.style.setProperty('--gallery-end-y', preset.endY);
+        frame.style.setProperty('--gallery-start-scale', preset.startScale);
+        frame.style.setProperty('--gallery-end-scale', preset.endScale);
+
+        // Use the mobile focal point on narrow screens, desktop otherwise.
+        image.style.objectPosition = window.matchMedia('(max-width: 54rem)').matches
+          ? banner.mobilePosition || banner.desktopPosition || 'center center'
+          : banner.desktopPosition || banner.mobilePosition || 'center center';
+      };
+
+      /**
+       * Load a banner into a frame element.
+       * Called on the hidden frame before it becomes visible.
+       */
+      const paintBanner = (frame, banner, eager = false) => {
+        const source = frame.querySelector('source');
+        const image = frame.querySelector('img');
+        if (!(source instanceof HTMLSourceElement) || !(image instanceof HTMLImageElement)) return;
+        source.srcset = banner.mobileSrc;
+        image.src = banner.desktopSrc;
+        image.alt = '';
+        image.loading = eager ? 'eager' : 'lazy';
+        applyMotion(frame, banner);
+      };
+
+      /**
+       * Update the visible copy: title text, counter, and aria-label on the link.
+       */
+      const syncCopy = (banner, position) => {
+        title.textContent = banner.title;
+        counter.textContent = `${position + 1} / ${sequence.length}`;
+        if (galleryLink instanceof HTMLAnchorElement) {
+          galleryLink.setAttribute('aria-label', `View the photography gallery — ${banner.title}`);
+        }
+      };
+
+      /**
+       * Crossfade from the current banner to the next.
+       *
+       * Step-by-step:
+       *   1. Paint the next banner into the inactive frame (still hidden).
+       *   2. Remove is-active + is-animated from the old frame.
+       *   3. Add is-active to the new frame (now visible at start transform).
+       *   4. On the next animation frame, add is-animated to kick off the
+       *      CSS transition toward the end transform.
+       */
+      const showBanner = (nextIndex) => {
+        const inactiveFrameIndex = activeFrameIndex === 0 ? 1 : 0;
+        const inactiveFrame = frames[inactiveFrameIndex];
+        const activeFrame = frames[activeFrameIndex];
+        const banner = sequence[nextIndex];
+
+        paintBanner(inactiveFrame, banner);
+        syncCopy(banner, nextIndex);
+
+        activeFrame.classList.remove('is-animated');
+        activeFrame.classList.remove('is-active');
+        inactiveFrame.classList.add('is-active');
+
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            inactiveFrame.classList.add('is-animated');
+          });
+          activeFrameIndex = inactiveFrameIndex;
+          sequenceIndex = nextIndex;
+          preload(sequence[(sequenceIndex + 1) % sequence.length]);
+        });
+      };
+
+      const stopRotation = () => {
+        if (intervalId) {
+          window.clearInterval(intervalId);
+          intervalId = undefined;
+        }
+      };
+
+      const startRotation = () => {
+        if (prefersReducedMotion || sequence.length < 2) return;
+        stopRotation();
+        intervalId = window.setInterval(() => {
+          showBanner((sequenceIndex + 1) % sequence.length);
+        }, 5200);
+      };
+
+      // ---- Initialise the first frame ----
+      paintBanner(frames[activeFrameIndex], sequence[sequenceIndex], true);
+      syncCopy(sequence[sequenceIndex], sequenceIndex);
+      preload(sequence[(sequenceIndex + 1) % sequence.length]);
+
+      // Kick off the Ken Burns motion on the first frame after paint.
+      requestAnimationFrame(() => {
+        frames[activeFrameIndex].classList.add('is-animated');
+      });
+
+      gallery.addEventListener('mouseenter', stopRotation);
+      gallery.addEventListener('mouseleave', startRotation);
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+          stopRotation();
+        } else {
+          startRotation();
+        }
+      });
+
+      startRotation();
+    });
+  })();
+</script>
