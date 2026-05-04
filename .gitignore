@@ -35,6 +35,9 @@ site/public/CNAME
 !site/src/lib/
 !site/src/lib/**
 
+# Cloudflare / Wrangler
+.wrangler/
+
 # Unit test / coverage reports
 .coverage
 .tox
