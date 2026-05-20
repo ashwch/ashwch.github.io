@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 520" role="img" aria-labelledby="title desc">
+  <title id="title">Wireframe: One big diff vs small drafts</title>
+  <desc id="desc">A grayscale editorial wireframe showing one overloaded change on the left becoming four smaller reviewable pull requests on the right.</desc>
+  <defs>
+    <style>
+      .title { font: 700 34px "Plus Jakarta Sans", "Helvetica Neue", Inter, Arial, sans-serif; fill: #111318; }
+      .label { font: 700 26px "Plus Jakarta Sans", "Helvetica Neue", Inter, Arial, sans-serif; fill: #111318; }
+      .small { font: 600 15px "Helvetica Neue", Inter, Arial, sans-serif; fill: #4e5563; }
+      .module { font: 700 18px "Plus Jakarta Sans", "Helvetica Neue", Inter, Arial, sans-serif; fill: #111318; }
+      .mono { font: 700 12px ui-monospace, SFMono-Regular, Menlo, monospace; fill: #353b45; letter-spacing: .08em; }
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0 0L10 5L0 10Z" fill="#2f3640" />
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="960" height="520" fill="#fafafb" />
+
+  <text x="48" y="68" class="title">One big diff vs small drafts</text>
+
+  <!-- left overloaded slab -->
+  <g>
+    <rect x="72" y="128" width="256" height="256" rx="16" fill="#d7dbe2" stroke="#2a2f38" stroke-width="2" />
+    <text x="96" y="166" class="label">One big diff</text>
+
+    <rect x="96" y="196" width="176" height="22" rx="6" fill="#f5f6f8" />
+    <rect x="96" y="232" width="150" height="22" rx="6" fill="#f5f6f8" />
+    <rect x="96" y="268" width="188" height="22" rx="6" fill="#f5f6f8" />
+    <rect x="96" y="304" width="164" height="22" rx="6" fill="#f5f6f8" />
+    <rect x="96" y="340" width="206" height="22" rx="6" fill="#f5f6f8" />
+
+    <!-- slight compression cue -->
+    <rect x="288" y="340" width="32" height="22" rx="6" fill="#f5f6f8" opacity="0.7" />
+  </g>
+
+  <!-- transition -->
+  <g>
+    <line x1="392" y1="270" x2="548" y2="270" stroke="#2f3640" stroke-width="3" marker-end="url(#arrow)" />
+    <text x="430" y="244" class="mono">BREAK IT DOWN</text>
+  </g>
+
+  <!-- right modular stack -->
+  <g>
+    <rect x="584" y="136" width="272" height="42" rx="10" fill="#cfd4dc" stroke="#2a2f38" stroke-width="1.5" />
+    <text x="606" y="163" class="module">PR 1</text>
+
+    <rect x="584" y="196" width="272" height="42" rx="10" fill="#e6e9ee" stroke="#8b919c" stroke-width="1.5" />
+    <text x="606" y="223" class="module">PR 2</text>
+
+    <rect x="584" y="256" width="272" height="42" rx="10" fill="#e6e9ee" stroke="#8b919c" stroke-width="1.5" />
+    <text x="606" y="283" class="module">PR 3</text>
+
+    <rect x="584" y="316" width="272" height="42" rx="10" fill="#e6e9ee" stroke="#8b919c" stroke-width="1.5" />
+    <text x="606" y="343" class="module">PR 4</text>
+  </g>
+
+  <!-- note -->
+  <g>
+    <text x="652" y="420" class="small">Clearer intent</text>
+    <text x="652" y="444" class="small">Lower blast radius</text>
+  </g>
+</svg>

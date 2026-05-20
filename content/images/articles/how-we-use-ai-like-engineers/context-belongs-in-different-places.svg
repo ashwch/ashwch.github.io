@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 520" role="img" aria-labelledby="title desc">
+  <title id="title">Split context by purpose</title>
+  <desc id="desc">A grayscale wireframe showing that standards, project docs, and skills or controls should not be mixed together.</desc>
+  <defs>
+    <style>
+      .title { font: 700 32px "Plus Jakarta Sans", "Helvetica Neue", Inter, Arial, sans-serif; fill: #111318; }
+      .subtitle { font: 600 14px "Helvetica Neue", Inter, Arial, sans-serif; fill: #4e5563; }
+      .laneTitle { font: 700 18px "Plus Jakarta Sans", "Helvetica Neue", Inter, Arial, sans-serif; fill: #111318; }
+      .item { font: 600 15px "Helvetica Neue", Inter, Arial, sans-serif; fill: #2f3640; }
+      .small { font: 700 11px ui-monospace, SFMono-Regular, Menlo, monospace; fill: #4e5563; letter-spacing: .08em; }
+      .note { font: 600 14px "Helvetica Neue", Inter, Arial, sans-serif; fill: #4e5563; }
+    </style>
+  </defs>
+
+  <rect x="0" y="0" width="960" height="520" fill="#fafafb" />
+
+  <text x="48" y="68" class="title">Split context by purpose</text>
+  <text x="48" y="94" class="subtitle">Reusable rules, project docs, and skills should not live in one blob.</text>
+
+  <!-- four-column layout -->
+  <g>
+    <text x="72" y="150" class="small">MIXED</text>
+    <text x="284" y="150" class="small">SEPARATED</text>
+
+    <rect x="72" y="172" width="184" height="224" rx="14" fill="#eceff3" stroke="#8b919c" stroke-width="1.5" />
+    <text x="96" y="208" class="laneTitle">One mixed doc</text>
+    <text x="96" y="250" class="item">Standards</text>
+    <text x="96" y="284" class="item">Docs</text>
+    <text x="96" y="318" class="item">Controls</text>
+    <text x="96" y="362" class="small">ALL TOGETHER</text>
+    <text x="96" y="388" class="note">Hard to maintain</text>
+
+    <rect x="284" y="172" width="184" height="224" rx="14" fill="#eceff3" stroke="#8b919c" stroke-width="1.5" />
+    <text x="308" y="208" class="laneTitle">Standards</text>
+    <text x="308" y="250" class="item">Branching</text>
+    <text x="308" y="284" class="item">Deploy</text>
+    <text x="308" y="318" class="item">CI checks</text>
+    <text x="308" y="362" class="small">REUSABLE</text>
+
+    <rect x="496" y="172" width="184" height="224" rx="14" fill="#f7f8fa" stroke="#8b919c" stroke-width="1.5" />
+    <text x="520" y="208" class="laneTitle">Project docs</text>
+    <text x="520" y="250" class="item">TOC</text>
+    <text x="520" y="284" class="item">Role</text>
+    <text x="520" y="318" class="item">Architecture</text>
+    <text x="520" y="362" class="small">NEAR CODE</text>
+
+    <rect x="708" y="172" width="184" height="224" rx="14" fill="#eceff3" stroke="#8b919c" stroke-width="1.5" />
+    <text x="732" y="208" class="laneTitle">Skills</text>
+    <text x="732" y="250" class="item">Tool rules</text>
+    <text x="732" y="284" class="item">Ignore rules</text>
+    <text x="732" y="318" class="item">Scripts</text>
+    <text x="732" y="362" class="small">OPERATIONAL</text>
+  </g>
+</svg>

@@ -70,7 +70,7 @@ Each directory is its own git repository. But they all live in one workspace. On
 
 ### From Days to Hours
 
-Our product manager [Sam](https://www.linkedin.com/in/samuel-bonin/) now redesigns features in hours, not days. He pulls the latest code, runs migrations, and has AI analyze our Bruno API collections. Remember when we [migrated from Postman to Bruno]({filename}/articles/from-postman-to-bruno-how-ai-changed-our-api-workflow.md)? That decision pays huge dividends in a monolith.
+Our product manager [Sam](https://www.linkedin.com/in/samuel-bonin/) now redesigns features in hours, not days. He pulls the latest code, runs migrations, and has AI analyze our Bruno API collections. Remember when we [migrated from Postman to Bruno](/from-postman-to-bruno-how-ai-changed-our-api-workflow.html)? That decision pays huge dividends in a monolith.
 
 The workflow looks like this:
 

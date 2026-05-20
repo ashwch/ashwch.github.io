@@ -57,6 +57,7 @@ Notes:
 - Static pages live in `content/pages/*.md`
 - Shared images live in `content/images/**`
 - Shared acronym definitions live in `abbreviations.md`
+- Cross-site repost workflow: `docs/runbooks/blog-reposting.md` (why one site owns the full article and the other keeps a short stub)
 
 Astro migration/sync scripts:
 
