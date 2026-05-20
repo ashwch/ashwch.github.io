@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 520" role="img" aria-labelledby="title desc">
+  <title id="title">Wireframe: AI accelerates. Humans own the risk.</title>
+  <desc id="desc">A grayscale wireframe showing what AI accelerates and what humans still own.</desc>
+  <defs>
+    <style>
+      .title { font: 700 32px "Plus Jakarta Sans", "Helvetica Neue", Inter, Arial, sans-serif; fill: #111318; }
+      .subtitle { font: 600 14px "Helvetica Neue", Inter, Arial, sans-serif; fill: #4e5563; }
+      .panelTitle { font: 700 20px "Plus Jakarta Sans", "Helvetica Neue", Inter, Arial, sans-serif; fill: #111318; }
+      .item { font: 600 16px "Helvetica Neue", Inter, Arial, sans-serif; fill: #2f3640; }
+      .small { font: 700 11px ui-monospace, SFMono-Regular, Menlo, monospace; fill: #4e5563; letter-spacing: .08em; }
+    </style>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0 0L8 4L0 8Z" fill="#2f3640" />
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="960" height="520" fill="#fafafb" />
+
+  <text x="48" y="68" class="title">AI accelerates. Humans own the risk.</text>
+  <text x="48" y="94" class="subtitle">Draft with AI. Keep decisions human.</text>
+
+  <!-- left field -->
+  <rect x="72" y="180" width="344" height="208" rx="12" fill="#eceff3" />
+  <text x="104" y="216" class="panelTitle">AI accelerates</text>
+  <circle cx="108" cy="254" r="5" fill="#2f3640" />
+  <text x="126" y="260" class="item">Context recovery</text>
+  <circle cx="108" cy="296" r="5" fill="#2f3640" />
+  <text x="126" y="302" class="item">Test drafts</text>
+  <circle cx="108" cy="338" r="5" fill="#2f3640" />
+  <text x="126" y="344" class="item">Docs drafts</text>
+
+  <!-- center bridge -->
+  <line x1="416" y1="286" x2="540" y2="286" stroke="#2f3640" stroke-width="2" marker-end="url(#arrow)" />
+  <text x="448" y="266" class="small">HUMAN-GUIDED</text>
+
+  <!-- right field -->
+  <rect x="544" y="180" width="344" height="208" rx="12" fill="#f7f8fa" />
+  <rect x="544" y="180" width="5" height="208" rx="2.5" fill="#2f3640" />
+  <text x="576" y="216" class="panelTitle">Human owns</text>
+  <circle cx="580" cy="254" r="5" fill="#2f3640" />
+  <text x="598" y="260" class="item">Data + auth risk</text>
+  <circle cx="580" cy="296" r="5" fill="#2f3640" />
+  <text x="598" y="302" class="item">Architecture</text>
+  <circle cx="580" cy="338" r="5" fill="#2f3640" />
+  <text x="598" y="344" class="item">Final approval</text>
+</svg>

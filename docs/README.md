@@ -15,7 +15,8 @@ This directory contains current project documentation for the Astro-based `ashwc
 - `plans/astro-rollback-plan.md`
 - `plans/redirect-map.md`
 
-### Workflow docs
+### Runbooks and workflow docs
+- `runbooks/blog-reposting.md`
 - `workflows/PHOTOGRAPHY_WORKFLOW.md`
 
 ## Historical docs

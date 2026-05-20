@@ -101,5 +101,6 @@ Current live setup:
 
 ## Related docs
 
+- content repost workflow: `../docs/runbooks/blog-reposting.md` (canonical ownership, link rewriting, asset paths, and validation commands)
 - migration plan: `../docs/plans/astro-migration-plan.md`
 - repository deployment caveats: `../AGENTS.md`
