@@ -12,19 +12,56 @@ const SOURCE_CNAME = path.join(REPO_ROOT, 'content', 'extra', 'CNAME');
 const TARGET_IMAGES = path.join(PUBLIC_DIR, 'images');
 const TARGET_CNAME = path.join(PUBLIC_DIR, 'CNAME');
 
+async function movePathIfItExists(sourcePath, destinationPath) {
+  try {
+    await rename(sourcePath, destinationPath);
+    return true;
+  } catch (error) {
+    if (error.code === 'ENOENT') {
+      return false;
+    }
+    throw error;
+  }
+}
+
+async function restoreBackup(backupPath, targetPath, removeOptions) {
+  await rm(targetPath, removeOptions);
+  try {
+    await rename(backupPath, targetPath);
+  } catch (error) {
+    if (error.code !== 'ENOENT') {
+      throw error;
+    }
+  }
+}
+
 async function replacePath(tempPath, targetPath, removeOptions) {
   let lastReplaceError;
 
   for (let attempt = 0; attempt < 3; attempt += 1) {
-    await rm(targetPath, removeOptions);
+    const backupPath = path.join(
+      path.dirname(targetPath),
+      `.${path.basename(targetPath)}.backup-${process.pid}-${Date.now()}-${attempt}`,
+    );
+    let movedOriginalTarget = false;
+
     try {
+      movedOriginalTarget = await movePathIfItExists(targetPath, backupPath);
       await rename(tempPath, targetPath);
+      await rm(backupPath, removeOptions);
       return;
     } catch (error) {
-      if (!['EEXIST', 'ENOTEMPTY'].includes(error.code)) {
-        throw error;
-      }
       lastReplaceError = error;
+
+      if (movedOriginalTarget) {
+        await restoreBackup(backupPath, targetPath, removeOptions);
+      }
+
+      if (!['EEXIST', 'ENOTEMPTY'].includes(error.code)) {
+        break;
+      }
+    } finally {
+      await rm(backupPath, removeOptions);
     }
   }
 
