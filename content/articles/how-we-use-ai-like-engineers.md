@@ -128,7 +128,7 @@ This does not mean we have not made mistakes. We have tried a lot of different t
 <figure>
   <img
     src="{static}/images/articles/how-we-use-ai-like-engineers/tool-history-vs-durable-workflow.svg"
-    alt="Diagram showing the path from copying and pasting out of ChatGPT and Claude, to GitHub Copilot, agentic IDEs where the team mostly used VS Code while some tried Cursor and later VS Code got agent mode, Claude Code, and then Codex CLI plus Pi, with a durable workflow layer underneath made up of repo context, scripts, skills, tests, review gates, and human habits."
+    alt="Diagram comparing tool history to a durable workflow layer."
     style="width:100%;height:auto;display:block;"
   />
   <figcaption>The workflow is not tightly coupled to the tool history.</figcaption>

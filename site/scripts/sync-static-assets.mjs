@@ -13,6 +13,8 @@ const TARGET_IMAGES = path.join(PUBLIC_DIR, 'images');
 const TARGET_CNAME = path.join(PUBLIC_DIR, 'CNAME');
 
 async function replacePath(tempPath, targetPath, removeOptions) {
+  let lastReplaceError;
+
   for (let attempt = 0; attempt < 3; attempt += 1) {
     await rm(targetPath, removeOptions);
     try {
@@ -22,10 +24,14 @@ async function replacePath(tempPath, targetPath, removeOptions) {
       if (!['EEXIST', 'ENOTEMPTY'].includes(error.code)) {
         throw error;
       }
+      lastReplaceError = error;
     }
   }
 
-  throw new Error(`Could not replace ${targetPath} after multiple attempts.`);
+  const errorDetails = lastReplaceError
+    ? ` Last error: ${lastReplaceError.code ?? 'UNKNOWN'}${lastReplaceError.message ? ` - ${lastReplaceError.message}` : ''}`
+    : '';
+  throw new Error(`Could not replace ${targetPath} after 3 attempts.${errorDetails}`);
 }
 
 async function main() {
