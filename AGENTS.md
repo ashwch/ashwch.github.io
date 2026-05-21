@@ -65,6 +65,7 @@ Root `content/` remains the source of truth.
 For article authoring and cross-site reposts with `engineering.diversio.com`, read:
 
 - `docs/runbooks/blog-reposting.md` — explains why `ashwch.com` owns the full article, why the engineering site keeps a short stub, and which files/commands to use
+- `docs/runbooks/article-end-matter.md` — standardized review acknowledgements and AI writing disclaimer blocks for article end matter
 
 If you touch photography-related flows, current helpers are:
 

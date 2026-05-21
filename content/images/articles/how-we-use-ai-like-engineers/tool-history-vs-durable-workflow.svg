@@ -39,9 +39,9 @@
   <line x1="380" y1="222" x2="416" y2="222" stroke="#2f3640" stroke-width="2" marker-end="url(#arrow)" />
 
   <rect x="424" y="164" width="144" height="116" rx="14" fill="#f7f8fa" stroke="#2f3640" stroke-width="2" />
-  <text x="450" y="210" class="label">Cursor</text>
-  <text x="446" y="248" class="item">More interactive</text>
-  <text x="446" y="268" class="item">editor flow</text>
+  <text x="436" y="210" class="label">Agentic IDEs</text>
+  <text x="438" y="248" class="item">VS Code + Cursor</text>
+  <text x="443" y="268" class="item">later agent mode</text>
 
   <line x1="568" y1="222" x2="604" y2="222" stroke="#2f3640" stroke-width="2" marker-end="url(#arrow)" />
 
@@ -51,13 +51,13 @@
   <text x="638" y="248" class="item">Repo exploration</text>
   <text x="638" y="268" class="item">terminal-first</text>
 
-  <line x1="756" y1="222" x2="772" y2="222" stroke="#2f3640" stroke-width="2" marker-end="url(#arrow)" />
+  <line x1="756" y1="222" x2="784" y2="222" stroke="#2f3640" stroke-width="2" marker-end="url(#arrow)" />
 
-  <rect x="780" y="164" width="132" height="116" rx="14" fill="#f7f8fa" stroke="#2f3640" stroke-width="2" />
-  <text x="809" y="198" class="label">Codex</text>
-  <text x="800" y="222" class="label">CLI + Pi</text>
-  <text x="796" y="248" class="item">Same workflow</text>
-  <text x="802" y="268" class="item">new harness</text>
+  <rect x="796" y="164" width="132" height="116" rx="14" fill="#f7f8fa" stroke="#2f3640" stroke-width="2" />
+  <text x="825" y="198" class="label">Codex</text>
+  <text x="816" y="222" class="label">CLI + Pi</text>
+  <text x="812" y="248" class="item">Same workflow</text>
+  <text x="818" y="268" class="item">new harness</text>
 
   <text x="48" y="342" class="small">DURABLE LAYER</text>
   <rect x="48" y="362" width="864" height="132" rx="18" fill="#eceff3" />
@@ -76,7 +76,6 @@
   <line x1="308" y1="280" x2="308" y2="362" stroke="#2f3640" stroke-width="2" stroke-dasharray="6 6" />
   <line x1="496" y1="280" x2="496" y2="362" stroke="#2f3640" stroke-width="2" stroke-dasharray="6 6" />
   <line x1="684" y1="280" x2="684" y2="362" stroke="#2f3640" stroke-width="2" stroke-dasharray="6 6" />
-  <line x1="846" y1="280" x2="846" y2="362" stroke="#2f3640" stroke-width="2" stroke-dasharray="6 6" />
+  <line x1="862" y1="280" x2="862" y2="362" stroke="#2f3640" stroke-width="2" stroke-dasharray="6 6" />
 
-  <text x="78" y="466" class="item">That is what let us switch tools without throwing away what we had already built.</text>
 </svg>

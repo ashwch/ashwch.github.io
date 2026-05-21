@@ -442,6 +442,9 @@ The key point is not that we use Django or Postgres or AWS specifically. The key
 
 Together, these give us something stronger than "trust us, we will be careful" and they do it in a way that a small, focused team can maintain while still shipping features.
 
-*Thanks to [Ashish Siwal](https://www.linkedin.com/in/ashishsiwal/) for reviewing this post and helping solidify the implementation.*
+<div class="article-subtext article-subtext--review">
+  <p class="article-subtext-label">Review</p>
+  <p>Thanks to <a href="https://www.linkedin.com/in/ashishsiwal/">Ashish Siwal</a> for reviewing this post and helping solidify the implementation.</p>
+</div>
 
 [^dogfood]: "Dogfooding" just means using your own product internally for real, day-to-day work, so you hit the same pain points and edge cases your customers do.
