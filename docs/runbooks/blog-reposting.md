@@ -120,6 +120,10 @@ So:
 - do **not** hand-edit `site/src/content/articles/*.md`
 - do **not** switch one article to YAML frontmatter unless the pipeline changes
 
+If the article needs reviewer acknowledgements or an AI writing disclaimer, use:
+
+- `docs/runbooks/article-end-matter.md`
+
 ### Step 2: Add article images in the right place
 
 Create:

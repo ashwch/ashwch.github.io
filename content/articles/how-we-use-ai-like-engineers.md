@@ -121,17 +121,17 @@ The things I care about:
 
 DX is a big deal for me, more than the model itself.
 
-None of this has been a straight line. Before any of this felt structured, a lot of it was just copying and pasting code and plans out of [ChatGPT](https://chatgpt.com/) and [Claude](https://claude.ai/). Then came [GitHub Copilot](https://github.com/features/copilot) in 2024, mostly autocomplete and comment-driven code generation in VS Code. Some of us moved to [Cursor](https://cursor.com/). We jumped onto [Claude Code](https://www.anthropic.com/claude-code) very early because it fit the repo-exploration style better. Now the stack is more mixed and we are fine with that.
+None of this has been a straight line. Before any of this felt structured, a lot of it was just copying and pasting code and plans out of [ChatGPT](https://chatgpt.com/) and [Claude](https://claude.ai/). Then came [GitHub Copilot](https://github.com/features/copilot) in 2024, mostly autocomplete and comment-driven code generation in VS Code. Then came agentic IDEs, mostly VS Code, while some of us were trying [Cursor](https://cursor.com/) as well. Later, VS Code got agent mode too. We jumped onto [Claude Code](https://www.anthropic.com/claude-code) very early because it fit the repo-exploration style better. Now the stack is more mixed and we are fine with that.
 
 This does not mean we have not made mistakes. We have tried a lot of different things, but thanks to the team we were able to switch away from them when we realized something was not working for us. The important part is that the workflow is not tightly coupled to that tool history. The tools changed. The durable part stayed the same: repo instructions, skills, scripts, tests, review gates, and human habits. A recent example for us was moving a lot of the Claude Code-specific workflow into [Codex CLI](https://github.com/openai/codex) and [Pi](https://pi.dev/) within a week, without throwing away that layer.
 
 <figure>
   <img
     src="{static}/images/articles/how-we-use-ai-like-engineers/tool-history-vs-durable-workflow.svg"
-    alt="Diagram showing the path from copying and pasting out of ChatGPT and Claude, to GitHub Copilot, Cursor, Claude Code, and then Codex CLI plus Pi, with a durable workflow layer underneath made up of repo context, scripts, skills, tests, review gates, and human habits."
+    alt="Diagram showing the path from copying and pasting out of ChatGPT and Claude, to GitHub Copilot, agentic IDEs where the team mostly used VS Code while some tried Cursor and later VS Code got agent mode, Claude Code, and then Codex CLI plus Pi, with a durable workflow layer underneath made up of repo context, scripts, skills, tests, review gates, and human habits."
     style="width:100%;height:auto;display:block;"
   />
-  <figcaption>The tools changed. The workflow layer underneath kept getting stronger.</figcaption>
+  <figcaption>The workflow is not tightly coupled to the tool history.</figcaption>
 </figure>
 
 ## What changed for us
@@ -153,8 +153,13 @@ If you're wondering where to start to make the most of it with your own team, st
 - [No Code by Hand](/no-code-by-hand-agentic-platform-acceleration.html)
 - [Postman to Bruno: A Weekend Migration That Transformed Our API Workflow](/from-postman-to-bruno-how-ai-changed-our-api-workflow.html)
 
-<div class="ai-disclaimer">
-  <p class="ai-disclaimer-title">AI writing disclaimer</p>
+<div class="article-subtext article-subtext--review">
+  <p class="article-subtext-label">Review</p>
+  <p>Thanks to <a href="https://www.linkedin.com/in/ashishsiwal/">Ashish Siwal</a> and <a href="https://www.linkedin.com/in/umanga-bhattarai-579b68158/">Umanga Bhattarai</a> for reviewing this post.</p>
+</div>
+
+<div class="article-subtext article-subtext--ai">
+  <p class="article-subtext-label">AI writing disclaimer</p>
   <ul>
     <li>The article was verified for typos and basic grammatical mistakes using Codex 5.4.</li>
     <li>The references to our existing blog posts were included with the help of Codex 5.4 (we left comments for it).</li>

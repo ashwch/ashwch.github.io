@@ -17,6 +17,7 @@ This directory contains current project documentation for the Astro-based `ashwc
 
 ### Runbooks and workflow docs
 - `runbooks/blog-reposting.md`
+- `runbooks/article-end-matter.md`
 - `workflows/PHOTOGRAPHY_WORKFLOW.md`
 
 ## Historical docs

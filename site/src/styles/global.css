@@ -1120,6 +1120,55 @@ select {
   margin: 2.5rem 0;
 }
 
+.prose .article-subtext {
+  margin: 2rem 0 0;
+  padding: 1rem 1.15rem;
+  border: 1px solid var(--border);
+  border-left-width: 4px;
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--bg-subtle) 72%, var(--bg-elevated));
+  font-family: var(--font-sans);
+}
+
+.prose .article-subtext + .article-subtext {
+  margin-top: 1rem;
+}
+
+.prose .article-subtext--review {
+  border-left-color: var(--border-strong);
+}
+
+.prose .article-subtext--ai {
+  border-left-color: var(--accent);
+  background: color-mix(in srgb, var(--accent-soft) 32%, var(--bg-elevated));
+}
+
+.prose .article-subtext > p:not(.article-subtext-label),
+.prose .article-subtext > ul {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.98rem;
+  line-height: 1.7;
+}
+
+.prose .article-subtext-label {
+  margin: 0 0 0.55rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+}
+
+.prose .article-subtext > ul {
+  margin-top: 0.55rem;
+  padding-left: 1.25rem;
+}
+
+.prose .article-subtext li + li {
+  margin-top: 0.35rem;
+}
+
 .heading-anchor {
   margin-left: 0.35rem;
   opacity: 0;

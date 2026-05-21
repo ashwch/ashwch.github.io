@@ -205,4 +205,7 @@ You've built a competitive advantage.
 
 Want to dive deeper into Git worktrees? Check out my comprehensive guide: [Git Worktrees: From Zero to Hero](https://gist.github.com/ashwch/946ad983977c9107db7ee9abafeb95bd). It covers everything from first principles to advanced workflows with submodules.
 
-*Thanks to [Samuel Bonin](https://www.linkedin.com/in/samuel-bonin/) and [Amal Raj](https://www.linkedin.com/in/amalraj-offl/) for reviewing this post.*
+<div class="article-subtext article-subtext--review">
+  <p class="article-subtext-label">Review</p>
+  <p>Thanks to <a href="https://www.linkedin.com/in/samuel-bonin/">Samuel Bonin</a> and <a href="https://www.linkedin.com/in/amalraj-offl/">Amal Raj</a> for reviewing this post.</p>
+</div>
