@@ -128,7 +128,7 @@ This does not mean we have not made mistakes. We have tried a lot of different t
 <figure>
   <img
     src="{static}/images/articles/how-we-use-ai-like-engineers/tool-history-vs-durable-workflow.svg"
-    alt="Diagram comparing tool history to a durable workflow layer."
+    alt="Diagram showing tools changing over time above a durable workflow layer of repo context, scripts, skills, tests, review gates, and human habits."
     style="width:100%;height:auto;display:block;"
   />
   <figcaption>The workflow is not tightly coupled to the tool history.</figcaption>

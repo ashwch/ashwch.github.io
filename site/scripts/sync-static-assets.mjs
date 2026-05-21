@@ -35,6 +35,14 @@ async function restoreBackup(backupPath, targetPath, removeOptions) {
   }
 }
 
+async function removePathBestEffort(targetPath, removeOptions) {
+  try {
+    await rm(targetPath, removeOptions);
+  } catch (error) {
+    console.warn(`Best-effort cleanup failed for ${targetPath}: ${error.code ?? 'UNKNOWN'}${error.message ? ` - ${error.message}` : ''}`);
+  }
+}
+
 async function replacePath(tempPath, targetPath, removeOptions) {
   let lastReplaceError;
 
@@ -44,16 +52,18 @@ async function replacePath(tempPath, targetPath, removeOptions) {
       `.${path.basename(targetPath)}.backup-${process.pid}-${Date.now()}-${attempt}`,
     );
     let movedOriginalTarget = false;
+    let swapSucceeded = false;
 
     try {
       movedOriginalTarget = await movePathIfItExists(targetPath, backupPath);
       await rename(tempPath, targetPath);
-      await rm(backupPath, removeOptions);
+      swapSucceeded = true;
+      await removePathBestEffort(backupPath, removeOptions);
       return;
     } catch (error) {
       lastReplaceError = error;
 
-      if (movedOriginalTarget) {
+      if (movedOriginalTarget && !swapSucceeded) {
         await restoreBackup(backupPath, targetPath, removeOptions);
       }
 
@@ -61,7 +71,7 @@ async function replacePath(tempPath, targetPath, removeOptions) {
         break;
       }
     } finally {
-      await rm(backupPath, removeOptions);
+      await removePathBestEffort(backupPath, removeOptions);
     }
   }
 
