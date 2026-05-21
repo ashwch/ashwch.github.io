@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" role="img" aria-labelledby="title desc">
+  <title id="title">Wireframe: The workflow is not tightly coupled to the tool history.</title>
+  <desc id="desc">A grayscale diagram showing a timeline of AI tool history above the durable part underneath it: repo context, scripts, skills, tests, review gates, and human habits around them.</desc>
+  <defs>
+    <style>
+      .title { font: 700 32px "Plus Jakarta Sans", "Helvetica Neue", Inter, Arial, sans-serif; fill: #111318; }
+      .subtitle { font: 600 14px "Helvetica Neue", Inter, Arial, sans-serif; fill: #4e5563; }
+      .label { font: 700 18px "Plus Jakarta Sans", "Helvetica Neue", Inter, Arial, sans-serif; fill: #111318; }
+      .small { font: 700 11px ui-monospace, SFMono-Regular, Menlo, monospace; fill: #4e5563; letter-spacing: .08em; }
+      .item { font: 600 14px "Helvetica Neue", Inter, Arial, sans-serif; fill: #2f3640; }
+      .base { font: 600 16px "Helvetica Neue", Inter, Arial, sans-serif; fill: #2f3640; }
+    </style>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0 0L8 4L0 8Z" fill="#2f3640" />
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="960" height="560" fill="#fafafb" />
+
+  <text x="48" y="68" class="title">The workflow is not tightly coupled to the tool history.</text>
+  <text x="48" y="94" class="subtitle">The durable part is the repo context, scripts, skills, tests, review gates, and the human habits around them.</text>
+
+  <text x="48" y="138" class="small">TOOL HISTORY</text>
+
+  <rect x="48" y="164" width="144" height="116" rx="14" fill="#f7f8fa" stroke="#2f3640" stroke-width="2" />
+  <text x="74" y="198" class="label">ChatGPT +</text>
+  <text x="74" y="222" class="label">Claude</text>
+  <text x="74" y="248" class="item">Copy-paste</text>
+  <text x="74" y="268" class="item">plans + code</text>
+
+  <line x1="192" y1="222" x2="228" y2="222" stroke="#2f3640" stroke-width="2" marker-end="url(#arrow)" />
+
+  <rect x="236" y="164" width="144" height="116" rx="14" fill="#eceff3" stroke="#2f3640" stroke-width="2" />
+  <text x="262" y="198" class="label">GitHub</text>
+  <text x="262" y="222" class="label">Copilot</text>
+  <text x="262" y="248" class="item">Autocomplete</text>
+  <text x="262" y="268" class="item">in VS Code</text>
+
+  <line x1="380" y1="222" x2="416" y2="222" stroke="#2f3640" stroke-width="2" marker-end="url(#arrow)" />
+
+  <rect x="424" y="164" width="144" height="116" rx="14" fill="#f7f8fa" stroke="#2f3640" stroke-width="2" />
+  <text x="450" y="210" class="label">Cursor</text>
+  <text x="446" y="248" class="item">More interactive</text>
+  <text x="446" y="268" class="item">editor flow</text>
+
+  <line x1="568" y1="222" x2="604" y2="222" stroke="#2f3640" stroke-width="2" marker-end="url(#arrow)" />
+
+  <rect x="612" y="164" width="144" height="116" rx="14" fill="#eceff3" stroke="#2f3640" stroke-width="2" />
+  <text x="638" y="198" class="label">Claude</text>
+  <text x="638" y="222" class="label">Code</text>
+  <text x="638" y="248" class="item">Repo exploration</text>
+  <text x="638" y="268" class="item">terminal-first</text>
+
+  <line x1="756" y1="222" x2="772" y2="222" stroke="#2f3640" stroke-width="2" marker-end="url(#arrow)" />
+
+  <rect x="780" y="164" width="132" height="116" rx="14" fill="#f7f8fa" stroke="#2f3640" stroke-width="2" />
+  <text x="809" y="198" class="label">Codex</text>
+  <text x="800" y="222" class="label">CLI + Pi</text>
+  <text x="796" y="248" class="item">Same workflow</text>
+  <text x="802" y="268" class="item">new harness</text>
+
+  <text x="48" y="342" class="small">DURABLE LAYER</text>
+  <rect x="48" y="362" width="864" height="132" rx="18" fill="#eceff3" />
+  <rect x="48" y="362" width="8" height="132" rx="4" fill="#2f3640" />
+
+  <text x="78" y="398" class="label">Durable part</text>
+  <text x="78" y="430" class="base">Repo context</text>
+  <text x="232" y="430" class="base">Scripts</text>
+  <text x="334" y="430" class="base">Skills</text>
+  <text x="426" y="430" class="base">Tests</text>
+  <text x="514" y="430" class="base">Review gates</text>
+  <text x="686" y="430" class="base">Human habits</text>
+
+  <line x1="120" y1="280" x2="120" y2="316" stroke="#2f3640" stroke-width="2" stroke-dasharray="6 6" />
+  <line x1="120" y1="352" x2="120" y2="362" stroke="#2f3640" stroke-width="2" stroke-dasharray="6 6" />
+  <line x1="308" y1="280" x2="308" y2="362" stroke="#2f3640" stroke-width="2" stroke-dasharray="6 6" />
+  <line x1="496" y1="280" x2="496" y2="362" stroke="#2f3640" stroke-width="2" stroke-dasharray="6 6" />
+  <line x1="684" y1="280" x2="684" y2="362" stroke="#2f3640" stroke-width="2" stroke-dasharray="6 6" />
+  <line x1="846" y1="280" x2="846" y2="362" stroke="#2f3640" stroke-width="2" stroke-dasharray="6 6" />
+
+  <text x="78" y="466" class="item">That is what let us switch tools without throwing away what we had already built.</text>
+</svg>

@@ -1,6 +1,6 @@
 Title: How we use AI like engineers
 Date: 2026-05-20
-Modified: 2026-05-20
+Modified: 2026-05-21
 Category: Engineering
 Tags: engineering, ai, developer-experience, workflow
 Slug: how-we-use-ai-like-engineers
@@ -9,11 +9,11 @@ Summary: Using AI to recover context in large codebases and take repetitive work
 
 Context engineering and management is a hard problem and is the highest priority even before a single line of code is written.
 
-> Note: The article uses the term AI and LLM interchangeably. What I mean is a mix of chat-based AI tools and agentic tools like Claude Code, Cursor, Codex CLI, and even newer desktop apps like Claude CoWork and Codex.
+> Note: The article uses the term AI and LLM interchangeably. What I mean is a mix of chat-based AI tools, autocomplete, and agentic tools like [Claude Code](https://www.anthropic.com/claude-code), [Cursor](https://cursor.com/), [Codex CLI](https://github.com/openai/codex), [Pi](https://pi.dev/), and even newer desktop apps like Claude CoWork and Codex.
 
 It's very common for a person operating on LLMs to ask for too much in one pass. This often results in a gigantic diff that leaves the engineer doing the hard part afterward: figuring out what the change actually means and whether it even includes everything they asked for to begin with. The second problem is that the resulting code review often does not give either the engineer or the LLM enough reasoning to produce a high-quality review that really addresses the diff from a business-logic and code-quality point of view.
 
-What has worked for us over time is to create narrower contexts for AI and allow AI to recover context faster without being married to the same LLM session where we actually started the discussion with the AI. Having a workflow built around this significantly helps with producing high quality work and work is broken down into small chunks that are easier to review and catch mistakes early.
+What has worked for us over time is to create narrower contexts for AI and allow AI to recover context faster without being married to the same LLM session where we actually started the discussion with the AI. We also do not want the workflow married to one provider or one UI. The durable part has to be the repo context, scripts, skills, tests, review gates, and the human habits around them. Having a workflow built around this significantly helps with producing high quality work and work is broken down into small chunks that are easier to review and catch mistakes early.
 
 At a high level, the shape of the work matters more than the amount of output:
 
@@ -38,7 +38,7 @@ Additionally, AI helps with the skeleton tests and docs that will be needed, alo
 
 While we were discovering these patterns ourselves as we got more familiar with Anthropic's Sonnet/Opus and OpenAI's Codex, the final clarity we needed to apply them across all of our repos came from this blog from [OpenAI Engineering](https://openai.com/index/harness-engineering/). Boris Cherny has also talked publicly about why the concept of an index (used by GitHub Copilot and Cursor) does not hold up as well for these more powerful LLMs anymore: they prefer to explore code every time, and indexing breaks down if you have hundreds of feature branches because you effectively need a different index for each branch.
 
-Since then we have made significant changes to our AGENTS.md and CLAUDE.md files and have a custom skill that helped us achieve it and we use it with any new project as well.
+Since then we have made significant changes to our AGENTS.md and CLAUDE.md files. We also built skills to keep that shape repeatable when a new project or directory shows up, instead of hoping someone remembers the pattern.
 
 The bigger gains usually come from giving the model a structure it can work inside:
 
@@ -50,7 +50,11 @@ The bigger gains usually come from giving the model a structure it can work insi
 - obvious quality gates
 - enough architectural context to make the connections obvious
 
-Configuration shape matters too. Reusable rules should stay reusable (branching conventions, deployment, CI checks, etc.). Project-specific context should stay close to the project (this includes subfolders with their own AGENTS.md/CLAUDE.md). Technical controls like tool restrictions or ignore behavior should stay out of narrative guidance. We have since moved all of these to skills, and those skills know when to execute a certain script and why.
+Configuration shape matters too. Reusable rules should stay reusable (branching conventions, deployment, CI checks, etc.). Project-specific context should stay close to the project (this includes subfolders with their own AGENTS.md/CLAUDE.md). Technical controls like tool restrictions or ignore behavior should stay out of narrative guidance. We have since moved a lot of the repeated operational work to skills, and those skills know when to execute a certain script and why.
+
+Skills have become the place where repeated workflow goes. Not product logic. Workflow. Planning, implementation checkpoints, code review, PR review comments, CI debugging, release prep, PR descriptions, and doc generation should not be tribal memory or a giant prompt pasted into every session.
+
+This also changed shape over time. We started with [slash commands](https://docs.anthropic.com/en/docs/claude-code/slash-commands) because that was the fastest way to stop repeating ourselves. Then the useful pieces moved into skills so they were not trapped in one command surface. Now a lot of it lives in our [agent-skills-marketplace repo](https://github.com/DiversioTeam/agent-skills-marketplace), and the newer [Pi dev-workflow extension](https://engineering.diversio.com/pi/dev-workflow/) is just the next version of the same idea.
 
 These might sound boring because they sometimes require telling the LLM about things here and there, but the upsides are much higher. It also works naturally for humans. Dense documentation with everything dumped into it is hard for us to follow too; a clean split between shared standards and project-specific setup is easier for humans to maintain and easier for models to use effectively.
 
@@ -117,7 +121,18 @@ The things I care about:
 
 DX is a big deal for me, more than the model itself.
 
-This does not mean we have not made mistakes. We have tried a lot of different things, but thanks to the team we were able to switch away from them when we realized something was not working for us. A recent example for us was completely moving away from Claude Code and Codex CLI to Pi within a week.
+None of this has been a straight line. Before any of this felt structured, a lot of it was just copying and pasting code and plans out of [ChatGPT](https://chatgpt.com/) and [Claude](https://claude.ai/). Then came [GitHub Copilot](https://github.com/features/copilot) in 2024, mostly autocomplete and comment-driven code generation in VS Code. Some of us moved to [Cursor](https://cursor.com/). We jumped onto [Claude Code](https://www.anthropic.com/claude-code) very early because it fit the repo-exploration style better. Now the stack is more mixed and we are fine with that.
+
+This does not mean we have not made mistakes. We have tried a lot of different things, but thanks to the team we were able to switch away from them when we realized something was not working for us. The important part is that the workflow is not tightly coupled to that tool history. The tools changed. The durable part stayed the same: repo instructions, skills, scripts, tests, review gates, and human habits. A recent example for us was moving a lot of the Claude Code-specific workflow into [Codex CLI](https://github.com/openai/codex) and [Pi](https://pi.dev/) within a week, without throwing away that layer.
+
+<figure>
+  <img
+    src="{static}/images/articles/how-we-use-ai-like-engineers/tool-history-vs-durable-workflow.svg"
+    alt="Diagram showing the path from copying and pasting out of ChatGPT and Claude, to GitHub Copilot, Cursor, Claude Code, and then Codex CLI plus Pi, with a durable workflow layer underneath made up of repo context, scripts, skills, tests, review gates, and human habits."
+    style="width:100%;height:auto;display:block;"
+  />
+  <figcaption>The tools changed. The workflow layer underneath kept getting stronger.</figcaption>
+</figure>
 
 ## What changed for us
 
