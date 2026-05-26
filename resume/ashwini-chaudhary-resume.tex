@@ -44,16 +44,16 @@
 % We keep the most important contact points in the top header because readers
 % often scan only the first screen/page.
 %
-% The `\printinfo` helper comes from AltaCV. In our patched class, it keeps the
-% clickable box tight around the visible text instead of letting it spill into
-% neighboring spacing. That is why we prefer `\printinfo` here instead of raw
-% inline `\href` calls for the header row.
+% The built-in AltaCV helpers (`\email`, `\phone`, `\homepage`, `\github`)
+% are intentionally used here because they include the correct hyperlink target.
+% Our patched `\printinfo` implementation keeps the spacing *outside* the link
+% box, which gives PDF viewers tighter, more accurate clickable regions.
 \personalinfo{%
-  \printinfo{\faAt}{monty.sinngh@gmail.com}
-  \printinfo{\faPhone}{+1 6478641745}
+  \email{monty.sinngh@gmail.com}
+  \phone{+1 6478641745}
   \location{Toronto, Canada}
-  \printinfo{\faGlobe}{ashwch.com}
-  \printinfo{\faGithub}{github.com/ashwch}
+  \homepage{ashwch.com}
+  \github{ashwch}
 }
 
 \makecvheader
