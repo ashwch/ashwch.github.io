@@ -18,6 +18,7 @@ export const primaryNav = [
 ] as const;
 
 export const footerLinks = [
+  { label: 'Resume', href: '/files/ashwini-chaudhary-resume.pdf' },
   { label: 'RSS', href: '/feeds/all.atom.xml' },
   { label: 'GitHub', href: 'https://github.com/ashwch' },
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/ashwch/' },
