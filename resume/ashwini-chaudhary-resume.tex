@@ -1,0 +1,277 @@
+\documentclass[10pt,a4paper,withhyper,ragged2e]{altacv}
+
+\geometry{left=1.35cm,right=1.35cm,top=1.4cm,bottom=1.4cm,columnsep=1.15cm}
+\usepackage{paracol}
+
+\iftutex
+  \setmainfont{Roboto Slab}
+  \setsansfont{Lato}
+  \renewcommand{\familydefault}{\sfdefault}
+\else
+  \usepackage[rm]{roboto}
+  \usepackage[defaultsans]{lato}
+  \renewcommand{\familydefault}{\sfdefault}
+\fi
+
+\definecolor{SlateGrey}{HTML}{273043}
+\definecolor{LightGrey}{HTML}{5B6472}
+\definecolor{DeepBlue}{HTML}{173753}
+\definecolor{AccentBlue}{HTML}{28666E}
+\definecolor{SoftGold}{HTML}{D9B26F}
+\colorlet{name}{black}
+\colorlet{tagline}{AccentBlue}
+\colorlet{heading}{DeepBlue}
+\colorlet{headingrule}{SoftGold}
+\colorlet{subheading}{AccentBlue}
+\colorlet{accent}{AccentBlue}
+\colorlet{emphasis}{SlateGrey}
+\colorlet{body}{LightGrey}
+
+\renewcommand{\namefont}{\Huge\rmfamily\bfseries}
+\renewcommand{\personalinfofont}{\footnotesize}
+\renewcommand{\cvsectionfont}{\LARGE\rmfamily\bfseries}
+\renewcommand{\cvsubsectionfont}{\large\bfseries}
+\renewcommand{\cvItemMarker}{{\small\textbullet}}
+\renewcommand{\cvRatingMarker}{\faCircle}
+
+\begin{document}
+
+\name{Ashwini Chaudhary}
+\tagline{CTO \textbar\ Hands-on Engineering Leader \textbar\ Backend, Platform \& AI Systems}
+
+% Header design notes
+% -------------------
+% We keep the most important contact points in the top header because readers
+% often scan only the first screen/page.
+%
+% The `\printinfo` helper comes from AltaCV. In our patched class, it keeps the
+% clickable box tight around the visible text instead of letting it spill into
+% neighboring spacing. That is why we prefer `\printinfo` here instead of raw
+% inline `\href` calls for the header row.
+\personalinfo{%
+  \printinfo{\faAt}{monty.sinngh@gmail.com}
+  \printinfo{\faPhone}{+1 6478641745}
+  \location{Toronto, Canada}
+  \printinfo{\faGlobe}{ashwch.com}
+  \printinfo{\faGithub}{github.com/ashwch}
+}
+
+\makecvheader
+
+% Layout note
+% -----------
+% AltaCV uses two flowing columns via `paracol`.
+% We bias slightly wider to the left because the experience section carries the
+% highest information density, while the right column is intentionally concise.
+\columnratio{0.6}
+\begin{paracol}{2}
+
+% Content structure notes
+% -----------------------
+% This resume is intentionally front-loaded.
+%
+% First principles:
+% - busy readers decide very quickly whether to keep reading
+% - the current CTO role carries the highest signal
+% - older roles should support the story, not compete with it
+%
+% So the order is:
+% 1. short profile for positioning
+% 2. current/high-impact work first
+% 3. public credibility (writing / OSS / Stack Overflow)
+% 4. supporting older experience and education
+\cvsection{Profile}
+
+Hands-on CTO with 12+ years across backend systems, payments, platform engineering, reliability, security, and AI-enabled internal tooling. I lead teams, shape technical direction, hire and mentor engineers, and still work deeply as an individual contributor on architecture, infrastructure, migrations, developer tooling, and other high-leverage technical initiatives. My work sits at the intersection of product delivery, platform engineering, software quality, and practical AI adoption.
+
+\cvsection{Experience}
+
+% Highest-signal section
+% ----------------------
+% This role should answer the question:
+% "Why is this person operating at CTO scope today?"
+%
+% The bullets therefore mix:
+% - product/platform ownership
+% - cost/security/compliance responsibility
+% - people leadership
+% - continued hands-on IC depth
+\cvevent{Chief Technology Officer}{Diversio Inc}{Jul 2024 -- Present}{Toronto}
+\begin{itemize}
+\item Lead Diversio's pivot to Optimo while continuing to maintain, simplify, and evolve the core Diversio product.
+\item Own engineering across architecture, infrastructure, reliability, security, internal tooling, engineering quality, and long-term technical strategy.
+\item Remain a highly hands-on technical leader, contributing directly to architecture, infrastructure, migrations, developer tooling, security, and other critical engineering initiatives.
+\item Reduced maintenance cost by simplifying systems, improving maintainability, and making the platform easier for engineers to operate.
+\item Led cost-cutting, vendor rationalization, and a successful SR\&ED round that secured savings for Diversio.
+\item Negotiated and maintained critical software vendors and services used across the company.
+\item Led migration of the API workflow from Postman to Bruno; the resulting blog post was later featured in Bruno's marketing.
+\item Managed career progression, mentoring, code review standards, and day-to-day technical leadership across engineering.
+\item Hired and mentored many co-op students in Canada, including from the University of Toronto, Queen's University, the University of Waterloo, and other top programs.
+\end{itemize}
+
+\divider
+
+% Progression note
+% ----------------
+% We keep the internal title progression at Diversio explicit because it shows a
+% clean path from early engineering hire -> lead -> HoE -> CTO.
+\cvevent{Head of Engineering}{Diversio Inc}{Jul 2023 -- Jun 2024}{Toronto}
+\begin{itemize}
+\item Led engineering execution across teams through hiring, mentoring, delivery improvements, internal tooling, and stronger engineering standards.
+\item Directed major platform and stack consolidation work following Diversio's acquisition of CCDI Consulting Inc.
+\item Strengthened development workflows and cross-team delivery practices while keeping core systems maintainable.
+\end{itemize}
+
+\divider
+
+\cvevent{Lead Engineer}{Diversio Inc}{Aug 2019 -- Jun 2023}{Toronto / Remote}
+\begin{itemize}
+\item Early engineering hire who helped build core backend systems and infrastructure across multiple products.
+\item Owned infrastructure using Terraform and Terragrunt, along with deployments, production operations, and platform capabilities.
+\item Led successful SOC 2 work and supported multiple penetration testing rounds and related remediation.
+\item Built internal developer tooling and engineering processes that improved productivity and delivery.
+\end{itemize}
+
+\divider
+
+% Older roles are intentionally compressed.
+% They establish long-term depth in infrastructure, backend systems, and
+% performance work, but should not crowd out the current leadership story.
+\cvevent{Software Engineer}{Unhaggle Inc}{Nov 2017 -- Feb 2021}{Remote}
+\begin{itemize}
+\item Owned infrastructure, site reliability, and deployments for the Dealer team.
+\item Built internal tools that improved developer productivity and delivery.
+\item Delivered application performance improvements in Python and PostgreSQL.
+\end{itemize}
+
+\divider
+
+\cvevent{Senior Software Engineer}{Instamojo}{Mar 2015 -- Oct 2017}{Bengaluru}
+\begin{itemize}
+\item Led backend work on card processing and storage projects.
+\item Built and maintained Instamojo's e-commerce plugins and SDKs across WordPress, OpenCart, PrestaShop, Magento, Drupal, MeteorJS, CS-Cart, WHMCS, and Python/Ruby/PHP wrappers.
+\item Delivered key features including KYC onboarding, Orders API, payment gateway integrations, social login, and automated refunds.
+\item Helped port the main application from Python 2 to Python 3 and improve performance across Postgres, Django, and Python.
+\item Added code quality hooks using flake8, Mypy, Golint, and Vet.
+\end{itemize}
+
+\divider
+
+\cvevent{Python Developer}{Simform Solutions}{Sep 2013 -- Feb 2015}{Ahmedabad}
+\begin{itemize}
+\item Built the real-time backend for SentMap using Node.js, Socket.IO, and Express to stream market and sentiment data over WebSockets.
+\item Implemented 3D frontend charting in three.js and 2D charting in Highcharts.
+\item Built API backends for Breakup RX App and Minho App using Django and Django REST Framework.
+\item Wrote group chat infrastructure for both apps using Twisted.
+\end{itemize}
+
+% Public credibility section
+% -------------------------
+% This section exists because the resume should not rely only on self-description.
+% Writing, OSS, speaking, and Stack Overflow provide external proof of technical
+% depth and long-term engagement with the craft.
+\cvsection{Writing \& Community}
+
+\cvevent{Selected writing}{}{}{}
+\begin{itemize}
+\item \href{https://ashwch.com/how-we-use-ai-like-engineers.html}{How We Use AI Like Engineers}
+\item \href{https://ashwch.com/no-code-by-hand-agentic-platform-acceleration.html}{No Code by Hand: Agentic Platform Acceleration}
+\item \href{https://ashwch.com/from-postman-to-bruno-how-ai-changed-our-api-workflow.html}{From Postman to Bruno: How AI Changed Our API Workflow}
+\item \href{https://ashwch.com/protecting-our-own-tenant-in-a-multi-tenant-saas.html}{Protecting Our Own Tenant in a Multi-Tenant SaaS}
+\item \href{https://ashwch.com/insights-from-everything-i-know-about-good-system-design.html}{Insights From Everything I Know About Good System Design}
+\end{itemize}
+
+\divider
+
+\cvevent{Open source, speaking \& community}{}{}{}
+\begin{itemize}
+\item Contributed to the Python ecosystem through typeshed, mypy, django-debug-toolbar, pep8speaks, django-annoying, pgmpy, and related projects.
+\item Built Instamojo payment SDKs and e-commerce plugins across Python, PHP, Ruby, Java, and .NET.
+\item Built public tooling including auto-uv-env, precommit-vet-lint, ew, microverse, wt, and agent skills / MCP-related projects.
+\item Answered 3,700+ Python questions on Stack Overflow, spoke at MUPy, and coached at Django Girls Bangalore.
+\end{itemize}
+
+\switchcolumn
+
+% Right-column design note
+% ------------------------
+% The right column is intentionally summary-heavy:
+% - quick scan of leadership scope
+% - current stack/context
+% - compact proof points
+% - links for follow-up
+%
+% If this column becomes too dense, reduce items before widening it. The left
+% column should remain the primary narrative column.
+\cvsection{Leadership Focus}
+
+\begin{itemize}
+\item Engineering leadership and technical strategy
+\item Backend, platform, and infrastructure architecture
+\item Reliability, security, compliance, and operations
+\item Hiring, mentoring, career progression, and code quality
+\item Developer tooling and internal platform improvements
+\item AI-assisted engineering workflows and delivery systems
+\end{itemize}
+
+\cvsection{Core Stack}
+
+Python, Django, Postgres, AWS, Terraform, Docker, Redis, Celery, Go, Node.js, Linux, and Git.
+
+\cvsection{Highlights}
+
+\cvachievement{\faUsers}{Team leadership}{Led engineers through hiring, mentoring, technical direction, and review standards.}
+
+\divider
+
+\cvachievement{\faServer}{Platform ownership}{Owned infrastructure, Terraform/Terragrunt, deployments, reliability, and delivery systems.}
+
+\divider
+
+\cvachievement{\faCode}{Technical breadth}{Worked across backend systems, payments, migrations, security, performance, and developer tooling.}
+
+\divider
+
+\cvachievement{\faGlobe}{Public technical profile}{Writer, speaker, open source contributor, and long-time Stack Overflow contributor.}
+
+% Recognition is kept compact and durable.
+% We prefer stable, externally legible signals over fragile leaderboard-style
+% details that drift every few months.
+\cvsection{Recognition}
+
+\begin{itemize}
+\item Stack Overflow: 252K reputation, 3,700+ answers, ranked \#287 overall.
+\item Unsplash: 207M+ views, 1.2M+ downloads, and top 1000 on the platform.
+\item Arctic Code Vault Contributor.
+\item Won Instamojo's hackathon for building a payments-powered vending machine.
+\end{itemize}
+
+% Education is intentionally minimal.
+% At this career stage, it is supporting context rather than a decision-making
+% section, so we keep only the highest-signal credential.
+\cvsection{Education}
+
+\cvevent{B.Tech. in IT}{IMS Engineering College}{2009 -- 2013}{Ghaziabad}
+
+\cvsection{Links}
+
+% Why use a 2-column table here instead of a bullet list?
+% ------------------------------------------------------
+% First principles:
+% - icons should align vertically
+% - each URL should sit on its own row
+% - clickable areas should not bleed into the next line
+%
+% A simple `tabular` gives us predictable icon/text alignment and enough vertical
+% spacing that PDF link annotations remain easier to inspect in readers like
+% Preview.app.
+\begin{tabular}{@{}l l@{}}
+\faGlobe & \href{https://ashwch.com}{\strut ashwch.com}\\[0.7em]
+\faGithub & \href{https://github.com/ashwch}{\strut github.com/ashwch}\\[0.7em]
+\faLinkedin & \href{https://www.linkedin.com/in/ashwch/}{\strut linkedin.com/in/ashwch}\\[0.7em]
+\faStackOverflow & \href{https://stackoverflow.com/users/846892/ashwini-chaudhary}{\strut Stack Overflow}\\[0.7em]
+\faCamera & \href{https://unsplash.com/@suicide_chewbacca}{\strut Unsplash}
+\end{tabular}
+
+\end{paracol}
+\end{document}

@@ -18,6 +18,10 @@ Before that: [Merkle Science](https://www.merklescience.com/), [Unhaggle/Motoins
 
 There's plenty left to learn, and that's the point.
 
+### Resume
+
+<a class="button" href="/files/ashwini-chaudhary-resume.pdf" target="_blank" rel="noreferrer">Download resume (PDF)</a>
+
 ### Stack Overflow
 
 Answered 3,700+ Python questions on [Stack Overflow](https://stackoverflow.com/users/846892/ashwini-chaudhary), the largest Q&A site for programmers (252K reputation, ranked #287 out of ~9 million users), mostly between 2012-2017.
