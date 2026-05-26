@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<!--
+  Local preview helper.
+
+  This file is intentionally simple: it does not try to reproduce AltaCV in HTML.
+  Instead, it shows page images rendered from the generated PDF.
+
+  Why?
+  - the PDF is the real source of truth for layout
+  - image-based preview avoids HTML/CSS drift from the actual LaTeX output
+  - future editors can quickly compare pages without opening a PDF viewer
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ashwini Chaudhary — AltaCV Preview</title>
+  <style>
+    body { margin: 0; font-family: system-ui, sans-serif; background: #eef2f7; color: #111827; }
+    .wrap { max-width: 1100px; margin: 24px auto; padding: 0 16px 32px; }
+    h1 { margin: 0 0 8px; font-size: 1.5rem; }
+    p { margin: 0 0 20px; color: #4b5563; }
+    .page { margin: 0 0 24px; background: white; box-shadow: 0 12px 32px rgba(15, 23, 42, 0.12); border-radius: 8px; overflow: hidden; }
+    .page img { display: block; width: 100%; height: auto; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>AltaCV preview</h1>
+    <p>This preview is rendered from the latest generated PDF, so it matches the current AltaCV layout exactly.</p>
+    <div class="page"><img src="preview-assets/page-1.png" alt="Resume page 1" /></div>
+    <div class="page"><img src="preview-assets/page-2.png" alt="Resume page 2" /></div>
+    <div class="page"><img src="preview-assets/page-3.png" alt="Resume page 3" /></div>
+  </div>
+</body>
+</html>
