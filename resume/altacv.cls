@@ -202,7 +202,7 @@
       \href{#4}{\utffriendlydetokenize{#3}}%
       \EndAccSupp{}}\hspace{2em}%
      }{%
-       \ClassWarning{Please specify [withhyper] option to enable hyperlinks. Printing out full hyperlink prefix #1 for now.}%
+       \ClassWarning{altacv}{Please specify [withhyper] option to enable hyperlinks. Printing out the full hyperlink target #4 for now.}%
       \mbox{\textcolor{accent}
       {\BeginAccSupp{method=escape,ActualText={\IfNoValueTF{#1}{\detokenize{#2}}{#1}:\space}}\normalfont #2\EndAccSupp{}}%
       ~{\utffriendlydetokenize{#4}}}\hspace{2em}%
