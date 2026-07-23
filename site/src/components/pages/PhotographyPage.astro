@@ -6,64 +6,60 @@ const categories = getPhotographyCategories();
 const hasPhotos = photos.length > 0;
 ---
 
-<section class="hero">
-  <div class="container" style="text-align:center">
-    <span class="eyebrow">Photography</span>
+<section class="photography-header">
+  <div class="reading-container">
     <h1 class="page-title">Photography</h1>
-    <p class="page-lead" style="margin-inline:auto">
-      Photos from my Unsplash portfolio.
-    </p>
-    <div class="hero-actions" style="justify-content:center">
-      <a class="button" href="https://unsplash.com/@suicide_chewbacca" target="_blank" rel="noreferrer">
-        View Unsplash profile
-      </a>
-    </div>
+    <p class="page-lead">Photos from my Unsplash portfolio.</p>
   </div>
 </section>
 
-<section class="section" style="padding-top:0">
-  <div class="container">
-    <div class="notice" style="margin-bottom:1.5rem">
-      Photos are shown here and link back to Unsplash for the original photo pages.
-    </div>
-
+<section class="photography-gallery">
+  <div class="reading-container">
     {
       photos.length ? (
         <>
-          <div class="filter-row" id="photo-filters">
-            <button class="filter-chip meta-chip--accent" type="button" data-filter="all" aria-pressed="true">
-              All
-            </button>
-            {categories.map((category) => (
-              <button class="filter-chip" type="button" data-filter={category.slug} aria-pressed="false">
-                {category.label} ({category.count})
+          {categories.length > 0 && (
+            <div class="filter-row" id="photo-filters">
+              <button class="filter-chip meta-chip--accent" type="button" data-filter="all" aria-pressed="true">
+                All
               </button>
-            ))}
-          </div>
+              {categories.map((category) => (
+                <button class="filter-chip" type="button" data-filter={category.slug} aria-pressed="false">
+                  {category.label} ({category.count})
+                </button>
+              ))}
+            </div>
+          )}
 
           <div class="photo-page__grid" id="photo-grid">
             {photos.map((photo) => (
-              <a
+              <figure
                 class="photo-card"
-                href={photo.links.html}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="View photo on Unsplash"
                 data-categories={photo.categories.join(',')}
                 data-filter-item
               >
-                <img
-                  src={photo.urls.regular}
-                  alt={/^Photo \S+$/.test(photo.alt) ? 'Photograph by Ashwini Chaudhary' : photo.alt}
-                  loading="lazy"
-                />
-                <span class="photo-card__details">
+                <a
+                  class="photo-card__image-link"
+                  href={photo.links.html}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="View photo on Unsplash"
+                >
+                  <img
+                    src={photo.urls.regular}
+                    alt={/^Photo \S+$/.test(photo.alt) ? 'Photograph by Ashwini Chaudhary' : photo.alt}
+                    width={photo.width}
+                    height={photo.height}
+                    loading="lazy"
+                  />
+                </a>
+                <figcaption class="photo-card__details">
                   {(photo.location?.title || photo.location?.name) && (
-                    <span class="photo-card__detail">{photo.location?.title || photo.location?.name}</span>
+                    <span>{photo.location?.title || photo.location?.name}</span>
                   )}
-                  <span class="photo-card__detail">Unsplash ↗</span>
-                </span>
-              </a>
+                  <a href={photo.links.html} target="_blank" rel="noopener noreferrer">Unsplash ↗</a>
+                </figcaption>
+              </figure>
             ))}
           </div>
         </>
