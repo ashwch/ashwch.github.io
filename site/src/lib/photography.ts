@@ -61,6 +61,8 @@ export type PhotographyDataset = {
   generatedAt: string | null;
   username: string;
   source: string;
+  complete?: boolean;
+  nextPage?: number;
   photos: Photo[];
 };
 

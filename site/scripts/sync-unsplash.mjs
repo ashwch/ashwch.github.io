@@ -50,35 +50,36 @@ async function unsplash(pathname, search = new URLSearchParams()) {
     throw new Error(`Unsplash API error ${response.status}: ${body}`);
   }
 
-  return response.json();
+  const remainingRequestsHeader = response.headers.get('x-ratelimit-remaining');
+  return {
+    data: await response.json(),
+    remainingRequests: remainingRequestsHeader === null ? null : Number(remainingRequestsHeader),
+  };
 }
 
-async function fetchUserPhotos() {
-  const photos = [];
-  let page = 1;
+async function loadUserPhotoPages(startPage, addPhotoBatch) {
+  let page = startPage;
   const perPage = 30;
 
   while (true) {
-    const batch = await unsplash(`users/${USERNAME}/photos`, new URLSearchParams({
-      page: String(page),
-      per_page: String(perPage),
-      stats: 'true',
-    }));
+    const { data: photoBatch, remainingRequests } = await unsplash(
+      `users/${USERNAME}/photos`,
+      new URLSearchParams({
+        page: String(page),
+        per_page: String(perPage),
+        stats: 'true',
+      }),
+    );
 
-    photos.push(...batch);
-    if (batch.length < perPage) {
-      break;
+    await addPhotoBatch(photoBatch, page + 1);
+    if (photoBatch.length < perPage) {
+      return true;
+    }
+    if (remainingRequests === 0) {
+      return false;
     }
     page += 1;
   }
-
-  return photos;
-}
-
-async function fetchDetailsForPhotos(photos) {
-  return Promise.all(
-    photos.map((photo) => unsplash(`photos/${photo.id}`)),
-  );
 }
 
 function buildStats(detail) {
@@ -141,22 +142,6 @@ function refreshCachedPhoto(photo, listPhoto, override = {}) {
   };
 
   return applyOverridesToPhoto(refreshed, override);
-}
-
-function partitionPhotosForDetails(photos, cachedPhotosById, overrides) {
-  const reusedPhotos = [];
-  const photosNeedingDetails = [];
-
-  for (const photo of photos) {
-    const cachedPhoto = cachedPhotosById.get(photo.id);
-    if (cachedPhoto && cachedPhoto.updatedAt === photo.updated_at) {
-      reusedPhotos.push(refreshCachedPhoto(cachedPhoto, photo, overrides[photo.id] || {}));
-      continue;
-    }
-    photosNeedingDetails.push(photo);
-  }
-
-  return { reusedPhotos, photosNeedingDetails };
 }
 
 function normalizePhoto(detail, override = {}) {
@@ -251,13 +236,48 @@ async function main() {
   const overrides = await readJson(OVERRIDES_PATH, {});
   const existingDataset = await readJson(GENERATED_PATH, { photos: [] });
   const cachedPhotosById = new Map((existingDataset.photos || []).map((photo) => [photo.id, photo]));
+  const partialDataset = existingDataset.source === 'unsplash-api' && existingDataset.complete === false
+    ? existingDataset
+    : { nextPage: 1, photos: [] };
+  const syncedPhotosById = new Map((partialDataset.photos || []).map((photo) => [photo.id, photo]));
+  let nextPageToLoad = partialDataset.nextPage;
 
-  const photos = await fetchUserPhotos();
-  const { reusedPhotos, photosNeedingDetails } = partitionPhotosForDetails(photos, cachedPhotosById, overrides);
-  const details = await fetchDetailsForPhotos(photosNeedingDetails);
-  const fetchedPhotos = details.map((detail) => normalizePhoto(detail, overrides[detail.id] || {}));
-  const normalized = sortPhotos([...reusedPhotos, ...fetchedPhotos]);
+  const complete = await loadUserPhotoPages(nextPageToLoad, async (photoBatch, nextPage) => {
+    nextPageToLoad = nextPage;
+    for (const photo of photoBatch) {
+      const cachedPhoto = cachedPhotosById.get(photo.id);
+      const normalizedPhoto = cachedPhoto
+        ? refreshCachedPhoto(cachedPhoto, photo, overrides[photo.id] || {})
+        : normalizePhoto(photo, overrides[photo.id] || {});
+      syncedPhotosById.set(photo.id, normalizedPhoto);
+    }
 
+    await writeFile(
+      GENERATED_PATH,
+      `${JSON.stringify(
+        {
+          generatedAt: new Date().toISOString(),
+          username: USERNAME,
+          source: 'unsplash-api',
+          complete: false,
+          nextPage,
+          photos: sortPhotos([...syncedPhotosById.values()]),
+        },
+        null,
+        2,
+      )}\n`,
+    );
+  });
+
+  if (!complete) {
+    console.log(
+      `Cached ${syncedPhotosById.size} Unsplash photos. Run the command after the hourly limit resets ` +
+        `to continue from page ${nextPageToLoad}.`,
+    );
+    return;
+  }
+
+  const normalized = sortPhotos([...syncedPhotosById.values()]);
   await writeFile(
     GENERATED_PATH,
     `${JSON.stringify(
@@ -265,17 +285,14 @@ async function main() {
         generatedAt: new Date().toISOString(),
         username: USERNAME,
         source: 'unsplash-api',
+        complete: true,
         photos: normalized,
       },
       null,
       2,
     )}\n`,
   );
-
-  console.log(
-    `Synced ${normalized.length} Unsplash photos into ${path.relative(SITE_ROOT, GENERATED_PATH)} ` +
-      `(${reusedPhotos.length} reused, ${fetchedPhotos.length} fetched in detail).`,
-  );
+  console.log(`Synced ${normalized.length} Unsplash photos into ${path.relative(SITE_ROOT, GENERATED_PATH)}.`);
 }
 
 main().catch((error) => {
