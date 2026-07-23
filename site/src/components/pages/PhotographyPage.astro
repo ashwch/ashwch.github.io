@@ -81,6 +81,17 @@ const hasPhotos = photos.length > 0;
     <script is:inline>
       const buttons = document.querySelectorAll('#photo-filters [data-filter]');
       const cards = document.querySelectorAll('[data-filter-item]');
+      const photoGrid = document.querySelector('#photo-grid');
+      const shuffledCards = Array.from(cards);
+
+      for (let currentIndex = shuffledCards.length - 1; currentIndex > 0; currentIndex -= 1) {
+        const randomIndex = Math.floor(Math.random() * (currentIndex + 1));
+        [shuffledCards[currentIndex], shuffledCards[randomIndex]] = [
+          shuffledCards[randomIndex],
+          shuffledCards[currentIndex],
+        ];
+      }
+      photoGrid?.append(...shuffledCards);
 
       buttons.forEach((button) => {
         button.addEventListener('click', () => {
