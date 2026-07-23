@@ -1248,26 +1248,28 @@ select {
   transform: scale(1.03);
 }
 
-.photo-card__body {
+.photo-card__details {
   position: absolute;
-  inset-inline: 0;
-  bottom: 0;
-  padding: 1rem;
-  background: linear-gradient(to top, rgba(15, 23, 42, 0.88), transparent);
+  inset-inline: 0.65rem;
+  bottom: 0.65rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.4rem;
+  pointer-events: none;
+}
+
+.photo-card__detail {
+  max-width: 70%;
+  overflow: hidden;
+  padding: 0.3rem 0.55rem;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.72);
   color: white;
-}
-
-.photo-card__body h3 {
-  margin: 0;
-  font-family: var(--font-serif);
-  font-size: 1.5rem;
-}
-
-.photo-card__body p,
-.photo-card__meta {
-  margin: 0.45rem 0 0;
-  color: rgba(255, 255, 255, 0.82);
-  font-size: 0.92rem;
+  font-size: 0.75rem;
+  line-height: 1;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  backdrop-filter: blur(6px);
 }
 
 .filter-row {
