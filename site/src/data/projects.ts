@@ -3,7 +3,7 @@
  *
  * This file serves two different page surfaces:
  *
- *   Homepage     → uses `projects` and `featuredProjects`
+ *   Homepage      → uses `projects`
  *   Projects page → uses all three: featured, utility, and highlights
  *
  * TYPE HIERARCHY
@@ -24,9 +24,9 @@
  *
  * LAYOUT STRATEGY (Projects page)
  *
- *   Section 1  "Current projects"       2 featured cards (Microverse, auto-uv-env)
+ *   Section 1  "Current projects"       2 featured cards (Cineplex Seat Watcher, Microverse)
  *   Section 2  "Selected open source..." 4 highlight cards  (Python, Django, Instamojo, Community)
- *   Section 3  "More tools"              small utility grid  (wt, ew, dotfiles, agent-skills)
+ *   Section 3  "More tools"              small utility grid  (wt, ew, local-ci, and more)
  *
  *   This order puts credibility upfront and keeps the smaller personal tools
  *   in a supporting role further down the page.
@@ -66,6 +66,16 @@ export type ProjectHighlight = {
 
 export const projects: Project[] = [
   {
+    slug: 'cineplex-watcher',
+    name: 'Cineplex Seat Watcher',
+    category: 'Web Apps',
+    description:
+      'An unofficial browser-based watcher for Cineplex ticket releases and seat availability. Alerts run while the tab is open.',
+    tags: ['TypeScript', 'PWA', 'Cloudflare Pages'],
+    href: 'https://cineplex-watcher.ashwch.com/',
+    featured: true,
+  },
+  {
     slug: 'microverse',
     name: 'Microverse',
     category: 'Frameworks',
@@ -88,7 +98,6 @@ export const projects: Project[] = [
     href: 'https://auto-uv-env.ashwch.com',
     repo: 'https://github.com/ashwch/auto-uv-env',
     docs: 'https://auto-uv-env.ashwch.com',
-    featured: true,
     install: 'cargo install auto-uv-env',
     canonicalExternal: true,
   },
@@ -113,6 +122,17 @@ export const projects: Project[] = [
     install: 'brew install ashwch/tap/ew',
   },
   {
+    slug: 'local-ci-runner',
+    name: 'local-ci',
+    category: 'Developer Infrastructure',
+    description:
+      'Runs repository-owned verification plans locally and publishes GitHub statuses only for the commit that was checked.',
+    tags: ['Go', 'CI', 'GitHub'],
+    href: 'https://github.com/DiversioTeam/local-ci-runner',
+    repo: 'https://github.com/DiversioTeam/local-ci-runner',
+    install: 'brew tap DiversioTeam/tap\nbrew install local-ci',
+  },
+  {
     slug: 'dotfiles',
     name: 'dotfiles',
     category: 'Personal Systems',
@@ -132,7 +152,7 @@ export const projects: Project[] = [
   },
 ];
 
-/** The two projects that appear as hero-level cards on the homepage. */
+/** The two projects that appear as hero-level cards on the Projects page. */
 export const featuredProjects = projects.filter((project) => project.featured);
 
 // ── Broader credibility highlights ───────────────────────────────────────────

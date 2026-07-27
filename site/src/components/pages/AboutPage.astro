@@ -4,8 +4,16 @@ const { Content } = Astro.props;
 
 <section class="section about-page">
   <div class="container about-page__container">
-    <div class="prose about-page__prose">
-      <img src="/images/profile-monty.jpg" alt="Ashwini Chaudhary" loading="lazy" class="about-page__portrait" />
+    <div class="prose about-page__prose reading-surface">
+      <img
+        src="/images/profile-monty.jpg"
+        alt="Ashwini Chaudhary"
+        width="1600"
+        height="2400"
+        loading="eager"
+        fetchpriority="high"
+        class="about-page__portrait"
+      />
       <Content />
     </div>
   </div>

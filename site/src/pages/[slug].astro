@@ -37,7 +37,7 @@ const hasToc = tocHeadings.length >= 2;
   type="article"
 >
   <div class="reading-container">
-    <div class:list={["article-shell", !hasToc && 'article-shell--no-toc']}>
+    <div class:list={['article-shell', 'reading-surface', !hasToc && 'article-shell--no-toc']}>
       {hasToc && (
         <aside class="article-toc" aria-label="Table of contents">
           <div class="eyebrow" style="margin-bottom:0.75rem">Contents</div>

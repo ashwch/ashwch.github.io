@@ -7,7 +7,7 @@ export const siteMeta = {
   siteUrl: 'https://ashwch.com',
   locale: 'en_CA',
   author: 'Ashwini Chaudhary',
-  email: 'monty.sinngh@gmail.com',
+  email: 'ashwch.chaudhary@gmail.com',
 };
 
 export const primaryNav = [

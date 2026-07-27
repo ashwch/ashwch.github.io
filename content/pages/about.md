@@ -3,7 +3,7 @@ slug: about
 Template: about
 
 
-**Ashwini Chaudhary** (Monty)
+# Ashwini Chaudhary (Monty)
 
 <p class="about-page__roles">CTO at <a href="https://diversio.com/">Diversio</a>, software engineer, and photographer.</p>
 
@@ -18,29 +18,29 @@ Before that: [Merkle Science](https://www.merklescience.com/), [Unhaggle/Motoins
 
 There's plenty left to learn, and that's the point.
 
-### Stack Overflow
+## Stack Overflow
 
 Answered 3,700+ Python questions on [Stack Overflow](https://stackoverflow.com/users/846892/ashwini-chaudhary), the largest Q&A site for programmers (252K reputation, ranked #287 out of ~9 million users), mostly between 2012-2017.
 
-### Open Source
+## Open Source
 
 Contributed to the Python ecosystem between 2012-2017 - patches on [CPython](https://github.com/python/cpython), type stubs for [typeshed](https://github.com/python/typeshed/pulls?q=is%3Apr+author%3Aashwch+is%3Amerged) and [mypy](https://github.com/python/mypy/pulls?q=is%3Apr+author%3Aashwch+is%3Amerged), and contributions to [django-debug-toolbar](https://github.com/jazzband/django-debug-toolbar), [pep8speaks](https://github.com/pep8speaks/pep8speaks), [django-annoying](https://github.com/skorokithakis/django-annoying), [pgmpy](https://github.com/pgmpy/pgmpy), and others. Built the Instamojo payment SDKs and e-commerce plugins across Python, PHP, Ruby, Java, and .NET. Spoke at [MUPy 2016](https://github.com/ashwch/pdb-mupy) on pdb, coached at [Django Girls Bangalore](https://djangogirls.org/en/bangalore2/) in 2017. [Arctic Code Vault Contributor](https://archiveprogram.github.com/).
 
-Own projects on [GitHub](https://github.com/ashwch): [auto-uv-env](https://github.com/ashwch/auto-uv-env) (Shell), [dotfiles](https://github.com/ashwch/dotfiles) (Shell), [precommit-vet-lint](https://github.com/ashwch/precommit-vet-lint) (Go), [microverse](https://github.com/ashwch/microverse) (Swift), [ew](https://github.com/ashwch/ew) (Go), and currently [agent-skills-marketplace](https://github.com/DiversioTeam/agent-skills-marketplace) - Claude Code skills and MCP plugins.
+Own projects include [Cineplex Seat Watcher](https://cineplex-watcher.ashwch.com/) (TypeScript), [microverse](https://github.com/ashwch/microverse) (Swift), [auto-uv-env](https://github.com/ashwch/auto-uv-env) (Shell), [wt](https://github.com/ashwch/wt) (Shell), [ew](https://github.com/ashwch/ew) (Go), [precommit-vet-lint](https://github.com/ashwch/precommit-vet-lint) (Go), and [dotfiles](https://github.com/ashwch/dotfiles) (Shell). I also work on [local-ci](https://github.com/DiversioTeam/local-ci-runner), a runner for repository-owned checks, and [agent-skills-marketplace](https://github.com/DiversioTeam/agent-skills-marketplace), a collection of coding-agent skills and workflow tools.
 
 <img src="https://ghchart.rshah.org/ashwch" alt="ashwch's GitHub contribution chart" style="width:100%; max-width:720px;" />
 
-### Photography
+## Photography
 
 Landscapes and wildlife, shot on a Sony A7III and DJI Mini 3 Pro. [207M+ views and 1.2M+ downloads on Unsplash](https://unsplash.com/@suicide_chewbacca), the largest free photography platform (400K+ contributors), ranking in the top 1000 for both views and downloads.
 
-### Beyond Code
+## Beyond Code
 
 When not coding, you'll find me supporting Real Madrid, following F1, exploring new places with my camera, or spending time on **Age of Empires II**.
 
 I spend a lot of time on 2v2 Empire Wars, playing online against strong players from around the world. AoE II’s depth, breadth, steep learning curve, and vibrant community are a big part of why it has held my attention for so long. [View AoE2 Companion profile](https://www.aoe2companion.com/players/3820258).
 
-<iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/4OnJ4u3ReYOXUvwuaA5KwQ?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+<iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/4OnJ4u3ReYOXUvwuaA5KwQ?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
 
 ---
 

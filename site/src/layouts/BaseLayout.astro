@@ -1,8 +1,11 @@
 ---
 import SiteFooter from '../components/SiteFooter.astro';
 import SiteHeader from '../components/SiteHeader.astro';
+import SitePhotoBackdrop from '../components/SitePhotoBackdrop.astro';
 import '../styles/global.css';
+import { homepageBanners } from '../data/homepageBanners';
 import { siteMeta } from '../data/site';
+import { getHomepagePhotos } from '../lib/photography';
 
 interface Props {
   title?: string;
@@ -25,6 +28,19 @@ const {
 const pageTitle = title ? `${title} · ${siteMeta.name}` : `${siteMeta.title} · ${siteMeta.tagline}`;
 const ogImage = image ? new URL(image, Astro.site ?? siteMeta.siteUrl).toString() : undefined;
 const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID || undefined;
+const showPhotoBackdrop = !/^\/pages\/photography(?:\.html|\/)?$/.test(Astro.url.pathname);
+const backdropPhotos = [
+  ...homepageBanners.map((banner) => ({
+    src: banner.mobileSrc,
+    width: 900,
+    height: 1125,
+  })),
+  ...getHomepagePhotos().map((photo) => ({
+    src: photo.urls.small,
+    width: photo.width,
+    height: photo.height,
+  })),
+];
 ---
 
 <!doctype html>
@@ -71,12 +87,13 @@ const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID || undefined;
     )}
   </head>
   <body>
-    <div class="site-shell">
+    <div class:list={['site-shell', showPhotoBackdrop && 'site-shell--photo-backdrop']}>
       <SiteHeader />
       <main class="site-main">
         <slot />
       </main>
       <SiteFooter />
     </div>
+    {showPhotoBackdrop && <SitePhotoBackdrop photos={backdropPhotos} />}
   </body>
 </html>

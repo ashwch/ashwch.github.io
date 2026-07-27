@@ -55,6 +55,11 @@ export type Photo = {
     username: string | null;
     name: string | null;
   };
+  stats: {
+    downloads: number | null;
+    views: number | null;
+    likes: number | null;
+  };
 };
 
 export type PhotographyDataset = {
@@ -79,6 +84,13 @@ export function getVisiblePhotos() {
 export function getFeaturedPhotos(limit = 6) {
   const featured = getVisiblePhotos().filter((photo) => photo.featured);
   return (featured.length ? featured : getVisiblePhotos()).slice(0, limit);
+}
+
+export function getHomepagePhotos(limit = 24) {
+  return getVisiblePhotos()
+    .filter((photo) => photo.width / photo.height >= 1.7)
+    .sort((left, right) => (right.stats.views ?? 0) - (left.stats.views ?? 0))
+    .slice(0, limit);
 }
 
 export function getPhotographyCategories() {

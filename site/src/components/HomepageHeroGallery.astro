@@ -2,28 +2,9 @@
 /**
  * Homepage hero photography gallery.
  *
- * PROBLEM
- *   A static headshot or single image under the hero text feels flat.
- *   A full-page background image buries the text and loads slowly.
- *
- * SOLUTION
- *   A side-by-side hero card with a gently-animating photo that rotates.
- *
- * VISUAL MODEL
- *
- *   Desktop                              Mobile
- *   ┌──────────┬────────────────────┐    ┌──────────────────────┐
- *   │  Hero    │                    │    │                      │
- *   │  text    │  ┌──────────────┐  │    │  ┌──────────────┐    │
- *   │          │  │              │  │    │  │              │    │
- *   │  Ashwini │  │  rotating    │  │    │  │  photo       │    │
- *   │  C.      │  │  photo       │  │    │  │  (top)       │    │
- *   │          │  │  with Ken    │  │    │  └──────────────┘    │
- *   │  Writing │  │  Burns       │  │    │                      │
- *   │  Projects│  │  motion      │  │    │  Hero text           │
- *   │          │  └──────────────┘  │    │  (below)             │
- *   └──────────┴────────────────────┘    │                      │
- *                                        └──────────────────────┘
+ * A gently rotating photo fills the homepage hero. The surrounding page owns
+ * the translucent text panel so this component can focus on image loading,
+ * crossfades, and gallery accessibility.
  *
  * ANIMATION MECHANISM
  *
@@ -32,7 +13,7 @@
  *     Frame A (is-active)
  *     Frame B (hidden)
  *
- *   Every ~5 seconds we swap:
+ *   Every ~7 seconds we swap:
  *
  *     1. Paint new banner into the hidden frame.
  *     2. Remove is-active from the old frame, add it to the new frame.
@@ -203,13 +184,13 @@ const motionPresets = [
       return copy;
     };
 
-    // Preload the next image pair so the crossfade is instant when it fires.
+    // Preload only the crop this viewport will use.
     const preload = (banner) => {
       if (!banner) return;
-      const desktopImage = new Image();
-      desktopImage.src = banner.desktopSrc;
-      const mobileImage = new Image();
-      mobileImage.src = banner.mobileSrc;
+      const image = new Image();
+      image.src = window.matchMedia('(max-width: 54rem)').matches
+        ? banner.mobileSrc
+        : banner.desktopSrc;
     };
 
     galleries.forEach((gallery) => {
@@ -219,8 +200,8 @@ const motionPresets = [
       const galleryLink = gallery.closest('.homepage-gallery');
       if (frames.length < 2 || !(title instanceof HTMLElement) || !(counter instanceof HTMLElement)) return;
 
-      const sequence = shuffle(banners);
-      let sequenceIndex = Math.floor(Math.random() * sequence.length);
+      const sequence = [banners[0], ...shuffle(banners.slice(1))];
+      let sequenceIndex = 0;
       let activeFrameIndex = 0; // 0 or 1 — which <picture> is currently visible
       let intervalId;
 
@@ -328,7 +309,7 @@ const motionPresets = [
         stopRotation();
         intervalId = window.setInterval(() => {
           showBanner((sequenceIndex + 1) % sequence.length);
-        }, 5200);
+        }, 7000);
       };
 
       // ---- Initialise the first frame ----

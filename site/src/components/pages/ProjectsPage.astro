@@ -12,7 +12,7 @@
  * PAGE STRUCTURE (top to bottom)
  *
  *   1. Current projects
- *      The two featured repos (Microverse, auto-uv-env).
+ *      The two featured projects (Cineplex Seat Watcher, Microverse).
  *      Rendered as large split cards so they carry visual weight.
  *
  *   2. Selected open source and ecosystem work
@@ -42,7 +42,6 @@ const utilityProjects = projects.filter((project) => !project.featured);
 
 <section class="hero projects-page__hero">
   <div class="container">
-    <span class="eyebrow">Projects</span>
     <h1 class="page-title">Projects</h1>
     <p class="page-lead projects-page__lead">
       Current tools I build, plus selected open source, payments, and community work.
@@ -62,7 +61,7 @@ const utilityProjects = projects.filter((project) => !project.featured);
       {featuredProjects.map((project) => (
         <article class="project-card projects-page__featured-card">
           <span class="eyebrow">{project.category}</span>
-          <h2 class="section-title projects-page__featured-title">{project.name}</h2>
+          <h3 class="section-title projects-page__featured-title">{project.name}</h3>
           <p>{project.description}</p>
           <div class="pill-row" style="margin-top:1rem">
             {project.tags.map((tag) => (
@@ -145,8 +144,10 @@ const utilityProjects = projects.filter((project) => !project.featured);
             ))}
           </div>
           <div class="inline-actions">
-            <a href={project.href} target="_blank" rel="noreferrer">Open</a>
-            {project.repo && (
+            <a href={project.href} target="_blank" rel="noreferrer">
+              {project.repo === project.href ? 'GitHub' : 'Open'}
+            </a>
+            {project.repo && project.repo !== project.href && (
               <a href={project.repo} target="_blank" rel="noreferrer">GitHub</a>
             )}
           </div>

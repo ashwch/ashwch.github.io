@@ -1,0 +1,250 @@
+---
+type BackdropPhoto = {
+  src: string;
+  width: number;
+  height: number;
+};
+
+interface Props {
+  photos: BackdropPhoto[];
+}
+
+const { photos } = Astro.props;
+const visiblePhotos = photos.slice(0, 18);
+---
+
+<div class="site-photo-backdrop" aria-hidden="true" data-photo-backdrop data-photo-count={photos.length}>
+  <div class="site-photo-backdrop__grid">
+    {visiblePhotos.map((photo) => (
+      <figure
+        class="site-photo-backdrop__tile"
+        style={`--photo-aspect-ratio: ${photo.width} / ${photo.height}`}
+        data-backdrop-tile
+      >
+        <img
+          src={photo.src}
+          alt=""
+          width={photo.width}
+          height={photo.height}
+          loading="lazy"
+          decoding="async"
+          data-backdrop-image
+        />
+      </figure>
+    ))}
+  </div>
+  <div class="site-photo-backdrop__veil"></div>
+</div>
+
+<script is:inline define:vars={{ photos }}>
+  (() => {
+    const backdrop = document.querySelector('[data-photo-backdrop]');
+    if (!(backdrop instanceof HTMLElement) || !Array.isArray(photos) || photos.length < 2) return;
+
+    const grid = backdrop.querySelector('.site-photo-backdrop__grid');
+    const siteShell = document.querySelector('.site-shell');
+    if (!(grid instanceof HTMLElement) || !(siteShell instanceof HTMLElement)) return;
+
+    let tiles = Array.from(backdrop.querySelectorAll('[data-backdrop-tile]'));
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let tileChangeTimes = new WeakMap();
+    const tileChangeDelays = new WeakMap();
+    let nextFillPhotoIndex = 0;
+    let nextReplacementPhotoIndex = 0;
+    let photoChangeIntervalId;
+    backdrop.dataset.shuffleState = prefersReducedMotion ? 'reduced-motion' : 'active';
+
+    const buildShuffledPhotos = (photosToShuffle) => {
+      const shuffledPhotos = [...photosToShuffle];
+      for (let index = shuffledPhotos.length - 1; index > 0; index -= 1) {
+        const swapIndex = Math.floor(Math.random() * (index + 1));
+        [shuffledPhotos[index], shuffledPhotos[swapIndex]] = [shuffledPhotos[swapIndex], shuffledPhotos[index]];
+      }
+      return shuffledPhotos;
+    };
+
+    let sequence = buildShuffledPhotos(photos);
+
+    const buildBackdropTile = (photo) => {
+      const tile = document.createElement('figure');
+      tile.className = 'site-photo-backdrop__tile';
+      tile.dataset.backdropTile = '';
+      tile.style.setProperty('--photo-aspect-ratio', `${photo.width} / ${photo.height}`);
+
+      const image = document.createElement('img');
+      image.src = photo.src;
+      image.alt = '';
+      image.loading = 'lazy';
+      image.decoding = 'async';
+      image.dataset.backdropImage = '';
+      tile.append(image);
+      return tile;
+    };
+
+    const addBackdropTiles = () => {
+      const pageHeight = Math.ceil(siteShell.getBoundingClientRect().height);
+      backdrop.style.height = `${pageHeight}px`;
+
+      let addedTileCount = 0;
+      while (grid.scrollHeight < pageHeight + 160 && addedTileCount < 400) {
+        const newTiles = document.createDocumentFragment();
+        for (let index = 0; index < 12; index += 1) {
+          const photo = sequence[nextFillPhotoIndex % sequence.length];
+          if (photo) newTiles.append(buildBackdropTile(photo));
+          nextFillPhotoIndex += 1;
+        }
+        grid.append(newTiles);
+        addedTileCount += 12;
+      }
+
+      tiles = Array.from(backdrop.querySelectorAll('[data-backdrop-tile]'));
+    };
+
+    const loadAllPhotos = async () => {
+      try {
+        const response = await fetch('/photo-backdrop.json');
+        if (!response.ok) throw new Error(`Photo backdrop request failed with ${response.status}`);
+
+        const allPhotos = await response.json();
+        if (!Array.isArray(allPhotos)) throw new Error('Photo backdrop response is not an array');
+
+        const validPhotos = allPhotos.filter((photo) =>
+          typeof photo?.src === 'string' &&
+          Number.isFinite(photo?.width) &&
+          Number.isFinite(photo?.height) &&
+          photo.width > 0 &&
+          photo.height > 0
+        );
+        if (validPhotos.length === 0) throw new Error('Photo backdrop response has no valid photos');
+
+        sequence = buildShuffledPhotos(validPhotos);
+        nextReplacementPhotoIndex = 0;
+        backdrop.dataset.photoCount = String(validPhotos.length);
+      } catch (error) {
+        console.warn('Could not load the full photo backdrop; using the initial set.', error);
+      }
+    };
+
+    const getNextPhoto = (currentSource) => {
+      for (let checkedPhotoCount = 0; checkedPhotoCount < sequence.length; checkedPhotoCount += 1) {
+        const photo = sequence[nextReplacementPhotoIndex];
+        nextReplacementPhotoIndex += 1;
+        if (nextReplacementPhotoIndex === sequence.length) {
+          sequence = buildShuffledPhotos(sequence);
+          nextReplacementPhotoIndex = 0;
+        }
+        if (photo && new URL(photo.src, location.href).href !== currentSource) return photo;
+      }
+      return undefined;
+    };
+
+    const addReplacementPhoto = (tile, photoChangeDelay) => {
+      const image = tile.querySelector('[data-backdrop-image]');
+      if (!(tile instanceof HTMLElement) || !(image instanceof HTMLImageElement)) return;
+
+      const photo = getNextPhoto(image.src);
+      if (!photo) return;
+      tile.classList.add('is-changing');
+
+      const replacementImage = new Image();
+      replacementImage.alt = '';
+      replacementImage.className = 'site-photo-backdrop__replacement';
+      replacementImage.onload = () => {
+        tileChangeTimes.set(tile, Date.now() + photoChangeDelay);
+        tile.append(replacementImage);
+        replacementImage.addEventListener('transitionend', () => {
+          image.src = replacementImage.src;
+          replacementImage.remove();
+          tile.classList.remove('is-changing');
+        }, { once: true });
+        requestAnimationFrame(() => requestAnimationFrame(() => replacementImage.classList.add('is-visible')));
+      };
+      replacementImage.onerror = () => {
+        tileChangeTimes.set(tile, Date.now() + photoChangeDelay);
+        tile.classList.remove('is-changing');
+      };
+      replacementImage.src = photo.src;
+    };
+
+    const getExposedTiles = () => {
+      const blockingSelector = '.reading-surface, .article-card, .project-card, .surface-card, .hero-home__stage, .site-header, .site-footer';
+      return tiles.filter((tile) => {
+        const bounds = tile.getBoundingClientRect();
+        if (bounds.bottom <= 0 || bounds.top >= window.innerHeight) return false;
+
+        const visibleTop = Math.max(bounds.top, 0);
+        const visibleBottom = Math.min(bounds.bottom, window.innerHeight);
+        const visibleMiddle = (visibleTop + visibleBottom) / 2;
+        const samplePoints = [
+          [bounds.left + bounds.width * 0.05, visibleTop + (visibleBottom - visibleTop) * 0.15],
+          [bounds.left + bounds.width * 0.5, visibleTop + (visibleBottom - visibleTop) * 0.15],
+          [bounds.left + bounds.width * 0.95, visibleTop + (visibleBottom - visibleTop) * 0.15],
+          [bounds.left + bounds.width * 0.05, visibleMiddle],
+          [bounds.left + bounds.width * 0.5, visibleMiddle],
+          [bounds.left + bounds.width * 0.95, visibleMiddle],
+          [bounds.left + bounds.width * 0.05, visibleTop + (visibleBottom - visibleTop) * 0.85],
+          [bounds.left + bounds.width * 0.5, visibleTop + (visibleBottom - visibleTop) * 0.85],
+          [bounds.left + bounds.width * 0.95, visibleTop + (visibleBottom - visibleTop) * 0.85],
+        ];
+        return samplePoints.some(([horizontalPosition, verticalPosition]) => {
+          const foreground = document.elementFromPoint(horizontalPosition, verticalPosition);
+          return foreground && !foreground.closest(blockingSelector);
+        });
+      });
+    };
+
+    const addDuePhotos = () => {
+      const currentTime = Date.now();
+      const dueTiles = [];
+
+      for (const tile of getExposedTiles()) {
+        let photoChangeDelay = tileChangeDelays.get(tile);
+        if (photoChangeDelay === undefined) {
+          photoChangeDelay = 3000 + Math.random() * 5000;
+          tileChangeDelays.set(tile, photoChangeDelay);
+        }
+
+        const nextPhotoChangeTime = tileChangeTimes.get(tile);
+        if (nextPhotoChangeTime === undefined) {
+          tileChangeTimes.set(tile, currentTime + photoChangeDelay);
+        } else if (nextPhotoChangeTime <= currentTime && !tile.classList.contains('is-changing')) {
+          dueTiles.push({ tile, photoChangeDelay });
+        }
+      }
+
+      for (const { tile, photoChangeDelay } of dueTiles) {
+        addReplacementPhoto(tile, photoChangeDelay);
+      }
+    };
+
+    const removePhotoChangeTimer = () => {
+      if (!photoChangeIntervalId) return;
+      window.clearInterval(photoChangeIntervalId);
+      photoChangeIntervalId = undefined;
+    };
+
+    const addPhotoChangeTimer = () => {
+      if (prefersReducedMotion || tiles.length === 0) return;
+      removePhotoChangeTimer();
+      addDuePhotos();
+      photoChangeIntervalId = window.setInterval(addDuePhotos, 250);
+    };
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        removePhotoChangeTimer();
+      } else {
+        tileChangeTimes = new WeakMap();
+        addPhotoChangeTimer();
+      }
+    });
+
+    const pageResizeObserver = new ResizeObserver(addBackdropTiles);
+    loadAllPhotos().then(() => {
+      addBackdropTiles();
+      pageResizeObserver.observe(siteShell);
+    });
+    window.addEventListener('load', addBackdropTiles, { once: true });
+    addPhotoChangeTimer();
+  })();
+</script>
