@@ -40,7 +40,7 @@ When not coding, you'll find me supporting Real Madrid, following F1, exploring 
 
 I spend a lot of time on 2v2 Empire Wars, playing online against strong players from around the world. AoE II’s depth, breadth, steep learning curve, and vibrant community are a big part of why it has held my attention for so long. [View AoE2 Companion profile](https://www.aoe2companion.com/players/3820258).
 
-<iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/4OnJ4u3ReYOXUvwuaA5KwQ?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+<iframe style="border:0; border-radius:12px" src="https://music.ashwch.com/?ref=ashwch.com-about" title="Any Color You Like music player" width="100%" height="640" allow="autoplay; encrypted-media; fullscreen" loading="lazy"></iframe>
 
 ---
 

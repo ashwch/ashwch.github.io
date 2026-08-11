@@ -14,6 +14,7 @@ export const primaryNav = [
   { label: 'Writing', href: '/writing.html' },
   { label: 'Projects', href: '/pages/projects.html' },
   { label: 'Photography', href: '/pages/photography.html' },
+  { label: 'Music', href: 'https://music.ashwch.com/?ref=ashwch.com-nav' },
   { label: 'About', href: '/pages/about.html' },
 ] as const;
 
