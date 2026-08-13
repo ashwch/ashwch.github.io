@@ -557,7 +557,7 @@ There is also a case where only one object is ready when a span comes off the qu
 
 ## Where Green Tea stands now
 
-At the time of this talk, Green Tea was available as an experiment in Go 1.25, and the plan was to enable it by default in Go 1.26. It is now enabled by default in [Go 1.26](https://go.dev/doc/go1.26#new-garbage-collector).
+At the time of this talk, Green Tea was available as an experiment in Go 1.25, and the plan was to enable it by default in Go 1.26. It is now enabled by default in [Go 1.26](https://go.dev/doc/go1.26#new-garbage-collector). The Go team has also written about the design in [The Green Tea Garbage Collector](https://go.dev/blog/greenteagc).
 
 The release notes say that results depend on the workload, but for real-world programs that use GC heavily, Green Tea can reduce GC overhead by 10-40%.
 
@@ -567,6 +567,7 @@ So, overall, the way GC finds reachable objects has not changed. It still starts
 
 - [GopherCon 2025: Advancing Go Garbage Collection with Green Tea](https://www.youtube.com/watch?v=gPJkM95KpKo)
 - [Go 1.26 release notes: New garbage collector](https://go.dev/doc/go1.26#new-garbage-collector)
+- [The Green Tea Garbage Collector](https://go.dev/blog/greenteagc)
 - [Green Tea design and implementation discussion](https://github.com/golang/go/issues/73581)
 - [A Guide to the Go Garbage Collector](https://go.dev/doc/gc-guide)
 - [Go runtime safepoint and preemption notes](https://go.dev/src/runtime/preempt.go)
