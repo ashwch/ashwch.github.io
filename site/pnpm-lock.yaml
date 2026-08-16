@@ -20,7 +20,7 @@ importers:
       '@fontsource/monaspace-krypton':
         specifier: ^5.3.0
         version: 5.3.0
-      '@fontsource/monaspace-radon':
+      '@fontsource/source-serif-4':
         specifier: ^5.3.0
         version: 5.3.0
       astro:
@@ -316,8 +316,8 @@ packages:
   '@fontsource/monaspace-krypton@5.3.0':
     resolution: {integrity: sha512-dAvofm5VNugRpprnOYMOEnlcnlAJWrQXcoy0PEnmdc9NU+fyDeSDYOTFoJPmJBADwcnVqXA6fLgTlz7TUQQx6g==}
 
-  '@fontsource/monaspace-radon@5.3.0':
-    resolution: {integrity: sha512-aadcdk9Gg4yOwk4Zei93k3pzL1jufhrPQIxpLluqO+RoVv5MoSqNlsvFuYEEthE5N1ORaS3RleohBdP0yBzDGQ==}
+  '@fontsource/source-serif-4@5.3.0':
+    resolution: {integrity: sha512-yQz8xmIgMzks8zQbpuca3UYtjxK798XCyQAGdDXmzBgvV7sdoK6d0YvE9F9kiYxORCEMRBgGZDZsSYcXj5KvwA==}
 
   '@img/colour@1.1.0':
     resolution: {integrity: sha512-Td76q7j57o/tLVdgS746cYARfSyxk8iEfRxewL9h4OMzYhbW4TAcppl0mT4eyqXddh6L/jwoM75mo7ixa/pCeQ==}
@@ -2263,7 +2263,7 @@ snapshots:
 
   '@fontsource/monaspace-krypton@5.3.0': {}
 
-  '@fontsource/monaspace-radon@5.3.0': {}
+  '@fontsource/source-serif-4@5.3.0': {}
 
   '@img/colour@1.1.0':
     optional: true

@@ -28,7 +28,7 @@ const {
 const pageTitle = title ? `${title} · ${siteMeta.name}` : `${siteMeta.title} · ${siteMeta.tagline}`;
 const ogImage = image ? new URL(image, Astro.site ?? siteMeta.siteUrl).toString() : undefined;
 const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID || undefined;
-const showPhotoBackdrop = !/^\/pages\/photography(?:\.html|\/)?$/.test(Astro.url.pathname);
+const showPhotoBackdrop = type !== 'article' && !/^\/pages\/photography(?:\.html|\/)?$/.test(Astro.url.pathname);
 const backdropPhotos = [
   ...homepageBanners.map((banner) => ({
     src: banner.mobileSrc,
