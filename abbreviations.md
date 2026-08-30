@@ -1,4 +1,6 @@
 *[AI]: Artificial Intelligence
+*[ALU]: Arithmetic Logic Unit
+*[ALUs]: Arithmetic Logic Units
 *[API]: Application Programming Interface
 *[APIs]: Application Programming Interfaces
 *[ATS]: Applicant Tracking System
@@ -7,6 +9,8 @@
 *[CEO]: Chief Executive Officer
 *[CI]: Continuous Integration
 *[CLI]: Command Line Interface
+*[CPU]: Central Processing Unit
+*[CPUs]: Central Processing Units
 *[CRUD]: Create, Read, Update, Delete
 *[CSS]: Cascading Style Sheets
 *[CTO]: Chief Technology Officer
@@ -16,10 +20,13 @@
 *[DM]: Direct Message
 *[DRY]: Don't Repeat Yourself
 *[E2E]: End-to-End
+*[GC]: Garbage Collection
 *[GPT]: Generative Pre-trained Transformer
 *[HTML]: HyperText Markup Language
 *[HTTP]: HyperText Transfer Protocol
 *[IAM]: Identity and Access Management
+*[ID]: Identifier
+*[IDs]: Identifiers
 *[IDE]: Integrated Development Environment
 *[IDEs]: Integrated Development Environments
 *[JSON]: JavaScript Object Notation
@@ -28,15 +35,22 @@
 *[LLM]: Large Language Model
 *[LLMs]: Large Language Models
 *[MCP]: Model Context Protocol
+*[MUX]: Multiplexer
+*[OCR]: Optical Character Recognition
+*[OLTP]: Online Transaction Processing
 *[ORM]: Object-Relational Mapping
+*[OS]: Operating System
 *[PEP]: Python Enhancement Proposal
 *[PII]: Personally Identifiable Information
 *[PM]: Product Manager
 *[PR]: Pull Request
 *[PRs]: Pull Requests
 *[QA]: Quality Assurance
+*[RGB]: Red, Green, and Blue
+*[RISC-V]: Open instruction set architecture named for Berkeley's fifth RISC project
 *[RLS]: Row-Level Security
 *[ROI]: Return on Investment
+*[RV64I]: 64-bit RISC-V Base Integer Instruction Set
 *[SaaS]: Software as a Service
 *[SDK]: Software Development Kit
 *[SLA]: Service Level Agreement
@@ -46,3 +60,4 @@
 *[UI]: User Interface
 *[URL]: Uniform Resource Locator
 *[URLs]: Uniform Resource Locators
+*[XOR]: Exclusive OR

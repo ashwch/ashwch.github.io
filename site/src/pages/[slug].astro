@@ -114,4 +114,73 @@ const hasToc = tocHeadings.length >= 2;
       </div>
     </section>
   )}
+
+  <script>
+    const articleTableOfContents = document.querySelector<HTMLElement>('.article-toc');
+    const tableOfContentsNavigation = articleTableOfContents?.querySelector<HTMLElement>('nav');
+
+    if (articleTableOfContents && tableOfContentsNavigation) {
+      const headingEntries: Array<{ link: HTMLAnchorElement; heading: HTMLElement }> = [];
+
+      for (const link of articleTableOfContents.querySelectorAll<HTMLAnchorElement>('a[href^="#"]')) {
+        const headingId = link.getAttribute('href')?.slice(1);
+        const heading = headingId ? document.getElementById(headingId) : null;
+        if (heading) headingEntries.push({ link, heading });
+      }
+
+      let activeHeadingLink: HTMLAnchorElement | undefined;
+
+      const updateActiveHeadingLink = () => {
+        if (headingEntries.length === 0 || articleTableOfContents.offsetParent === null) return;
+
+        const stickyTop = Number.parseFloat(getComputedStyle(articleTableOfContents).top) || 0;
+        const rootFontSize = Number.parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
+        const headingOffset = stickyTop + rootFontSize + 1; // Allow for subpixel anchor positions.
+        let activeHeadingEntry = headingEntries[0];
+
+        for (const headingEntry of headingEntries) {
+          const headingBounds = headingEntry.heading.getBoundingClientRect();
+          if (headingBounds.top >= headingOffset) {
+            if (headingBounds.bottom <= window.innerHeight) activeHeadingEntry = headingEntry;
+            break;
+          }
+          activeHeadingEntry = headingEntry;
+          if (headingBounds.bottom > headingOffset) break;
+        }
+
+        const pageBottomReached =
+          window.scrollY > 0 &&
+          Math.ceil(window.scrollY + window.innerHeight) >= document.documentElement.scrollHeight - 2;
+        if (pageBottomReached) activeHeadingEntry = headingEntries[headingEntries.length - 1];
+
+        if (activeHeadingLink !== activeHeadingEntry.link) {
+          for (const headingEntry of headingEntries) {
+            const isActive = headingEntry === activeHeadingEntry;
+            if (isActive) {
+              headingEntry.link.dataset.active = 'true';
+              headingEntry.link.setAttribute('aria-current', 'location');
+            } else {
+              delete headingEntry.link.dataset.active;
+              headingEntry.link.removeAttribute('aria-current');
+            }
+          }
+          activeHeadingLink = activeHeadingEntry.link;
+        }
+
+        const navigationBounds = tableOfContentsNavigation.getBoundingClientRect();
+        const activeLinkBounds = activeHeadingEntry.link.getBoundingClientRect();
+
+        if (activeLinkBounds.top < navigationBounds.top) {
+          tableOfContentsNavigation.scrollTop -= navigationBounds.top - activeLinkBounds.top;
+        } else if (activeLinkBounds.bottom > navigationBounds.bottom) {
+          tableOfContentsNavigation.scrollTop += activeLinkBounds.bottom - navigationBounds.bottom;
+        }
+      };
+
+      window.addEventListener('scroll', updateActiveHeadingLink, { passive: true });
+      window.addEventListener('resize', updateActiveHeadingLink);
+      window.addEventListener('hashchange', updateActiveHeadingLink);
+      updateActiveHeadingLink();
+    }
+  </script>
 </BaseLayout>

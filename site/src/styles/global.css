@@ -55,10 +55,6 @@
   box-sizing: border-box;
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
 body {
   margin: 0;
   background: var(--bg);
@@ -1168,8 +1164,8 @@ select {
   display: grid;
   gap: 0.55rem;
   padding-left: 1rem;
-  max-height: min(26rem, calc(100vh - 12rem));
-  overflow: auto;
+  max-height: calc(100vh - 9rem);
+  overflow-y: auto;
   border-left: 1px solid var(--border);
 }
 
@@ -1329,6 +1325,10 @@ select {
 .prose figure,
 .prose table {
   margin: 0 0 1.5rem;
+}
+
+.prose :is(h1, h2, h3, h4) {
+  scroll-margin-top: 7rem;
 }
 
 .prose h2,
@@ -1734,6 +1734,10 @@ select {
 
   .article-shell {
     padding-inline: 0.75rem;
+  }
+
+  .prose :is(h1, h2, h3, h4) {
+    scroll-margin-top: 1rem;
   }
 
   .prose abbr[data-full-form]::before,
