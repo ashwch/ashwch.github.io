@@ -15,6 +15,8 @@ In last 3 weeks our developer environment tool ran 2686 commands on my system an
 
 That tool is Dev Center, and we built it for two kinds of users from the very beginning. Engineers get a native app(MacOS/Linux) with every service in a live terminal, and agents get a CLI that can do everything the app can, through the same code. Getting there wasn't easy, it took us three attempts and a lot of learnings/failures and each one taught us something about building tools for this second user. The goal for us to have something that allows agents to run our various stacks with minimal number of steps and without ever running into problems if several of them were running together and being able to run and embed this anywhere.
 
+[local-ci-runner](https://github.com/DiversioTeam/local-ci-runner) was also built from the same principles that we apply to Dev Center. We are running it on pretty much every project that we have internally, we have completely removed third-party CI from our system apart from the actual deployments, and our CI cost has gone down to pretty much zero due to it.
+
 This is what Dev Center looks like today.
 
 <figure class="dc-media"><a href="{static}/images/articles/your-tools-now-have-two-users/img/06-app-monoliths-demo-worktrees.webp"><img src="{static}/images/articles/your-tools-now-have-two-users/img/06-app-monoliths-demo-worktrees.webp" alt="The Monoliths list: every worktree in one list, with what each one is running. Three demo worktrees here." width="2800" height="509" loading="lazy"></a><figcaption>Every worktree in one list, with what each one is running.</figcaption></figure>
