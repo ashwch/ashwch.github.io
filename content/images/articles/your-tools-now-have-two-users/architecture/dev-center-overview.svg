@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="860" viewBox="0 0 1200 860" role="img" aria-labelledby="title description">
+  <title id="title">Dev Center: two interfaces, one engine, isolated worktree stacks</title>
+  <desc id="description">A developer uses the GPUI window. An agent sends live CLI commands over an owner-checked Unix socket through control.rs and commands.rs. Both call the same service and lifecycle engines in one running app. The app reads the monolith manifest, gets service secrets from 1Password and downloads shared development dumps from Crafting. Its supervisor owns PTY processes, its status builder serves both interfaces, and its local URL router sends registered hostnames to the matching worktree. Each worktree has its own frontend, backend, workers, PostgreSQL, Redis, ports and data folder. The same app runs headless on servers.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 Z" fill="#716781"/></marker>
+  </defs>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; fill: #292333; text-anchor: middle; }
+    .title { font-size: 30px; font-weight: 700; text-anchor: start; }
+    .heading { font-size: 22px; font-weight: 650; }
+    .detail { font-size: 19px; fill: #51495f; }
+    .small { font-size: 17px; fill: #62596e; }
+    .code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 17px; fill: #51495f; }
+    .line { fill: none; stroke: #716781; stroke-width: 2; marker-end: url(#arrow); stroke-linejoin: round; }
+    .input { fill: #fbf0dc; stroke: #ba9b66; stroke-width: 1.5; }
+    .surface { fill: #f0eafa; stroke: #b4a0d6; stroke-width: 1.5; }
+    .module { fill: #e8edff; stroke: #9693ce; stroke-width: 1.5; }
+    .stack { fill: #e9f3ed; stroke: #8fb5a0; stroke-width: 1.5; }
+  </style>
+  <rect width="1200" height="860" rx="16" fill="#fcf8ff"/>
+  <text x="30" y="43" class="title">Dev Center: shared control, isolated stacks</text>
+  <text x="30" y="73" class="detail" style="text-anchor:start">One Rust binary. The CLI asks the running app to do the work; it never runs services itself.</text>
+
+  <rect x="330" y="110" width="270" height="80" rx="10" class="surface"/>
+  <text x="465" y="143" class="heading">Developer</text>
+  <text x="465" y="173" class="detail">Clicks, types, inspects</text>
+  <rect x="630" y="110" width="300" height="80" rx="10" class="surface"/>
+  <text x="780" y="143" class="heading">Coding agent / CLI</text>
+  <text x="780" y="173" class="code">start · send · logs · context</text>
+  <rect x="1000" y="110" width="170" height="80" rx="10" class="surface"/>
+  <text x="1085" y="143" class="heading">Browser</text>
+  <text x="1085" y="173" class="small">Worktree URL</text>
+
+  <rect x="300" y="290" width="660" height="335" rx="14" fill="#f5f3fb" stroke="#aaa0bf" stroke-width="1.5"/>
+  <text x="630" y="242" class="heading">One running app</text>
+  <text x="630" y="268" class="small">Windowed or --headless</text>
+  <path d="M 465 190 V 320" class="line"/>
+  <rect x="413" y="209" width="104" height="24" fill="#fcf8ff"/>
+  <text x="465" y="227" class="small">UI actions</text>
+  <path d="M 780 190 V 320" class="line"/>
+  <rect x="714" y="209" width="132" height="24" fill="#fcf8ff"/>
+  <text x="780" y="227" class="small">JSON request</text>
+
+  <rect x="330" y="320" width="270" height="60" rx="9" class="module"/>
+  <text x="465" y="345" class="heading">GPUI window</text>
+  <text x="465" y="369" class="small">Buttons and service terminals</text>
+  <rect x="630" y="320" width="300" height="60" rx="9" class="module"/>
+  <text x="780" y="345" class="heading" style="font-size:20px">Owner-checked Unix socket</text>
+  <text x="780" y="369" class="code">control.rs → commands.rs</text>
+  <path d="M 465 380 V 408" class="line"/>
+  <path d="M 780 380 V 408" class="line"/>
+
+  <rect x="330" y="410" width="600" height="88" rx="9" class="module"/>
+  <text x="630" y="439" class="heading">Shared service and lifecycle engines</text>
+  <text x="630" y="466" class="code">start_services · create / reset / delete</text>
+  <text x="630" y="489" class="small">Dependencies, readiness waits, safe reviews and confirmations</text>
+
+  <path d="M 420 498 V 528" class="line"/>
+  <path d="M 630 498 V 528" class="line"/>
+  <path d="M 840 498 V 528" class="line"/>
+  <rect x="330" y="530" width="180" height="67" rx="9" class="module"/>
+  <text x="420" y="555" class="heading">Supervisor</text>
+  <text x="420" y="579" class="small">PTYs · owned PIDs</text>
+  <rect x="540" y="530" width="180" height="67" rx="9" class="module"/>
+  <text x="630" y="555" class="heading">Status / context</text>
+  <text x="630" y="579" class="small">State · logs · usage</text>
+  <rect x="750" y="530" width="180" height="67" rx="9" class="module"/>
+  <text x="840" y="555" class="heading">URL router</text>
+  <text x="840" y="579" class="small">Host → service port</text>
+
+  <rect x="30" y="320" width="220" height="85" rx="10" class="input"/>
+  <text x="140" y="347" class="heading">Monolith config</text>
+  <text x="140" y="373" class="code">dev-services.toml</text>
+  <text x="140" y="396" class="small">Profiles · scripts · ports</text>
+  <path d="M 250 362 H 276 V 435 H 328" class="line"/>
+  <rect x="30" y="445" width="220" height="75" rx="10" class="input"/>
+  <text x="140" y="474" class="heading">1Password</text>
+  <text x="140" y="502" class="small">Service values in memory</text>
+  <path d="M 250 482 H 328" class="line"/>
+  <rect x="30" y="560" width="220" height="85" rx="10" class="input"/>
+  <text x="140" y="588" class="heading">Crafting dumps</text>
+  <text x="140" y="614" class="small">Download · decrypt</text>
+  <text x="140" y="637" class="small">Restore on first start</text>
+  <path d="M 250 602 H 298" class="line"/>
+
+  <path d="M 1085 190 H 1178 V 563 H 932" class="line"/>
+  <text x="1085" y="405" class="detail">Registered Host</text>
+  <text x="1085" y="431" class="small">Loopback router</text>
+  <text x="1085" y="455" class="small">port 80 or 1355</text>
+
+  <path d="M 420 597 V 655 H 465 V 688" class="line"/>
+  <path d="M 420 655 H 780 V 688" class="line"/>
+  <rect x="540" y="642" width="171" height="24" fill="#fcf8ff"/>
+  <text x="625" y="660" class="small">Owns the processes</text>
+  <path d="M 840 597 V 688" class="line"/>
+  <text x="984" y="662" class="small">Routes to matching stack</text>
+
+  <rect x="300" y="690" width="300" height="126" rx="10" class="stack"/>
+  <text x="450" y="720" class="heading">Worktree A</text>
+  <text x="450" y="748" class="small">Frontend · backend · workers</text>
+  <text x="450" y="775" class="detail">Own PostgreSQL + Redis</text>
+  <text x="450" y="801" class="small">Own ports, URLs and .dev-data/</text>
+  <rect x="630" y="690" width="330" height="126" rx="10" class="stack"/>
+  <text x="795" y="720" class="heading">Worktree B</text>
+  <text x="795" y="748" class="small">Frontend · backend · workers</text>
+  <text x="795" y="775" class="detail">Own PostgreSQL + Redis</text>
+  <text x="795" y="801" class="small">Own ports, URLs and .dev-data/</text>
+
+  <text x="630" y="845" class="small">Worktree separation is not a security sandbox: services run as the same OS user.</text>
+</svg>

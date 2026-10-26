@@ -66,6 +66,7 @@ For article authoring and cross-site reposts with `engineering.diversio.com`, re
 
 - `docs/runbooks/blog-reposting.md` — explains why `ashwch.com` owns the full article, why the engineering site keeps a short stub, and which files/commands to use
 - `docs/runbooks/article-end-matter.md` — standardized review acknowledgements and AI writing disclaimer blocks for article end matter
+- `docs/runbooks/article-media.md` — image galleries (`<div class="gallery">`) and the lightbox for linked figure images
 
 If you touch photography-related flows, current helpers are:
 

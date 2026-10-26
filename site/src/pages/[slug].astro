@@ -1,6 +1,7 @@
 ---
 import { render } from 'astro:content';
 import AbbreviationTooltips from '../components/AbbreviationTooltips.astro';
+import ArticleMedia from '../components/ArticleMedia.astro';
 import AuthorBio from '../components/AuthorBio.astro';
 import Comments from '../components/Comments.astro';
 import RichTitle from '../components/RichTitle.astro';
@@ -89,6 +90,7 @@ const hasToc = tocHeadings.length >= 2;
       </article>
 
       <AbbreviationTooltips />
+      <ArticleMedia />
     </div>
   </div>
 

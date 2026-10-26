@@ -58,6 +58,7 @@ Notes:
 - Shared images live in `content/images/**`
 - Shared acronym definitions live in `abbreviations.md`
 - Cross-site repost workflow: `docs/runbooks/blog-reposting.md` (why one site owns the full article and the other keeps a short stub)
+- Image galleries and the click-to-enlarge lightbox: `docs/runbooks/article-media.md`
 
 Astro migration/sync scripts:
 

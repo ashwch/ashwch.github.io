@@ -1,0 +1,303 @@
+---
+// Galleries and the image lightbox for article bodies.
+//
+// Authoring (in root content/ markdown, as raw HTML):
+//   <div class="gallery" aria-label="What this set shows">
+//     <figure><a href="{static}/images/…/one.webp"><img src="{static}/images/…/one.webp" alt="…" loading="lazy"></a><figcaption>…</figcaption></figure>
+//     …
+//   </div>
+// Without JavaScript a gallery stays a stack of plain figures and every link
+// opens the image file. With it, the gallery becomes a swipeable carousel
+// with arrows and thumbnails, and image links open the lightbox. See
+// docs/runbooks/article-media.md.
+---
+
+<script>
+  const IMAGE_LINK = /\.(avif|gif|jpe?g|png|svg|webp)(?:[?#].*)?$/i;
+
+  // ---------------------------------------------------------------------------
+  // Carousel
+  // ---------------------------------------------------------------------------
+
+  let galleryCount = 0;
+
+  const createButton = (className: string, label: string, text: string) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = className;
+    button.setAttribute('aria-label', label);
+    button.innerHTML = `<span aria-hidden="true">${text}</span>`;
+    return button;
+  };
+
+  const enhanceGallery = (gallery: HTMLElement) => {
+    const figures = [...gallery.children].filter(
+      (child): child is HTMLElement => child instanceof HTMLElement && child.tagName === 'FIGURE',
+    );
+    if (figures.length < 2) return;
+
+    galleryCount += 1;
+    const label = gallery.getAttribute('aria-label') || 'Image gallery';
+    const useDots = gallery.dataset.nav === 'dots';
+
+    gallery.classList.add('gallery--enhanced');
+    gallery.setAttribute('role', 'region');
+    gallery.setAttribute('aria-roledescription', 'carousel');
+    gallery.setAttribute('aria-label', label);
+
+    const viewport = document.createElement('div');
+    viewport.className = 'gallery__viewport';
+
+    const track = document.createElement('div');
+    track.className = 'gallery__track';
+    track.id = `gallery-${galleryCount}`;
+    track.tabIndex = 0;
+    track.setAttribute('aria-label', `${label}: use the arrow keys to move between images`);
+
+    figures.forEach((figure, index) => {
+      figure.classList.add('gallery__slide');
+      figure.setAttribute('role', 'group');
+      figure.setAttribute('aria-roledescription', 'slide');
+      figure.setAttribute('aria-label', `${index + 1} of ${figures.length}`);
+      track.append(figure);
+    });
+
+    const previous = createButton('gallery__arrow gallery__arrow--previous', 'Previous image', '‹');
+    const next = createButton('gallery__arrow gallery__arrow--next', 'Next image', '›');
+    previous.setAttribute('aria-controls', track.id);
+    next.setAttribute('aria-controls', track.id);
+    viewport.append(track, previous, next);
+
+    const footer = document.createElement('div');
+    footer.className = 'gallery__footer';
+
+    const status = document.createElement('p');
+    status.className = 'gallery__status';
+    status.setAttribute('aria-live', 'polite');
+
+    const nav = document.createElement('div');
+    nav.className = useDots ? 'gallery__dots' : 'gallery__thumbs';
+    nav.setAttribute('role', 'group');
+    nav.setAttribute('aria-label', `${label}: choose an image`);
+
+    const navButtons = figures.map((figure, index) => {
+      const image = figure.querySelector('img');
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = useDots ? 'gallery__dot' : 'gallery__thumb';
+      button.setAttribute('aria-label', `Show image ${index + 1}: ${image?.alt || ''}`.trim());
+      button.setAttribute('aria-controls', track.id);
+      if (!useDots && image) {
+        const thumbnail = document.createElement('img');
+        thumbnail.src = image.currentSrc || image.src;
+        thumbnail.alt = '';
+        thumbnail.loading = 'lazy';
+        thumbnail.decoding = 'async';
+        button.append(thumbnail);
+      }
+      button.addEventListener('click', () => goTo(index));
+      nav.append(button);
+      return button;
+    });
+
+    footer.append(nav, status);
+    gallery.replaceChildren(viewport, footer);
+
+    let current = -1;
+
+    const getIndex = () => Math.round(track.scrollLeft / Math.max(track.clientWidth, 1));
+
+    const goTo = (index: number, behavior: ScrollBehavior = 'smooth') => {
+      const target = Math.max(0, Math.min(figures.length - 1, index));
+      track.scrollTo({ left: target * track.clientWidth, behavior });
+    };
+
+    const update = () => {
+      const index = Math.max(0, Math.min(figures.length - 1, getIndex()));
+      if (index === current) return;
+      current = index;
+      previous.disabled = index === 0;
+      next.disabled = index === figures.length - 1;
+      status.textContent = `${index + 1} / ${figures.length}`;
+      figures.forEach((figure, figureIndex) => {
+        const active = figureIndex === index;
+        figure.toggleAttribute('inert', !active);
+        figure.setAttribute('aria-hidden', String(!active));
+      });
+      navButtons.forEach((button, buttonIndex) => {
+        if (buttonIndex === index) button.setAttribute('aria-current', 'true');
+        else button.removeAttribute('aria-current');
+      });
+      const activeButton = navButtons[index];
+      if (!useDots && nav.scrollWidth > nav.clientWidth) {
+        nav.scrollTo({
+          left: activeButton.offsetLeft - (nav.clientWidth - activeButton.offsetWidth) / 2,
+          behavior: 'smooth',
+        });
+      }
+    };
+
+    previous.addEventListener('click', () => goTo(current - 1));
+    next.addEventListener('click', () => goTo(current + 1));
+    track.addEventListener('scroll', () => window.requestAnimationFrame(update), { passive: true });
+    track.addEventListener('keydown', (event) => {
+      const moves: Record<string, number> = {
+        ArrowLeft: current - 1,
+        ArrowRight: current + 1,
+        Home: 0,
+        End: figures.length - 1,
+      };
+      if (!(event.key in moves) || event.altKey || event.ctrlKey || event.metaKey) return;
+      event.preventDefault();
+      goTo(moves[event.key]);
+    });
+    // Keep the same slide in view when the width changes (rotation, resize).
+    new ResizeObserver(() => goTo(current, 'auto')).observe(track);
+
+    update();
+  };
+
+  // ---------------------------------------------------------------------------
+  // Lightbox
+  // ---------------------------------------------------------------------------
+
+  type LightboxItem = { link: HTMLAnchorElement; image: HTMLImageElement };
+
+  let dialog: HTMLDialogElement | undefined;
+  let items: LightboxItem[] = [];
+  let index = 0;
+  let opener: HTMLElement | null = null;
+
+  const getCaption = ({ link, image }: LightboxItem) =>
+    image.alt.trim() || link.closest('figure')?.querySelector('figcaption')?.textContent?.trim() || '';
+
+  const buildDialog = () => {
+    const element = document.createElement('dialog');
+    element.className = 'lightbox';
+    element.setAttribute('aria-label', 'Image viewer');
+    element.innerHTML = `
+      <figure class="lightbox__figure">
+        <img class="lightbox__image" alt="" decoding="async" />
+        <figcaption class="lightbox__caption">
+          <span class="lightbox__text"></span>
+          <span class="lightbox__count"></span>
+        </figcaption>
+      </figure>
+      <button type="button" class="lightbox__button lightbox__close" aria-label="Close image viewer"><span aria-hidden="true">×</span></button>
+      <button type="button" class="lightbox__button lightbox__previous" aria-label="Previous image"><span aria-hidden="true">‹</span></button>
+      <button type="button" class="lightbox__button lightbox__next" aria-label="Next image"><span aria-hidden="true">›</span></button>
+      <a class="lightbox__original" target="_blank" rel="noopener">Open original</a>
+    `;
+    document.body.append(element);
+
+    const query = <T extends Element>(selector: string) => element.querySelector(selector) as T;
+    query<HTMLButtonElement>('.lightbox__close').addEventListener('click', () => element.close());
+    query<HTMLButtonElement>('.lightbox__previous').addEventListener('click', () => show(index - 1));
+    query<HTMLButtonElement>('.lightbox__next').addEventListener('click', () => show(index + 1));
+
+    // A click on the dark area around the image closes it.
+    element.addEventListener('click', (event) => {
+      if (event.target === element || event.target === query('.lightbox__figure')) element.close();
+    });
+
+    element.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault();
+        show(index - 1);
+      } else if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        show(index + 1);
+      }
+    });
+
+    // Horizontal swipes move between images; Esc and the close button leave.
+    let startX = 0;
+    let startY = 0;
+    let tracking = false;
+    element.addEventListener('pointerdown', (event) => {
+      if (event.pointerType === 'mouse') return;
+      tracking = true;
+      startX = event.clientX;
+      startY = event.clientY;
+    });
+    element.addEventListener('pointerup', (event) => {
+      if (!tracking) return;
+      tracking = false;
+      const deltaX = event.clientX - startX;
+      const deltaY = event.clientY - startY;
+      if (Math.abs(deltaX) > 50 && Math.abs(deltaX) > Math.abs(deltaY) * 1.5) {
+        show(index + (deltaX < 0 ? 1 : -1));
+      } else if (deltaY > 90 && Math.abs(deltaY) > Math.abs(deltaX) * 1.5) {
+        element.close();
+      }
+    });
+    element.addEventListener('pointercancel', () => {
+      tracking = false;
+    });
+
+    element.addEventListener('close', () => {
+      document.documentElement.classList.remove('lightbox-open');
+      opener?.focus({ preventScroll: true });
+    });
+    return element;
+  };
+
+  const preload = (item?: LightboxItem) => {
+    if (item) new Image().src = item.link.href;
+  };
+
+  const show = (nextIndex: number) => {
+    if (!dialog || items.length === 0) return;
+    index = Math.max(0, Math.min(items.length - 1, nextIndex));
+    const item = items[index];
+    const image = dialog.querySelector<HTMLImageElement>('.lightbox__image')!;
+    const caption = getCaption(item);
+    image.src = item.link.href;
+    image.alt = caption;
+    dialog.querySelector('.lightbox__text')!.textContent = caption;
+    dialog.querySelector('.lightbox__count')!.textContent =
+      items.length > 1 ? `${index + 1} / ${items.length}` : '';
+    dialog.querySelector<HTMLAnchorElement>('.lightbox__original')!.href = item.link.href;
+    const single = items.length < 2;
+    dialog.querySelector<HTMLButtonElement>('.lightbox__previous')!.hidden = single;
+    dialog.querySelector<HTMLButtonElement>('.lightbox__next')!.hidden = single;
+    dialog.querySelector<HTMLButtonElement>('.lightbox__previous')!.disabled = index === 0;
+    dialog.querySelector<HTMLButtonElement>('.lightbox__next')!.disabled = index === items.length - 1;
+    preload(items[index - 1]);
+    preload(items[index + 1]);
+  };
+
+  const getLightboxItems = (root: ParentNode) =>
+    [...root.querySelectorAll<HTMLAnchorElement>('figure a[href]')]
+      .filter((link) => !link.closest('[data-no-lightbox]') && IMAGE_LINK.test(link.getAttribute('href') || ''))
+      .map((link) => ({ link, image: link.querySelector('img') }))
+      .filter((item): item is LightboxItem => item.image !== null);
+
+  const setUpLightbox = (prose: HTMLElement) => {
+    const all = getLightboxItems(prose);
+    for (const { link } of all) {
+      link.classList.add('lightbox-link');
+      link.addEventListener('click', (event) => {
+        // New-tab and download clicks keep the browser's own behaviour.
+        if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+        event.preventDefault();
+        // A gallery's images page through that gallery; other images page
+        // through the article's single images.
+        const gallery = link.closest<HTMLElement>('.gallery');
+        items = gallery
+          ? getLightboxItems(gallery)
+          : all.filter((item) => !item.link.closest('.gallery'));
+        dialog ??= buildDialog();
+        opener = link;
+        show(items.findIndex((item) => item.link === link));
+        document.documentElement.classList.add('lightbox-open');
+        dialog.showModal();
+      });
+    }
+  };
+
+  for (const prose of document.querySelectorAll<HTMLElement>('.prose')) {
+    prose.querySelectorAll<HTMLElement>('.gallery').forEach(enhanceGallery);
+    setUpLightbox(prose);
+  }
+</script>
