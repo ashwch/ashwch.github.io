@@ -26,5 +26,6 @@ export const footerLinks = [
   { label: 'Stack Overflow', href: 'https://stackoverflow.com/users/846892/ashwini-chaudhary' },
   { label: 'Unsplash', href: 'https://unsplash.com/@suicide_chewbacca' },
   { label: 'Instagram', href: 'https://www.instagram.com/suicide_chewbacca/' },
+  { label: 'X', href: 'https://x.com/suicide_chewie' },
 ] as const;
 
