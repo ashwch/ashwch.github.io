@@ -1,10 +1,10 @@
-Title: The Monolith That Made AI Actually Useful
+Title: The Shared Workspace That Made AI Actually Useful
 Date: 2025-08-07
 Category: Development
-Tags: git-worktrees, development-workflow, ai-tools, monorepo, claude-code, mcp, devops, productivity, bruno
+Tags: git-worktrees, development-workflow, ai-tools, git-submodules, claude-code, mcp, devops, productivity, bruno
 Slug: the-monolith-that-made-ai-actually-useful
 Authors: Ashwini Chaudhary
-Summary: How we solved context switching across multiple repositories by building a monolith using git submodules, making both humans and AI 10x more effective with our codebase.
+Summary: How we solved context switching across multiple repositories by building a shared workspace using Git submodules, making both humans and AI 10x more effective with our codebase.
 
 > Picture this: You're debugging an issue that spans your React frontend, Django backend, and Terraform infrastructure. Three terminal windows. Three different repos. Three different contexts. By the time you trace the bug from UI to API to database, you've lost half your morning just to context switching.
 
@@ -28,7 +28,7 @@ We solved this at Diversio. The solution made both humans and AI 10x more effect
 
 ## What you'll learn
 
-- **Structure a monolith** repository with git submodules for maximum efficiency
+- **Structure a shared workspace** with Git submodules for maximum efficiency
 - **Master git worktrees** for parallel development without context switching  
 - **Automate worktree creation** with our Python scripts (links included!)
 - **Reduce context switching** by 90% and watch productivity soar
@@ -52,7 +52,9 @@ But here's the real kicker. AI tools like Claude Code couldn't see our full syst
 
 ## Our Solution: Git Submodules Done Right
 
-We built a monolith using git submodules that gives us the best of both worlds:
+We used Git submodules to bring our separate repositories into one workspace—not to merge them into a monorepo or change our application architecture. Each kept its own history, pull requests, and CI/CD.
+
+The parent repository (a Git superproject) gives us the best of both worlds:
 
 ```
 diversio-monolith/
@@ -66,11 +68,11 @@ diversio-monolith/
 └── scripts/               # Development automation
 ```
 
-Each directory is its own git repository. But they all live in one workspace. One clone gets you everything.
+Each directory is its own git repository. But they all live in one workspace. One clone with `git clone --recurse-submodules` gets you everything.
 
 ### From Days to Hours
 
-Our product manager [Sam](https://www.linkedin.com/in/samuel-bonin/) now redesigns features in hours, not days. He pulls the latest code, runs migrations, and has AI analyze our Bruno API collections. Remember when we [migrated from Postman to Bruno](/from-postman-to-bruno-how-ai-changed-our-api-workflow.html)? That decision pays huge dividends in a monolith.
+Our product manager [Sam](https://www.linkedin.com/in/samuel-bonin/) now redesigns features in hours, not days. He pulls the latest code, runs migrations, and has AI analyze our Bruno API collections. Remember when we [migrated from Postman to Bruno](/from-postman-to-bruno-how-ai-changed-our-api-workflow.html)? That decision pays huge dividends in a shared workspace.
 
 The workflow looks like this:
 
@@ -139,7 +141,7 @@ We even built meta agents that manage other agents:
 
 These meta agents save hours when adding or updating agents. No more manual agent configuration. The AI helps manage the AI.
 
-The best part? These agents are shared across the entire team through the monolith. When one engineer creates an agent, everyone benefits immediately.
+The best part? These agents are shared across the entire team through the parent repository. When one engineer creates an agent, everyone benefits immediately.
 
 ## MCP Integration and Team Benefits
 
@@ -150,7 +152,7 @@ We integrated Model Context Protocol (MCP) servers that give Claude Code direct 
 - **Gemini AI**: Research and code analysis
 - **Playwright**: Browser automation for testing
 
-These integrations work seamlessly across the entire monolith, giving AI unprecedented visibility into our development pipeline.
+These integrations work seamlessly across the entire workspace, giving AI unprecedented visibility into our development pipeline.
 
 ### Benefits Across the Team
 
@@ -166,7 +168,7 @@ These integrations work seamlessly across the entire monolith, giving AI unprece
 
 ## The Technical Details
 
-**Submodule Management**: Each submodule points to a specific commit. Changes need commits in both the submodule and the monolith. This preserves atomicity while enabling coordination.
+**Submodule Management**: Each submodule points to a specific commit. Changes need commits in both the submodule and the parent repository. A parent commit pins a combined snapshot of the repositories; it does not make their commits or deployments atomic.
 
 **Branch Independence**: Work on different branches in each submodule simultaneously. Perfect for features that need coordinated changes. And crucially, pull requests still go to individual repositories, maintaining our existing review processes and CI/CD pipelines.
 
@@ -184,7 +186,7 @@ The results: 10x faster feature development, 90% fewer integration bugs, and arc
 
 If you're working with multiple related repositories, you can implement this:
 
-1. Create a monolith repository
+1. Create a parent repository for the shared workspace
 2. Add existing repos as git submodules
 3. Build automation scripts for common workflows
 4. Configure MCP servers for your tools
@@ -208,4 +210,9 @@ Want to dive deeper into Git worktrees? Check out my comprehensive guide: [Git W
 <div class="article-subtext article-subtext--review">
   <p class="article-subtext-label">Review</p>
   <p>Thanks to <a href="https://www.linkedin.com/in/samuel-bonin/">Samuel Bonin</a> and <a href="https://www.linkedin.com/in/amalraj-offl/">Amal Raj</a> for reviewing this post.</p>
+</div>
+
+<div class="article-subtext">
+  <p class="article-subtext-label">Terminology note</p>
+  <p>Updated “monolith” to “shared workspace” for accuracy.</p>
 </div>

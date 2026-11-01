@@ -305,7 +305,7 @@ Dev Center now runs on every developer's own machine, on macOS and Linux (Arch L
 
 ## Related reading
 
-- [The Monolith That Made AI Actually Useful](/the-monolith-that-made-ai-actually-useful.html)
+- [The Shared Workspace That Made AI Actually Useful](/the-monolith-that-made-ai-actually-useful.html)
 - [No Code by Hand](/no-code-by-hand-agentic-platform-acceleration.html)
 - [How we use AI like engineers](/how-we-use-ai-like-engineers.html)
 

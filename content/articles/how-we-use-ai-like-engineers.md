@@ -28,7 +28,7 @@ At a high level, the shape of the work matters more than the amount of output:
 
 ## Where it actually helps
 
-The current models are ridiculously good at discovering code related to logic that spans various repos, and our [switching to a mono-repo last year](/the-monolith-that-made-ai-actually-useful.html) when Claude Code was starting to pick up has made a huge difference for us.
+The current models are ridiculously good at discovering code related to logic that spans various repos, and our [bringing our repos into a shared workspace last year](/the-monolith-that-made-ai-actually-useful.html) when Claude Code was starting to pick up has made a huge difference for us.
 
 Saying AI is good at this doesn't mean an engineer isn't able to do the same. The difference is that assembling all of those files, conventions, blast-radius clues, and related pieces is simply faster than starting from zero and jumping around in code manually. That itself saves significant time upfront and lets us guide the AI if it's looking in the wrong places. Sometimes it points to old dead code, which is not what we want. AI also loves to ignore existing utilities and redefine them every chance it gets, which is why it still requires steering from the engineer.
 
@@ -149,7 +149,7 @@ If you're wondering where to start to make the most of it with your own team, st
 
 ## Related reading
 
-- [The Monolith That Made AI Actually Useful](/the-monolith-that-made-ai-actually-useful.html)
+- [The Shared Workspace That Made AI Actually Useful](/the-monolith-that-made-ai-actually-useful.html)
 - [No Code by Hand](/no-code-by-hand-agentic-platform-acceleration.html)
 - [Postman to Bruno: A Weekend Migration That Transformed Our API Workflow](/from-postman-to-bruno-how-ai-changed-our-api-workflow.html)
 
