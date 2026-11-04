@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" role="img" aria-labelledby="title desc">
+  <title id="title">Sessions messaging each other</title>
+  <desc id="desc">A long-running product session with its own subagents sends messages to separate infrastructure and security sessions, each of which already knows how its area works. A human approves anything that changes infrastructure or production.</desc>
+  <defs>
+    <style>
+      .title { font: 700 32px "Plus Jakarta Sans", "Helvetica Neue", Inter, Arial, sans-serif; fill: #1b1f3b; }
+      .subtitle { font: 600 14px "Helvetica Neue", Inter, Arial, sans-serif; fill: #4e5563; }
+      .label { font: 700 18px "Plus Jakarta Sans", "Helvetica Neue", Inter, Arial, sans-serif; fill: #111318; }
+      .item { font: 600 14px "Helvetica Neue", Inter, Arial, sans-serif; fill: #2f3640; }
+      .mono { font: 600 13px ui-monospace, SFMono-Regular, Menlo, monospace; fill: #2f3640; }
+      .small { font: 700 11px ui-monospace, SFMono-Regular, Menlo, monospace; fill: #c25a35; letter-spacing: .08em; }
+      .msg { font: italic 600 13px "Helvetica Neue", Inter, Arial, sans-serif; fill: #8a3f22; }
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#d97757" />
+    </marker>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fff8f1" />
+      <stop offset="1" stop-color="#eef3ff" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="140%">
+      <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#1b2440" flood-opacity="0.10" />
+    </filter>
+  </defs>
+
+  <rect x="0" y="0" width="960" height="600" fill="url(#bg)" />
+  <text x="48" y="68" class="title">Sessions messaging each other</text>
+  <text x="48" y="94" class="subtitle">Each session and subagent has a name, and can message the other Claude sessions on the machine.</text>
+
+  <!-- product session -->
+  <rect x="48" y="130" width="340" height="380" rx="16" fill="#fdebe3" stroke="#d97757" filter="url(#shadow)" stroke-width="1.5" />
+  <text x="72" y="164" class="small">LONG-RUNNING SESSION</text>
+  <text x="72" y="192" class="label">product</text>
+  <text x="72" y="216" class="item">one subagent per task, own worktree</text>
+
+  <rect x="72" y="236" width="292" height="56" rx="10" fill="#ffffff" stroke="#d5dceb" filter="url(#shadow)" stroke-width="1.5" />
+  <text x="92" y="270" class="mono">feature-a  ·  worktree 1</text>
+  <rect x="72" y="302" width="292" height="56" rx="10" fill="#ffffff" stroke="#d5dceb" filter="url(#shadow)" stroke-width="1.5" />
+  <text x="92" y="336" class="mono">bugfix-b  ·  worktree 2</text>
+  <rect x="72" y="368" width="292" height="56" rx="10" fill="#ffffff" stroke="#d5dceb" filter="url(#shadow)" stroke-width="1.5" />
+  <text x="92" y="402" class="mono">improvement-c  ·  worktree 3</text>
+  <text x="72" y="462" class="item">Subagents report to the main agent,</text>
+  <text x="72" y="482" class="item">and can message other sessions too.</text>
+
+  <!-- infra -->
+  <rect x="612" y="130" width="300" height="150" rx="16" fill="#e8f0fe" stroke="#4f7fe0" filter="url(#shadow)" stroke-width="1.5" />
+  <text x="636" y="164" class="small">SESSION</text>
+  <text x="636" y="192" class="label">infrastructure</text>
+  <text x="636" y="222" class="item">knows how we plan, test and</text>
+  <text x="636" y="244" class="item">apply infra changes</text>
+
+  <!-- security -->
+  <rect x="612" y="360" width="300" height="150" rx="16" fill="#e4f6ec" stroke="#2f9e6a" filter="url(#shadow)" stroke-width="1.5" />
+  <text x="636" y="394" class="small">SESSION</text>
+  <text x="636" y="422" class="label">security</text>
+  <text x="636" y="452" class="item">knows our scanners, fixes and</text>
+  <text x="636" y="474" class="item">where to land them</text>
+
+  <!-- infra messages -->
+  <text x="404" y="168" class="msg">"needs a new queue, review</text>
+  <text x="404" y="186" class="msg">and apply it?"</text>
+  <line x1="388" y1="200" x2="604" y2="200" stroke="#d97757" stroke-width="2.5" marker-end="url(#arrow)" />
+  <line x1="612" y1="240" x2="396" y2="240" stroke="#d97757" stroke-width="2.5" stroke-dasharray="6 5" marker-end="url(#arrow)" />
+  <text x="404" y="262" class="msg">"applied, tested, safe"</text>
+
+  <!-- security messages -->
+  <text x="404" y="398" class="msg">"security check failing on</text>
+  <text x="404" y="416" class="msg">my PR"</text>
+  <line x1="388" y1="430" x2="604" y2="430" stroke="#d97757" stroke-width="2.5" marker-end="url(#arrow)" />
+  <line x1="612" y1="470" x2="396" y2="470" stroke="#d97757" stroke-width="2.5" stroke-dasharray="6 5" marker-end="url(#arrow)" />
+  <text x="404" y="492" class="msg">"fixed on dev, pull it in"</text>
+
+  <!-- human -->
+  <rect x="48" y="534" width="864" height="44" rx="10" fill="#fffaf0" stroke="#e0a526" stroke-width="2" stroke-dasharray="6 5" />
+  <text x="72" y="562" class="item">Agents can message each other, but I still approve infra, production and merges.</text>
+</svg>

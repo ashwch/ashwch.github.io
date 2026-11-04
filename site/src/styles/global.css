@@ -1390,6 +1390,7 @@ select {
 
 .prose figure img,
 .prose img {
+  height: auto;
   border-radius: var(--radius-md);
 }
 

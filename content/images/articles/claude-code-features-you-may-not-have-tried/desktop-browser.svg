@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 520" role="img" aria-labelledby="title desc">
+  <title id="title">A browser Claude can use, without a terminal</title>
+  <desc id="desc">Engineers drive a debug Chrome from the CLI with Playwright or computer use. Non-technical teammates use the built-in browser in the Claude desktop app's Code tab, log in there, and ask Claude to work with any web app, with or without an API.</desc>
+  <defs>
+    <style>
+      .title { font: 700 32px "Plus Jakarta Sans", "Helvetica Neue", Inter, Arial, sans-serif; fill: #1b1f3b; }
+      .subtitle { font: 600 14px "Helvetica Neue", Inter, Arial, sans-serif; fill: #4e5563; }
+      .label { font: 700 18px "Plus Jakarta Sans", "Helvetica Neue", Inter, Arial, sans-serif; fill: #111318; }
+      .item { font: 600 14px "Helvetica Neue", Inter, Arial, sans-serif; fill: #2f3640; }
+      .mono { font: 600 13px ui-monospace, SFMono-Regular, Menlo, monospace; fill: #2f3640; }
+      .small { font: 700 11px ui-monospace, SFMono-Regular, Menlo, monospace; fill: #c25a35; letter-spacing: .08em; }
+      .msg { font: italic 600 14px "Helvetica Neue", Inter, Arial, sans-serif; fill: #8a3f22; }
+    </style>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fff8f1" />
+      <stop offset="1" stop-color="#eef3ff" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="140%">
+      <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#1b2440" flood-opacity="0.10" />
+    </filter>
+  </defs>
+
+  <rect x="0" y="0" width="960" height="520" fill="url(#bg)" />
+  <text x="48" y="68" class="title">The built-in browser in the desktop app</text>
+  <text x="48" y="94" class="subtitle">What engineers set up by hand, and what everyone else gets in the Code tab.</text>
+
+  <!-- engineers -->
+  <rect x="48" y="130" width="410" height="330" rx="16" fill="#e8f0fe" stroke="#4f7fe0" filter="url(#shadow)" stroke-width="1.5" />
+  <text x="72" y="164" class="small">ENGINEERS</text>
+  <text x="72" y="192" class="label">CLI + debug Chrome</text>
+  <rect x="72" y="214" width="362" height="96" rx="10" fill="#ffffff" stroke="#d5dceb" filter="url(#shadow)" stroke-width="1.5" />
+  <text x="92" y="246" class="mono">chrome --remote-debugging-port</text>
+  <text x="92" y="270" class="mono">playwright / computer use</text>
+  <text x="92" y="294" class="mono">agent in a terminal</text>
+  <text x="72" y="350" class="item">Powerful, but you need to know what a</text>
+  <text x="72" y="372" class="item">debug port is, and keep it all running.</text>
+
+  <!-- everyone -->
+  <rect x="502" y="130" width="410" height="330" rx="16" fill="#fdebe3" stroke="#d97757" filter="url(#shadow)" stroke-width="1.5" />
+  <text x="526" y="164" class="small">EVERYONE ELSE</text>
+  <text x="526" y="192" class="label">Desktop app, Code tab</text>
+  <rect x="526" y="214" width="362" height="96" rx="10" fill="#ffffff" stroke="#d5dceb" filter="url(#shadow)" stroke-width="1.5" />
+  <circle cx="546" cy="232" r="5" fill="#ff5f57" />
+  <circle cx="562" cy="232" r="5" fill="#febc2e" />
+  <circle cx="578" cy="232" r="5" fill="#28c840" />
+  <text x="546" y="268" class="item">built-in browser, logged into the</text>
+  <text x="546" y="290" class="item">dashboard, inbox or any web app</text>
+  <text x="526" y="342" class="msg">"Check my email and find the contract</text>
+  <text x="526" y="362" class="msg">from this vendor."</text>
+  <text x="526" y="404" class="item">Sign in once and keep the cookies.</text>
+  <text x="526" y="426" class="item">API or MCP not required.</text>
+
+  <text x="48" y="494" class="item">Claude takes screenshots as it works, so people can see what it checked.</text>
+</svg>

@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 500" role="img" aria-labelledby="title desc">
+  <title id="title">Watching a branch after a push</title>
+  <desc id="desc">After a push, the agent starts background watches for review, CI, merge conflicts and deploys, keeps working on the task, and only reacts when one of them reports something.</desc>
+  <defs>
+    <style>
+      .title { font: 700 32px "Plus Jakarta Sans", "Helvetica Neue", Inter, Arial, sans-serif; fill: #1b1f3b; }
+      .subtitle { font: 600 14px "Helvetica Neue", Inter, Arial, sans-serif; fill: #4e5563; }
+      .label { font: 700 18px "Plus Jakarta Sans", "Helvetica Neue", Inter, Arial, sans-serif; fill: #111318; }
+      .item { font: 600 15px "Helvetica Neue", Inter, Arial, sans-serif; fill: #2f3640; }
+      .small { font: 700 11px ui-monospace, SFMono-Regular, Menlo, monospace; fill: #c25a35; letter-spacing: .08em; }
+      .note { font: 600 14px "Helvetica Neue", Inter, Arial, sans-serif; fill: #4e5563; }
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#d97757" />
+    </marker>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fff8f1" />
+      <stop offset="1" stop-color="#eef3ff" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="140%">
+      <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#1b2440" flood-opacity="0.10" />
+    </filter>
+  </defs>
+
+  <rect x="0" y="0" width="960" height="500" fill="url(#bg)" />
+  <text x="48" y="68" class="title">Watching a branch after a push</text>
+  <text x="48" y="94" class="subtitle">The checks run in the background while Claude keeps working on the task.</text>
+
+  <!-- push -->
+  <rect x="48" y="200" width="170" height="110" rx="14" fill="#e8f0fe" stroke="#4f7fe0" filter="url(#shadow)" stroke-width="1.5" />
+  <text x="72" y="236" class="small">ME</text>
+  <text x="72" y="264" class="label">git push</text>
+  <text x="72" y="288" class="item">open the PR</text>
+
+  <line x1="218" y1="255" x2="282" y2="255" stroke="#d97757" stroke-width="2.5" marker-end="url(#arrow)" />
+
+  <!-- watches -->
+  <text x="290" y="140" class="small">BACKGROUND WATCHES</text>
+  <g>
+    <rect x="290" y="156" width="270" height="52" rx="10" fill="#ffffff" stroke="#d5dceb" filter="url(#shadow)" stroke-width="1.5" />
+    <text x="310" y="188" class="item">Review: approved or comments?</text>
+    <rect x="290" y="218" width="270" height="52" rx="10" fill="#ffffff" stroke="#d5dceb" filter="url(#shadow)" stroke-width="1.5" />
+    <text x="310" y="250" class="item">CI: green or failing?</text>
+    <rect x="290" y="280" width="270" height="52" rx="10" fill="#ffffff" stroke="#d5dceb" filter="url(#shadow)" stroke-width="1.5" />
+    <text x="310" y="312" class="item">Conflicts with the base branch?</text>
+    <rect x="290" y="342" width="270" height="52" rx="10" fill="#ffffff" stroke="#d5dceb" filter="url(#shadow)" stroke-width="1.5" />
+    <text x="310" y="374" class="item">Deploy finished?</text>
+  </g>
+
+  <line x1="560" y1="275" x2="624" y2="275" stroke="#d97757" stroke-width="2.5" stroke-dasharray="6 5" marker-end="url(#arrow)" />
+  <text x="568" y="262" class="small">EVENT</text>
+
+  <!-- agent -->
+  <rect x="632" y="156" width="280" height="238" rx="14" fill="#fdebe3" stroke="#d97757" filter="url(#shadow)" stroke-width="1.5" />
+  <text x="656" y="192" class="small">AGENT</text>
+  <text x="656" y="222" class="label">Reacts to changes</text>
+  <text x="656" y="262" class="item">• fixes the failing test</text>
+  <text x="656" y="290" class="item">• answers review comments</text>
+  <text x="656" y="318" class="item">• rebases and pushes again</text>
+  <text x="656" y="346" class="item">• tells me when it's live</text>
+
+  <text x="48" y="452" class="note">Subagents can do the same for their own PRs.</text>
+</svg>

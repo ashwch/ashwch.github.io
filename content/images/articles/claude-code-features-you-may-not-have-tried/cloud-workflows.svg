@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" role="img" aria-labelledby="title desc">
+  <title id="title">Workflows that live in the cloud, not on laptops</title>
+  <desc id="desc">A teammate opens Claude in the browser and picks an environment. The repo carries the instructions and skills, and credentials are added outside the session. The QC flow produces a validation report. The design system flow goes from questions to before and after pages to a draft pull request for an engineer. Improving either one is a push to main.</desc>
+  <defs>
+    <style>
+      .title { font: 700 32px "Plus Jakarta Sans", "Helvetica Neue", Inter, Arial, sans-serif; fill: #1b1f3b; }
+      .subtitle { font: 600 14px "Helvetica Neue", Inter, Arial, sans-serif; fill: #4e5563; }
+      .label { font: 700 18px "Plus Jakarta Sans", "Helvetica Neue", Inter, Arial, sans-serif; fill: #111318; }
+      .item { font: 600 14px "Helvetica Neue", Inter, Arial, sans-serif; fill: #2f3640; }
+      .small { font: 700 11px ui-monospace, SFMono-Regular, Menlo, monospace; fill: #c25a35; letter-spacing: .08em; }
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#d97757" />
+    </marker>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fff8f1" />
+      <stop offset="1" stop-color="#eef3ff" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="140%">
+      <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#1b2440" flood-opacity="0.10" />
+    </filter>
+  </defs>
+
+  <rect x="0" y="0" width="960" height="600" fill="url(#bg)" />
+  <text x="48" y="68" class="title">Two workflows in Claude Code cloud environments</text>
+  <text x="48" y="94" class="subtitle">Nothing to install, the repo holds the instructions, and API keys stay out of people's laptops.</text>
+
+  <!-- person -->
+  <rect x="48" y="134" width="190" height="120" rx="14" fill="#e8f0fe" stroke="#4f7fe0" filter="url(#shadow)" stroke-width="1.5" />
+  <text x="70" y="168" class="small">ANYONE ON THE TEAM</text>
+  <text x="70" y="198" class="label">a browser tab</text>
+  <text x="70" y="224" class="item">pick an environment,</text>
+  <text x="70" y="244" class="item">ask in plain words</text>
+
+  <line x1="238" y1="194" x2="290" y2="194" stroke="#d97757" stroke-width="2.5" marker-end="url(#arrow)" />
+
+  <!-- cloud session -->
+  <rect x="298" y="124" width="614" height="140" rx="16" fill="#fdebe3" stroke="#d97757" filter="url(#shadow)" stroke-width="1.5" />
+  <text x="322" y="158" class="small">CLAUDE CODE CLOUD SESSION</text>
+  <rect x="322" y="174" width="180" height="70" rx="10" fill="#ffffff" stroke="#d5dceb" filter="url(#shadow)" stroke-width="1.5" />
+  <text x="340" y="204" class="item">repo instructions</text>
+  <text x="340" y="226" class="item">and skills</text>
+  <rect x="516" y="174" width="180" height="70" rx="10" fill="#ffffff" stroke="#d5dceb" filter="url(#shadow)" stroke-width="1.5" />
+  <text x="534" y="204" class="item">tools and MCP</text>
+  <text x="534" y="226" class="item">servers, preloaded</text>
+  <rect x="710" y="174" width="180" height="70" rx="10" fill="#ffffff" stroke="#d5dceb" filter="url(#shadow)" stroke-width="1.5" />
+  <text x="728" y="204" class="item">secrets added</text>
+  <text x="728" y="226" class="item">outside the session</text>
+
+  <!-- survey lane -->
+  <text x="48" y="318" class="small">QC CHECKS</text>
+  <rect x="48" y="332" width="250" height="70" rx="10" fill="#ffffff" stroke="#d5dceb" filter="url(#shadow)" stroke-width="1.5" />
+  <text x="66" y="373" class="item">"QC 12345"</text>
+  <line x1="298" y1="367" x2="350" y2="367" stroke="#d97757" stroke-width="2.5" marker-end="url(#arrow)" />
+  <rect x="358" y="332" width="270" height="70" rx="10" fill="#ffffff" stroke="#d5dceb" filter="url(#shadow)" stroke-width="1.5" />
+  <text x="376" y="362" class="item">reads the service (read-only),</text>
+  <text x="376" y="384" class="item">checks every question</text>
+  <line x1="628" y1="367" x2="680" y2="367" stroke="#d97757" stroke-width="2.5" marker-end="url(#arrow)" />
+  <rect x="688" y="332" width="224" height="70" rx="10" fill="#e8f0fe" stroke="#4f7fe0" filter="url(#shadow)" stroke-width="1.5" />
+  <text x="706" y="362" class="item">validation report</text>
+  <text x="706" y="384" class="item">FAIL · WARN · PASS</text>
+
+  <!-- design lane -->
+  <text x="48" y="448" class="small">DESIGN SYSTEM</text>
+  <rect x="48" y="462" width="190" height="70" rx="10" fill="#ffffff" stroke="#d5dceb" filter="url(#shadow)" stroke-width="1.5" />
+  <text x="66" y="492" class="item">one question at</text>
+  <text x="66" y="514" class="item">a time, 2–4 choices</text>
+  <line x1="238" y1="497" x2="280" y2="497" stroke="#d97757" stroke-width="2.5" marker-end="url(#arrow)" />
+  <rect x="288" y="462" width="200" height="70" rx="10" fill="#ffffff" stroke="#d5dceb" filter="url(#shadow)" stroke-width="1.5" />
+  <text x="306" y="492" class="item">clickable before and</text>
+  <text x="306" y="514" class="item">after pages</text>
+  <line x1="488" y1="497" x2="530" y2="497" stroke="#d97757" stroke-width="2.5" marker-end="url(#arrow)" />
+  <rect x="538" y="462" width="150" height="70" rx="10" fill="#ffffff" stroke="#d5dceb" filter="url(#shadow)" stroke-width="1.5" />
+  <text x="556" y="492" class="item">"save it"</text>
+  <text x="556" y="514" class="item">tests + preview</text>
+  <line x1="688" y1="497" x2="730" y2="497" stroke="#d97757" stroke-width="2.5" marker-end="url(#arrow)" />
+  <rect x="738" y="462" width="174" height="70" rx="10" fill="#f1eafe" stroke="#8b5cf6" filter="url(#shadow)" stroke-width="1.5" />
+  <text x="756" y="492" class="item">draft PR for</text>
+  <text x="756" y="514" class="item">an engineer</text>
+
+  <text x="48" y="576" class="item">To change how either one behaves, we update the repo and the next session picks it up.</text>
+</svg>

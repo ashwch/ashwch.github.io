@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 520" role="img" aria-labelledby="title desc">
+  <title id="title">Sending one message to every session</title>
+  <desc id="desc">One session broadcasts a request to every other session and subagent, such as freeing disk space or listing security fixes shipped in the last two weeks. Each replies to the session that asked, which combines the replies into one report.</desc>
+  <defs>
+    <style>
+      .title { font: 700 32px "Plus Jakarta Sans", "Helvetica Neue", Inter, Arial, sans-serif; fill: #1b1f3b; }
+      .subtitle { font: 600 14px "Helvetica Neue", Inter, Arial, sans-serif; fill: #4e5563; }
+      .label { font: 700 18px "Plus Jakarta Sans", "Helvetica Neue", Inter, Arial, sans-serif; fill: #111318; }
+      .item { font: 600 14px "Helvetica Neue", Inter, Arial, sans-serif; fill: #2f3640; }
+      .mono { font: 600 13px ui-monospace, SFMono-Regular, Menlo, monospace; fill: #2f3640; }
+      .small { font: 700 11px ui-monospace, SFMono-Regular, Menlo, monospace; fill: #c25a35; letter-spacing: .08em; }
+      .msg { font: italic 600 14px "Helvetica Neue", Inter, Arial, sans-serif; fill: #8a3f22; }
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#d97757" />
+    </marker>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fff8f1" />
+      <stop offset="1" stop-color="#eef3ff" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="140%">
+      <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#1b2440" flood-opacity="0.10" />
+    </filter>
+  </defs>
+
+  <rect x="0" y="0" width="960" height="520" fill="url(#bg)" />
+  <text x="48" y="68" class="title">Sending one message to every session</text>
+  <text x="48" y="94" class="subtitle">Each session replies to the one that asked, which puts the replies together.</text>
+
+  <!-- asker -->
+  <rect x="48" y="150" width="260" height="210" rx="16" fill="#fdebe3" stroke="#d97757" filter="url(#shadow)" stroke-width="1.5" />
+  <text x="72" y="184" class="small">ANY SESSION</text>
+  <text x="72" y="212" class="label">"Ask everyone…"</text>
+  <text x="72" y="246" class="msg">free up the disk space</text>
+  <text x="72" y="266" class="msg">you created</text>
+  <text x="72" y="302" class="msg">security fixes shipped</text>
+  <text x="72" y="322" class="msg">in the last two weeks</text>
+
+  <!-- fan out lines -->
+  <line x1="308" y1="230" x2="512" y2="152" stroke="#d97757" stroke-width="2.5" marker-end="url(#arrow)" />
+  <line x1="308" y1="245" x2="512" y2="222" stroke="#d97757" stroke-width="2.5" marker-end="url(#arrow)" />
+  <line x1="308" y1="260" x2="512" y2="292" stroke="#d97757" stroke-width="2.5" marker-end="url(#arrow)" />
+  <line x1="308" y1="275" x2="512" y2="362" stroke="#d97757" stroke-width="2.5" marker-end="url(#arrow)" />
+
+  <!-- receivers -->
+  <rect x="520" y="128" width="392" height="48" rx="10" fill="#ffffff" stroke="#d5dceb" filter="url(#shadow)" stroke-width="1.5" />
+  <rect x="520" y="128" width="8" height="48" rx="4" fill="#4f7fe0" />
+  <text x="540" y="158" class="mono">infra       → "freed 2.1 GB"</text>
+  <rect x="520" y="198" width="392" height="48" rx="10" fill="#ffffff" stroke="#d5dceb" filter="url(#shadow)" stroke-width="1.5" />
+  <rect x="520" y="198" width="8" height="48" rx="4" fill="#2f9e6a" />
+  <text x="540" y="228" class="mono">security    → "4 fixes, PR links"</text>
+  <rect x="520" y="268" width="392" height="48" rx="10" fill="#ffffff" stroke="#d5dceb" filter="url(#shadow)" stroke-width="1.5" />
+  <rect x="520" y="268" width="8" height="48" rx="4" fill="#d97757" />
+  <text x="540" y="298" class="mono">product/sub → "2 merged, SHAs"</text>
+  <rect x="520" y="338" width="392" height="48" rx="10" fill="#ffffff" stroke="#d5dceb" filter="url(#shadow)" stroke-width="1.5" />
+  <rect x="520" y="338" width="8" height="48" rx="4" fill="#8b5cf6" />
+  <text x="540" y="368" class="mono">experiments → "nothing shipped"</text>
+
+  <!-- aggregate -->
+  <rect x="48" y="412" width="864" height="64" rx="12" fill="#e8f0fe" stroke="#4f7fe0" filter="url(#shadow)" stroke-width="1.5" />
+  <text x="72" y="450" class="item">I get one report back instead of checking each session myself.</text>
+  <text x="48" y="504" class="small">ILLUSTRATIVE REPLIES</text>
+</svg>

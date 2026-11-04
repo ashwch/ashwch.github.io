@@ -8,6 +8,7 @@
 *[CD]: Continuous Deployment
 *[CEO]: Chief Executive Officer
 *[CI]: Continuous Integration
+*[clanker]: Slang for an AI agent or robot, borrowed from Star Wars, where clone troopers call battle droids clankers
 *[CLI]: Command Line Interface
 *[CPU]: Central Processing Unit
 *[CPUs]: Central Processing Units
