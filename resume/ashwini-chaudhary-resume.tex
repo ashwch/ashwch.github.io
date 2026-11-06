@@ -2,6 +2,7 @@
 
 \geometry{left=1.35cm,right=1.35cm,top=1.4cm,bottom=1.4cm,columnsep=1.15cm}
 \usepackage{paracol}
+\usepackage{needspace}
 
 \iftutex
   \setmainfont{Roboto Slab}
@@ -37,7 +38,7 @@
 \begin{document}
 
 \name{Ashwini Chaudhary}
-\tagline{CTO \textbar\ Hands-on Engineering Leader \textbar\ Backend, Platform \& AI Systems}
+\tagline{CTO \textbar\ Hands-on Engineer \textbar\ Product, Platform \& Agent Systems}
 
 % Header design notes
 % -------------------
@@ -82,7 +83,7 @@
 % 4. supporting older experience and education
 \cvsection{Profile}
 
-Hands-on CTO with 12+ years across backend systems, payments, platform engineering, reliability, security, and AI-enabled internal tooling. I lead teams, shape technical direction, hire and mentor engineers, and still work deeply as an individual contributor on architecture, infrastructure, migrations, developer tooling, and other high-leverage technical initiatives. My work sits at the intersection of product delivery, platform engineering, software quality, and practical AI adoption.
+Hands-on CTO with 13+ years across backend systems, payments, platform engineering, reliability, and security. I'm still deeply involved in building the Diversio and Optimo products, improving them across the backend, infrastructure, security, performance, and cost. Alongside that I've built the agents and tooling the whole company now works with: an engineering agent on Pi Durable, an automated PR reviewer, Pi extensions, worktree-based dev environments, and local CI. I tend to pick up whatever is slowing a team down, whether or not it's my area, and ship a fix.
 
 \cvsection{Experience}
 
@@ -98,15 +99,16 @@ Hands-on CTO with 12+ years across backend systems, payments, platform engineeri
 % - continued hands-on IC depth
 \cvevent{Chief Technology Officer}{Diversio Inc}{Jul 2024 -- Present}{Toronto}
 \begin{itemize}
-\item Lead Diversio's pivot to Optimo while continuing to maintain, simplify, and evolve the core Diversio product.
-\item Own engineering across architecture, infrastructure, reliability, security, internal tooling, engineering quality, and long-term technical strategy.
-\item Remain a highly hands-on technical leader, contributing directly to architecture, infrastructure, migrations, developer tooling, security, and other critical engineering initiatives.
-\item Reduced maintenance cost by simplifying systems, improving maintainability, and making the platform easier for engineers to operate.
-\item Led cost-cutting, vendor rationalization, and a successful SR\&ED round that secured savings for Diversio.
-\item Negotiated and maintained critical software vendors and services used across the company.
-\item Led migration of the API workflow from Postman to Bruno; the resulting blog post was later featured in Bruno's marketing.
-\item Managed career progression, mentoring, code review standards, and day-to-day technical leadership across engineering.
-\item Hired and mentored many co-op students in Canada, including from the University of Toronto, Queen's University, the University of Waterloo, and other top programs.
+\item Lead Diversio's pivot to Optimo and own engineering end to end, from architecture and technical strategy to shipping features in both products myself.
+\item Built \textbf{little-person}, our automated PR reviewer: a Temporal-backed worker that reviews against our own standards and only spends a deep review on PRs that are ready, which keeps token spend low. It has reviewed 1,100+ PRs and took human review out of the critical path for the team.
+\item Built \textbf{Courage}, the engineering agent the whole company now uses in Slack and GitHub, on Pi Durable. It investigates issues, opens PRs, does a lighter automatic review on every PR alongside little-person, triages Sentry and infra alerts, runs sandboxes, and posts deploy and cost feeds, routing each request to a quick, standard, or deep model tier, behind host guards that block merges and secret leaks.
+\item Built \textbf{Dev Center} (Rust), which gives every worktree its own services, database, and URLs and hands its state to Claude, Codex, or Pi, and \textbf{local-ci-runner} (Go, open source), which runs checks locally and posts GitHub statuses only for verified snapshots.
+\item Wrote Pi extensions (pi-monitor, ci-status, image-router, pi-cmux) and 23 Claude Code/Codex plugins in a public marketplace the whole team uses.
+\item Cut the AWS bill by about a third over the past year while keeping production in SOC 2 scope, and moved CI, preview environments, and internal tools in-house where that was cheaper and fit us better.
+\item Part of Diversio's first SOC 2; now run this year's audit largely on my own across engineering, infrastructure, and admin, with most checks and evidence automated.
+\item Migrated most of the company's older manual processes onto Courage and cloud agents, and moved every credential and API key off people's laptops into 1Password and managed secrets.
+\item Led vendor rationalization and a successful SR\&ED round; migrated our API workflow from Postman to Bruno (the post was later featured in Bruno's marketing).
+\item Hired and mentored engineers and co-op students from the University of Toronto, Queen's, Waterloo, and other top programs.
 \end{itemize}
 
 \divider
@@ -115,11 +117,11 @@ Hands-on CTO with 12+ years across backend systems, payments, platform engineeri
 % ----------------
 % We keep the internal title progression at Diversio explicit because it shows a
 % clean path from early engineering hire -> lead -> HoE -> CTO.
+\needspace{7\baselineskip}
 \cvevent{Head of Engineering}{Diversio Inc}{Jul 2023 -- Jun 2024}{Toronto}
 \begin{itemize}
-\item Led engineering execution across teams through hiring, mentoring, delivery improvements, internal tooling, and stronger engineering standards.
-\item Directed major platform and stack consolidation work following Diversio's acquisition of CCDI Consulting Inc.
-\item Strengthened development workflows and cross-team delivery practices while keeping core systems maintainable.
+\item Led engineering execution through hiring, mentoring, delivery improvements, internal tooling, and engineering standards.
+\item Directed platform and stack consolidation after Diversio's acquisition of CCDI Consulting Inc.
 \end{itemize}
 
 \divider
@@ -127,9 +129,8 @@ Hands-on CTO with 12+ years across backend systems, payments, platform engineeri
 \cvevent{Lead Engineer}{Diversio Inc}{Aug 2019 -- Jun 2023}{Toronto / Remote}
 \begin{itemize}
 \item Early engineering hire who helped build core backend systems and infrastructure across multiple products.
-\item Owned infrastructure using Terraform and Terragrunt, along with deployments, production operations, and platform capabilities.
-\item Led successful SOC 2 work and supported multiple penetration testing rounds and related remediation.
-\item Built internal developer tooling and engineering processes that improved productivity and delivery.
+\item Owned infrastructure (Terraform, Terragrunt), deployments, and production operations.
+\item Led Diversio's first SOC 2 and multiple penetration testing rounds and their remediation.
 \end{itemize}
 
 \divider
@@ -140,8 +141,7 @@ Hands-on CTO with 12+ years across backend systems, payments, platform engineeri
 \cvevent{Software Engineer}{Unhaggle Inc}{Nov 2017 -- Feb 2021}{Remote}
 \begin{itemize}
 \item Owned infrastructure, site reliability, and deployments for the Dealer team.
-\item Built internal tools that improved developer productivity and delivery.
-\item Delivered application performance improvements in Python and PostgreSQL.
+\item Built internal tools and delivered performance improvements in Python and PostgreSQL.
 \end{itemize}
 
 \divider
@@ -149,10 +149,8 @@ Hands-on CTO with 12+ years across backend systems, payments, platform engineeri
 \cvevent{Senior Software Engineer}{Instamojo}{Mar 2015 -- Oct 2017}{Bengaluru}
 \begin{itemize}
 \item Led backend work on card processing and storage projects.
-\item Built and maintained Instamojo's e-commerce plugins and SDKs across WordPress, OpenCart, PrestaShop, Magento, Drupal, MeteorJS, CS-Cart, WHMCS, and Python/Ruby/PHP wrappers.
-\item Delivered key features including KYC onboarding, Orders API, payment gateway integrations, social login, and automated refunds.
-\item Helped port the main application from Python 2 to Python 3 and improve performance across Postgres, Django, and Python.
-\item Added code quality hooks using flake8, Mypy, Golint, and Vet.
+\item Built Instamojo's e-commerce plugins and SDKs across WordPress, Magento, Drupal, and others, plus Python, Ruby, and PHP wrappers.
+\item Delivered KYC onboarding, the Orders API, gateway integrations, and automated refunds, and helped port the main application from Python 2 to 3.
 \end{itemize}
 
 \divider
@@ -160,35 +158,7 @@ Hands-on CTO with 12+ years across backend systems, payments, platform engineeri
 \cvevent{Python Developer}{Simform Solutions}{Sep 2013 -- Feb 2015}{Ahmedabad}
 \begin{itemize}
 \item Built the real-time backend for SentMap using Node.js, Socket.IO, and Express to stream market and sentiment data over WebSockets.
-\item Implemented 3D frontend charting in three.js and 2D charting in Highcharts.
-\item Built API backends for Breakup RX App and Minho App using Django and Django REST Framework.
-\item Wrote group chat infrastructure for both apps using Twisted.
-\end{itemize}
-
-% Public credibility section
-% -------------------------
-% This section exists because the resume should not rely only on self-description.
-% Writing, OSS, speaking, and Stack Overflow provide external proof of technical
-% depth and long-term engagement with the craft.
-\cvsection{Writing \& Community}
-
-\cvevent{Selected writing}{}{}{}
-\begin{itemize}
-\item \href{https://ashwch.com/how-we-use-ai-like-engineers.html}{How We Use AI Like Engineers}
-\item \href{https://ashwch.com/no-code-by-hand-agentic-platform-acceleration.html}{No Code by Hand: Agentic Platform Acceleration}
-\item \href{https://ashwch.com/from-postman-to-bruno-how-ai-changed-our-api-workflow.html}{From Postman to Bruno: How AI Changed Our API Workflow}
-\item \href{https://ashwch.com/protecting-our-own-tenant-in-a-multi-tenant-saas.html}{Protecting Our Own Tenant in a Multi-Tenant SaaS}
-\item \href{https://ashwch.com/insights-from-everything-i-know-about-good-system-design.html}{Insights From Everything I Know About Good System Design}
-\end{itemize}
-
-\divider
-
-\cvevent{Open source, speaking \& community}{}{}{}
-\begin{itemize}
-\item Contributed to the Python ecosystem through typeshed, mypy, django-debug-toolbar, pep8speaks, django-annoying, pgmpy, and related projects.
-\item Built Instamojo payment SDKs and e-commerce plugins across Python, PHP, Ruby, Java, and .NET.
-\item Built public tooling including auto-uv-env, precommit-vet-lint, ew, microverse, wt, and agent skills / MCP-related projects.
-\item Answered 3,700+ Python questions on Stack Overflow, spoke at MUPy, and coached at Django Girls Bangalore.
+\item Built Django REST API backends and Twisted-based group chat for two mobile apps.
 \end{itemize}
 
 \switchcolumn
@@ -206,33 +176,36 @@ Hands-on CTO with 12+ years across backend systems, payments, platform engineeri
 \cvsection{Leadership Focus}
 
 \begin{itemize}
-\item Engineering leadership and technical strategy
-\item Backend, platform, and infrastructure architecture
-\item Reliability, security, compliance, and operations
-\item Hiring, mentoring, career progression, and code quality
-\item Developer tooling and internal platform improvements
-\item AI-assisted engineering workflows and delivery systems
+\item Agent harnesses, tools, and guardrails
+\item Developer tooling and local-first workflows
+\item Backend, platform, and infrastructure
+\item Reliability, security, and compliance
+\item Hiring, mentoring, and code quality
 \end{itemize}
 
 \cvsection{Core Stack}
 
-Python, Django, Postgres, AWS, Terraform, Docker, Redis, Celery, Go, Node.js, Linux, and Git.
+TypeScript, Python, Go, Rust, Django, Postgres, AWS, Terraform, Docker, Redis, Pi, Claude Code, Codex, MCP, Linux, and Git.
 
-\cvsection{Highlights}
+\cvsection{Recent Builds}
 
-\cvachievement{\faUsers}{Team leadership}{Led engineers through hiring, mentoring, technical direction, and review standards.}
-
-\divider
-
-\cvachievement{\faServer}{Platform ownership}{Owned infrastructure, Terraform/Terragrunt, deployments, reliability, and delivery systems.}
+\cvachievement{\faRobot}{Courage}{Engineering agent on Pi Durable. Conversations move between Slack and the CLI (Claude Code, Pi).}
 
 \divider
 
-\cvachievement{\faCode}{Technical breadth}{Worked across backend systems, payments, migrations, security, performance, and developer tooling.}
+\cvachievement{\faCheckDouble}{little-person}{Automated PR reviewer on Temporal. 1,100+ PRs reviewed.}
 
 \divider
 
-\cvachievement{\faGlobe}{Public technical profile}{Writer, speaker, open source contributor, and long-time Stack Overflow contributor.}
+\cvachievement{\faPuzzlePiece}{Pi extensions}{\href{https://github.com/DiversioTeam/agent-skills-marketplace/tree/main/pi-packages}{pi-monitor}, ci-status, image-router, \href{https://github.com/DiversioTeam/pi-cmux}{pi-cmux}.}
+
+\divider
+
+\cvachievement{\faTerminal}{Dev Center \& local-ci}{Worktree dev environments (Rust) and \href{https://github.com/DiversioTeam/local-ci-runner}{local CI} (Go).}
+
+\divider
+
+\cvachievement{\faFilm}{Cineplex Seat Watcher}{Alerts for specific seats and new showtimes. \href{https://cineplex-watcher.ashwch.com}{Live}.}
 
 % Recognition is kept compact and durable.
 % We prefer stable, externally legible signals over fragile leaderboard-style
@@ -241,9 +214,27 @@ Python, Django, Postgres, AWS, Terraform, Docker, Redis, Celery, Go, Node.js, Li
 
 \begin{itemize}
 \item Stack Overflow: 252K reputation, 3,700+ answers, ranked \#287 overall.
-\item Unsplash: 207M+ views, 1.2M+ downloads, and top 1000 on the platform.
+\item Unsplash: 218M+ views, 1.3M+ downloads, and top 1000 on the platform.
 \item Arctic Code Vault Contributor.
 \item Won Instamojo's hackathon for building a payments-powered vending machine.
+\end{itemize}
+
+\cvsection{Writing}
+
+\begin{itemize}
+\item \href{https://ashwch.com/claude-code-features-you-may-not-have-tried.html}{Claude Code features you may not have tried yet}
+\item \href{https://ashwch.com/all-tools-should-now-have-two-users.html}{All tools should now have two users}
+\item \href{https://ashwch.com/how-we-use-ai-like-engineers.html}{How we use AI like engineers}
+\item \href{https://ashwch.com/no-code-by-hand-agentic-platform-acceleration.html}{No code by hand}
+\item \href{https://ashwch.com/protecting-our-own-tenant-in-a-multi-tenant-saas.html}{Protecting our own tenant in a multi-tenant SaaS}
+\end{itemize}
+
+\cvsection{Open Source}
+
+\begin{itemize}
+\item Contributed to typeshed, mypy, django-debug-toolbar, pep8speaks, pgmpy, and others.
+\item Public tools: auto-uv-env, microverse, wt, ew, pi-cmux, clickup-mcp, local-ci-runner, and the Diversio agent skills marketplace.
+\item Spoke at MUPy and coached at Django Girls Bangalore.
 \end{itemize}
 
 % Education is intentionally minimal.

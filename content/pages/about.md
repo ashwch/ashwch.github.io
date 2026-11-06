@@ -32,7 +32,7 @@ Own projects include [Cineplex Seat Watcher](https://cineplex-watcher.ashwch.com
 
 ## Photography
 
-Landscapes and wildlife, shot on a Sony A7III and DJI Mini 3 Pro. [207M+ views and 1.2M+ downloads on Unsplash](https://unsplash.com/@suicide_chewbacca), the largest free photography platform (400K+ contributors), ranking in the top 1000 for both views and downloads.
+Landscapes and wildlife, shot on a Sony A7III and DJI Mini 3 Pro. [218M+ views and 1.3M+ downloads on Unsplash](https://unsplash.com/@suicide_chewbacca), the largest free photography platform (400K+ contributors), ranking in the top 1000 for both views and downloads.
 
 ## Beyond Code
 
