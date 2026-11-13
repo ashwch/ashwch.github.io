@@ -56,4 +56,4 @@ I spend a lot of time on 2v2 Empire Wars, playing online against strong players 
 
 ---
 
-📧 You can reach me at: monty [dot] sinngh [at] gmail [dot] com
+📧 You can reach me at: hello [at] ashwch [dot] com
