@@ -5,13 +5,25 @@ Template: about
 
 # Ashwini Chaudhary (Monty)
 
-<p class="about-page__roles">CTO at <a href="https://diversio.com/">Diversio</a>, software engineer, and photographer.</p>
+<p class="about-page__roles">CTO at <a href="https://diversio.com/">Diversio</a>, hands-on engineer, and photographer.</p>
 
 ---
 
-I build software and lead engineering teams. At [Diversio](https://diversio.com/), we build AI-powered tools for measuring and improving workplace inclusion.
+I run product and engineering at [Diversio](https://diversio.com/) as CTO. Most of my job is picking the right bets for the business, deciding how we'll know they worked, and then building them with the team, quite often with my own hands.
 
-Before that: [Merkle Science](https://www.merklescience.com/), [Unhaggle/Motoinsight](https://www.unhaggle.com/), [Instamojo](https://www.instamojo.com/), and [Simform Solutions](https://www.simform.com/) in Ahmedabad where I started out. Most of my career has been Python, payments, and platform infrastructure.
+Over the last year that meant:
+
+- leading our pivot to [Optimo](https://optimoteams.com/), from internal launch to paying customers
+- making AI part of everyday work for sales, customer success and marketing as well as engineering, through Courage, our in-house AI teammate in Slack and GitHub, which handled about 3,800 requests and reviewed 840+ PRs in its first month
+- building our AI code reviewer, which has done 4,700+ reviews across 1,150+ PRs and took human review out of the critical path
+- shipping AI in the product with privacy built in from the start
+- completing SOC 2 Type 2, cutting our AWS bill by about two-thirds, and bringing CI costs close to zero by moving checks onto our own [local CI](https://github.com/DiversioTeam/local-ci-runner)
+
+A lot of that list started because something was slowing the team down and nobody owned it yet, so I picked it up. Over time that has included compliance, IT, vendor deals, helping sales and customer success, and teaching the whole company how to work with AI agents. Courage, our PR reviewer and most of our internal tooling started the same way, as things I built because I wanted them to exist and could see how much time they'd save everyone.
+
+I write about how we work with AI here, starting with [How we use AI like engineers](/how-we-use-ai-like-engineers.html) and [All tools should now have two users](/all-tools-should-now-have-two-users.html). If any of it is useful to you or your team, I'm always happy to chat.
+
+Before Diversio: [Merkle Science](https://www.merklescience.com/), [Unhaggle/Motoinsight](https://www.unhaggle.com/), [Instamojo](https://www.instamojo.com/), and [Simform Solutions](https://www.simform.com/) in Ahmedabad where I started out. Most of my career has been Python, payments, and platform infrastructure.
 
 > "All of us who do creative work, we get into it because we have good taste. But there is this gap. For the first couple years you make stuff, it's just not that good. It's trying to be good, it has potential, but it's not. But your taste, the thing that got you into the game, is still killer. And your taste is why your work disappoints you."
 > — Ira Glass
