@@ -38,7 +38,7 @@
 \begin{document}
 
 \name{Ashwini Chaudhary}
-\tagline{CTO \textbar\ Hands-on Engineer \textbar\ Product, Platform \& Agent Systems}
+\tagline{CTO \textbar\ Product \& Engineering Leadership \textbar\ AI-Native Workflows \textbar\ Hands-on}
 
 % Header design notes
 % -------------------
@@ -83,7 +83,7 @@
 % 4. supporting older experience and education
 \cvsection{Profile}
 
-Hands-on CTO with 13+ years across backend systems, payments, platform engineering, reliability, and security. I'm still deeply involved in building the Diversio and Optimo products, improving them across the backend, infrastructure, security, performance, and cost. Alongside that I've built the agents and tooling the whole company now works with: an engineering agent on Pi Durable, an automated PR reviewer, Pi extensions, worktree-based dev environments, and local CI. I tend to pick up whatever is slowing a team down, whether or not it's my area, and ship a fix.
+CTO with 13+ years in software, leading product and engineering at Diversio. I took Optimo from internal launch to paying customers, set its AI direction, and still ship features in both products myself. I've also made AI part of how the whole company works, with an agent in Slack and GitHub used well beyond engineering and an automated PR reviewer, while completing SOC 2 Type 2 and cutting cloud costs by about 40\%. I tend to pick up whatever is slowing a team down, whether or not it's my area, and fix it.
 
 \cvsection{Experience}
 
@@ -99,16 +99,14 @@ Hands-on CTO with 13+ years across backend systems, payments, platform engineeri
 % - continued hands-on IC depth
 \cvevent{Chief Technology Officer}{Diversio Inc}{Jul 2024 -- Present}{Toronto}
 \begin{itemize}
-\item Lead Diversio's pivot to Optimo and own engineering end to end, from architecture and technical strategy to shipping features in both products myself.
-\item Built \textbf{little-person}, our automated PR reviewer: a Temporal-backed worker that reviews against our own standards and only spends a deep review on PRs that are ready, which keeps token spend low. It has reviewed 1,100+ PRs and took human review out of the critical path for the team.
-\item Built \textbf{Courage}, the engineering agent the whole company now uses in Slack and GitHub, on Pi Durable. It investigates issues, opens PRs, does a lighter automatic review on every PR alongside little-person, triages Sentry and infra alerts, runs sandboxes, and posts deploy and cost feeds, routing each request to a quick, standard, or deep model tier, behind host guards that block merges and secret leaks.
-\item Built \textbf{Dev Center} (Rust), which gives every worktree its own services, database, and URLs and hands its state to Claude, Codex, or Pi, and \textbf{local-ci-runner} (Go, open source), which runs checks locally and posts GitHub statuses only for verified snapshots.
-\item Wrote Pi extensions (pi-monitor, ci-status, image-router, pi-cmux) and 23 Claude Code/Codex plugins in a public marketplace the whole team uses.
-\item Cut the AWS bill by about a third over the past year while keeping production in SOC 2 scope, and moved CI, preview environments, and internal tools in-house where that was cheaper and fit us better.
-\item Part of Diversio's first SOC 2; now run this year's audit largely on my own across engineering, infrastructure, and admin, with most checks and evidence automated.
-\item Migrated most of the company's older manual processes onto Courage and cloud agents, and moved every credential and API key off people's laptops into 1Password and managed secrets.
-\item Led vendor rationalization and a successful SR\&ED round; migrated our API workflow from Postman to Bruno (the post was later featured in Bruno's marketing).
-\item Hired and mentored engineers and co-op students from the University of Toronto, Queen's, Waterloo, and other top programs.
+\item Lead product and engineering for Diversio and Optimo. Took Optimo from internal launch (Nov 2025) to paying customers and pilots, own the roadmap with customer success and sales, and still ship features in both products myself.
+\item Set Optimo's AI direction with privacy built in from the start, and shipped \textbf{Lumi}, an AI assistant for managers. Also moved clients' sensitive HR files off email into a secure exchange inside the product.
+\item Built \textbf{Courage}, an AI teammate the whole company works with every day in Slack and GitHub. It helps sales, customer success, and marketing as much as engineering (41\% of early requests came from outside engineering) and now runs most of our old manual processes. I rolled it out with people approving every change that matters, so the whole team could use it safely from day one.
+\item Built \textbf{little-person}, our automated PR reviewer, which reviews against our own standards and has reviewed 1,100+ PRs, taking human review out of the critical path while keeping AI costs low.
+\item Completed Diversio's \textbf{SOC 2 Type 2} (Nov 2026), running it largely on my own with most checks and evidence automated, launched a public Trust Center, and closed every high and medium pen-test finding. Moved every credential and API key off laptops into 1Password and managed secrets.
+\item Cut the AWS bill by about 40\% year over year while staying in SOC 2 scope, brought CI costs down to almost zero since February by running it in-house, replaced a paid sandbox vendor with our own hardware, and cut deploys from 8--13 minutes to about 2.5.
+\item Built the developer tooling the team runs on: \textbf{Dev Center} (Rust), \textbf{local-ci-runner} (Go, open source), Pi extensions, and 23 Claude Code/Codex plugins in a public marketplace.
+\item Hire and mentor engineers and co-op students (University of Toronto, Queen's, Waterloo) through skill-based live interviews; led vendor rationalization and a successful SR\&ED round.
 \end{itemize}
 
 \divider
@@ -176,11 +174,11 @@ Hands-on CTO with 13+ years across backend systems, payments, platform engineeri
 \cvsection{Leadership Focus}
 
 \begin{itemize}
-\item Agent harnesses, tools, and guardrails
-\item Developer tooling and local-first workflows
-\item Backend, platform, and infrastructure
-\item Reliability, security, and compliance
-\item Hiring, mentoring, and code quality
+\item Product and engineering strategy
+\item AI in everyday work across the company
+\item Security, privacy, and SOC 2
+\item Platform, reliability, and cloud cost
+\item Hiring, mentoring, and team building
 \end{itemize}
 
 \cvsection{Core Stack}
@@ -189,7 +187,7 @@ TypeScript, Python, Go, Rust, Django, Postgres, AWS, Terraform, Docker, Redis, P
 
 \cvsection{Recent Builds}
 
-\cvachievement{\faRobot}{Courage}{Engineering agent on Pi Durable. Conversations move between Slack and the CLI (Claude Code, Pi).}
+\cvachievement{\faRobot}{Courage}{AI teammate for the whole company on Pi Durable, in Slack, GitHub, and the CLI (Claude Code, Pi).}
 
 \divider
 
@@ -197,7 +195,7 @@ TypeScript, Python, Go, Rust, Django, Postgres, AWS, Terraform, Docker, Redis, P
 
 \divider
 
-\cvachievement{\faPuzzlePiece}{Pi extensions}{\href{https://github.com/DiversioTeam/agent-skills-marketplace/tree/main/pi-packages}{pi-monitor}, ci-status, image-router, \href{https://github.com/DiversioTeam/pi-cmux}{pi-cmux}.}
+\cvachievement{\faComments}{Lumi}{Optimo's AI assistant for managers on web and Slack, with a performance review helper.}
 
 \divider
 
