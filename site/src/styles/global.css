@@ -7,20 +7,20 @@
 
 :root {
   color-scheme: light;
-  --bg: #fcf8ff;
-  --bg-elevated: #ffffff;
-  --bg-subtle: #f5f2ff;
-  --bg-contrast: #f0ecf9;
-  --border: #d9d4e5;
-  --border-strong: #c7c1d8;
-  --text: #111118;
-  --text-muted: #494654;
-  --text-soft: #686477;
-  --accent: #4f46e5;
-  --accent-strong: #3525cd;
-  --accent-soft: rgba(79, 70, 229, 0.1);
-  --glass-surface: rgba(252, 248, 255, 0.68);
-  --shadow: 0 10px 30px rgba(27, 27, 36, 0.08);
+  --bg: #f7f4ee;
+  --bg-elevated: #fffdf9;
+  --bg-subtle: #f1ede5;
+  --bg-contrast: #e9e4da;
+  --border: #e1dbcf;
+  --border-strong: #cdc5b5;
+  --text: #1c1a17;
+  --text-muted: #4a463f;
+  --text-soft: #6c665b;
+  --accent: #a8481f;
+  --accent-strong: #86340f;
+  --accent-soft: rgba(168, 72, 31, 0.1);
+  --glass-surface: #fffdf9;
+  --shadow: 0 10px 30px rgba(40, 30, 15, 0.07);
   --radius-sm: 0.5rem;
   --radius-md: 0.75rem;
   --radius-lg: 1rem;
@@ -35,19 +35,19 @@
 
 :root[data-theme='dark'] {
   color-scheme: dark;
-  --bg: #0f172a;
-  --bg-elevated: #111827;
-  --bg-subtle: #172033;
-  --bg-contrast: #1c263b;
-  --border: #243043;
-  --border-strong: #334155;
-  --text: #f3effc;
-  --text-muted: #c9c3d8;
-  --text-soft: #9fa6ba;
-  --accent: #8a84ff;
-  --accent-strong: #c3c0ff;
-  --accent-soft: rgba(138, 132, 255, 0.16);
-  --glass-surface: rgba(15, 23, 42, 0.68);
+  --bg: #161513;
+  --bg-elevated: #1e1c19;
+  --bg-subtle: #23201d;
+  --bg-contrast: #2b2824;
+  --border: #34302a;
+  --border-strong: #4a443b;
+  --text: #f2eee6;
+  --text-muted: #cbc5b8;
+  --text-soft: #a19a8c;
+  --accent: #eb9b6f;
+  --accent-strong: #f5c3a3;
+  --accent-soft: rgba(235, 155, 111, 0.16);
+  --glass-surface: #1e1c19;
   --shadow: 0 18px 40px rgba(0, 0, 0, 0.3);
 }
 
@@ -294,13 +294,13 @@ select {
 }
 
 .button {
-  background: var(--accent);
-  color: white;
+  background: var(--text);
+  color: var(--bg);
 }
 
 .button:hover {
   color: white;
-  background: var(--accent-strong);
+  background: var(--accent);
 }
 
 .button--secondary {
@@ -343,24 +343,25 @@ select {
 }
 
 /*
- * Homepage hero: photography fills the stage while the copy sits on a
- * translucent panel. The panel keeps contrast stable across bright and dark
- * photos without hiding the image behind a page-wide scrim.
+ * Homepage hero: one photograph at full colour fills the stage. The copy sits
+ * directly on the photo at the bottom-left, over a soft dark gradient that only
+ * covers the lower part of the frame, so the rest of the image stays untouched.
  */
 .hero-home {
-  padding-top: clamp(2.5rem, 5vw, 5rem);
+  padding-top: clamp(1.25rem, 2.5vw, 2.25rem);
+  padding-bottom: 0;
 }
 
 .hero-home__stage {
   position: relative;
   display: flex;
-  min-height: clamp(32rem, 48vw, 40rem);
-  align-items: center;
+  min-height: clamp(34rem, 68vh, 46rem);
+  align-items: flex-end;
   overflow: hidden;
-  padding: clamp(1.25rem, 4vw, 3.5rem);
-  border: 1px solid var(--border);
+  padding: clamp(1.25rem, 3.5vw, 3rem);
   border-radius: clamp(1rem, 2vw, 1.5rem);
-  box-shadow: 0 2rem 5rem rgba(27, 27, 36, 0.2);
+  background: var(--bg-contrast);
+  box-shadow: 0 1.5rem 4rem rgba(30, 22, 10, 0.2);
   isolation: isolate;
 }
 
@@ -368,55 +369,67 @@ select {
   position: relative;
   z-index: 2;
   display: flex;
-  width: min(100%, 31rem);
+  width: min(100%, 38rem);
   min-width: 0;
-  padding: clamp(1.35rem, 3vw, 2.25rem);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: var(--radius-lg);
-  background: rgba(10, 13, 28, 0.76);
-  box-shadow: 0 1.25rem 3rem rgba(0, 0, 0, 0.26);
   color: white;
   flex-direction: column;
-  justify-content: center;
-  backdrop-filter: blur(18px) saturate(125%);
+  text-shadow: 0 1px 1.25rem rgba(0, 0, 0, 0.45);
 }
 
 .hero-home__copy .eyebrow {
-  margin-bottom: 0.75rem;
-  color: #c7d2fe;
+  margin-bottom: 0.9rem;
+  color: rgba(255, 255, 255, 0.86);
+  font-family: var(--font-code);
   font-size: 0.74rem;
+  font-weight: 400;
 }
 
 .hero-home__copy .display-title {
-  max-width: 8.6ch;
+  max-width: 13ch;
   color: white;
-  font-size: clamp(2.35rem, 4.5vw, 3.75rem);
+  font-size: clamp(2.6rem, 5.2vw, 4.4rem);
   line-height: 1.02;
 }
 
 .hero-home__copy .hero-copy {
-  max-width: 25rem;
-  margin-top: 1rem;
-  color: rgba(255, 255, 255, 0.82);
-  font-size: clamp(1rem, 1.25vw, 1.14rem);
-  line-height: 1.65;
+  max-width: 33rem;
+  margin-top: 1.1rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: clamp(1rem, 1.3vw, 1.16rem);
+  line-height: 1.6;
 }
 
 .hero-home__copy .hero-actions {
   gap: 0.65rem;
-  margin-top: 1.15rem;
+  margin-top: 1.4rem;
+  text-shadow: none;
 }
 
 .hero-home__copy .button,
 .hero-home__copy .button--secondary {
-  padding: 0.78rem 1rem;
+  padding: 0.78rem 1.1rem;
+}
+
+.hero-home__copy .button {
+  background: white;
+  color: #1c1a17;
+}
+
+.hero-home__copy .button:hover {
+  background: var(--accent);
+  color: white;
 }
 
 .hero-home__copy .button--secondary,
 .hero-home__copy .button--secondary:hover {
-  border-color: rgba(255, 255, 255, 0.28);
-  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.45);
+  background: rgba(20, 16, 12, 0.3);
   color: white;
+  backdrop-filter: blur(8px);
+}
+
+.hero-home__copy .button--secondary:hover {
+  background: rgba(20, 16, 12, 0.5);
 }
 
 .hero-home__visual {
@@ -432,24 +445,6 @@ select {
   border: 0;
   border-radius: 0;
   box-shadow: none;
-}
-
-.hero-home__stage .homepage-gallery__overlay {
-  background:
-    linear-gradient(90deg, rgba(6, 8, 20, 0.3), rgba(6, 8, 20, 0.08) 58%, rgba(6, 8, 20, 0.2)),
-    linear-gradient(180deg, rgba(6, 8, 20, 0.1), transparent 45%, rgba(6, 8, 20, 0.36));
-}
-
-.hero-home__stage .homepage-gallery__eyebrow {
-  align-self: flex-end;
-}
-
-.hero-home__stage .homepage-gallery__meta {
-  justify-content: flex-end;
-}
-
-.hero-home__stage .homepage-gallery__counter {
-  margin-left: 0;
 }
 
 /*
@@ -500,6 +495,10 @@ select {
   height: 100%;
   object-fit: cover;
   object-position: center center;
+}
+
+/* The Ken Burns move only runs in crossfade mode; in painted mode the frames stay still. */
+.homepage-gallery__viewport.is-crossfade .homepage-gallery__frame img {
   will-change: transform;
   transform: translate3d(var(--gallery-start-x, 0%), var(--gallery-start-y, 0%), 0)
     scale(var(--gallery-start-scale, 1.12));
@@ -510,60 +509,78 @@ select {
   opacity: 1;
 }
 
-.homepage-gallery__frame.is-active.is-animated img {
+.homepage-gallery__viewport.is-crossfade .homepage-gallery__frame.is-active.is-animated img {
   transform: translate3d(var(--gallery-end-x, 0%), var(--gallery-end-y, 0%), 0)
     scale(var(--gallery-end-scale, 1.01));
 }
 
 /*
- * Minimal overlay so the photography leads.
- * We use a very light gradient — just enough to keep the badge and CTA
- * readable without making the image feel covered.
+ * Paint canvas: draws the photo and the painted transition over the frames.
+ * It fades in once its first frame is drawn. In painted mode the frames under
+ * it stay still (no Ken Burns move), so the two always line up.
+ */
+.homepage-gallery__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 400ms ease;
+}
+
+.homepage-gallery__viewport.is-painted .homepage-gallery__canvas {
+  opacity: 1;
+}
+
+/*
+ * Overlay: a gradient that darkens only the lower part of the frame (where the
+ * copy sits) and a small monospace caption for the current photo.
  */
 .homepage-gallery__overlay {
   position: absolute;
   inset: 0;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: clamp(1rem, 2.4vw, 1.5rem);
-  background:
-    linear-gradient(180deg, rgba(15, 23, 42, 0.08) 0%, rgba(15, 23, 42, 0.03) 34%, rgba(15, 23, 42, 0.32) 100%),
-    linear-gradient(135deg, rgba(79, 70, 229, 0.04), transparent 55%);
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: clamp(1.25rem, 3.5vw, 3rem);
+  background: linear-gradient(
+    0deg,
+    rgba(14, 11, 8, 0.82) 0%,
+    rgba(14, 11, 8, 0.5) 28%,
+    rgba(14, 11, 8, 0.12) 52%,
+    rgba(14, 11, 8, 0) 68%
+  );
 }
 
-.homepage-gallery__eyebrow,
-.homepage-gallery__cta,
-.homepage-gallery__counter {
-  display: inline-flex;
-  align-self: flex-start;
-  padding: 0.45rem 0.8rem;
-  border-radius: var(--radius-full);
-  background: rgba(15, 23, 42, 0.34);
-  color: rgba(255, 255, 255, 0.94);
-  font-size: 0.74rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  backdrop-filter: blur(10px);
-}
-
-.homepage-gallery__meta {
+.homepage-gallery__caption {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
+  max-width: 19rem;
+  align-items: flex-end;
+  flex-direction: column;
+  gap: 0.3rem;
+  color: rgba(255, 255, 255, 0.86);
+  font-family: var(--font-code);
+  font-size: 0.72rem;
+  line-height: 1.5;
+  text-align: right;
+  text-shadow: 0 1px 0.75rem rgba(0, 0, 0, 0.55);
 }
 
-.homepage-gallery__cta,
 .homepage-gallery__counter {
-  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: 0.06em;
 }
 
-.homepage-gallery__counter {
-  align-self: auto;
-  margin-left: auto;
-  color: rgba(255, 255, 255, 0.82);
+.homepage-gallery__cta {
+  margin-top: 0.35rem;
+  color: white;
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 255, 255, 0.45);
+  text-underline-offset: 0.25em;
+}
+
+.homepage-gallery:hover .homepage-gallery__cta {
+  text-decoration-color: white;
 }
 
 .about-page {
@@ -801,61 +818,145 @@ select {
   color: var(--text-muted);
 }
 
+/*
+ * Page photo band: one photograph at full colour across the top of the page,
+ * fading into the page background. It replaces the old page-wide photo wall,
+ * which sat behind the text and had to be washed out to keep things readable.
+ */
 .site-photo-backdrop {
   position: absolute;
-  inset: 0;
+  top: 0;
+  right: 0;
+  left: 0;
   z-index: 0;
+  height: clamp(21rem, 40vw, 31rem);
   overflow: hidden;
+  background: var(--bg-contrast);
   pointer-events: none;
 }
 
-.site-photo-backdrop__grid {
+.site-photo-backdrop__frame {
   position: absolute;
-  top: -5rem;
-  right: -5rem;
-  left: -5rem;
-  column-count: 5;
-  column-gap: 0.75rem;
-  opacity: 0.78;
-  filter: saturate(0.78) contrast(0.92);
-  transform: rotate(-1deg) scale(1.03);
+  inset: 0;
+  opacity: 0;
+  transition: opacity 2400ms ease-in-out;
 }
 
-.site-photo-backdrop__tile {
-  position: relative;
-  overflow: hidden;
-  aspect-ratio: var(--photo-aspect-ratio);
-  margin: 0 0 0.75rem;
-  border-radius: var(--radius-sm);
-  break-inside: avoid;
+.site-photo-backdrop__frame.is-active {
+  opacity: 1;
 }
 
-.site-photo-backdrop__tile img {
+.site-photo-backdrop__frame img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.site-photo-backdrop__replacement {
+.site-photo-backdrop__fade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    transparent 50%,
+    color-mix(in srgb, var(--bg) 55%, transparent) 78%,
+    var(--bg) 100%
+  );
+}
+
+.site-shell--photo-backdrop .site-main {
+  padding-top: clamp(7rem, 15vw, 12.5rem);
+}
+
+.site-shell--photo-backdrop .site-main > :first-child {
+  padding-top: 0;
+}
+
+.home-stats {
+  padding: clamp(1.75rem, 3vw, 2.5rem) 0 0;
+}
+
+.home-stats__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 0;
+  padding: 0;
+  border-block: 1px solid var(--border);
+  list-style: none;
+}
+
+.home-stats__item + .home-stats__item {
+  border-left: 1px solid var(--border);
+}
+
+.home-stats__item a {
+  display: block;
+  padding: clamp(1rem, 2vw, 1.5rem) clamp(1rem, 2vw, 1.75rem);
+  text-decoration: none;
+}
+
+.home-stats__value {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 3.6vw, 3rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  transition: color 180ms ease;
+}
+
+.home-stats__item a:hover .home-stats__value {
+  color: var(--accent);
+}
+
+.home-stats__label {
+  display: block;
+  margin-top: 0.55rem;
+  color: var(--text-soft);
+  font-family: var(--font-code);
+  font-size: 0.72rem;
+  line-height: 1.5;
+}
+
+.home-photos__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-auto-rows: clamp(9rem, 15.5vw, 14rem);
+  gap: 0.75rem;
+}
+
+.home-photos__tile {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  background: var(--bg-contrast);
+}
+
+.home-photos__tile--lead {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+.home-photos__tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 700ms ease;
+}
+
+.home-photos__tile:hover img {
+  transform: scale(1.035);
+}
+
+.home-photos__tile .home-photos__replacement {
   position: absolute;
   inset: 0;
   opacity: 0;
-  transition: opacity 2200ms ease-in-out;
+  transition: opacity 1100ms ease-in-out, transform 700ms ease;
 }
 
-.site-photo-backdrop__replacement.is-visible {
+.home-photos__tile .home-photos__replacement.is-visible {
   opacity: 1;
-}
-
-.site-photo-backdrop__veil {
-  position: absolute;
-  inset: 0;
-  background: rgba(252, 248, 255, 0.58);
-  backdrop-filter: blur(2px);
-}
-
-:root[data-theme='dark'] .site-photo-backdrop__veil {
-  background: rgba(15, 23, 42, 0.66);
 }
 
 .home-showcase {
@@ -863,20 +964,19 @@ select {
   overflow: hidden;
 }
 
-.home-writing {
-  background: transparent;
-  border-block: 1px solid var(--border);
-}
-
 .home-section-header {
   align-items: flex-end;
   margin-bottom: 2rem;
-  padding: clamp(1rem, 2vw, 1.5rem);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  background: var(--glass-surface);
-  box-shadow: var(--shadow);
-  backdrop-filter: blur(14px);
+  padding-bottom: 1.25rem;
+}
+
+.home-section-index {
+  display: block;
+  margin-bottom: 0.7rem;
+  color: var(--accent);
+  font-family: var(--font-code);
+  font-size: 0.76rem;
+  letter-spacing: 0.06em;
 }
 
 .home-section-header p {
@@ -896,7 +996,6 @@ select {
   min-height: 100%;
   overflow: hidden;
   padding: 0;
-  border-top: 3px solid var(--accent);
   background: var(--bg-elevated);
 }
 
@@ -911,17 +1010,11 @@ select {
   -webkit-line-clamp: 4;
 }
 
-.home-projects {
-  background: transparent;
-  border-block: 1px solid var(--border);
-}
-
 .home-project-card {
   display: flex;
   min-height: 100%;
   overflow: hidden;
   padding: 0;
-  border-top: 3px solid color-mix(in srgb, var(--accent) 70%, var(--border));
   background: var(--bg-elevated);
   flex-direction: column;
 }
@@ -943,6 +1036,16 @@ select {
 
 .home-project-card__meta .eyebrow {
   margin: 0;
+  font-family: var(--font-code);
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-transform: none;
+}
+
+.home-project-card .pill {
+  font-family: var(--font-code);
+  font-size: 0.72rem;
 }
 
 .home-project-card__status {
@@ -981,8 +1084,21 @@ select {
 }
 
 @media (max-width: 54rem) {
-  .site-photo-backdrop__grid {
-    column-count: 3;
+  .home-stats__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .home-stats__item:nth-child(3) {
+    border-left: 0;
+  }
+
+  .home-stats__item:nth-child(n + 3) {
+    border-top: 1px solid var(--border);
+  }
+
+  .home-photos__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: clamp(8rem, 38vw, 14rem);
   }
 
   .home-section-header {
@@ -1048,8 +1164,8 @@ select {
   height: 100%;
   padding: 1rem;
   border-radius: var(--radius-md);
-  background: #0f172a;
-  color: #dce7ff;
+  background: #1b1917;
+  color: #ece6da;
   font-family: var(--font-code);
   font-size: 0.9rem;
   line-height: 1.7;
@@ -1134,15 +1250,144 @@ select {
   border-bottom: 1px solid var(--border);
 }
 
+/*
+ * Article page.
+ *
+ *   ┌──────────────────────────────────────────────┐
+ *   │  cover photograph                            │  .article-cover
+ *   ├──────────────────────────────┬───────────────┤
+ *   │  // category · date · read   │  contents     │
+ *   │  Title                       │  01 …         │  .article-shell
+ *   │  summary                     │  02 …         │
+ *   │  body, sections numbered     │               │
+ *   │  closing photograph          │               │
+ *   └──────────────────────────────┴───────────────┘
+ *
+ * overflow: clip (not hidden) rounds the cover's corners without turning the
+ * page into a scroll container, which would stop the contents list sticking.
+ */
+.article-page {
+  position: relative;
+  overflow: clip;
+  margin-block: clamp(1rem, 3vw, 2rem) 4rem;
+  background: var(--bg);
+  backdrop-filter: none;
+}
+
+.article-cover {
+  margin: 0;
+}
+
+.article-cover__frame {
+  display: block;
+  height: clamp(15rem, 36vw, 29rem);
+  background: var(--bg-contrast);
+}
+
+.article-cover__frame img,
+.article-closing__frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.article-cover__caption {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.7rem clamp(1.25rem, 4vw, 4rem) 0;
+  color: var(--text-soft);
+  font-family: var(--font-code);
+  font-size: 0.72rem;
+}
+
+.article-cover__caption a {
+  text-decoration: none;
+}
+
 .article-shell {
   display: grid;
   grid-template-columns: minmax(0, 52rem) 16rem;
   justify-content: center;
   gap: clamp(2rem, 4vw, 4rem);
-  margin-block: clamp(1rem, 3vw, 2rem) 4rem;
-  padding: clamp(2rem, 4vw, 4rem) clamp(1.25rem, 4vw, 4rem) 5rem;
-  background: var(--bg);
-  backdrop-filter: none;
+  padding: clamp(2rem, 4vw, 3.5rem) clamp(1.25rem, 4vw, 4rem) 5rem;
+}
+
+/* Thin bar under the header that fills as the article is read. */
+.reading-progress {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  height: 0;
+}
+
+.reading-progress span {
+  display: block;
+  height: 3px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+.article-kicker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1.1rem;
+  margin: 0 0 1.25rem;
+  color: var(--text-soft);
+  font-family: var(--font-code);
+  font-size: 0.78rem;
+}
+
+.article-kicker span:first-child {
+  color: var(--accent);
+}
+
+/* Closing photograph: a wide photo with a short note, linking to the gallery. */
+.article-closing {
+  position: relative;
+  display: block;
+  width: min(100%, var(--reading-width));
+  margin-top: 3.5rem;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  color: white;
+  text-decoration: none;
+}
+
+.article-closing:hover {
+  color: white;
+}
+
+.article-closing__frame {
+  display: block;
+  height: clamp(11rem, 22vw, 15rem);
+  background: var(--bg-contrast);
+}
+
+.article-closing__copy {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 1.25rem 1.4rem;
+  background: linear-gradient(0deg, rgba(14, 11, 8, 0.78), rgba(14, 11, 8, 0.15) 60%, rgba(14, 11, 8, 0));
+  text-shadow: 0 1px 0.75rem rgba(0, 0, 0, 0.5);
+}
+
+.article-closing__copy strong {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  line-height: 1.2;
+}
+
+.article-closing__copy span {
+  font-family: var(--font-code);
+  font-size: 0.76rem;
+  line-height: 1.5;
 }
 
 .article-shell--no-toc {
@@ -1181,6 +1426,25 @@ select {
   color: var(--accent);
 }
 
+/* Numbers that match the "// 01" labels on the article's section headings. */
+.article-toc--numbered nav {
+  counter-reset: contents;
+}
+
+.article-toc--numbered a {
+  display: grid;
+  grid-template-columns: 1.6rem 1fr;
+  counter-increment: contents;
+}
+
+.article-toc--numbered a::before {
+  content: counter(contents, decimal-leading-zero);
+  padding-top: 0.2em;
+  font-family: var(--font-code);
+  font-size: 0.7rem;
+  opacity: 0.75;
+}
+
 .article-main {
   grid-column: 1;
   grid-row: 1;
@@ -1197,12 +1461,15 @@ select {
 }
 
 .article-summary {
-  max-width: 48rem;
-  margin-top: 1rem;
+  max-width: 46rem;
+  margin: 1.35rem 0 0;
+  padding-left: 1.1rem;
+  border-left: 2px solid var(--accent);
   color: var(--text-muted);
   font-family: var(--font-reading);
-  font-size: 1.1rem;
-  line-height: 1.7;
+  font-size: clamp(1.15rem, 1.05rem + 0.4vw, 1.4rem);
+  font-style: italic;
+  line-height: 1.55;
   text-wrap: pretty;
 }
 
@@ -1306,6 +1573,7 @@ select {
 
 .prose {
   width: min(100%, var(--reading-width));
+  counter-reset: section;
   color: var(--text);
   font-family: var(--font-reading);
   font-size: clamp(1.05rem, 1rem + 0.2vw, 1.2rem);
@@ -1339,8 +1607,47 @@ select {
   line-height: 1.2;
 }
 
+/*
+ * Each h2 starts a numbered section: a hairline, a small "// 01" label in the
+ * code font, then the heading. It gives a long article visible chapters.
+ */
 .prose h2 {
-  font-size: 2rem;
+  margin-top: 4rem;
+  padding-top: 2.25rem;
+  border-top: 1px solid var(--border);
+  font-size: clamp(1.8rem, 1.5rem + 1vw, 2.3rem);
+  counter-increment: section;
+}
+
+.prose h2::before {
+  content: '// ' counter(section, decimal-leading-zero);
+  display: block;
+  margin-bottom: 0.7rem;
+  color: var(--accent);
+  font-family: var(--font-code);
+  font-size: 0.78rem;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+}
+
+/* Opening paragraph: slightly larger, with a drop cap. */
+.prose > p:first-child {
+  font-size: 1.14em;
+  line-height: 1.65;
+}
+
+.prose > p:first-child::first-letter {
+  float: left;
+  margin: 0.08em 0.6rem 0 0;
+  color: var(--accent);
+  font-family: var(--font-display);
+  font-size: 3.5em;
+  font-weight: 700;
+  line-height: 0.82;
+}
+
+.prose li::marker {
+  color: var(--accent);
 }
 
 .prose h3 {
@@ -1361,10 +1668,15 @@ select {
 }
 
 .prose blockquote {
-  padding: 1rem 1.2rem;
-  border-left: 3px solid var(--accent);
-  background: var(--bg-subtle);
+  margin-block: 2rem;
+  padding: 0.2rem 0 0.2rem 1.5rem;
+  border-left: 2px solid var(--accent);
   color: var(--text-muted);
+  font-size: 1.06em;
+}
+
+.prose blockquote > :last-child {
+  margin-bottom: 0;
 }
 
 .prose code {
@@ -1375,12 +1687,35 @@ select {
   background: var(--bg-subtle);
 }
 
+/* Code blocks look like a small editor window: three dots, then the code. */
 .prose pre {
   overflow-x: auto;
-  padding: 1rem 1.1rem;
+  padding: 2.6rem 1.2rem 1.1rem;
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
-  background: color-mix(in srgb, var(--bg-subtle) 50%, #0f172a 50%);
+  background-color: var(--bg-elevated);
+  background-image:
+    radial-gradient(circle at 1.15rem 1.15rem, #e5695e 0.3rem, transparent 0.33rem),
+    radial-gradient(circle at 2.15rem 1.15rem, #e2b23f 0.3rem, transparent 0.33rem),
+    radial-gradient(circle at 3.15rem 1.15rem, #5fb760 0.3rem, transparent 0.33rem),
+    linear-gradient(var(--bg-subtle), var(--bg-subtle));
+  background-repeat: no-repeat;
+  background-size: 100% 2.3rem;
+  box-shadow: var(--shadow);
+}
+
+/*
+ * Highlighted code (Shiki) sets its colours inline, with the dark theme's
+ * colours in --shiki-dark variables. Use the page's surface colour in both
+ * themes, and switch the text to the dark colours in dark mode.
+ */
+.prose pre.astro-code {
+  background-color: var(--bg-elevated) !important;
+}
+
+:root[data-theme='dark'] .prose pre.astro-code,
+:root[data-theme='dark'] .prose pre.astro-code span {
+  color: var(--shiki-dark) !important;
 }
 
 .prose pre code {
@@ -1744,7 +2079,7 @@ html.lightbox-open {
   top: 1.45rem;
   left: 1rem;
   font-size: 0.85rem;
-  color: #c3c0ff;
+  color: #f0c9a8;
 }
 
 @media (max-width: 640px) {
@@ -1779,10 +2114,19 @@ html.lightbox-open {
   text-align: left;
 }
 
+/* A rule becomes three slashes in the code font, centred. */
 .prose hr {
+  margin: 3rem 0;
   border: 0;
-  border-top: 1px solid var(--border);
-  margin: 2.5rem 0;
+  text-align: center;
+}
+
+.prose hr::before {
+  content: '///';
+  color: var(--accent);
+  font-family: var(--font-code);
+  font-size: 0.9rem;
+  letter-spacing: 0.4em;
 }
 
 .prose .article-subtext {
@@ -1909,7 +2253,10 @@ html.lightbox-open {
 }
 
 .photography-gallery {
+  position: relative;
   padding-bottom: clamp(3rem, 6vw, 6rem);
+  /* The reveal canvas is taller than the screen; keep it inside this section. */
+  overflow: clip;
 }
 
 .photo-page__grid {
@@ -1918,6 +2265,7 @@ html.lightbox-open {
 }
 
 .photo-card {
+  position: relative;
   display: block;
   margin: 0 0 1rem;
   break-inside: avoid;
@@ -1925,6 +2273,44 @@ html.lightbox-open {
   border-radius: 0;
   background: transparent;
   box-shadow: none;
+}
+
+/*
+ * Canvas for the painted reveal (see PhotoScrollPainter.astro). It lies over
+ * the grid, is moved with a transform as the page scrolls, and never takes
+ * clicks, so the photo links underneath keep working.
+ */
+.photo-reveal-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/*
+ * While the painted reveal is active (html.is-painting), a photo stays hidden
+ * until its reveal finishes, then fades in under the last painted frame.
+ * Without the script nothing is hidden.
+ */
+.is-painting [data-paint-card] img {
+  opacity: 0;
+  transition: opacity 300ms ease, transform 200ms ease;
+}
+
+.is-painting [data-paint-card].is-revealed img {
+  opacity: 1;
+}
+
+/* Waiting for its reveal: a soft block of the photo's main colour, never a blank gap. */
+.is-painting [data-paint-frame] {
+  background-color: color-mix(in srgb, var(--photo-color, var(--bg-contrast)) 28%, transparent);
+  transition: background-color 250ms ease;
+}
+
+.is-painting [data-paint-card].is-started [data-paint-frame],
+.is-painting [data-paint-card].is-revealed [data-paint-frame] {
+  background-color: transparent;
 }
 
 .photo-card__image-link {
@@ -2053,15 +2439,6 @@ html.lightbox-open {
     grid-template-columns: 1fr;
   }
 
-  .hero-home__copy .display-title {
-    max-width: 10ch;
-    font-size: clamp(2.2rem, 6vw, 3rem);
-  }
-
-  .hero-home__copy .hero-copy {
-    max-width: 32rem;
-  }
-
   .homepage-gallery {
     min-height: clamp(21rem, 58vw, 28rem);
     aspect-ratio: 16 / 10;
@@ -2130,13 +2507,24 @@ html.lightbox-open {
   }
 
   .hero-home__stage {
-    min-height: 42rem;
-    align-items: flex-end;
-    padding: 1rem;
+    min-height: 36rem;
+    padding: 1.25rem;
   }
 
-  .hero-home__copy {
-    background: rgba(10, 13, 28, 0.82);
+  .homepage-gallery__overlay {
+    align-items: flex-start;
+    padding: 1.25rem;
+    background: linear-gradient(
+      0deg,
+      rgba(14, 11, 8, 0.88) 0%,
+      rgba(14, 11, 8, 0.6) 40%,
+      rgba(14, 11, 8, 0.1) 68%,
+      rgba(14, 11, 8, 0.22) 100%
+    );
+  }
+
+  .homepage-gallery__cta {
+    display: none;
   }
 
   .site-header__inner,
@@ -2146,8 +2534,7 @@ html.lightbox-open {
   }
 
   .hero-home__copy .display-title {
-    max-width: 9ch;
-    font-size: clamp(2.05rem, 8.5vw, 2.75rem);
+    font-size: clamp(2.2rem, 9vw, 2.9rem);
   }
 
   .hero-home__copy .hero-copy {
@@ -2162,15 +2549,6 @@ html.lightbox-open {
   .homepage-gallery {
     min-height: 21rem;
     aspect-ratio: 4 / 3;
-  }
-
-  .homepage-gallery__overlay {
-    padding: 1rem;
-  }
-
-  .homepage-gallery__meta {
-    align-items: center;
-    gap: 0.5rem;
   }
 
   .header-actions,

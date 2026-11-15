@@ -2,11 +2,35 @@
 /**
  * Homepage hero photography gallery.
  *
- * A gently rotating photo fills the homepage hero. The surrounding page owns
- * the translucent text panel so this component can focus on image loading,
- * crossfades, and gallery accessibility.
+ * A gently rotating photo fills the homepage hero. The surrounding page places
+ * the hero copy on top, so this component can focus on image loading,
+ * crossfades, the photo caption, and gallery accessibility.
  *
- * ANIMATION MECHANISM
+ * TWO WAYS TO CHANGE PHOTOS
+ *
+ *   1. Painted transition (default, needs WebGL).
+ *      A canvas sits on top of the picture frames and draws the photo with a
+ *      shader. Changing photos runs four phases:
+ *
+ *        photo A ──► painting of A ──► turns to ash ──► painting of B ──► photo B
+ *                 0.9 s          0.15 s hold      1.4 s            0.75 s
+ *
+ *        Paint   A Kuwahara filter flattens the photo into brush-like patches,
+ *                with a little extra colour and a brush texture.
+ *        Ash     The painting crumbles from the top-right corner to the
+ *                bottom-left (so the hero copy is covered last). Just before a
+ *                patch goes it greys and breaks into specks, and the specks
+ *                drift up and away for a moment.
+ *        Settle  The next photo is waiting underneath as a painting and eases
+ *                back into the real photo.
+ *
+ *      Between changes the canvas holds a still frame and nothing is animating.
+ *
+ *   2. Crossfade (fallback).
+ *      Used when WebGL is unavailable or a photo cannot be read into a texture.
+ *      This is the original mechanism, described next.
+ *
+ * CROSSFADE MECHANISM
  *
  *   Two picture frames are stacked absolutely on top of each other:
  *
@@ -47,7 +71,7 @@
  *   - prefers-reduced-motion: rotation is paused entirely.
  *   - visibilitychange: rotation pauses when the tab is hidden.
  *   - mouseenter / mouseleave: rotation pauses on hover.
- *   - visually-hidden span carries the current image title for screen readers.
+ *   - The caption shows the current image title, and the anchor's label carries it too.
  *   - The anchor's aria-label changes with each slide.
  */
 
@@ -151,18 +175,24 @@ const motionPresets = [
     </picture>
 
     <!--
-      MINIMAL OVERLAY
-      We deliberately keep the overlay light so the photography leads.
-      Only a small badge (top-left) and a subtle action row (bottom-right).
+      PAINT CANVAS
+      Draws the current photo and the painted transition on top of the frames.
+      It stays transparent until its first frame is ready, so the server-rendered
+      photo underneath is what the visitor sees first.
+    -->
+    <canvas class="homepage-gallery__canvas" data-gallery-canvas></canvas>
+
+    <!--
+      OVERLAY
+      A bottom gradient for the hero copy, plus a small monospace caption
+      (frame number, photo title, gallery link) in the bottom-right corner.
     -->
     <div class="homepage-gallery__overlay">
-      <div class="homepage-gallery__eyebrow">Photography</div>
-      <div class="homepage-gallery__meta">
+      <div class="homepage-gallery__caption">
+        <span class="homepage-gallery__counter" data-gallery-counter>01 / {String(banners.length).padStart(2, '0')}</span>
+        <span data-gallery-title>{firstBanner.title}</span>
         <span class="homepage-gallery__cta">Open gallery →</span>
-        <span class="homepage-gallery__counter" data-gallery-counter>1 / {banners.length}</span>
       </div>
-      <!-- Hidden title updated by JS for screen-reader context -->
-      <span class="visually-hidden" data-gallery-title>{firstBanner.title}</span>
     </div>
   </div>
 </a>
@@ -193,6 +223,317 @@ const motionPresets = [
         : banner.desktopSrc;
     };
 
+    const isNarrowViewport = () => window.matchMedia('(max-width: 54rem)').matches;
+    const bannerSource = (banner) => (isNarrowViewport() ? banner.mobileSrc : banner.desktopSrc);
+    const bannerPosition = (banner) =>
+      (isNarrowViewport()
+        ? banner.mobilePosition || banner.desktopPosition
+        : banner.desktopPosition || banner.mobilePosition) || 'center center';
+
+    // Turn a CSS object-position value ("center 58%", "62% 42%") into two 0..1 fractions.
+    const parsePosition = (position) => {
+      const keywords = { left: 0, top: 0, center: 0.5, right: 1, bottom: 1 };
+      const [horizontal = 'center', vertical = 'center'] = String(position).trim().split(/\s+/);
+      const toFraction = (value) => (value in keywords ? keywords[value] : (parseFloat(value) || 50) / 100);
+      return [toFraction(horizontal), toFraction(vertical)];
+    };
+
+    const loadImage = (source) =>
+      new Promise((resolve, reject) => {
+        const image = new Image();
+        // Unsplash sends CORS headers; without this WebGL may not read the pixels.
+        image.crossOrigin = 'anonymous';
+        image.onload = () => resolve(image);
+        image.onerror = reject;
+        image.src = source;
+      });
+
+    const VERTEX_SHADER = `
+      attribute vec2 aPosition;
+      varying vec2 vUv;
+      void main() {
+        vUv = aPosition * 0.5 + 0.5;
+        gl_Position = vec4(aPosition, 0.0, 1.0);
+      }
+    `;
+
+    /*
+     * Fragment shader.
+     *
+     * uMapA / uMapB   scale (xy) and offset (zw) that crop each photo the way
+     *                 CSS object-fit: cover + object-position would.
+     * uPaintA/B       0 = photograph, 1 = painting.
+     * uDissolve       0 = photo A fully there, 1 = fully turned to ash.
+     * uStep           brush size in canvas pixels.
+     */
+    const FRAGMENT_SHADER = `
+      precision highp float;
+      varying vec2 vUv;
+      uniform sampler2D uA;
+      uniform sampler2D uB;
+      uniform vec2 uResolution;
+      uniform vec4 uMapA;
+      uniform vec4 uMapB;
+      uniform float uPaintA;
+      uniform float uPaintB;
+      uniform float uDissolve;
+      uniform float uStep;
+
+      const int RADIUS = 4;
+
+      float hash(vec2 p) {
+        p = fract(p * vec2(123.34, 456.21));
+        p += dot(p, p + 45.32);
+        return fract(p.x * p.y);
+      }
+
+      float noise(vec2 p) {
+        vec2 i = floor(p);
+        vec2 f = fract(p);
+        vec2 u = f * f * (3.0 - 2.0 * f);
+        return mix(
+          mix(hash(i), hash(i + vec2(1.0, 0.0)), u.x),
+          mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), u.x),
+          u.y
+        );
+      }
+
+      float fbm(vec2 p) {
+        float value = 0.0;
+        float amplitude = 0.5;
+        for (int octave = 0; octave < 4; octave++) {
+          value += amplitude * noise(p);
+          p *= 2.03;
+          amplitude *= 0.5;
+        }
+        return value;
+      }
+
+      vec3 photo(sampler2D image, vec4 map, vec2 uv) {
+        return texture2D(image, map.zw + uv * map.xy).rgb;
+      }
+
+      // Kuwahara filter: of the four quadrants around a pixel, use the average
+      // colour of the one with the least variation. Edges stay, detail flattens
+      // into patches that read as brush strokes.
+      vec3 painting(sampler2D image, vec4 map, vec2 uv) {
+        vec2 pixel = uStep / uResolution;
+        uv += (vec2(noise(uv * uResolution / 9.0), noise(uv * uResolution / 9.0 + 31.7)) - 0.5) * pixel * 2.0;
+
+        vec3 mean0 = vec3(0.0); vec3 mean1 = vec3(0.0); vec3 mean2 = vec3(0.0); vec3 mean3 = vec3(0.0);
+        vec3 square0 = vec3(0.0); vec3 square1 = vec3(0.0); vec3 square2 = vec3(0.0); vec3 square3 = vec3(0.0);
+
+        for (int j = 0; j <= RADIUS; j++) {
+          for (int i = 0; i <= RADIUS; i++) {
+            vec2 offset = vec2(float(i), float(j)) * pixel;
+            vec3 c;
+            c = photo(image, map, uv + vec2(-offset.x, -offset.y)); mean0 += c; square0 += c * c;
+            c = photo(image, map, uv + vec2(offset.x, -offset.y)); mean1 += c; square1 += c * c;
+            c = photo(image, map, uv + vec2(-offset.x, offset.y)); mean2 += c; square2 += c * c;
+            c = photo(image, map, uv + vec2(offset.x, offset.y)); mean3 += c; square3 += c * c;
+          }
+        }
+
+        float count = float((RADIUS + 1) * (RADIUS + 1));
+        mean0 /= count; mean1 /= count; mean2 /= count; mean3 /= count;
+        vec3 spread0 = abs(square0 / count - mean0 * mean0);
+        vec3 spread1 = abs(square1 / count - mean1 * mean1);
+        vec3 spread2 = abs(square2 / count - mean2 * mean2);
+        vec3 spread3 = abs(square3 / count - mean3 * mean3);
+        float sigma0 = spread0.r + spread0.g + spread0.b;
+        float sigma1 = spread1.r + spread1.g + spread1.b;
+        float sigma2 = spread2.r + spread2.g + spread2.b;
+        float sigma3 = spread3.r + spread3.g + spread3.b;
+
+        vec3 color = mean0;
+        float lowest = sigma0;
+        if (sigma1 < lowest) { lowest = sigma1; color = mean1; }
+        if (sigma2 < lowest) { lowest = sigma2; color = mean2; }
+        if (sigma3 < lowest) { color = mean3; }
+
+        // A little richer than the photo, with a faint brush texture.
+        float luminance = dot(color, vec3(0.299, 0.587, 0.114));
+        color = mix(vec3(luminance), color, 1.22);
+        color = (color - 0.5) * 1.05 + 0.5;
+        float brush = noise(uv * uResolution * vec2(0.09, 0.32)) * 0.6 + noise(uv * uResolution * 0.45) * 0.4;
+        color *= 0.95 + 0.1 * brush;
+        return clamp(color, 0.0, 1.0);
+      }
+
+      vec3 layer(sampler2D image, vec4 map, vec2 uv, float paint) {
+        vec3 color = photo(image, map, uv);
+        if (paint > 0.002) color = mix(color, painting(image, map, uv), paint);
+        return color;
+      }
+
+      vec3 ash(vec3 color) {
+        float luminance = dot(color, vec3(0.299, 0.587, 0.114));
+        return mix(vec3(luminance) * vec3(0.84, 0.79, 0.72), color, 0.22);
+      }
+
+      void main() {
+        if (uDissolve <= 0.0) {
+          gl_FragColor = vec4(layer(uA, uMapA, vUv, uPaintA), 1.0);
+          return;
+        }
+
+        float aspect = uResolution.x / uResolution.y;
+
+        // When each patch goes: top-right first, bottom-left last, with a ragged edge.
+        float order = (1.0 - vUv.x) * 0.62 + vUv.y * -0.3 + 0.3 + fbm(vUv * vec2(aspect, 1.0) * 5.0) * 0.4;
+        float front = uDissolve * 1.75 - 0.2;
+        float since = front - order; // above zero: this patch has already gone
+
+        // Just ahead of the front the paint greys and breaks into specks.
+        float crumble = smoothstep(-0.14, 0.0, since);
+        float speck = hash(floor(gl_FragCoord.xy / 2.0));
+        float solid = (1.0 - smoothstep(-0.012, 0.012, since)) * step(crumble * 0.75, speck);
+
+        vec3 color = layer(uB, uMapB, vUv, uPaintB);
+
+        if (solid > 0.0) {
+          vec3 leaving = layer(uA, uMapA, vUv, uPaintA);
+          color = mix(color, mix(leaving, ash(leaving), crumble * 0.85), solid);
+        } else if (since > 0.0 && since < 0.3) {
+          // Specks from patches that have gone drift up and to the right, thinning out.
+          float life = since / 0.3;
+          vec2 drift = vec2(0.05, 0.085) * life * (0.5 + noise(vUv * 40.0));
+          float dust = hash(floor((gl_FragCoord.xy - drift * uResolution) / 2.0) + 7.0);
+          float visible = step(0.5 + life * 0.5, dust) * (1.0 - life);
+          color = mix(color, ash(photo(uA, uMapA, vUv - drift)) * 0.92, visible * 0.9);
+        }
+
+        gl_FragColor = vec4(color, 1.0);
+      }
+    `;
+
+    /**
+     * Set up the WebGL painter on a canvas. Returns undefined when WebGL or the
+     * shader is not available, and the caller falls back to the crossfade.
+     */
+    const createPainter = (canvas) => {
+      const gl = canvas.getContext('webgl', { antialias: false, alpha: false });
+      if (!gl) return undefined;
+
+      const compile = (type, source) => {
+        const shader = gl.createShader(type);
+        gl.shaderSource(shader, source);
+        gl.compileShader(shader);
+        return gl.getShaderParameter(shader, gl.COMPILE_STATUS) ? shader : undefined;
+      };
+      const vertexShader = compile(gl.VERTEX_SHADER, VERTEX_SHADER);
+      const fragmentShader = compile(gl.FRAGMENT_SHADER, FRAGMENT_SHADER);
+      if (!vertexShader || !fragmentShader) return undefined;
+
+      const program = gl.createProgram();
+      gl.attachShader(program, vertexShader);
+      gl.attachShader(program, fragmentShader);
+      gl.linkProgram(program);
+      if (!gl.getProgramParameter(program, gl.LINK_STATUS)) return undefined;
+      gl.useProgram(program);
+
+      // One rectangle covering the canvas.
+      gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+      const positionLocation = gl.getAttribLocation(program, 'aPosition');
+      gl.enableVertexAttribArray(positionLocation);
+      gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
+
+      const uniform = (name) => gl.getUniformLocation(program, name);
+      const uniforms = {
+        a: uniform('uA'),
+        b: uniform('uB'),
+        resolution: uniform('uResolution'),
+        mapA: uniform('uMapA'),
+        mapB: uniform('uMapB'),
+        paintA: uniform('uPaintA'),
+        paintB: uniform('uPaintB'),
+        dissolve: uniform('uDissolve'),
+        step: uniform('uStep'),
+      };
+
+      const createTexture = () => {
+        const texture = gl.createTexture();
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+        return texture;
+      };
+
+      // slots.a is the photo on screen; slots.b is the one coming in.
+      const slots = {
+        a: { texture: createTexture(), image: undefined, position: [0.5, 0.5] },
+        b: { texture: createTexture(), image: undefined, position: [0.5, 0.5] },
+      };
+      let lastState = { paintA: 0, paintB: 0, dissolve: 0 };
+
+      // The crop CSS object-fit: cover would use, as scale + offset in texture space.
+      const coverMap = (slot) => {
+        if (!slot.image) return [1, 1, 0, 0];
+        const canvasAspect = canvas.width / canvas.height;
+        const imageAspect = slot.image.naturalWidth / slot.image.naturalHeight;
+        const [horizontal, vertical] = slot.position;
+        if (imageAspect > canvasAspect) {
+          const scale = canvasAspect / imageAspect;
+          return [scale, 1, (1 - scale) * horizontal, 0];
+        }
+        const scale = imageAspect / canvasAspect;
+        return [1, scale, 0, (1 - scale) * (1 - vertical)];
+      };
+
+      const draw = (state = lastState) => {
+        lastState = state;
+        gl.viewport(0, 0, canvas.width, canvas.height);
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindTexture(gl.TEXTURE_2D, slots.a.texture);
+        gl.activeTexture(gl.TEXTURE1);
+        gl.bindTexture(gl.TEXTURE_2D, slots.b.texture);
+        gl.uniform1i(uniforms.a, 0);
+        gl.uniform1i(uniforms.b, 1);
+        gl.uniform2f(uniforms.resolution, canvas.width, canvas.height);
+        gl.uniform4fv(uniforms.mapA, coverMap(slots.a));
+        gl.uniform4fv(uniforms.mapB, coverMap(slots.b));
+        gl.uniform1f(uniforms.paintA, state.paintA);
+        gl.uniform1f(uniforms.paintB, state.paintB);
+        gl.uniform1f(uniforms.dissolve, state.dissolve);
+        gl.uniform1f(uniforms.step, Math.max(1.4, canvas.width / 620));
+        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+      };
+
+      const setImage = (slotName, image, position) => {
+        const slot = slots[slotName];
+        slot.image = image;
+        slot.position = parsePosition(position);
+        gl.bindTexture(gl.TEXTURE_2D, slot.texture);
+        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+        // Throws for a cross-origin image served without CORS headers.
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, image);
+      };
+
+      const resize = () => {
+        // Cap the pixel ratio: the paint filter reads ~100 samples per pixel.
+        const ratio = Math.min(window.devicePixelRatio || 1, 1.5);
+        const width = Math.max(1, Math.round(canvas.clientWidth * ratio));
+        const height = Math.max(1, Math.round(canvas.clientHeight * ratio));
+        if (canvas.width === width && canvas.height === height) return;
+        canvas.width = width;
+        canvas.height = height;
+        if (slots.a.image) draw();
+      };
+
+      return {
+        draw,
+        resize,
+        setImage,
+        // The incoming photo becomes the current one.
+        swap: () => {
+          [slots.a, slots.b] = [slots.b, slots.a];
+        },
+      };
+    };
+
     galleries.forEach((gallery) => {
       const frames = Array.from(gallery.querySelectorAll('[data-gallery-frame]'));
       const title = gallery.querySelector('[data-gallery-title]');
@@ -201,6 +542,30 @@ const motionPresets = [
       if (frames.length < 2 || !(title instanceof HTMLElement) || !(counter instanceof HTMLElement)) return;
 
       const sequence = [banners[0], ...shuffle(banners.slice(1))];
+
+      // The page ships a short list of photos. Once it has loaded, add every wide
+      // photo from the pool, in random order, so the hero keeps showing new ones.
+      fetch('/photo-pool.json')
+        .then((response) => (response.ok ? response.json() : []))
+        .then((entries) => {
+          if (!Array.isArray(entries)) return;
+          const known = new Set(sequence.map((banner) => banner.slug));
+          const poolBanners = entries
+            .filter(([, , isWide]) => isWide)
+            .map(([path, title]) => ({
+              slug: `unsplash-${path}`,
+              title: title || 'Untitled',
+              desktopSrc: `https://images.unsplash.com/${path}?w=2000&q=75&auto=format`,
+              mobileSrc: `https://images.unsplash.com/${path}?w=1000&h=1100&fit=crop&crop=entropy&q=72&auto=format`,
+              desktopPosition: 'center center',
+              mobilePosition: 'center center',
+            }))
+            .filter((banner) => !known.has(banner.slug));
+          sequence.push(...shuffle(poolBanners));
+        })
+        .catch(() => {
+          // Offline or blocked: keep rotating through the photos the page came with.
+        });
       let sequenceIndex = 0;
       let activeFrameIndex = 0; // 0 or 1 — which <picture> is currently visible
       let intervalId;
@@ -258,7 +623,7 @@ const motionPresets = [
        */
       const syncCopy = (banner, position) => {
         title.textContent = banner.title;
-        counter.textContent = `${position + 1} / ${sequence.length}`;
+        counter.textContent = `${String(position + 1).padStart(2, '0')} / ${String(sequence.length).padStart(2, '0')}`;
         if (galleryLink instanceof HTMLAnchorElement) {
           galleryLink.setAttribute('aria-label', `View the photography gallery — ${banner.title}`);
         }
@@ -317,22 +682,138 @@ const motionPresets = [
       syncCopy(sequence[sequenceIndex], sequenceIndex);
       preload(sequence[(sequenceIndex + 1) % sequence.length]);
 
-      // Kick off the Ken Burns motion on the first frame after paint.
-      requestAnimationFrame(() => {
-        frames[activeFrameIndex].classList.add('is-animated');
-      });
+      /**
+       * Crossfade mode: the original two-frame rotation with a slow Ken Burns move.
+       */
+      const startCrossfadeMode = () => {
+        gallery.classList.add('is-crossfade');
+        requestAnimationFrame(() => {
+          frames[activeFrameIndex].classList.add('is-animated');
+        });
 
-      gallery.addEventListener('mouseenter', stopRotation);
-      gallery.addEventListener('mouseleave', startRotation);
-      document.addEventListener('visibilitychange', () => {
-        if (document.hidden) {
-          stopRotation();
-        } else {
-          startRotation();
+        gallery.addEventListener('mouseenter', stopRotation);
+        gallery.addEventListener('mouseleave', startRotation);
+        document.addEventListener('visibilitychange', () => {
+          if (document.hidden) {
+            stopRotation();
+          } else {
+            startRotation();
+          }
+        });
+
+        startRotation();
+      };
+
+      /**
+       * Painted mode: the canvas draws the photos and the paint-to-ash transition.
+       * Resolves to false if the first photo cannot be drawn, so the caller can
+       * fall back to crossfade mode.
+       */
+      const startPaintedMode = async () => {
+        const canvas = gallery.querySelector('[data-gallery-canvas]');
+        if (!(canvas instanceof HTMLCanvasElement)) return false;
+        const painter = createPainter(canvas);
+        if (!painter) return false;
+
+        try {
+          const firstBanner = sequence[sequenceIndex];
+          painter.resize();
+          painter.setImage('a', await loadImage(bannerSource(firstBanner)), bannerPosition(firstBanner));
+          painter.draw({ paintA: 0, paintB: 0, dissolve: 0 });
+        } catch {
+          return false;
         }
-      });
 
-      startRotation();
+        // The canvas now shows the same photo as the frame underneath it.
+        gallery.classList.add('is-painted');
+        new ResizeObserver(() => painter.resize()).observe(canvas);
+        if (prefersReducedMotion || sequence.length < 2) return true;
+
+        // Seconds from the start of a change to the end of each phase.
+        const PAINT_END = 0.9;
+        const HOLD_END = 1.05;
+        const ASH_END = 2.45;
+        const SETTLE_END = 3.2;
+        const STILL_MILLISECONDS = 3500;
+
+        const ease = (value) => {
+          const clamped = Math.min(Math.max(value, 0), 1);
+          return clamped * clamped * (3 - 2 * clamped);
+        };
+
+        let timeoutId;
+        let isChanging = false;
+        let isPaused = false;
+
+        const scheduleChange = () => {
+          window.clearTimeout(timeoutId);
+          if (isPaused || isChanging) return;
+          timeoutId = window.setTimeout(changePhoto, STILL_MILLISECONDS);
+        };
+
+        const changePhoto = async () => {
+          const nextIndex = (sequenceIndex + 1) % sequence.length;
+          const banner = sequence[nextIndex];
+          isChanging = true;
+
+          try {
+            painter.setImage('b', await loadImage(bannerSource(banner)), bannerPosition(banner));
+          } catch {
+            // Skip a photo that will not load and try the one after it.
+            sequenceIndex = nextIndex;
+            isChanging = false;
+            scheduleChange();
+            return;
+          }
+
+          const startTime = performance.now();
+          let copyIsSynced = false;
+
+          const drawFrame = (now) => {
+            const seconds = (now - startTime) / 1000;
+
+            if (!copyIsSynced && seconds >= HOLD_END) {
+              syncCopy(banner, nextIndex);
+              copyIsSynced = true;
+            }
+
+            if (seconds >= SETTLE_END) {
+              painter.swap();
+              painter.draw({ paintA: 0, paintB: 0, dissolve: 0 });
+              sequenceIndex = nextIndex;
+              isChanging = false;
+              scheduleChange();
+              return;
+            }
+
+            painter.draw({
+              paintA: ease(seconds / PAINT_END),
+              paintB: 1 - ease((seconds - ASH_END) / (SETTLE_END - ASH_END)),
+              dissolve: ease((seconds - HOLD_END) / (ASH_END - HOLD_END)),
+            });
+            requestAnimationFrame(drawFrame);
+          };
+          requestAnimationFrame(drawFrame);
+        };
+
+        const setPaused = (paused) => {
+          isPaused = paused;
+          if (paused) window.clearTimeout(timeoutId);
+          else scheduleChange();
+        };
+
+        // A change that has started always finishes; pausing only delays the next one.
+        gallery.addEventListener('mouseenter', () => setPaused(true));
+        gallery.addEventListener('mouseleave', () => setPaused(false));
+        document.addEventListener('visibilitychange', () => setPaused(document.hidden));
+
+        scheduleChange();
+        return true;
+      };
+
+      startPaintedMode().then((isPainted) => {
+        if (!isPainted) startCrossfadeMode();
+      });
     });
   })();
 </script>

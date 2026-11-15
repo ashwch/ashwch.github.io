@@ -6,6 +6,7 @@ import AuthorBio from '../components/AuthorBio.astro';
 import Comments from '../components/Comments.astro';
 import RichTitle from '../components/RichTitle.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { homepageBanners } from '../data/homepageBanners';
 import {
   formatDate,
   getAllArticles,
@@ -13,6 +14,7 @@ import {
   getRelatedArticles,
   getTagPath,
 } from '../lib/content';
+import { getWidePoolPhotos, poolPhotoUrl } from '../lib/photoPool';
 
 export async function getStaticPaths() {
   const articles = await getAllArticles();
@@ -29,6 +31,37 @@ const related = getRelatedArticles(article, articles);
 const topLevelHeadings = headings.filter((heading) => heading.depth === 2);
 const tocHeadings = topLevelHeadings.length >= 2 ? topLevelHeadings : headings.filter((heading) => heading.depth <= 3);
 const hasToc = tocHeadings.length >= 2;
+// Section numbers in the contents list only line up when it lists the h2 headings.
+const tocIsNumbered = topLevelHeadings.length >= 2;
+
+/*
+ * Cover and closing photos.
+ *
+ * Every article opens and closes with one of my photographs, so the writing
+ * and the photography sit on the same page. The photos come from every wide
+ * photo in the pool (lib/photoPool.ts) and are picked from the article's slug:
+ * a given article keeps its photos, and different articles get different ones.
+ * They load as ordinary images: the cover is the first thing on the page, so
+ * it should appear as fast as possible, with no effect in front of it.
+ */
+const articlePhotos = [
+  ...homepageBanners.map((banner) => ({
+    title: banner.title,
+    src: banner.desktopSrc,
+    position: banner.desktopPosition,
+  })),
+  ...getWidePoolPhotos().map((photo) => ({
+    title: photo.title,
+    src: poolPhotoUrl(photo, 'w=1600&h=720&fit=crop&crop=entropy&q=72&auto=format'),
+    position: 'center center',
+  })),
+];
+// A string hash (not a plain character sum) so similar slugs land far apart in the list.
+const slugNumber = article.data.slug
+  .split('')
+  .reduce((hash, character) => (Math.imul(hash, 31) + character.charCodeAt(0)) >>> 0, 7);
+const coverPhoto = articlePhotos[slugNumber % articlePhotos.length];
+const closingPhoto = articlePhotos[(slugNumber + Math.floor(articlePhotos.length / 2)) % articlePhotos.length];
 ---
 
 <BaseLayout
@@ -37,10 +70,29 @@ const hasToc = tocHeadings.length >= 2;
   canonical={article.data.canonicalUrl}
   type="article"
 >
+  <div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>
+
   <div class="reading-container">
-    <div class:list={['article-shell', 'reading-surface', !hasToc && 'article-shell--no-toc']}>
+    <div class="article-page reading-surface">
+      <figure class="article-cover">
+        <div class="article-cover__frame">
+          <img
+            src={coverPhoto.src}
+            alt=""
+            fetchpriority="high"
+            decoding="async"
+            style={`object-position: ${coverPhoto.position}`}
+          />
+        </div>
+        <figcaption class="article-cover__caption">
+          <span>{coverPhoto.title ? `Photo: ${coverPhoto.title}` : 'Photo from my Unsplash portfolio'}</span>
+          <a href="/pages/photography.html">More photography →</a>
+        </figcaption>
+      </figure>
+
+    <div class:list={['article-shell', !hasToc && 'article-shell--no-toc']}>
       {hasToc && (
-        <aside class="article-toc" aria-label="Table of contents">
+        <aside class:list={['article-toc', tocIsNumbered && 'article-toc--numbered']} aria-label="Table of contents">
           <div class="eyebrow" style="margin-bottom:0.75rem">Contents</div>
           <nav>
             {tocHeadings.map((heading, index) => (
@@ -54,19 +106,16 @@ const hasToc = tocHeadings.length >= 2;
 
       <article class="article-main">
         <header class="article-header">
-          <div class="pill-row">
-            <span class="meta-chip meta-chip--accent">{article.data.domain}</span>
-            {article.data.categories[0] && <span class="meta-chip">{article.data.categories[0]}</span>}
-          </div>
+          <p class="article-kicker">
+            <span>// {article.data.categories[0] ?? article.data.domain}</span>
+            <span>{formatDate(article.data.date)}</span>
+            <span>{reading.minutes} min read</span>
+            <span>{reading.words.toLocaleString('en-CA')} words</span>
+          </p>
           <h1 class="article-title">
             <RichTitle title={article.data.title} titleHtml={article.data.titleHtml} />
           </h1>
           {article.data.summary && <p class="article-summary">{article.data.summary}</p>}
-          <div class="article-meta" style="margin-top:1rem">
-            <span>{formatDate(article.data.date)}</span>
-            <span>{reading.minutes} min read</span>
-            <span>{reading.words} words</span>
-          </div>
         </header>
 
         <div class="prose">
@@ -81,6 +130,16 @@ const hasToc = tocHeadings.length >= 2;
           </div>
         )}
 
+        <a class="article-closing" href="/pages/photography.html">
+          <span class="article-closing__frame">
+            <img src={closingPhoto.src} alt="" loading="lazy" decoding="async" style={`object-position: ${closingPhoto.position}`} />
+          </span>
+          <span class="article-closing__copy">
+            <strong>Thanks for reading.</strong>
+            <span>When I'm not writing software, I'm usually out with a camera. See the photographs →</span>
+          </span>
+        </a>
+
         <AuthorBio />
         <Comments
           identifier={article.data.legacyUrl}
@@ -92,7 +151,9 @@ const hasToc = tocHeadings.length >= 2;
       <AbbreviationTooltips />
       <ArticleMedia />
     </div>
+    </div>
   </div>
+
 
   {related.length > 0 && (
     <section class="related-section">
@@ -118,6 +179,28 @@ const hasToc = tocHeadings.length >= 2;
   )}
 
   <script>
+    // Reading progress: a thin bar under the header that fills as the article is read.
+    const readingProgressBar = document.querySelector<HTMLElement>('[data-reading-progress]');
+    const articleBody = document.querySelector<HTMLElement>('.article-main');
+    if (readingProgressBar && articleBody) {
+      let isProgressUpdateQueued = false;
+      const updateReadingProgress = () => {
+        isProgressUpdateQueued = false;
+        const bounds = articleBody.getBoundingClientRect();
+        const readable = bounds.height - window.innerHeight;
+        const progress = readable > 0 ? Math.min(Math.max(-bounds.top / readable, 0), 1) : 1;
+        readingProgressBar.style.transform = `scaleX(${progress})`;
+      };
+      const queueReadingProgress = () => {
+        if (isProgressUpdateQueued) return;
+        isProgressUpdateQueued = true;
+        requestAnimationFrame(updateReadingProgress);
+      };
+      window.addEventListener('scroll', queueReadingProgress, { passive: true });
+      window.addEventListener('resize', queueReadingProgress);
+      updateReadingProgress();
+    }
+
     const articleTableOfContents = document.querySelector<HTMLElement>('.article-toc');
     const tableOfContentsNavigation = articleTableOfContents?.querySelector<HTMLElement>('nav');
 

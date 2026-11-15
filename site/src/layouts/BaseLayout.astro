@@ -5,7 +5,7 @@ import SitePhotoBackdrop from '../components/SitePhotoBackdrop.astro';
 import '../styles/global.css';
 import { homepageBanners } from '../data/homepageBanners';
 import { siteMeta } from '../data/site';
-import { getHomepagePhotos } from '../lib/photography';
+import { getLandscapePhotos } from '../data/curatedPhotos';
 
 interface Props {
   title?: string;
@@ -28,17 +28,22 @@ const {
 const pageTitle = title ? `${title} · ${siteMeta.name}` : `${siteMeta.title} · ${siteMeta.tagline}`;
 const ogImage = image ? new URL(image, Astro.site ?? siteMeta.siteUrl).toString() : undefined;
 const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID || undefined;
-const showPhotoBackdrop = type !== 'article' && !/^\/pages\/photography(?:\.html|\/)?$/.test(Astro.url.pathname);
+// The photo band shows on listing and standalone pages. Articles stay plain for
+// reading, the photography page is already all photos, and the homepage has its
+// own photo hero.
+const showPhotoBackdrop =
+  type !== 'article' &&
+  Astro.url.pathname !== '/' &&
+  !/^\/pages\/photography(?:\.html|\/)?$/.test(Astro.url.pathname);
 const backdropPhotos = [
   ...homepageBanners.map((banner) => ({
-    src: banner.mobileSrc,
-    width: 900,
-    height: 1125,
+    src: banner.desktopSrc,
+    position: banner.desktopPosition,
   })),
-  ...getHomepagePhotos().map((photo) => ({
-    src: photo.urls.small,
-    width: photo.width,
-    height: photo.height,
+  ...getLandscapePhotos().map((photo) => ({
+    // Unsplash crops and resizes on request; a wide crop suits the band.
+    src: `${photo.urls.raw}&w=1920&h=760&fit=crop&crop=entropy&q=75&auto=format`,
+    position: 'center center',
   })),
 ];
 ---

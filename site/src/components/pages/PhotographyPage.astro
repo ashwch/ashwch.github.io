@@ -1,4 +1,5 @@
 ---
+import PhotoScrollPainter from '../PhotoScrollPainter.astro';
 import { getPhotographyCategories, getVisiblePhotos } from '../../lib/photography';
 
 const photos = getVisiblePhotos();
@@ -13,7 +14,7 @@ const hasPhotos = photos.length > 0;
   </div>
 </section>
 
-<section class="photography-gallery">
+<section class="photography-gallery" data-paint-stage>
   <div class="reading-container">
     {
       photos.length ? (
@@ -37,6 +38,7 @@ const hasPhotos = photos.length > 0;
                 class="photo-card"
                 data-categories={photo.categories.join(',')}
                 data-filter-item
+                data-paint-card
               >
                 <a
                   class="photo-card__image-link"
@@ -44,6 +46,9 @@ const hasPhotos = photos.length > 0;
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="View photo on Unsplash"
+                  data-paint-frame
+                  data-paint-src={photo.urls.small}
+                  style={photo.color ? `--photo-color: ${photo.color}` : undefined}
                 >
                   <img
                     src={photo.urls.regular}
@@ -75,6 +80,8 @@ const hasPhotos = photos.length > 0;
     }
   </div>
 </section>
+
+{hasPhotos && <PhotoScrollPainter />}
 
 {
   hasPhotos && (

@@ -4,21 +4,28 @@
  *
  * LAYOUT STRATEGY
  *
- * The page has three clear zones, top to bottom:
+ * The page alternates between the two things this site is about, photography
+ * and software, so neither reads as decoration for the other:
  *
- *   1. Hero        — rotating photography background with readable glass copy.
+ *   1. Hero         one photograph at full colour, with the intro copy on top.
  *
- *   2. Writing     — latest six articles as cards.
+ *   2. Numbers      four figures across engineering and photography.
  *
- *   3. Projects    — all actively maintained projects.
- *                    Broader lifetime work lives on /pages/projects.html.
+ *   3. Writing      latest six articles as cards.
  *
- * WHY NO PHOTOGRAPHY STRIP
+ *   4. Photography  a five-tile mosaic. One tile at a time crossfades to
+ *                   another photo, drawn from the whole photo pool
+ *                   (/photo-pool.json), so the section changes slowly without
+ *                   anything moving behind text.
  *
- * We removed the separate "Photography · Gallery" section below the fold.
- * The hero gallery already links directly to /pages/photography.html and
- * carries more emotional weight than three small Unsplash cards ever could.
- * Removing the duplicate strip makes the page cleaner and respects the photos.
+ *   5. Projects     all actively maintained projects.
+ *                   Broader lifetime work lives on /pages/projects.html.
+ *
+ * WHY PHOTOS ARE NEVER BEHIND TEXT
+ *
+ * An earlier version tiled photos behind the whole page. Keeping text readable
+ * meant desaturating the photos and covering them with a tinted veil, which
+ * dulled both. Photos now get their own space and are shown as they were shot.
  */
 
 import ArticleCard from '../components/ArticleCard.astro';
@@ -27,22 +34,49 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { homepageBanners } from '../data/homepageBanners';
 import { projects } from '../data/projects';
 import { getAllArticles } from '../lib/content';
-import { getHomepagePhotos } from '../lib/photography';
+import { getLandscapePhotos, getMosaicPhotos } from '../data/curatedPhotos';
 
 const articles = await getAllArticles();
 const latestArticles = articles.slice(0, 6);
-const homepagePhotos = getHomepagePhotos();
+const capitalize = (text: string) => text.charAt(0).toUpperCase() + text.slice(1);
+// The hero opens on a bright daytime photo, then rotates through the rest.
+const openingBannerSlug = 'road-to-the-rockies';
 const rotatingBanners = [
-  ...homepageBanners,
-  ...homepagePhotos.map((photo) => ({
+  ...homepageBanners.filter((banner) => banner.slug === openingBannerSlug),
+  ...homepageBanners.filter((banner) => banner.slug !== openingBannerSlug),
+  ...getLandscapePhotos().map((photo) => ({
     slug: `unsplash-${photo.id}`,
-    title: photo.title,
-    desktopSrc: photo.urls.regular,
+    title: capitalize(photo.title),
+    desktopSrc: `${photo.urls.raw}&w=2000&q=75&auto=format`,
     mobileSrc: photo.urls.regular,
     desktopPosition: 'center center',
     mobilePosition: 'center center',
   })),
 ];
+
+// Figures shown under the hero. Update these by hand when the sources change.
+const stats = [
+  { value: '13+', label: 'years building software', href: '/pages/about.html' },
+  {
+    value: '252K',
+    label: 'Stack Overflow reputation',
+    href: 'https://stackoverflow.com/users/846892/ashwini-chaudhary',
+  },
+  { value: '218M+', label: 'photo views on Unsplash', href: 'https://unsplash.com/@suicide_chewbacca' },
+  { value: '1.3M+', label: 'photo downloads', href: 'https://unsplash.com/@suicide_chewbacca' },
+];
+
+// Photo mosaic: hand-picked photos (see data/curatedPhotos.ts). Unsplash crops
+// and resizes on request, so each photo gets a large crop for the lead tile
+// and a small crop for the other tiles.
+const mosaicPhotos = getMosaicPhotos().map((photo) => ({
+  alt: photo.alt,
+  color: photo.color,
+  wide: photo.width / photo.height >= 1.2,
+  leadSrc: `${photo.urls.raw}&w=1400&h=1100&fit=crop&crop=entropy&q=72&auto=format`,
+  tileSrc: `${photo.urls.raw}&w=800&h=620&fit=crop&crop=entropy&q=72&auto=format`,
+}));
+const initialMosaic = mosaicPhotos.slice(0, 5);
 ---
 
 <BaseLayout canonical="https://ashwch.com/">
@@ -56,14 +90,31 @@ const rotatingBanners = [
           <span class="eyebrow">Ashwini Chaudhary (Monty)</span>
           <h1 class="display-title">Software, writing, and photography.</h1>
           <p class="hero-copy">
-            I lead engineering teams, build software, and write about the systems and tools behind the work.
+            I run product and engineering at Diversio, build tools for working with AI agents, and photograph
+            landscapes and wildlife.
           </p>
           <div class="hero-actions">
             <a class="button" href="/writing.html">Writing</a>
             <a class="button--secondary" href="/pages/projects.html">Projects</a>
+            <a class="button--secondary" href="/pages/photography.html">Photography</a>
           </div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <section class="home-stats" aria-label="In numbers">
+    <div class="container">
+      <ul class="home-stats__grid">
+        {stats.map((stat) => (
+          <li class="home-stats__item">
+            <a href={stat.href}>
+              <span class="home-stats__value">{stat.value}</span>
+              <span class="home-stats__label">{stat.label}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
     </div>
   </section>
 
@@ -71,6 +122,7 @@ const rotatingBanners = [
     <div class="container">
       <div class="section-header home-section-header">
         <div>
+          <span class="home-section-index">// 01</span>
           <h2 class="section-title">Writing</h2>
           <p>Engineering practice, systems, leadership, and the tools changing how we work.</p>
         </div>
@@ -85,10 +137,37 @@ const rotatingBanners = [
     </div>
   </section>
 
+  <section class="section home-showcase home-photos">
+    <div class="container">
+      <div class="section-header home-section-header">
+        <div>
+          <span class="home-section-index">// 02</span>
+          <h2 class="section-title">Photography</h2>
+          <p>Landscapes, night skies, and small details, free to use on Unsplash.</p>
+        </div>
+        <a class="section-link" href="/pages/photography.html">Open the gallery →</a>
+      </div>
+
+      <div class="home-photos__grid" data-photo-mosaic>
+        {initialMosaic.map((photo, index) => (
+          <a
+            class:list={['home-photos__tile', index === 0 && 'home-photos__tile--lead']}
+            href="/pages/photography.html"
+            style={photo.color ? `background-color: ${photo.color}` : undefined}
+            data-mosaic-tile
+          >
+            <img src={index === 0 ? photo.leadSrc : photo.tileSrc} alt={photo.alt} loading="lazy" decoding="async" />
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
   <section class="section home-showcase home-projects">
     <div class="container">
       <div class="section-header home-section-header">
         <div>
+          <span class="home-section-index">// 03</span>
           <h2 class="section-title">Projects</h2>
           <p>Products, developer tools, and open-source infrastructure from years of making software.</p>
         </div>
@@ -126,5 +205,136 @@ const rotatingBanners = [
       </div>
     </div>
   </section>
+
+  <script is:inline define:vars={{ mosaicPhotos }}>
+    /*
+     * Photo mosaic rotation.
+     *
+     * The page arrives with five photos. As soon as the full photo pool has
+     * loaded, all five are swapped for random photos from it, one after another,
+     * so every visit starts with a different set. After that one tile changes
+     * every CHANGE_MILLISECONDS, going round the tiles in turn so the large tile
+     * changes as often as the small ones.
+     *
+     * A change adds the new image on top of the old one, fades it in with CSS,
+     * and then makes it the tile's image.
+     */
+    (() => {
+      const mosaic = document.querySelector('[data-photo-mosaic]');
+      if (!(mosaic instanceof HTMLElement) || !Array.isArray(mosaicPhotos)) return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      const tiles = Array.from(mosaic.querySelectorAll('[data-mosaic-tile]'));
+      if (tiles.length < 2) return;
+
+      const CHANGE_MILLISECONDS = 2600;
+      const OPENING_STAGGER_MILLISECONDS = 450;
+
+      const shuffle = (items) => {
+        for (let index = items.length - 1; index > 0; index -= 1) {
+          const swapIndex = Math.floor(Math.random() * (index + 1));
+          [items[index], items[swapIndex]] = [items[swapIndex], items[index]];
+        }
+        return items;
+      };
+
+      // Both crops of a photo share the same path; only the query string differs.
+      const photoKey = (source) => source.split('?')[0];
+      let photos = mosaicPhotos;
+      let nextPhotoIndex = 0;
+      let nextTileIndex = 0;
+      let intervalId;
+
+      /** The next photo that is not on screen right now (and is wide, for the large tile). */
+      const getNextPhoto = (needsWide) => {
+        const shownKeys = new Set(
+          tiles.flatMap((tile) => Array.from(tile.querySelectorAll('img'), (image) => photoKey(image.src)))
+        );
+        for (let checked = 0; checked < photos.length; checked += 1) {
+          const photo = photos[nextPhotoIndex];
+          nextPhotoIndex = (nextPhotoIndex + 1) % photos.length;
+          if (shownKeys.has(photoKey(photo.tileSrc))) continue;
+          if (needsWide && !photo.wide) continue;
+          return photo;
+        }
+        return undefined;
+      };
+
+      const changeTile = (tile) => {
+        const currentImage = tile.querySelector('img');
+        const isLead = tile.classList.contains('home-photos__tile--lead');
+        // Still fading from the last change: leave it alone.
+        if (!(currentImage instanceof HTMLImageElement) || tile.querySelector('.home-photos__replacement')) return;
+        const photo = getNextPhoto(isLead);
+        if (!photo) return;
+
+        const replacement = new Image();
+        replacement.alt = photo.alt;
+        replacement.className = 'home-photos__replacement';
+        replacement.onload = () => {
+          tile.append(replacement);
+          const finish = () => {
+            if (!replacement.isConnected) return;
+            currentImage.src = replacement.src;
+            currentImage.alt = replacement.alt;
+            replacement.remove();
+          };
+          replacement.addEventListener('transitionend', (event) => {
+            if (event.propertyName === 'opacity') finish();
+          });
+          // Safety net in case the browser never reports the end of the fade.
+          window.setTimeout(finish, 1600);
+          requestAnimationFrame(() => requestAnimationFrame(() => replacement.classList.add('is-visible')));
+        };
+        replacement.src = isLead ? photo.leadSrc : photo.tileSrc;
+      };
+
+      const changeNextTile = () => {
+        changeTile(tiles[nextTileIndex]);
+        nextTileIndex = (nextTileIndex + 1) % tiles.length;
+      };
+
+      const stopRotation = () => {
+        if (!intervalId) return;
+        window.clearInterval(intervalId);
+        intervalId = undefined;
+      };
+      const startRotation = () => {
+        stopRotation();
+        if (photos.length > tiles.length) intervalId = window.setInterval(changeNextTile, CHANGE_MILLISECONDS);
+      };
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) stopRotation();
+        else startRotation();
+      });
+      startRotation();
+
+      // Load the whole photo pool, then open with a fresh set of five.
+      fetch('/photo-pool.json')
+        .then((response) => (response.ok ? response.json() : []))
+        .then((entries) => {
+          if (!Array.isArray(entries) || entries.length <= tiles.length) return;
+          photos = shuffle(
+            entries.map(([path, title, isWide]) => ({
+              alt: title || 'Photograph by Ashwini Chaudhary',
+              wide: Boolean(isWide),
+              leadSrc: `https://images.unsplash.com/${path}?w=1400&h=1100&fit=crop&crop=entropy&q=72&auto=format`,
+              tileSrc: `https://images.unsplash.com/${path}?w=800&h=620&fit=crop&crop=entropy&q=72&auto=format`,
+            }))
+          );
+          nextPhotoIndex = 0;
+
+          stopRotation();
+          tiles.forEach((tile, index) => {
+            window.setTimeout(() => changeTile(tile), index * OPENING_STAGGER_MILLISECONDS);
+          });
+          window.setTimeout(startRotation, tiles.length * OPENING_STAGGER_MILLISECONDS);
+        })
+        .catch(() => {
+          // Offline or blocked: keep rotating through the photos the page came with.
+        });
+    })();
+  </script>
 
 </BaseLayout>

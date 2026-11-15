@@ -1,0 +1,684 @@
+---
+/**
+ * Painted photo reveal.
+ *
+ * Each photo (the photography grid, article cover photos) forms once as it
+ * scrolls into view:
+ *
+ *     drifting dust ──► painting ──► photograph        (about 1.3 seconds)
+ *
+ * After that it is the plain <img> again and is never animated a second time,
+ * so scrolling back up shows finished photos.
+ *
+ * WHY IT RUNS ON A TIMER AND NOT ON SCROLL POSITION
+ *
+ *   An earlier version tied each photo's state to where it was on screen. That
+ *   meant drawing every visible photo on every scroll frame, and it left photos
+ *   frozen half-formed at the top and bottom of the screen. It felt janky. A
+ *   short one-off reveal does very little work while the page is scrolling.
+ *
+ * HOW IT STAYS SMOOTH
+ *
+ *   Never blank     Until a photo is ready its frame shows a soft block of the
+ *                   photo's main colour.
+ *   Small preview   The effect does not wait for the full-size photo. When a
+ *                   photo gets within about a screen of the viewport, a small
+ *                   preview (~400 px wide, a few KB) is fetched and decoded off
+ *                   the main thread. In idle time two textures are made from
+ *                   it: the photo and its painting (a Kuwahara filter, run
+ *                   once). Nothing heavy happens at the moment the photo appears.
+ *   One canvas      A single WebGL canvas, about one and a half screens tall, is placed in
+ *                   the page over the grid and draws every revealing photo.
+ *                   Because it is part of the page it scrolls with the photos
+ *                   exactly; it is only moved (and redrawn in the same frame)
+ *                   when the visitor scrolls near its top or bottom edge.
+ *                   Nothing is added to or removed from the grid itself.
+ *   Limit work      At most MAX_REVEALS photos reveal at once. When more arrive
+ *                   (fast scrolling), the extra ones simply fade in.
+ *   Clean up        When a reveal ends, the canvas keeps drawing the finished
+ *                   photo until the full-size <img> has loaded and faded in
+ *                   over it, then the photo's textures are freed.
+ *
+ * WHEN IT DOES NOTHING
+ *
+ *   prefers-reduced-motion, no WebGL, or an image whose pixels cannot be read.
+ *   Photos then show as normal images.
+ *
+ * USAGE
+ *
+ *   <PhotoScrollPainter />   on a page whose photos are
+ *   [data-paint-card] > [data-paint-frame data-paint-src="small image url"] > img
+ *
+ *   The grid needs a positioned ancestor marked [data-paint-stage] for the
+ *   canvas to sit in. The script adds .is-painting to <html>, which hides
+ *   not-yet-revealed photos (see .photo-card rules in global.css).
+ */
+---
+
+<script is:inline>
+  (() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const cards = Array.from(document.querySelectorAll('[data-paint-card]'));
+    if (cards.length === 0) return;
+
+    const stage = document.querySelector('[data-paint-stage]');
+    if (!(stage instanceof HTMLElement)) return;
+
+    const glCanvas = document.createElement('canvas');
+    const gl = glCanvas.getContext('webgl', { alpha: true, premultipliedAlpha: true, antialias: false });
+    if (!gl) return;
+    glCanvas.className = 'photo-reveal-canvas';
+    glCanvas.setAttribute('aria-hidden', 'true');
+
+    // ---------------------------------------------------------------- shaders
+
+    const VERTEX_SHADER = `
+      attribute vec2 aPosition;
+      varying vec2 vUv;
+      void main() {
+        vUv = aPosition * 0.5 + 0.5;
+        gl_Position = vec4(aPosition, 0.0, 1.0);
+      }
+    `;
+
+    const NOISE = `
+      float hash(vec2 p) {
+        p = fract(p * vec2(123.34, 456.21));
+        p += dot(p, p + 45.32);
+        return fract(p.x * p.y);
+      }
+      float noise(vec2 p) {
+        vec2 i = floor(p);
+        vec2 f = fract(p);
+        vec2 u = f * f * (3.0 - 2.0 * f);
+        return mix(
+          mix(hash(i), hash(i + vec2(1.0, 0.0)), u.x),
+          mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), u.x),
+          u.y
+        );
+      }
+      float fbm(vec2 p) {
+        float value = 0.0;
+        float amplitude = 0.5;
+        for (int octave = 0; octave < 4; octave++) {
+          value += amplitude * noise(p);
+          p *= 2.03;
+          amplitude *= 0.5;
+        }
+        return value;
+      }
+    `;
+
+    // Makes the painting of one photo. Runs once per photo, into a texture.
+    // Kuwahara filter: of the four quadrants around a pixel, use the average
+    // colour of the one with the least variation.
+    const PAINT_SHADER = `
+      precision highp float;
+      varying vec2 vUv;
+      uniform sampler2D uPhoto;
+      uniform vec2 uSize;
+      uniform float uStep;
+      const int RADIUS = 4;
+      ${NOISE}
+      void main() {
+        vec2 pixel = uStep / uSize;
+        vec2 uv = vUv + (vec2(noise(vUv * uSize / 9.0), noise(vUv * uSize / 9.0 + 31.7)) - 0.5) * pixel * 2.0;
+
+        vec3 mean0 = vec3(0.0); vec3 mean1 = vec3(0.0); vec3 mean2 = vec3(0.0); vec3 mean3 = vec3(0.0);
+        vec3 square0 = vec3(0.0); vec3 square1 = vec3(0.0); vec3 square2 = vec3(0.0); vec3 square3 = vec3(0.0);
+        for (int j = 0; j <= RADIUS; j++) {
+          for (int i = 0; i <= RADIUS; i++) {
+            vec2 offset = vec2(float(i), float(j)) * pixel;
+            vec3 c;
+            c = texture2D(uPhoto, uv + vec2(-offset.x, -offset.y)).rgb; mean0 += c; square0 += c * c;
+            c = texture2D(uPhoto, uv + vec2(offset.x, -offset.y)).rgb; mean1 += c; square1 += c * c;
+            c = texture2D(uPhoto, uv + vec2(-offset.x, offset.y)).rgb; mean2 += c; square2 += c * c;
+            c = texture2D(uPhoto, uv + vec2(offset.x, offset.y)).rgb; mean3 += c; square3 += c * c;
+          }
+        }
+        float count = float((RADIUS + 1) * (RADIUS + 1));
+        mean0 /= count; mean1 /= count; mean2 /= count; mean3 /= count;
+        vec3 spread0 = abs(square0 / count - mean0 * mean0);
+        vec3 spread1 = abs(square1 / count - mean1 * mean1);
+        vec3 spread2 = abs(square2 / count - mean2 * mean2);
+        vec3 spread3 = abs(square3 / count - mean3 * mean3);
+        float sigma0 = spread0.r + spread0.g + spread0.b;
+        float sigma1 = spread1.r + spread1.g + spread1.b;
+        float sigma2 = spread2.r + spread2.g + spread2.b;
+        float sigma3 = spread3.r + spread3.g + spread3.b;
+
+        vec3 color = mean0;
+        float lowest = sigma0;
+        if (sigma1 < lowest) { lowest = sigma1; color = mean1; }
+        if (sigma2 < lowest) { lowest = sigma2; color = mean2; }
+        if (sigma3 < lowest) { color = mean3; }
+
+        // A little richer than the photo, with a faint brush texture.
+        float luminance = dot(color, vec3(0.299, 0.587, 0.114));
+        color = mix(vec3(luminance), color, 1.22);
+        color = (color - 0.5) * 1.05 + 0.5;
+        float brush = noise(vUv * uSize * vec2(0.09, 0.32)) * 0.6 + noise(vUv * uSize * 0.45) * 0.4;
+        color *= 0.95 + 0.1 * brush;
+        gl_FragColor = vec4(clamp(color, 0.0, 1.0), 1.0);
+      }
+    `;
+
+    /*
+     * Draws one photo at a given progress.
+     *
+     * uProgress   0 = nothing there yet, ~0.6 = whole painting, 1 = photograph.
+     * uRect       where the photo sits inside its drawing area (which is larger,
+     *             so dust can drift past the photo's edges), in pixels.
+     * uOrigin     bottom-left corner of that drawing area in the canvas.
+     * uSeed       differs per photo so no two crumble the same way.
+     */
+    const TILE_SHADER = `
+      precision highp float;
+      uniform sampler2D uPhoto;
+      uniform sampler2D uPainting;
+      uniform vec4 uRect;
+      uniform vec2 uOrigin;
+      uniform vec2 uSeed;
+      uniform float uProgress;
+      uniform float uTime;
+      uniform float uScale;
+      uniform float uRadius;
+      ${NOISE}
+
+      vec3 ash(vec3 color) {
+        float luminance = dot(color, vec3(0.299, 0.587, 0.114));
+        return mix(vec3(luminance) * vec3(0.84, 0.79, 0.72), color, 0.22);
+      }
+
+      void main() {
+        vec2 position = gl_FragCoord.xy - uOrigin;
+        vec2 uv = (position - uRect.xy) / uRect.zw;
+        vec2 inside = clamp(uv, 0.0, 1.0);
+        float aspect = uRect.z / uRect.w;
+
+        float assembled = smoothstep(0.0, 0.64, uProgress);
+        float paint = 1.0 - smoothstep(0.56, 1.0, uProgress);
+
+        // Patches arrive in a ragged order, top of the photo slightly first.
+        float order = fbm(inside * vec2(aspect, 1.0) * 3.2 + uSeed) * 0.8 + inside.y * 0.3;
+        float front = (1.0 - assembled) * 1.7 - 0.3;
+        float since = front - order; // above zero: this patch is currently dust
+
+        // Rounded corners.
+        vec2 corner = abs(position - (uRect.xy + uRect.zw * 0.5)) - uRect.zw * 0.5 + uRadius;
+        float mask = 1.0 - smoothstep(-0.75, 0.75, length(max(corner, 0.0)) - uRadius);
+
+        float grain = 1.6 * uScale;
+        float crumble = smoothstep(-0.14, 0.0, since);
+        float speck = hash(floor(position / grain) + uSeed);
+        float solid = mask * (1.0 - smoothstep(-0.012, 0.012, since)) * step(crumble * 0.75, speck);
+
+        if (solid > 0.0) {
+          vec3 color = mix(texture2D(uPhoto, uv).rgb, texture2D(uPainting, uv).rgb, paint);
+          color = mix(color, ash(color), crumble * 0.85);
+          gl_FragColor = vec4(color * solid, solid);
+          return;
+        }
+
+        gl_FragColor = vec4(0.0);
+        if (since > 0.0 && since < 0.34) {
+          // Dust: specks hang above where they belong, swaying a little.
+          float life = since / 0.34;
+          float sway = sin(uTime * 1.3 + position.y * 0.03 / uScale + uSeed.x * 6.0) * 4.0;
+          vec2 drift = vec2(
+            (noise(position * 0.05 / uScale + uSeed) - 0.35) * 26.0 + sway,
+            38.0 + 22.0 * noise(position * 0.08 / uScale)
+          ) * life * uScale;
+          vec2 source = (position - drift - uRect.xy) / uRect.zw;
+          if (source.x >= 0.0 && source.x <= 1.0 && source.y >= 0.0 && source.y <= 1.0) {
+            float dust = hash(floor((position - drift) / grain) + uSeed + 7.0);
+            float visible = step(0.52 + life * 0.48, dust) * (1.0 - life) * 0.9;
+            gl_FragColor = vec4(ash(texture2D(uPainting, source).rgb) * 0.92 * visible, visible);
+          }
+        }
+      }
+    `;
+
+    const buildProgram = (fragmentSource) => {
+      const compile = (type, source) => {
+        const shader = gl.createShader(type);
+        gl.shaderSource(shader, source);
+        gl.compileShader(shader);
+        return gl.getShaderParameter(shader, gl.COMPILE_STATUS) ? shader : undefined;
+      };
+      const vertexShader = compile(gl.VERTEX_SHADER, VERTEX_SHADER);
+      const fragmentShader = compile(gl.FRAGMENT_SHADER, fragmentSource);
+      if (!vertexShader || !fragmentShader) return undefined;
+      const program = gl.createProgram();
+      gl.attachShader(program, vertexShader);
+      gl.attachShader(program, fragmentShader);
+      gl.bindAttribLocation(program, 0, 'aPosition');
+      gl.linkProgram(program);
+      return gl.getProgramParameter(program, gl.LINK_STATUS) ? program : undefined;
+    };
+
+    const paintProgram = buildProgram(PAINT_SHADER);
+    const tileProgram = buildProgram(TILE_SHADER);
+    if (!paintProgram || !tileProgram) return;
+
+    // One rectangle, shared by both programs (attribute 0).
+    gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(0);
+    gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+
+    const uniformsOf = (program, names) =>
+      Object.fromEntries(names.map((name) => [name, gl.getUniformLocation(program, name)]));
+    const paintUniforms = uniformsOf(paintProgram, ['uPhoto', 'uSize', 'uStep']);
+    const tileUniforms = uniformsOf(tileProgram, [
+      'uPhoto', 'uPainting', 'uRect', 'uOrigin', 'uSeed', 'uProgress', 'uTime', 'uScale', 'uRadius',
+    ]);
+    const framebuffer = gl.createFramebuffer();
+
+    const createTexture = () => {
+      const texture = gl.createTexture();
+      gl.bindTexture(gl.TEXTURE_2D, texture);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+      return texture;
+    };
+
+    // ------------------------------------------------------------------ tiles
+
+    const DUST_MARGIN = 44; // pixels of drawing area past the photo on each side
+    const REVEAL_MILLISECONDS = 1100;
+    const HANDOVER_MILLISECONDS = 350; // matches the image fade-in in global.css
+    const MAX_ACTIVE = 8;
+    const TEXTURE_WIDTH = 400;
+    // Corner radius of the photos on this page, in pixels (data-paint-radius on the stage).
+    const cornerRadius = Number(stage.dataset.paintRadius) || 8;
+    const scratchCanvas = document.createElement('canvas');
+    const scratchContext = scratchCanvas.getContext('2d');
+
+    const tiles = cards.flatMap((card) => {
+      const frame = card.querySelector('[data-paint-frame]');
+      const image = frame?.querySelector('img');
+      if (!(frame instanceof HTMLElement) || !(image instanceof HTMLImageElement)) return [];
+      return [{
+        card,
+        frame,
+        image,
+        // Small preview the effect is drawn from; loaded when the photo gets near.
+        previewSource: frame.dataset.paintSrc,
+        preview: undefined,
+        textures: undefined,
+        seed: [Math.random() * 50, Math.random() * 50],
+        // waiting → preparing → ready → revealing → holding → done
+        state: 'waiting',
+        isOnScreen: false,
+        startAt: 0,
+        releaseAt: Infinity,
+        // Position in the page (not the viewport), measured when the reveal starts.
+        left: 0,
+        top: 0,
+        width: 0,
+        height: 0,
+      }];
+    });
+    const tileByCard = new Map(tiles.map((tile) => [tile.card, tile]));
+    const active = new Set(); // tiles being revealed or held on the canvas
+    let remaining = tiles.length;
+
+    /** The photo is finished with: show the real image and free what the reveal used. */
+    const finish = (tile) => {
+      tile.state = 'done';
+      tile.card.classList.add('is-revealed');
+      tile.preview = undefined;
+      active.delete(tile);
+      remaining -= 1;
+      // Every photo on the page has been revealed: the canvas is no longer needed.
+      if (remaining === 0) glCanvas.remove();
+      nearObserver.unobserve(tile.card);
+      screenObserver.unobserve(tile.card);
+      if (tile.textures) {
+        gl.deleteTexture(tile.textures.photo);
+        gl.deleteTexture(tile.textures.painting);
+        tile.textures = undefined;
+      }
+    };
+
+    /**
+     * The reveal has played. Fade the real image in underneath and keep drawing
+     * the finished photo on the canvas until that image is loaded and visible.
+     */
+    const hold = (tile, now) => {
+      tile.state = 'holding';
+      tile.card.classList.add('is-revealed');
+      const release = () => {
+        tile.releaseAt = performance.now() + HANDOVER_MILLISECONDS;
+        requestFrame();
+      };
+      if (tile.image.complete) tile.releaseAt = now + HANDOVER_MILLISECONDS;
+      else {
+        tile.image.addEventListener('load', release, { once: true });
+        tile.image.addEventListener('error', release, { once: true });
+      }
+    };
+
+    /** The image's CSS object-position as two 0..1 fractions (it is computed as percentages). */
+    const objectPosition = (image) => {
+      const [horizontal = '50%', vertical = '50%'] = getComputedStyle(image).objectPosition.split(' ');
+      const toFraction = (value) => (value.endsWith('%') ? Number.parseFloat(value) / 100 : 0.5);
+      return [toFraction(horizontal), toFraction(vertical)];
+    };
+
+    /** Copy the preview into a texture and make its painting. False if the pixels cannot be read. */
+    const createTextures = (tile) => {
+      // The texture has the shape of the photo's frame on the page, and the preview
+      // is cropped into it the way CSS object-fit: cover crops the real image.
+      // Stretching it instead would show the photo squeezed until the real one loads.
+      const frameWidth = tile.frame.offsetWidth;
+      const frameHeight = tile.frame.offsetHeight;
+      if (frameWidth === 0 || frameHeight === 0) return false;
+      const height = Math.max(32, Math.round(TEXTURE_WIDTH * (frameHeight / frameWidth)));
+      scratchCanvas.width = TEXTURE_WIDTH;
+      scratchCanvas.height = height;
+
+      const { naturalWidth, naturalHeight } = tile.preview;
+      const frameAspect = frameWidth / frameHeight;
+      const cropWidth = Math.min(naturalWidth, naturalHeight * frameAspect);
+      const cropHeight = Math.min(naturalHeight, naturalWidth / frameAspect);
+      const [horizontal, vertical] = objectPosition(tile.image);
+      scratchContext.drawImage(
+        tile.preview,
+        (naturalWidth - cropWidth) * horizontal,
+        (naturalHeight - cropHeight) * vertical,
+        cropWidth,
+        cropHeight,
+        0,
+        0,
+        TEXTURE_WIDTH,
+        height
+      );
+
+      const photo = createTexture();
+      try {
+        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, scratchCanvas);
+      } catch {
+        gl.deleteTexture(photo);
+        return false;
+      }
+
+      const painting = createTexture();
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, TEXTURE_WIDTH, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+      gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffer);
+      gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, painting, 0);
+      gl.viewport(0, 0, TEXTURE_WIDTH, height);
+      gl.disable(gl.SCISSOR_TEST);
+      gl.disable(gl.BLEND);
+      gl.useProgram(paintProgram);
+      gl.activeTexture(gl.TEXTURE0);
+      gl.bindTexture(gl.TEXTURE_2D, photo);
+      gl.uniform1i(paintUniforms.uPhoto, 0);
+      gl.uniform2f(paintUniforms.uSize, TEXTURE_WIDTH, height);
+      gl.uniform1f(paintUniforms.uStep, 1.3);
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+      gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+
+      tile.textures = { photo, painting };
+      // Making a painting drew outside the visible canvas state; redraw it.
+      requestFrame();
+      return true;
+    };
+
+    // Textures are made one at a time in idle moments, never during a scroll frame.
+    const prepareQueue = [];
+    let isPrepareScheduled = false;
+    const whenIdle = window.requestIdleCallback
+      ? (callback) => window.requestIdleCallback(callback, { timeout: 250 })
+      : (callback) => window.setTimeout(callback, 30);
+
+    const prepareNext = () => {
+      isPrepareScheduled = false;
+      const tile = prepareQueue.shift();
+      if (tile && tile.state === 'preparing') {
+        if (createTextures(tile)) {
+          tile.state = 'ready';
+          if (tile.isOnScreen) startReveal(tile);
+        } else {
+          finish(tile);
+        }
+      }
+      if (prepareQueue.length > 0) schedulePrepare();
+    };
+
+    const schedulePrepare = () => {
+      if (isPrepareScheduled) return;
+      isPrepareScheduled = true;
+      whenIdle(prepareNext);
+    };
+
+    /** Start getting a nearby photo ready: fetch and decode its small preview, then queue it. */
+    const prepare = (tile) => {
+      if (tile.state !== 'waiting') return;
+      if (!tile.previewSource) {
+        finish(tile);
+        return;
+      }
+      tile.state = 'preparing';
+
+      const preview = new Image();
+      // Unsplash sends CORS headers; without this WebGL may not read the pixels.
+      preview.crossOrigin = 'anonymous';
+      preview.src = tile.previewSource;
+      // decode() resolves once the image is loaded and decoded, off the main thread.
+      preview.decode().then(
+        () => {
+          tile.preview = preview;
+          prepareQueue.push(tile);
+          schedulePrepare();
+        },
+        () => finish(tile)
+      );
+    };
+
+    const measure = (tile) => {
+      const bounds = tile.frame.getBoundingClientRect();
+      tile.left = bounds.left + window.scrollX;
+      tile.top = bounds.top + window.scrollY;
+      tile.width = bounds.width;
+      tile.height = bounds.height;
+    };
+
+    const startReveal = (tile) => {
+      if (tile.state !== 'ready') return;
+      // Too many at once (fast scrolling): skip the effect and just fade this one in.
+      if (active.size >= MAX_ACTIVE) {
+        finish(tile);
+        return;
+      }
+
+      measure(tile);
+      if (tile.width === 0) return; // hidden by a filter; try again if it shows up
+      tile.state = 'revealing';
+      tile.card.classList.add('is-started');
+      tile.startAt = performance.now() + Math.random() * 180;
+      active.add(tile);
+      requestFrame();
+    };
+
+    // ----------------------------------------------------------------- canvas
+
+    /*
+     * The canvas covers a window of the page about one and a half screens tall:
+     *
+     *        ┌─────────────┐ ← canvasTop (page coordinates)
+     *        │   spare     │
+     *        ├─────────────┤ ← top of the screen
+     *        │   screen    │
+     *        ├─────────────┤
+     *        │   spare     │
+     *        └─────────────┘
+     *
+     * It scrolls with the page. When the screen gets close to either edge of
+     * the window, the canvas is moved so the screen is in the middle again.
+     */
+    let canvasTop = 0;
+    let stageTop = 0;
+    let stageLeft = 0;
+
+    const placeCanvas = (force) => {
+      const viewportHeight = window.innerHeight;
+      const height = Math.round(viewportHeight * 1.6);
+      const width = stage.clientWidth;
+      const isResized = glCanvas.width !== width || glCanvas.height !== height;
+
+      const scrollTop = window.scrollY;
+      const spareAbove = scrollTop - canvasTop;
+      const spareBelow = canvasTop + height - (scrollTop + viewportHeight);
+      if (!force && !isResized && spareAbove > viewportHeight * 0.1 && spareBelow > viewportHeight * 0.1) return;
+
+      if (isResized) {
+        glCanvas.width = width;
+        glCanvas.height = height;
+        glCanvas.style.width = `${width}px`;
+        glCanvas.style.height = `${height}px`;
+      }
+      const stageBounds = stage.getBoundingClientRect();
+      stageTop = stageBounds.top + scrollTop;
+      stageLeft = stageBounds.left + window.scrollX;
+      canvasTop = Math.round(scrollTop - viewportHeight * 0.3);
+      glCanvas.style.transform = `translateY(${canvasTop - stageTop}px)`;
+    };
+
+    const drawTile = (tile, progress, seconds) => {
+      const areaWidth = tile.width + DUST_MARGIN * 2;
+      const areaHeight = tile.height + DUST_MARGIN * 2;
+      const areaLeft = Math.round(tile.left - stageLeft - DUST_MARGIN);
+      const areaTop = Math.round(tile.top - canvasTop - DUST_MARGIN);
+      // WebGL counts rows from the bottom of the canvas.
+      const areaBottom = glCanvas.height - areaTop - areaHeight;
+      if (areaTop > glCanvas.height || areaTop + areaHeight < 0) return;
+
+      gl.viewport(areaLeft, areaBottom, areaWidth, areaHeight);
+      gl.scissor(areaLeft, areaBottom, areaWidth, areaHeight);
+      gl.activeTexture(gl.TEXTURE0);
+      gl.bindTexture(gl.TEXTURE_2D, tile.textures.photo);
+      gl.activeTexture(gl.TEXTURE1);
+      gl.bindTexture(gl.TEXTURE_2D, tile.textures.painting);
+      gl.uniform4f(tileUniforms.uRect, DUST_MARGIN, DUST_MARGIN, tile.width, tile.height);
+      gl.uniform2f(tileUniforms.uOrigin, areaLeft, areaBottom);
+      gl.uniform2f(tileUniforms.uSeed, tile.seed[0], tile.seed[1]);
+      gl.uniform1f(tileUniforms.uProgress, progress);
+      gl.uniform1f(tileUniforms.uTime, seconds);
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    };
+
+    // ------------------------------------------------------------- frame loop
+
+    let frameId;
+
+    const drawFrame = (now) => {
+      frameId = undefined;
+      placeCanvas(false);
+
+      gl.disable(gl.SCISSOR_TEST);
+      gl.viewport(0, 0, glCanvas.width, glCanvas.height);
+      gl.clearColor(0, 0, 0, 0);
+      gl.clear(gl.COLOR_BUFFER_BIT);
+
+      // Dust from one photo can overlap its neighbour, so photos are blended, not overwritten.
+      gl.enable(gl.SCISSOR_TEST);
+      gl.enable(gl.BLEND);
+      gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+      gl.useProgram(tileProgram);
+      gl.uniform1i(tileUniforms.uPhoto, 0);
+      gl.uniform1i(tileUniforms.uPainting, 1);
+      gl.uniform1f(tileUniforms.uScale, 1);
+      gl.uniform1f(tileUniforms.uRadius, cornerRadius);
+
+      let isAnimating = false;
+      for (const tile of [...active]) {
+        if (tile.state === 'revealing') {
+          const elapsed = (now - tile.startAt) / REVEAL_MILLISECONDS;
+          if (elapsed >= 1) hold(tile, now);
+          else {
+            // Ease out: quick to take shape, gentle as it sharpens into the photo.
+            drawTile(tile, elapsed <= 0 ? 0 : 1 - Math.pow(1 - elapsed, 2.2), now / 1000);
+            isAnimating = true;
+            continue;
+          }
+        }
+
+        // Holding: the finished photo stays on the canvas until the real image has faded in.
+        if (now >= tile.releaseAt) {
+          finish(tile);
+          continue;
+        }
+        drawTile(tile, 1, now / 1000);
+        if (tile.releaseAt !== Infinity) isAnimating = true;
+      }
+
+      if (isAnimating) requestFrame();
+    };
+
+    const requestFrame = () => {
+      if (frameId === undefined) frameId = requestAnimationFrame(drawFrame);
+    };
+
+    // -------------------------------------------------------------- observers
+
+    // Within about a screen of the viewport: get the photo ready.
+    const nearObserver = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const tile = tileByCard.get(entry.target);
+          if (tile && entry.isIntersecting) prepare(tile);
+        }
+      },
+      { rootMargin: '100% 0px 100% 0px' }
+    );
+
+    // Actually on screen: reveal it.
+    const screenObserver = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const tile = tileByCard.get(entry.target);
+          if (!tile) continue;
+          tile.isOnScreen = entry.isIntersecting;
+          if (entry.isIntersecting) startReveal(tile);
+        }
+      },
+      { rootMargin: '0px 0px -8% 0px' }
+    );
+
+    stage.append(glCanvas);
+    placeCanvas(true);
+    document.documentElement.classList.add('is-painting');
+    tiles.forEach((tile) => {
+      nearObserver.observe(tile.card);
+      screenObserver.observe(tile.card);
+    });
+
+    // While photos are on the canvas, keep the canvas window around the screen.
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (active.size > 0) requestFrame();
+      },
+      { passive: true }
+    );
+    window.addEventListener('resize', () => {
+      active.forEach(measure);
+      placeCanvas(true);
+      requestFrame();
+    });
+
+    // If the GPU context is lost, show plain images.
+    glCanvas.addEventListener('webglcontextlost', () => {
+      tiles.forEach((tile) => {
+        tile.textures = undefined;
+        if (tile.state !== 'done') finish(tile);
+      });
+    });
+  })();
+</script>
