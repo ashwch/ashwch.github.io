@@ -2295,7 +2295,7 @@ html.lightbox-open {
  */
 .is-painting [data-paint-card] img {
   opacity: 0;
-  transition: opacity 300ms ease, transform 200ms ease;
+  transition: opacity 550ms ease, transform 200ms ease;
 }
 
 .is-painting [data-paint-card].is-revealed img {

@@ -5,7 +5,7 @@
  * Each photo (the photography grid, article cover photos) forms once as it
  * scrolls into view:
  *
- *     drifting dust ──► painting ──► photograph        (about 1.3 seconds)
+ *     drifting dust ──► painting ──► photograph        (about 4.8 seconds)
  *
  * After that it is the plain <img> again and is never animated a second time,
  * so scrolling back up shows finished photos.
@@ -197,6 +197,14 @@
         vec2 inside = clamp(uv, 0.0, 1.0);
         float aspect = uRect.z / uRect.w;
 
+        // A finished photo (held until the real image fades in) needs none of the dust maths.
+        if (uProgress >= 1.0) {
+          vec2 edge = abs(position - (uRect.xy + uRect.zw * 0.5)) - uRect.zw * 0.5 + uRadius;
+          float cover = 1.0 - smoothstep(-0.75, 0.75, length(max(edge, 0.0)) - uRadius);
+          gl_FragColor = vec4(texture2D(uPhoto, inside).rgb * cover, cover);
+          return;
+        }
+
         float assembled = smoothstep(0.0, 0.64, uProgress);
         float paint = 1.0 - smoothstep(0.56, 1.0, uProgress);
 
@@ -289,9 +297,9 @@
     // ------------------------------------------------------------------ tiles
 
     const DUST_MARGIN = 44; // pixels of drawing area past the photo on each side
-    const REVEAL_MILLISECONDS = 1100;
-    const HANDOVER_MILLISECONDS = 350; // matches the image fade-in in global.css
-    const MAX_ACTIVE = 8;
+    const REVEAL_MILLISECONDS = 4200;
+    const HANDOVER_MILLISECONDS = 600; // matches the image fade-in in global.css
+    const MAX_ACTIVE = 16;
     const TEXTURE_WIDTH = 400;
     // Corner radius of the photos on this page, in pixels (data-paint-radius on the stage).
     const cornerRadius = Number(stage.dataset.paintRadius) || 8;
@@ -535,7 +543,7 @@
       const scrollTop = window.scrollY;
       const spareAbove = scrollTop - canvasTop;
       const spareBelow = canvasTop + height - (scrollTop + viewportHeight);
-      if (!force && !isResized && spareAbove > viewportHeight * 0.1 && spareBelow > viewportHeight * 0.1) return;
+      if (!force && !isResized && spareAbove > viewportHeight * 0.1 && spareBelow > viewportHeight * 0.1) return false;
 
       if (isResized) {
         glCanvas.width = width;
@@ -548,6 +556,7 @@
       stageLeft = stageBounds.left + window.scrollX;
       canvasTop = Math.round(scrollTop - viewportHeight * 0.3);
       glCanvas.style.transform = `translateY(${canvasTop - stageTop}px)`;
+      return true;
     };
 
     const drawTile = (tile, progress, seconds) => {
@@ -557,7 +566,9 @@
       const areaTop = Math.round(tile.top - canvasTop - DUST_MARGIN);
       // WebGL counts rows from the bottom of the canvas.
       const areaBottom = glCanvas.height - areaTop - areaHeight;
-      if (areaTop > glCanvas.height || areaTop + areaHeight < 0) return;
+      // Off screen (the canvas is taller than the screen): its clock keeps running, but nothing is drawn.
+      const screenTop = window.scrollY - canvasTop;
+      if (areaTop > screenTop + window.innerHeight || areaTop + areaHeight < screenTop) return;
 
       gl.viewport(areaLeft, areaBottom, areaWidth, areaHeight);
       gl.scissor(areaLeft, areaBottom, areaWidth, areaHeight);
@@ -576,10 +587,19 @@
     // ------------------------------------------------------------- frame loop
 
     let frameId;
+    let lastDrawAt = 0;
+    // Slow dust does not need 120 frames a second. On fast displays every other
+    // frame is skipped, unless the canvas has just been moved and must be redrawn.
+    const MINIMUM_FRAME_MILLISECONDS = 14;
 
     const drawFrame = (now) => {
       frameId = undefined;
-      placeCanvas(false);
+      const wasMoved = placeCanvas(false);
+      if (!wasMoved && now - lastDrawAt < MINIMUM_FRAME_MILLISECONDS) {
+        requestFrame();
+        return;
+      }
+      lastDrawAt = now;
 
       gl.disable(gl.SCISSOR_TEST);
       gl.viewport(0, 0, glCanvas.width, glCanvas.height);
@@ -602,8 +622,8 @@
           const elapsed = (now - tile.startAt) / REVEAL_MILLISECONDS;
           if (elapsed >= 1) hold(tile, now);
           else {
-            // Ease out: quick to take shape, gentle as it sharpens into the photo.
-            drawTile(tile, elapsed <= 0 ? 0 : 1 - Math.pow(1 - elapsed, 2.2), now / 1000);
+            // A light ease out, so the dust has about half of the time before the photo sharpens.
+            drawTile(tile, elapsed <= 0 ? 0 : 1 - Math.pow(1 - elapsed, 1.3), now / 1000);
             isAnimating = true;
             continue;
           }

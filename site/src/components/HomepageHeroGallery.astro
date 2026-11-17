@@ -730,11 +730,11 @@ const motionPresets = [
         if (prefersReducedMotion || sequence.length < 2) return true;
 
         // Seconds from the start of a change to the end of each phase.
-        const PAINT_END = 0.9;
-        const HOLD_END = 1.05;
-        const ASH_END = 2.45;
-        const SETTLE_END = 3.2;
-        const STILL_MILLISECONDS = 3500;
+        const PAINT_END = 1.7;
+        const HOLD_END = 2.1;
+        const ASH_END = 4.7;
+        const SETTLE_END = 6.0;
+        const STILL_MILLISECONDS = 5500;
 
         const ease = (value) => {
           const clamped = Math.min(Math.max(value, 0), 1);
