@@ -278,6 +278,8 @@ const motionPresets = [
       uniform float uPaintB;
       uniform float uDissolve;
       uniform float uStep;
+      uniform float uTime;  // seconds, for the sway of the ash
+      uniform float uScale; // canvas pixels per CSS pixel
 
       const int RADIUS = 4;
 
@@ -378,15 +380,18 @@ const motionPresets = [
         }
 
         float aspect = uResolution.x / uResolution.y;
+        vec2 position = gl_FragCoord.xy;
 
-        // When each patch goes: top-right first, bottom-left last, with a ragged edge.
-        float order = (1.0 - vUv.x) * 0.62 + vUv.y * -0.3 + 0.3 + fbm(vUv * vec2(aspect, 1.0) * 5.0) * 0.4;
-        float front = uDissolve * 1.75 - 0.2;
-        float since = front - order; // above zero: this patch has already gone
+        // The same ash as the photo mosaic further down the page (index.astro):
+        // patches leave in a ragged order, the top of the photo slightly first.
+        float patches = uResolution.y / (130.0 * uScale);
+        float order = fbm(vUv * vec2(aspect, 1.0) * patches) * 0.8 + (1.0 - vUv.y) * 0.3;
+        float since = uDissolve * 1.75 - 0.2 - order; // above zero: this patch has already gone
 
         // Just ahead of the front the paint greys and breaks into specks.
+        float grain = 1.6 * uScale;
         float crumble = smoothstep(-0.14, 0.0, since);
-        float speck = hash(floor(gl_FragCoord.xy / 2.0));
+        float speck = hash(floor(position / grain));
         float solid = (1.0 - smoothstep(-0.012, 0.012, since)) * step(crumble * 0.75, speck);
 
         vec3 color = layer(uB, uMapB, vUv, uPaintB);
@@ -394,13 +399,17 @@ const motionPresets = [
         if (solid > 0.0) {
           vec3 leaving = layer(uA, uMapA, vUv, uPaintA);
           color = mix(color, mix(leaving, ash(leaving), crumble * 0.85), solid);
-        } else if (since > 0.0 && since < 0.3) {
-          // Specks from patches that have gone drift up and to the right, thinning out.
-          float life = since / 0.3;
-          vec2 drift = vec2(0.05, 0.085) * life * (0.5 + noise(vUv * 40.0));
-          float dust = hash(floor((gl_FragCoord.xy - drift * uResolution) / 2.0) + 7.0);
-          float visible = step(0.5 + life * 0.5, dust) * (1.0 - life);
-          color = mix(color, ash(photo(uA, uMapA, vUv - drift)) * 0.92, visible * 0.9);
+        } else if (since > 0.0 && since < 0.34) {
+          // Ash: specks rise from where they were, swaying a little, and thin out.
+          float life = since / 0.34;
+          float sway = sin(uTime * 1.3 + position.y * 0.03 / uScale) * 4.0;
+          vec2 drift = vec2(
+            (noise(position * 0.05 / uScale) - 0.35) * 26.0 + sway,
+            38.0 + 22.0 * noise(position * 0.08 / uScale)
+          ) * life * uScale;
+          float dust = hash(floor((position - drift) / grain) + 7.0);
+          float visible = step(0.52 + life * 0.48, dust) * (1.0 - life) * 0.9;
+          color = mix(color, ash(photo(uA, uMapA, (position - drift) / uResolution)) * 0.92, visible);
         }
 
         gl_FragColor = vec4(color, 1.0);
@@ -450,6 +459,8 @@ const motionPresets = [
         paintB: uniform('uPaintB'),
         dissolve: uniform('uDissolve'),
         step: uniform('uStep'),
+        time: uniform('uTime'),
+        scale: uniform('uScale'),
       };
 
       const createTexture = () => {
@@ -499,6 +510,8 @@ const motionPresets = [
         gl.uniform1f(uniforms.paintB, state.paintB);
         gl.uniform1f(uniforms.dissolve, state.dissolve);
         gl.uniform1f(uniforms.step, Math.max(1.4, canvas.width / 620));
+        gl.uniform1f(uniforms.time, (performance.now() / 1000) % 3600);
+        gl.uniform1f(uniforms.scale, canvas.width / Math.max(canvas.clientWidth, 1));
         gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
       };
 
@@ -730,10 +743,11 @@ const motionPresets = [
         if (prefersReducedMotion || sequence.length < 2) return true;
 
         // Seconds from the start of a change to the end of each phase.
+        // The ash runs at a steady pace for 4 seconds, the same as the photo mosaic.
         const PAINT_END = 1.7;
         const HOLD_END = 2.1;
-        const ASH_END = 4.7;
-        const SETTLE_END = 6.0;
+        const ASH_END = 6.1;
+        const SETTLE_END = 7.4;
         const STILL_MILLISECONDS = 5500;
 
         const ease = (value) => {
@@ -768,8 +782,15 @@ const motionPresets = [
 
           const startTime = performance.now();
           let copyIsSynced = false;
+          let lastDrawAt = 0;
 
           const drawFrame = (now) => {
+            // The paint filter is heavy and the ash is slow: on fast displays draw every other frame.
+            if (now - lastDrawAt < 14) {
+              requestAnimationFrame(drawFrame);
+              return;
+            }
+            lastDrawAt = now;
             const seconds = (now - startTime) / 1000;
 
             if (!copyIsSynced && seconds >= HOLD_END) {
@@ -789,7 +810,7 @@ const motionPresets = [
             painter.draw({
               paintA: ease(seconds / PAINT_END),
               paintB: 1 - ease((seconds - ASH_END) / (SETTLE_END - ASH_END)),
-              dissolve: ease((seconds - HOLD_END) / (ASH_END - HOLD_END)),
+              dissolve: Math.min(Math.max((seconds - HOLD_END) / (ASH_END - HOLD_END), 0), 1),
             });
             requestAnimationFrame(drawFrame);
           };

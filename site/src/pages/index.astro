@@ -232,10 +232,11 @@ const initialMosaic = mosaicPhotos.slice(0, 5);
      *
      * HOW A CHANGE LOOKS
      *
-     *   The old photo turns to ash and drifts away, uncovering the new photo.
-     *   It is the same effect as the hero and the photography page:
+     *   The old photo becomes an oil painting, the painting turns to ash and
+     *   drifts away, and the new photo is uncovered as a painting that sharpens
+     *   into the photo. It is the same effect as the hero and the photography page:
      *
-     *       canvas (old photo, crumbling)      ← drawn with WebGL, on top
+     *       canvas (the whole change)          ← drawn with WebGL, on top
      *       new <img>                          ← already loaded, underneath
      *       old <img>
      *
@@ -256,9 +257,15 @@ const initialMosaic = mosaicPhotos.slice(0, 5);
       const tiles = Array.from(mosaic.querySelectorAll('[data-mosaic-tile]'));
       if (tiles.length < 2) return;
 
-      const CHANGE_MILLISECONDS = 6000;
+      const CHANGE_MILLISECONDS = 7500;
       const OPENING_STAGGER_MILLISECONDS = 900;
+      // The steps of one change (see createAsh). The ash runs at a steady pace.
+      const PAINT_MILLISECONDS = 1500;
+      const HOLD_MILLISECONDS = 300;
       const ASH_MILLISECONDS = 4000;
+      const SETTLE_MILLISECONDS = 1300;
+      const CHANGE_DURATION_MILLISECONDS =
+        PAINT_MILLISECONDS + HOLD_MILLISECONDS + ASH_MILLISECONDS + SETTLE_MILLISECONDS;
       const ASH_HEADROOM = 64; // pixels above the mosaic for rising ash
 
       const shuffle = (items) => {
@@ -294,36 +301,23 @@ const initialMosaic = mosaicPhotos.slice(0, 5);
       // ------------------------------------------------------------------ ash
 
       /**
-       * Draws a tile's old photo crumbling to ash. Returns undefined when WebGL
-       * is not available; the caller then fades the new photo in with CSS.
+       * Draws a tile changing from one photo to the next. Returns undefined when
+       * WebGL is not available; the caller then fades the new photo in with CSS.
+       *
+       * One change, in order (the same steps as the hero):
+       *
+       *     old photo ──► old painting ──► ash, uncovering the new painting ──► new photo
+       *        PAINT          HOLD                  ASH                         SETTLE
+       *
+       * Each photo's painting is made once, into a small texture, when the change
+       * starts. Drawing a frame is then only a few texture reads per pixel.
        */
       const createAsh = () => {
         const canvas = document.createElement('canvas');
         const gl = canvas.getContext('webgl', { alpha: true, premultipliedAlpha: true, antialias: false });
         if (!gl) return undefined;
 
-        const compile = (type, source) => {
-          const shader = gl.createShader(type);
-          gl.shaderSource(shader, source);
-          gl.compileShader(shader);
-          return gl.getShaderParameter(shader, gl.COMPILE_STATUS) ? shader : undefined;
-        };
-        const vertexShader = compile(
-          gl.VERTEX_SHADER,
-          'attribute vec2 aPosition; void main() { gl_Position = vec4(aPosition, 0.0, 1.0); }'
-        );
-        const fragmentShader = compile(
-          gl.FRAGMENT_SHADER,
-          `
-          precision highp float;
-          uniform sampler2D uPhoto;
-          uniform vec4 uRect;      // the tile: left, bottom, width, height, in canvas pixels
-          uniform vec2 uSeed;
-          uniform float uDissolve; // 0 = whole photo, 1 = all gone
-          uniform float uTime;
-          uniform float uScale;    // canvas pixels per CSS pixel
-          uniform float uRadius;
-
+        const NOISE = `
           float hash(vec2 p) {
             p = fract(p * vec2(123.34, 456.21));
             p += dot(p, p + 45.32);
@@ -349,6 +343,85 @@ const initialMosaic = mosaicPhotos.slice(0, 5);
             }
             return value;
           }
+        `;
+
+        // Makes the painting of one photo (the filter used on the photography page).
+        // Kuwahara filter: of the four quadrants around a pixel, use the average
+        // colour of the one with the least variation.
+        const PAINT_SHADER = `
+          precision highp float;
+          uniform sampler2D uPhoto;
+          uniform vec2 uSize;
+          uniform float uStep;
+          const int RADIUS = 4;
+          ${NOISE}
+          void main() {
+            vec2 at = gl_FragCoord.xy / uSize;
+            vec2 pixel = uStep / uSize;
+            vec2 uv = at + (vec2(noise(at * uSize / 9.0), noise(at * uSize / 9.0 + 31.7)) - 0.5) * pixel * 2.0;
+
+            vec3 mean0 = vec3(0.0); vec3 mean1 = vec3(0.0); vec3 mean2 = vec3(0.0); vec3 mean3 = vec3(0.0);
+            vec3 square0 = vec3(0.0); vec3 square1 = vec3(0.0); vec3 square2 = vec3(0.0); vec3 square3 = vec3(0.0);
+            for (int j = 0; j <= RADIUS; j++) {
+              for (int i = 0; i <= RADIUS; i++) {
+                vec2 offset = vec2(float(i), float(j)) * pixel;
+                vec3 c;
+                c = texture2D(uPhoto, uv + vec2(-offset.x, -offset.y)).rgb; mean0 += c; square0 += c * c;
+                c = texture2D(uPhoto, uv + vec2(offset.x, -offset.y)).rgb; mean1 += c; square1 += c * c;
+                c = texture2D(uPhoto, uv + vec2(-offset.x, offset.y)).rgb; mean2 += c; square2 += c * c;
+                c = texture2D(uPhoto, uv + vec2(offset.x, offset.y)).rgb; mean3 += c; square3 += c * c;
+              }
+            }
+            float count = float((RADIUS + 1) * (RADIUS + 1));
+            mean0 /= count; mean1 /= count; mean2 /= count; mean3 /= count;
+            vec3 spread0 = abs(square0 / count - mean0 * mean0);
+            vec3 spread1 = abs(square1 / count - mean1 * mean1);
+            vec3 spread2 = abs(square2 / count - mean2 * mean2);
+            vec3 spread3 = abs(square3 / count - mean3 * mean3);
+            float sigma0 = spread0.r + spread0.g + spread0.b;
+            float sigma1 = spread1.r + spread1.g + spread1.b;
+            float sigma2 = spread2.r + spread2.g + spread2.b;
+            float sigma3 = spread3.r + spread3.g + spread3.b;
+
+            vec3 color = mean0;
+            float lowest = sigma0;
+            if (sigma1 < lowest) { lowest = sigma1; color = mean1; }
+            if (sigma2 < lowest) { lowest = sigma2; color = mean2; }
+            if (sigma3 < lowest) { color = mean3; }
+
+            // A little richer than the photo, with a faint brush texture.
+            float luminance = dot(color, vec3(0.299, 0.587, 0.114));
+            color = mix(vec3(luminance), color, 1.22);
+            color = (color - 0.5) * 1.05 + 0.5;
+            float brush = noise(at * uSize * vec2(0.09, 0.32)) * 0.6 + noise(at * uSize * 0.45) * 0.4;
+            color *= 0.95 + 0.1 * brush;
+            gl_FragColor = vec4(clamp(color, 0.0, 1.0), 1.0);
+          }
+        `;
+
+        /*
+         * Draws one changing tile.
+         *
+         * uPaintA    0 = old photo, 1 = old painting.
+         * uPaintB    0 = new photo, 1 = new painting.
+         * uDissolve  0 = old one whole, 1 = old one gone to ash.
+         */
+        const TILE_SHADER = `
+          precision highp float;
+          uniform sampler2D uPhotoA;
+          uniform sampler2D uPaintingA;
+          uniform sampler2D uPhotoB;
+          uniform sampler2D uPaintingB;
+          uniform vec4 uRect;      // the tile: left, bottom, width, height, in canvas pixels
+          uniform vec2 uSeed;
+          uniform float uPaintA;
+          uniform float uPaintB;
+          uniform float uDissolve;
+          uniform float uTime;
+          uniform float uScale;    // canvas pixels per CSS pixel
+          uniform float uRadius;
+          ${NOISE}
+
           vec3 ash(vec3 color) {
             float luminance = dot(color, vec3(0.299, 0.587, 0.114));
             return mix(vec3(luminance) * vec3(0.84, 0.79, 0.72), color, 0.22);
@@ -359,26 +432,27 @@ const initialMosaic = mosaicPhotos.slice(0, 5);
             vec2 uv = (position - uRect.xy) / uRect.zw;
             vec2 inside = clamp(uv, 0.0, 1.0);
 
+            vec2 corner = abs(position - (uRect.xy + uRect.zw * 0.5)) - uRect.zw * 0.5 + uRadius;
+            float mask = 1.0 - smoothstep(-0.75, 0.75, length(max(corner, 0.0)) - uRadius);
+
+            // Inside the tile: the new photo (or its painting), under whatever is left of the old one.
+            vec3 color = mix(texture2D(uPhotoB, inside).rgb, texture2D(uPaintingB, inside).rgb, uPaintB);
+
             // Patches leave in a ragged order, the top of the photo slightly first.
             float order = fbm(inside * vec2(uRect.z / uRect.w, 1.0) * 3.2 + uSeed) * 0.8 + (1.0 - inside.y) * 0.3;
             float since = uDissolve * 1.75 - 0.2 - order; // above zero: this patch has turned to ash
 
-            vec2 corner = abs(position - (uRect.xy + uRect.zw * 0.5)) - uRect.zw * 0.5 + uRadius;
-            float mask = 1.0 - smoothstep(-0.75, 0.75, length(max(corner, 0.0)) - uRadius);
-
             float grain = 1.6 * uScale;
             float crumble = smoothstep(-0.14, 0.0, since);
             float speck = hash(floor(position / grain) + uSeed);
-            float solid = mask * (1.0 - smoothstep(-0.012, 0.012, since)) * step(crumble * 0.75, speck);
+            float solid = (1.0 - smoothstep(-0.012, 0.012, since)) * step(crumble * 0.75, speck);
             if (solid > 0.0) {
-              vec3 color = texture2D(uPhoto, uv).rgb;
-              color = mix(color, ash(color), crumble * 0.85);
-              gl_FragColor = vec4(color * solid, solid);
-              return;
+              vec3 leaving = mix(texture2D(uPhotoA, inside).rgb, texture2D(uPaintingA, inside).rgb, uPaintA);
+              color = mix(color, mix(leaving, ash(leaving), crumble * 0.85), solid);
             }
+            gl_FragColor = vec4(color * mask, mask);
 
-            gl_FragColor = vec4(0.0);
-            if (since > 0.0 && since < 0.34) {
+            if (solid <= 0.0 && since > 0.0 && since < 0.34) {
               // Ash: specks rise from where they were, swaying a little, and thin out.
               float life = since / 0.34;
               float sway = sin(uTime * 1.3 + position.y * 0.03 / uScale + uSeed.x * 6.0) * 4.0;
@@ -390,38 +464,52 @@ const initialMosaic = mosaicPhotos.slice(0, 5);
               if (source.x >= 0.0 && source.x <= 1.0 && source.y >= 0.0 && source.y <= 1.0) {
                 float dust = hash(floor((position - drift) / grain) + uSeed + 7.0);
                 float visible = step(0.52 + life * 0.48, dust) * (1.0 - life) * 0.9;
-                gl_FragColor = vec4(ash(texture2D(uPhoto, source).rgb) * 0.92 * visible, visible);
+                vec3 speckColor = ash(texture2D(uPaintingA, source).rgb) * 0.92;
+                gl_FragColor = vec4(speckColor * visible, visible) + gl_FragColor * (1.0 - visible);
               }
             }
           }
-          `
-        );
-        if (!vertexShader || !fragmentShader) return undefined;
-        const program = gl.createProgram();
-        gl.attachShader(program, vertexShader);
-        gl.attachShader(program, fragmentShader);
-        gl.bindAttribLocation(program, 0, 'aPosition');
-        gl.linkProgram(program);
-        if (!gl.getProgramParameter(program, gl.LINK_STATUS)) return undefined;
+        `;
+
+        const buildProgram = (fragmentSource) => {
+          const compile = (type, source) => {
+            const shader = gl.createShader(type);
+            gl.shaderSource(shader, source);
+            gl.compileShader(shader);
+            return gl.getShaderParameter(shader, gl.COMPILE_STATUS) ? shader : undefined;
+          };
+          const vertexShader = compile(
+            gl.VERTEX_SHADER,
+            'attribute vec2 aPosition; void main() { gl_Position = vec4(aPosition, 0.0, 1.0); }'
+          );
+          const fragmentShader = compile(gl.FRAGMENT_SHADER, fragmentSource);
+          if (!vertexShader || !fragmentShader) return undefined;
+          const program = gl.createProgram();
+          gl.attachShader(program, vertexShader);
+          gl.attachShader(program, fragmentShader);
+          gl.bindAttribLocation(program, 0, 'aPosition');
+          gl.linkProgram(program);
+          return gl.getProgramParameter(program, gl.LINK_STATUS) ? program : undefined;
+        };
+        const paintProgram = buildProgram(PAINT_SHADER);
+        const tileProgram = buildProgram(TILE_SHADER);
+        if (!paintProgram || !tileProgram) return undefined;
+
+        const locate = (program, names) =>
+          Object.fromEntries(names.map((name) => [name, gl.getUniformLocation(program, name)]));
+        const paintUniforms = locate(paintProgram, ['uPhoto', 'uSize', 'uStep']);
+        const tileUniforms = locate(tileProgram, [
+          'uPhotoA', 'uPaintingA', 'uPhotoB', 'uPaintingB', 'uRect', 'uSeed',
+          'uPaintA', 'uPaintB', 'uDissolve', 'uTime', 'uScale', 'uRadius',
+        ]);
 
         gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
         gl.enableVertexAttribArray(0);
         gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
-        gl.useProgram(program);
-        const uniform = (name) => gl.getUniformLocation(program, name);
-        const uniforms = {
-          rect: uniform('uRect'),
-          seed: uniform('uSeed'),
-          dissolve: uniform('uDissolve'),
-          time: uniform('uTime'),
-          scale: uniform('uScale'),
-          radius: uniform('uRadius'),
-        };
-        gl.uniform1i(uniform('uPhoto'), 0);
-        gl.enable(gl.BLEND);
         gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
         gl.clearColor(0, 0, 0, 0);
+        const framebuffer = gl.createFramebuffer();
 
         canvas.className = 'home-photos__ash';
         canvas.setAttribute('aria-hidden', 'true');
@@ -429,10 +517,78 @@ const initialMosaic = mosaicPhotos.slice(0, 5);
 
         const scratch = document.createElement('canvas');
         const scratchContext = scratch.getContext('2d');
-        const active = new Set(); // tiles whose old photo is crumbling right now
+        const active = new Set(); // tiles that are changing right now
         let scale = 1;
         let frameId;
         let lastDrawAt = 0;
+
+        const createTexture = () => {
+          const texture = gl.createTexture();
+          gl.bindTexture(gl.TEXTURE_2D, texture);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+          return texture;
+        };
+
+        /**
+         * The photo exactly as the tile shows it (object-fit: cover), and its painting.
+         * Returns undefined if the photo's pixels cannot be read.
+         */
+        const createLayer = (image, bounds) => {
+          if (!scratchContext || image.naturalWidth === 0) return undefined;
+          gl.activeTexture(gl.TEXTURE0);
+          scratch.width = Math.round(bounds.width * scale);
+          scratch.height = Math.round(bounds.height * scale);
+          const cover = Math.max(scratch.width / image.naturalWidth, scratch.height / image.naturalHeight);
+          const sourceWidth = scratch.width / cover;
+          const sourceHeight = scratch.height / cover;
+          const photo = createTexture();
+          try {
+            scratchContext.drawImage(
+              image,
+              (image.naturalWidth - sourceWidth) / 2,
+              (image.naturalHeight - sourceHeight) / 2,
+              sourceWidth,
+              sourceHeight,
+              0,
+              0,
+              scratch.width,
+              scratch.height
+            );
+            gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, scratch);
+          } catch {
+            gl.deleteTexture(photo);
+            return undefined;
+          }
+
+          // The painting is soft by nature, so it is made small (at most 520 pixels wide).
+          const paintWidth = Math.round(Math.min(bounds.width, 520));
+          const paintHeight = Math.max(1, Math.round((paintWidth * bounds.height) / bounds.width));
+          const painting = createTexture();
+          gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, paintWidth, paintHeight, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+          gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffer);
+          gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, painting, 0);
+          gl.viewport(0, 0, paintWidth, paintHeight);
+          gl.disable(gl.SCISSOR_TEST);
+          gl.disable(gl.BLEND);
+          gl.useProgram(paintProgram);
+          gl.activeTexture(gl.TEXTURE0);
+          gl.bindTexture(gl.TEXTURE_2D, photo);
+          gl.uniform1i(paintUniforms.uPhoto, 0);
+          gl.uniform2f(paintUniforms.uSize, paintWidth, paintHeight);
+          gl.uniform1f(paintUniforms.uStep, 1.3);
+          gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+          gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+          return { photo, painting };
+        };
+
+        const deleteLayer = (layer) => {
+          gl.deleteTexture(layer.photo);
+          gl.deleteTexture(layer.painting);
+        };
 
         const fitCanvas = () => {
           // Sharp on high-density screens, but never more than twice the CSS size.
@@ -445,6 +601,11 @@ const initialMosaic = mosaicPhotos.slice(0, 5);
           }
         };
 
+        const ease = (value) => {
+          const clamped = Math.min(Math.max(value, 0), 1);
+          return clamped * clamped * (3 - 2 * clamped);
+        };
+
         const draw = (now) => {
           gl.disable(gl.SCISSOR_TEST);
           gl.viewport(0, 0, canvas.width, canvas.height);
@@ -452,11 +613,21 @@ const initialMosaic = mosaicPhotos.slice(0, 5);
           if (active.size === 0) return;
 
           gl.enable(gl.SCISSOR_TEST);
+          gl.enable(gl.BLEND);
+          gl.useProgram(tileProgram);
+          gl.uniform1i(tileUniforms.uPhotoA, 0);
+          gl.uniform1i(tileUniforms.uPaintingA, 1);
+          gl.uniform1i(tileUniforms.uPhotoB, 2);
+          gl.uniform1i(tileUniforms.uPaintingB, 3);
+          gl.uniform1f(tileUniforms.uTime, (now / 1000) % 3600);
+          gl.uniform1f(tileUniforms.uScale, scale);
+
           const mosaicBounds = mosaic.getBoundingClientRect();
           for (const item of [...active]) {
-            const progress = (now - item.startAt) / ASH_MILLISECONDS;
-            if (progress >= 1) {
-              gl.deleteTexture(item.texture);
+            const elapsed = now - item.startAt;
+            if (elapsed >= CHANGE_DURATION_MILLISECONDS) {
+              deleteLayer(item.from);
+              deleteLayer(item.to);
               active.delete(item);
               item.onDone();
               continue;
@@ -474,20 +645,24 @@ const initialMosaic = mosaicPhotos.slice(0, 5);
               Math.ceil(width + reach * 1.2),
               Math.ceil(height + reach)
             );
-            gl.bindTexture(gl.TEXTURE_2D, item.texture);
-            gl.uniform4f(uniforms.rect, left, bottom, width, height);
-            gl.uniform2f(uniforms.seed, item.seed[0], item.seed[1]);
-            gl.uniform1f(uniforms.dissolve, Math.max(progress, 0));
-            gl.uniform1f(uniforms.time, now / 1000);
-            gl.uniform1f(uniforms.scale, scale);
-            gl.uniform1f(uniforms.radius, item.radius * scale);
+            [item.from.photo, item.from.painting, item.to.photo, item.to.painting].forEach((texture, unit) => {
+              gl.activeTexture(gl.TEXTURE0 + unit);
+              gl.bindTexture(gl.TEXTURE_2D, texture);
+            });
+            const ashStart = PAINT_MILLISECONDS + HOLD_MILLISECONDS;
+            gl.uniform4f(tileUniforms.uRect, left, bottom, width, height);
+            gl.uniform2f(tileUniforms.uSeed, item.seed[0], item.seed[1]);
+            gl.uniform1f(tileUniforms.uPaintA, ease(elapsed / PAINT_MILLISECONDS));
+            gl.uniform1f(tileUniforms.uDissolve, Math.min(Math.max((elapsed - ashStart) / ASH_MILLISECONDS, 0), 1));
+            gl.uniform1f(tileUniforms.uPaintB, 1 - ease((elapsed - ashStart - ASH_MILLISECONDS) / SETTLE_MILLISECONDS));
+            gl.uniform1f(tileUniforms.uRadius, item.radius * scale);
             gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
           }
         };
 
         const frame = (now) => {
           frameId = undefined;
-          // Slow ash does not need 120 frames a second: skip every other frame on fast displays.
+          // A slow change does not need 120 frames a second: skip every other frame on fast displays.
           if (now - lastDrawAt >= 14) {
             lastDrawAt = now;
             draw(now);
@@ -503,54 +678,32 @@ const initialMosaic = mosaicPhotos.slice(0, 5);
 
         return {
           /**
-           * Start crumbling the photo `image` shows in `tile`. Returns false if the
-           * photo's pixels cannot be read; nothing has been drawn in that case.
+           * Start changing `tile` from the photo in `oldImage` to the one in `newImage`.
+           * Returns false if either photo's pixels cannot be read; nothing has been
+           * drawn in that case.
            */
-          start(tile, image, onDone) {
+          start(tile, oldImage, newImage, onDone) {
             const bounds = tile.getBoundingClientRect();
-            if (!scratchContext || bounds.width === 0 || image.naturalWidth === 0) return false;
-
-            // Copy the photo exactly as the tile shows it (object-fit: cover).
-            scratch.width = Math.round(bounds.width * scale);
-            scratch.height = Math.round(bounds.height * scale);
-            const cover = Math.max(scratch.width / image.naturalWidth, scratch.height / image.naturalHeight);
-            const sourceWidth = scratch.width / cover;
-            const sourceHeight = scratch.height / cover;
-            const texture = gl.createTexture();
-            try {
-              scratchContext.drawImage(
-                image,
-                (image.naturalWidth - sourceWidth) / 2,
-                (image.naturalHeight - sourceHeight) / 2,
-                sourceWidth,
-                sourceHeight,
-                0,
-                0,
-                scratch.width,
-                scratch.height
-              );
-              gl.bindTexture(gl.TEXTURE_2D, texture);
-              gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
-              gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, scratch);
-            } catch {
-              gl.deleteTexture(texture);
+            if (bounds.width === 0) return false;
+            const from = createLayer(oldImage, bounds);
+            if (!from) return false;
+            const to = createLayer(newImage, bounds);
+            if (!to) {
+              deleteLayer(from);
               return false;
             }
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
 
             const now = performance.now();
             active.add({
               tile,
-              texture,
+              from,
+              to,
               onDone,
               startAt: now,
               seed: [Math.random() * 50, Math.random() * 50],
               radius: Number.parseFloat(getComputedStyle(tile).borderTopLeftRadius) || 0,
             });
-            // Draw the whole old photo now, so it covers the tile before the new one goes in.
+            // Draw the old photo now, so it covers the tile before the new one goes in underneath.
             draw(now);
             if (frameId === undefined) frameId = requestAnimationFrame(frame);
             return true;
@@ -583,8 +736,8 @@ const initialMosaic = mosaicPhotos.slice(0, 5);
             replacement.remove();
           };
 
-          // Ash: the old photo crumbles on the canvas while the new one waits underneath.
-          if (ash && isOnScreen && !document.hidden && ash.start(tile, currentImage, settle)) {
+          // Painted change: it all happens on the canvas while the new photo waits underneath.
+          if (ash && isOnScreen && !document.hidden && ash.start(tile, currentImage, replacement, settle)) {
             replacement.classList.add('is-instant');
             tile.append(replacement);
             return;
