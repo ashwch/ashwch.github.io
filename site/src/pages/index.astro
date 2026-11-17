@@ -156,7 +156,13 @@ const initialMosaic = mosaicPhotos.slice(0, 5);
             style={photo.color ? `background-color: ${photo.color}` : undefined}
             data-mosaic-tile
           >
-            <img src={index === 0 ? photo.leadSrc : photo.tileSrc} alt={photo.alt} loading="lazy" decoding="async" />
+            <img
+              src={index === 0 ? photo.leadSrc : photo.tileSrc}
+              alt={photo.alt}
+              loading="lazy"
+              decoding="async"
+              crossorigin="anonymous"
+            />
           </a>
         ))}
       </div>
@@ -224,8 +230,23 @@ const initialMosaic = mosaicPhotos.slice(0, 5);
      * every CHANGE_MILLISECONDS, going round the tiles in turn so the large tile
      * changes as often as the small ones.
      *
-     * A change adds the new image on top of the old one, fades it in with CSS,
-     * and then makes it the tile's image.
+     * HOW A CHANGE LOOKS
+     *
+     *   The old photo turns to ash and drifts away, uncovering the new photo.
+     *   It is the same effect as the hero and the photography page:
+     *
+     *       canvas (old photo, crumbling)      ← drawn with WebGL, on top
+     *       new <img>                          ← already loaded, underneath
+     *       old <img>
+     *
+     *   One small canvas lies over the whole mosaic. It is only drawn while a
+     *   tile is changing, and is empty the rest of the time.
+     *
+     * WHEN IT DOES LESS
+     *
+     *   Mosaic off screen, or tab hidden   nothing changes and nothing is fetched.
+     *   No WebGL                           the new photo fades in with CSS.
+     *   prefers-reduced-motion             the photos never change.
      */
     (() => {
       const mosaic = document.querySelector('[data-photo-mosaic]');
@@ -235,8 +256,10 @@ const initialMosaic = mosaicPhotos.slice(0, 5);
       const tiles = Array.from(mosaic.querySelectorAll('[data-mosaic-tile]'));
       if (tiles.length < 2) return;
 
-      const CHANGE_MILLISECONDS = 2600;
-      const OPENING_STAGGER_MILLISECONDS = 450;
+      const CHANGE_MILLISECONDS = 6000;
+      const OPENING_STAGGER_MILLISECONDS = 900;
+      const ASH_MILLISECONDS = 4000;
+      const ASH_HEADROOM = 64; // pixels above the mosaic for rising ash
 
       const shuffle = (items) => {
         for (let index = items.length - 1; index > 0; index -= 1) {
@@ -268,6 +291,278 @@ const initialMosaic = mosaicPhotos.slice(0, 5);
         return undefined;
       };
 
+      // ------------------------------------------------------------------ ash
+
+      /**
+       * Draws a tile's old photo crumbling to ash. Returns undefined when WebGL
+       * is not available; the caller then fades the new photo in with CSS.
+       */
+      const createAsh = () => {
+        const canvas = document.createElement('canvas');
+        const gl = canvas.getContext('webgl', { alpha: true, premultipliedAlpha: true, antialias: false });
+        if (!gl) return undefined;
+
+        const compile = (type, source) => {
+          const shader = gl.createShader(type);
+          gl.shaderSource(shader, source);
+          gl.compileShader(shader);
+          return gl.getShaderParameter(shader, gl.COMPILE_STATUS) ? shader : undefined;
+        };
+        const vertexShader = compile(
+          gl.VERTEX_SHADER,
+          'attribute vec2 aPosition; void main() { gl_Position = vec4(aPosition, 0.0, 1.0); }'
+        );
+        const fragmentShader = compile(
+          gl.FRAGMENT_SHADER,
+          `
+          precision highp float;
+          uniform sampler2D uPhoto;
+          uniform vec4 uRect;      // the tile: left, bottom, width, height, in canvas pixels
+          uniform vec2 uSeed;
+          uniform float uDissolve; // 0 = whole photo, 1 = all gone
+          uniform float uTime;
+          uniform float uScale;    // canvas pixels per CSS pixel
+          uniform float uRadius;
+
+          float hash(vec2 p) {
+            p = fract(p * vec2(123.34, 456.21));
+            p += dot(p, p + 45.32);
+            return fract(p.x * p.y);
+          }
+          float noise(vec2 p) {
+            vec2 i = floor(p);
+            vec2 f = fract(p);
+            vec2 u = f * f * (3.0 - 2.0 * f);
+            return mix(
+              mix(hash(i), hash(i + vec2(1.0, 0.0)), u.x),
+              mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), u.x),
+              u.y
+            );
+          }
+          float fbm(vec2 p) {
+            float value = 0.0;
+            float amplitude = 0.5;
+            for (int octave = 0; octave < 4; octave++) {
+              value += amplitude * noise(p);
+              p *= 2.03;
+              amplitude *= 0.5;
+            }
+            return value;
+          }
+          vec3 ash(vec3 color) {
+            float luminance = dot(color, vec3(0.299, 0.587, 0.114));
+            return mix(vec3(luminance) * vec3(0.84, 0.79, 0.72), color, 0.22);
+          }
+
+          void main() {
+            vec2 position = gl_FragCoord.xy;
+            vec2 uv = (position - uRect.xy) / uRect.zw;
+            vec2 inside = clamp(uv, 0.0, 1.0);
+
+            // Patches leave in a ragged order, the top of the photo slightly first.
+            float order = fbm(inside * vec2(uRect.z / uRect.w, 1.0) * 3.2 + uSeed) * 0.8 + (1.0 - inside.y) * 0.3;
+            float since = uDissolve * 1.75 - 0.2 - order; // above zero: this patch has turned to ash
+
+            vec2 corner = abs(position - (uRect.xy + uRect.zw * 0.5)) - uRect.zw * 0.5 + uRadius;
+            float mask = 1.0 - smoothstep(-0.75, 0.75, length(max(corner, 0.0)) - uRadius);
+
+            float grain = 1.6 * uScale;
+            float crumble = smoothstep(-0.14, 0.0, since);
+            float speck = hash(floor(position / grain) + uSeed);
+            float solid = mask * (1.0 - smoothstep(-0.012, 0.012, since)) * step(crumble * 0.75, speck);
+            if (solid > 0.0) {
+              vec3 color = texture2D(uPhoto, uv).rgb;
+              color = mix(color, ash(color), crumble * 0.85);
+              gl_FragColor = vec4(color * solid, solid);
+              return;
+            }
+
+            gl_FragColor = vec4(0.0);
+            if (since > 0.0 && since < 0.34) {
+              // Ash: specks rise from where they were, swaying a little, and thin out.
+              float life = since / 0.34;
+              float sway = sin(uTime * 1.3 + position.y * 0.03 / uScale + uSeed.x * 6.0) * 4.0;
+              vec2 drift = vec2(
+                (noise(position * 0.05 / uScale + uSeed) - 0.35) * 26.0 + sway,
+                38.0 + 22.0 * noise(position * 0.08 / uScale)
+              ) * life * uScale;
+              vec2 source = (position - drift - uRect.xy) / uRect.zw;
+              if (source.x >= 0.0 && source.x <= 1.0 && source.y >= 0.0 && source.y <= 1.0) {
+                float dust = hash(floor((position - drift) / grain) + uSeed + 7.0);
+                float visible = step(0.52 + life * 0.48, dust) * (1.0 - life) * 0.9;
+                gl_FragColor = vec4(ash(texture2D(uPhoto, source).rgb) * 0.92 * visible, visible);
+              }
+            }
+          }
+          `
+        );
+        if (!vertexShader || !fragmentShader) return undefined;
+        const program = gl.createProgram();
+        gl.attachShader(program, vertexShader);
+        gl.attachShader(program, fragmentShader);
+        gl.bindAttribLocation(program, 0, 'aPosition');
+        gl.linkProgram(program);
+        if (!gl.getProgramParameter(program, gl.LINK_STATUS)) return undefined;
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+        gl.enableVertexAttribArray(0);
+        gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+        gl.useProgram(program);
+        const uniform = (name) => gl.getUniformLocation(program, name);
+        const uniforms = {
+          rect: uniform('uRect'),
+          seed: uniform('uSeed'),
+          dissolve: uniform('uDissolve'),
+          time: uniform('uTime'),
+          scale: uniform('uScale'),
+          radius: uniform('uRadius'),
+        };
+        gl.uniform1i(uniform('uPhoto'), 0);
+        gl.enable(gl.BLEND);
+        gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+        gl.clearColor(0, 0, 0, 0);
+
+        canvas.className = 'home-photos__ash';
+        canvas.setAttribute('aria-hidden', 'true');
+        mosaic.append(canvas);
+
+        const scratch = document.createElement('canvas');
+        const scratchContext = scratch.getContext('2d');
+        const active = new Set(); // tiles whose old photo is crumbling right now
+        let scale = 1;
+        let frameId;
+        let lastDrawAt = 0;
+
+        const fitCanvas = () => {
+          // Sharp on high-density screens, but never more than twice the CSS size.
+          scale = Math.min(window.devicePixelRatio || 1, 2);
+          const width = Math.round(mosaic.clientWidth * scale);
+          const height = Math.round((mosaic.clientHeight + ASH_HEADROOM) * scale);
+          if (canvas.width !== width || canvas.height !== height) {
+            canvas.width = width;
+            canvas.height = height;
+          }
+        };
+
+        const draw = (now) => {
+          gl.disable(gl.SCISSOR_TEST);
+          gl.viewport(0, 0, canvas.width, canvas.height);
+          gl.clear(gl.COLOR_BUFFER_BIT);
+          if (active.size === 0) return;
+
+          gl.enable(gl.SCISSOR_TEST);
+          const mosaicBounds = mosaic.getBoundingClientRect();
+          for (const item of [...active]) {
+            const progress = (now - item.startAt) / ASH_MILLISECONDS;
+            if (progress >= 1) {
+              gl.deleteTexture(item.texture);
+              active.delete(item);
+              item.onDone();
+              continue;
+            }
+            const bounds = item.tile.getBoundingClientRect();
+            const width = bounds.width * scale;
+            const height = bounds.height * scale;
+            const left = (bounds.left - mosaicBounds.left) * scale;
+            const bottom = canvas.height - (bounds.top - mosaicBounds.top + ASH_HEADROOM) * scale - height;
+            // Ash only rises and sways, so nothing is drawn below the tile.
+            const reach = ASH_HEADROOM * scale;
+            gl.scissor(
+              Math.max(0, Math.floor(left - reach * 0.6)),
+              Math.max(0, Math.floor(bottom)),
+              Math.ceil(width + reach * 1.2),
+              Math.ceil(height + reach)
+            );
+            gl.bindTexture(gl.TEXTURE_2D, item.texture);
+            gl.uniform4f(uniforms.rect, left, bottom, width, height);
+            gl.uniform2f(uniforms.seed, item.seed[0], item.seed[1]);
+            gl.uniform1f(uniforms.dissolve, Math.max(progress, 0));
+            gl.uniform1f(uniforms.time, now / 1000);
+            gl.uniform1f(uniforms.scale, scale);
+            gl.uniform1f(uniforms.radius, item.radius * scale);
+            gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+          }
+        };
+
+        const frame = (now) => {
+          frameId = undefined;
+          // Slow ash does not need 120 frames a second: skip every other frame on fast displays.
+          if (now - lastDrawAt >= 14) {
+            lastDrawAt = now;
+            draw(now);
+          }
+          if (active.size > 0) frameId = requestAnimationFrame(frame);
+        };
+
+        new ResizeObserver(() => {
+          fitCanvas();
+          if (active.size > 0) draw(performance.now());
+        }).observe(mosaic);
+        fitCanvas();
+
+        return {
+          /**
+           * Start crumbling the photo `image` shows in `tile`. Returns false if the
+           * photo's pixels cannot be read; nothing has been drawn in that case.
+           */
+          start(tile, image, onDone) {
+            const bounds = tile.getBoundingClientRect();
+            if (!scratchContext || bounds.width === 0 || image.naturalWidth === 0) return false;
+
+            // Copy the photo exactly as the tile shows it (object-fit: cover).
+            scratch.width = Math.round(bounds.width * scale);
+            scratch.height = Math.round(bounds.height * scale);
+            const cover = Math.max(scratch.width / image.naturalWidth, scratch.height / image.naturalHeight);
+            const sourceWidth = scratch.width / cover;
+            const sourceHeight = scratch.height / cover;
+            const texture = gl.createTexture();
+            try {
+              scratchContext.drawImage(
+                image,
+                (image.naturalWidth - sourceWidth) / 2,
+                (image.naturalHeight - sourceHeight) / 2,
+                sourceWidth,
+                sourceHeight,
+                0,
+                0,
+                scratch.width,
+                scratch.height
+              );
+              gl.bindTexture(gl.TEXTURE_2D, texture);
+              gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+              gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, scratch);
+            } catch {
+              gl.deleteTexture(texture);
+              return false;
+            }
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+
+            const now = performance.now();
+            active.add({
+              tile,
+              texture,
+              onDone,
+              startAt: now,
+              seed: [Math.random() * 50, Math.random() * 50],
+              radius: Number.parseFloat(getComputedStyle(tile).borderTopLeftRadius) || 0,
+            });
+            // Draw the whole old photo now, so it covers the tile before the new one goes in.
+            draw(now);
+            if (frameId === undefined) frameId = requestAnimationFrame(frame);
+            return true;
+          },
+        };
+      };
+
+      const ash = createAsh();
+      let isOnScreen = false;
+
+      // --------------------------------------------------------------- changes
+
       const changeTile = (tile) => {
         const currentImage = tile.querySelector('img');
         const isLead = tile.classList.contains('home-photos__tile--lead');
@@ -279,7 +574,29 @@ const initialMosaic = mosaicPhotos.slice(0, 5);
         const replacement = new Image();
         replacement.alt = photo.alt;
         replacement.className = 'home-photos__replacement';
+        replacement.crossOrigin = 'anonymous';
         replacement.onload = () => {
+          const settle = () => {
+            if (!replacement.isConnected) return;
+            currentImage.src = replacement.src;
+            currentImage.alt = replacement.alt;
+            replacement.remove();
+          };
+
+          // Ash: the old photo crumbles on the canvas while the new one waits underneath.
+          if (ash && isOnScreen && !document.hidden && ash.start(tile, currentImage, settle)) {
+            replacement.classList.add('is-instant');
+            tile.append(replacement);
+            return;
+          }
+          // Off screen: nobody is watching, so just swap.
+          if (!isOnScreen) {
+            currentImage.src = replacement.src;
+            currentImage.alt = replacement.alt;
+            return;
+          }
+
+          // No WebGL: fade the new photo in.
           tile.append(replacement);
           const finish = () => {
             if (!replacement.isConnected) return;
@@ -309,14 +626,16 @@ const initialMosaic = mosaicPhotos.slice(0, 5);
       };
       const startRotation = () => {
         stopRotation();
-        if (photos.length > tiles.length) intervalId = window.setInterval(changeNextTile, CHANGE_MILLISECONDS);
+        // Only rotate while someone can see it: no fetches or drawing otherwise.
+        if (!isOnScreen || document.hidden || photos.length <= tiles.length) return;
+        intervalId = window.setInterval(changeNextTile, CHANGE_MILLISECONDS);
       };
 
-      document.addEventListener('visibilitychange', () => {
-        if (document.hidden) stopRotation();
-        else startRotation();
-      });
-      startRotation();
+      document.addEventListener('visibilitychange', startRotation);
+      new IntersectionObserver((entries) => {
+        isOnScreen = entries[entries.length - 1].isIntersecting;
+        startRotation();
+      }).observe(mosaic);
 
       // Load the whole photo pool, then open with a fresh set of five.
       fetch('/photo-pool.json')

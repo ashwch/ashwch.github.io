@@ -918,6 +918,7 @@ select {
 }
 
 .home-photos__grid {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   grid-auto-rows: clamp(9rem, 15.5vw, 14rem);
@@ -957,6 +958,27 @@ select {
 
 .home-photos__tile .home-photos__replacement.is-visible {
   opacity: 1;
+}
+
+/* Shown at once, under the ash canvas, while the old photo crumbles away. */
+.home-photos__tile .home-photos__replacement.is-instant {
+  opacity: 1;
+  transition: none;
+}
+
+/*
+ * Canvas for the ash effect when a mosaic photo changes (see index.astro).
+ * It covers the mosaic plus 64px above it for rising ash, takes no grid cell,
+ * and never takes clicks.
+ */
+.home-photos__ash {
+  position: absolute;
+  top: -64px;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+  height: calc(100% + 64px);
+  pointer-events: none;
 }
 
 .home-showcase {
