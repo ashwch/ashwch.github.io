@@ -24,7 +24,7 @@
  *
  * LAYOUT STRATEGY (Projects page)
  *
- *   Section 1  "Current projects"       2 featured cards (Cineplex Seat Watcher, Microverse)
+ *   Section 1  "Current projects"       featured cards (What's Happening GTA, Raw Studio, Cineplex Seat Watcher, Microverse)
  *   Section 2  "Selected open source..." 4 highlight cards  (Python, Django, Instamojo, Community)
  *   Section 3  "More tools"              small utility grid  (wt, ew, local-ci, and more)
  *
@@ -40,7 +40,10 @@ export type Project = {
   category: string;
   description: string;
   tags: string[];
-  href: string;
+  /** Missing while a project is still upcoming and has nothing public to link to. */
+  href?: string;
+  /** 'upcoming' shows a badge and hides the link buttons. */
+  status?: 'upcoming';
   repo?: string;
   docs?: string;
   featured?: boolean;
@@ -65,6 +68,26 @@ export type ProjectHighlight = {
 // ── Active projects ──────────────────────────────────────────────────────────
 
 export const projects: Project[] = [
+  {
+    slug: 'whats-happening-gta',
+    name: "What's Happening GTA",
+    category: 'Web Apps',
+    description:
+      'Events across the Greater Toronto Area in one place, by day and on a map. Every event shows where it was announced. No ads, and no account needed.',
+    tags: ['TypeScript', 'Cloudflare Workers', 'Maps'],
+    href: 'https://whatshappening.to',
+    featured: true,
+  },
+  {
+    slug: 'raw-studio',
+    name: 'Raw Studio',
+    category: 'Photography',
+    description:
+      'A RAW photo developer for macOS, Windows, Linux and the browser. Editing runs on the GPU, and every edit is also a command, so it works for people and for AI agents.',
+    tags: ['Rust', 'GPU', 'CLI'],
+    status: 'upcoming',
+    featured: true,
+  },
   {
     slug: 'cineplex-watcher',
     name: 'Cineplex Seat Watcher',
@@ -152,7 +175,7 @@ export const projects: Project[] = [
   },
 ];
 
-/** The two projects that appear as hero-level cards on the Projects page. */
+/** The projects that appear as hero-level cards on the Projects page. */
 export const featuredProjects = projects.filter((project) => project.featured);
 
 // ── Broader credibility highlights ───────────────────────────────────────────

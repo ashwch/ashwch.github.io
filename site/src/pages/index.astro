@@ -180,7 +180,11 @@ const initialMosaic = mosaicPhotos.slice(0, 5);
             <div class="home-project-card__body">
               <div class="home-project-card__meta">
                 <span class="eyebrow">{project.category}</span>
-                {project.featured && <span class="home-project-card__status">Featured</span>}
+                {project.status === 'upcoming' ? (
+                  <span class="home-project-card__status">Upcoming</span>
+                ) : (
+                  project.featured && <span class="home-project-card__status">Featured</span>
+                )}
               </div>
               <h3>{project.name}</h3>
               <p>{project.description}</p>
@@ -189,16 +193,20 @@ const initialMosaic = mosaicPhotos.slice(0, 5);
                   <span class="pill">{tag}</span>
                 ))}
               </div>
-              <div class="hero-actions">
-                <a class="button" href={project.href} target="_blank" rel="noreferrer">
-                  {project.repo === project.href ? 'View source' : 'Visit site'}
-                </a>
-                {project.repo && project.repo !== project.href && (
-                  <a class="button--secondary" href={project.repo} target="_blank" rel="noreferrer">
-                    Source
+              {project.href ? (
+                <div class="hero-actions">
+                  <a class="button" href={project.href} target="_blank" rel="noreferrer">
+                    {project.repo === project.href ? 'View source' : 'Visit site'}
                   </a>
-                )}
-              </div>
+                  {project.repo && project.repo !== project.href && (
+                    <a class="button--secondary" href={project.repo} target="_blank" rel="noreferrer">
+                      Source
+                    </a>
+                  )}
+                </div>
+              ) : (
+                <p class="project-card__soon">In the works. More soon.</p>
+              )}
             </div>
           </article>
         ))}

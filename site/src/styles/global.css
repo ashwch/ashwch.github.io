@@ -2580,3 +2580,12 @@ html.lightbox-open {
     transform: none;
   }
 }
+
+/* Shown in place of the link buttons on a project that isn't public yet. */
+.project-card__soon {
+  margin: 1.25rem 0 0;
+  color: var(--text-soft, var(--muted, inherit));
+  font-size: 0.92rem;
+  font-style: italic;
+  opacity: 0.8;
+}
